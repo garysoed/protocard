@@ -24,7 +24,7 @@ var cards = [
   },
   {
     name: '4',
-    element: 'air',
+    element: '{{element.air}}',
     type: 'device',
   }
 ];
@@ -35,6 +35,11 @@ generate(
     '{{_card.name}}.html',
     cards,
     {
+      globals: {
+        'element': {
+          'air': 'air'
+        }
+      },
       helpers: helpers,
       resourceDir: './example/assets'
     });
