@@ -6,7 +6,7 @@ var helpers = {
 };
 
 // TODO(gs): Import from TSV
-var cards = [
+var cards = {
   {
     name: '1',
     element: 'ether',
@@ -27,7 +27,7 @@ var cards = [
     element: '{{element.air}}',
     type: 'device',
   }
-];
+};
 
 generate(
     './example/template.html',

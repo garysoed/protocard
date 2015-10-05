@@ -35,7 +35,9 @@ function generate(templatePath, outDir, outName, cardDataList, config) {
 
   var outNameTemplate = handlebars.compile(outName, { compat: true });
 
-  if (!fs.statSync(outDir)) {
+  try {
+    fs.statSync(outDir);
+  } catch (e) {
     fs.mkdirSync(outDir);
   }
 
@@ -58,10 +60,12 @@ function generate(templatePath, outDir, outName, cardDataList, config) {
   // Copy all the resources.
   if (resourceDir) {
     var resourceName = path.basename(resourceDir);
-    if (fs.statSync(resourceDir)) {
-      fs.unlink(resourceDir);
-    }
-    fs.linkSync(resourceDir, path.join(outDir, resourceName));
+    var destResource = path.join(outDir, resourceName)
+    try {
+      fs.statSync(destResource);
+      fs.unlink(destResource);
+    } catch (e) { }
+    fs.linkSync(resourceDir, destResource);
   }
 }
 
