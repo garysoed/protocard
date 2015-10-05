@@ -1,40 +1,31 @@
-var fs = require('fs');
-var handlebars = require('handlebars');
-var path = require('path');
+import Utils from '../utils';
 
-// TODO(gs): Move to util class.
-// TODO(gs): Enable handlebar support in CSS and external files.
-function mixin(fromObj, toObj) {
-  for (var key in fromObj) {
-    if (toObj[key] !== undefined) {
-      if (typeof toObj[key] !== 'object') {
-        // TODO(gs): Trace the object.
-        throw Error('Conflict at key ' + key);
-      }
-      mixin(fromObj[key], toObj[key]);
-    } else {
-      toObj[key] = JSON.parse(JSON.stringify(fromObj[key]));
-    }
-  }
-}
+let fs = require('fs');
+let handlebars = require('handlebars');
+let path = require('path');
 
 // TODO(gs): Gulpify this.
-function generate(templatePath, outDir, outName, cardDataList, config) {
-  var globals = config.globals || {};
-  var helpers = config.helpers || {};
-  var resourceDir = config.resourceDir;
-
+function _generate(
+    fs,
+    handlebars,
+    path,
+    templatePath,
+    outDir,
+    outName,
+    localDataList,
+    globals = {},
+    helpers = {},
+    assetsDir = null) {
   // TODO(gs): Recursively resolve strings.
   // Register the helpers.
-  for (var key in helpers) {
+  for (let key in helpers) {
     handlebars.registerHelper(key, helpers[key]);
   }
 
-  var templateText = fs.readFileSync(templatePath, 'utf8');
-  var template = handlebars.compile(templateText, { compat: true });
+  let template = handlebars.compile(fs.readFileSync(templatePath, 'utf8'));
+  let outNameTemplate = handlebars.compile(outName);
 
-  var outNameTemplate = handlebars.compile(outName, { compat: true });
-
+  // Make the output directory if it doesn't exist.
   try {
     fs.statSync(outDir);
   } catch (e) {
@@ -42,7 +33,7 @@ function generate(templatePath, outDir, outName, cardDataList, config) {
   }
 
   // Generates all the cards.
-  cardDataList.forEach(function(cardData) {
+  localDataList.forEach(function(localData) {
     var data = {
       _pc: {
         size: {
@@ -51,22 +42,45 @@ function generate(templatePath, outDir, outName, cardDataList, config) {
         }
       }
     };
-    mixin({_card: cardData}, data);
+    Utils.mixin(globals, data);
+    Utils.mixin({_local: localData}, data);
     var rendered = template(data);
     var outName = outNameTemplate(data);
     fs.writeFileSync(path.join(outDir, outName), rendered);
   });
 
-  // Copy all the resources.
-  if (resourceDir) {
-    var resourceName = path.basename(resourceDir);
-    var destResource = path.join(outDir, resourceName)
+  // Copies all the assets.
+  // TODO(gs): Enable handlebar support in asset files.
+  if (assetsDir) {
+    var assetsName = path.basename(assetsDir);
+    var destAssets = path.join(outDir, assetsName)
+
+    // Deletes the link if it exists.
     try {
-      fs.statSync(destResource);
-      fs.unlink(destResource);
+      fs.statSync(destAssets);
+      fs.unlink(destAssets);
     } catch (e) { }
-    fs.linkSync(resourceDir, destResource);
+
+    // Generates the symlink.
+    fs.linkSync(assetsDir, destAssets);
   }
 }
 
-module.exports = generate;
+export { _generate as _provider };
+
+/**
+ * Generates the files using the given data.
+ *
+ * @method generate
+ * @param {string} templatePath Path to the template to generate the files.
+ * @param {string} outDir Path to directory to contain the generated files.
+ * @param {string} outName Handlebars string to generate the filename.
+ * @param {Array} localDataList Array of objects containing the data for every file. This method
+ *    will use every entry of this entry to generate a file.
+ * @param {Object} [globals] Key value pair of global values. This will be applied to all files.
+ * @param {Object} [helpers] Key value pair of Handlebar helpers. This will be applied to all files.
+ *    The key should be the helper's name and the value is the helper's function.
+ * @param {string} [assetsDir] If specified, this method will copy the assets directory to the
+ *    output directory.
+ */
+export default _generate.bind(null, fs, handlebars, path);

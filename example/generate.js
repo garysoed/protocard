@@ -1,4 +1,4 @@
-var generate = require('../src/generate/generate.js');
+var generate = require('../out/generate/generate.js').default;
 var helpers = {
   'bg': function(type, element) {
     return 'assets/images/bg_' + type + '_' + element + '.png';
@@ -6,7 +6,7 @@ var helpers = {
 };
 
 // TODO(gs): Import from TSV
-var cards = {
+var cards = [
   {
     name: '1',
     element: 'ether',
@@ -27,19 +27,17 @@ var cards = {
     element: '{{element.air}}',
     type: 'device',
   }
-};
+];
 
 generate(
     './example/template.html',
     './example/out',
-    '{{_card.name}}.html',
+    '{{_local.name}}.html',
     cards,
     {
-      globals: {
-        'element': {
-          'air': 'air'
-        }
-      },
-      helpers: helpers,
-      resourceDir: './example/assets'
-    });
+      'element': {
+        'air': 'air'
+      }
+    },
+    helpers,
+    './example/assets');
