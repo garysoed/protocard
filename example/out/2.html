@@ -2,15 +2,72 @@
 <html>
 <head>
   <style>
-    .background {
+    @import url(https://fonts.googleapis.com/css?family=Audiowide);
+
+    .root {
+      display: flex;
+      position: relative;
+      background-image: url("assets/images/bg_device_fire.png");
       width: 825px;
       height: 1125px;
+      padding: 35.42px 0; /* TODO(gs): Move this to _pc */
+      box-sizing: border-box;
+    }
+
+    .name-banner {
+      font-family: 'Audiowide', cursive;
+      position: absolute;
+      width: 825px;
+      height: 62.5px;
+      bottom: 972.65px;
+      background-color: ;
+      padding: 0 38.04px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .name {
+      font-size: 4rem;
+      text-shadow: 0 4px white, 0 -4px white, 4px 0 white, -4px 0 white;
+    }
+
+    .attr-banner {
+      width: 62.5px;
+    }
+
+    section.bottom {
+      width: 675px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .template {
+      display: none;
+      width: 825px;
+      height: 1125px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: .1;
     }
   </style>
 </head>
 <body>
-  <div>
-    <img src="assets/images/bg_device_fire.png">
+  <div class="root">
+    <div class="name-banner">
+      <div class="name">
+        2
+      </div>
+    </div>
+
+    <section class="bottom">
+      <div class="attr-banner">
+      </div>
+    </section>
+    <img class="template" src="assets/images/template.png">
   </div>
 </body>
 </html>

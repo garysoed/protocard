@@ -2,15 +2,142 @@
 <html>
 <head>
   <style>
-    .background {
+    @import url(https://fonts.googleapis.com/css?family=Audiowide);
+    @import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+    .root {
+      display: flex;
+      position: relative;
+      background-image: url("{{bg _local.type _local.element}}");
       width: {{_pc.size.width}};
       height: {{_pc.size.height}};
+      padding: 35.42px 0; /* TODO(gs): Move this to _pc */
+      box-sizing: border-box;
+      flex-direction: column;
+    }
+
+    .name-banner {
+      font-family: 'Audiowide', cursive;
+      width: {{_pc.size.width}};
+      height: 62.5px;
+      padding: 0 38.04px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      margin-top: 54.43px;
+    }
+
+    .name {
+      font-size: 4rem;
+      flex: 1;
+      text-align: center;
+      text-shadow: 0 4px white, 0 -4px white, 4px 0 white, -4px 0 white;
+    }
+
+    .attr-banner {
+      width: 62.5px;
+    }
+
+    .template {
+      display: none;
+      width: {{_pc.size.width}};
+      height: {{_pc.size.height}};
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: .1;
+    }
+
+    .cost-container {
+      width: 125px;
+      height: 125px;
+      margin-right: 5px;
+    }
+
+    .cost {
+      border-radius: 50%;
+      background-color: {{color _local.element "light"}};
+      font-size: 6rem;
+      width: 125px;
+      height: 125px;
+      text-align: center;
+      line-height: 125px;
+      position: absolute;
+      right: calc(35.42px + 5px);
+    }
+
+    .art {
+      flex: 1;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .details {
+      height: 420px;
+      display: flex;
+    }
+
+    .text {
+      flex: 1;
+    }
+
+    .type {
+      width: 80px;
+      margin-right: 20px;
+    }
+
+    .art, .details {
+      margin-left: calc(38.04px + 47.91px);
+      margin-right: calc(38.04px + 47.91px);
+    }
+
+    .art, .text, .type {
+      border-radius: 15px;
+    }
+
+    .type .content {
+      transform: rotate(-90deg);
+      width: 420px;
+      height: 420px;
+      line-height: 80px;
+      text-align: center;
+      text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem;
+    }
+
+    .details {
+      margin-top: 0;
+      margin-bottom: 47.91px;
+    }
+
+    .name-banner, .art, .type, .text {
+      background-color: {{color _local.element "lightest"}};
     }
   </style>
 </head>
 <body>
-  <div>
-    <img src="{{bg _local.type _local.element}}">
+  <div class="root">
+    <div class="name-banner">
+      <div class="name">
+        {{_local.name}}
+      </div>
+      <div class="cost-container">
+        <div class="cost">
+          {{_local.cost}}
+        </div>
+      </div>
+    </div>
+    <div class="art"></div>
+    <div class="details">
+      <div class="type">
+        <div class="content">{{_local.element}} &bull; {{_local.type}}</div>
+      </div>
+      <div class="text"></div>
+    </div>
+    <img class="template" src="assets/images/template.png">
   </div>
 </body>
 </html>
