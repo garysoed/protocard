@@ -4,6 +4,21 @@ let fs = require('fs');
 let handlebars = require('handlebars');
 let path = require('path');
 
+function _resolve(handlebars, data, deps) {
+  let resolvedData = {};
+  for (let key in data) {
+    let value = data[key];
+    if (typeof value === 'object') {
+      resolvedData[key] = _resolve(handlebars, value, deps);
+    } else if (typeof value === 'string') {
+      resolvedData[key] = handlebars.compile(value)(deps);
+    } else {
+      resolvedData[key] = value;
+    }
+  }
+  return resolvedData;
+}
+
 // TODO(gs): Gulpify this.
 function _generate(
     fs,
@@ -16,7 +31,6 @@ function _generate(
     globals = {},
     helpers = {},
     assetsDir = null) {
-  // TODO(gs): Recursively resolve strings.
   // Register the helpers.
   for (let key in helpers) {
     handlebars.registerHelper(key, helpers[key]);
@@ -43,7 +57,9 @@ function _generate(
       }
     };
     Utils.mixin(globals, data);
-    Utils.mixin({_local: localData}, data);
+
+    let evalLocalData = _resolve(handlebars, localData, data);
+    Utils.mixin({_local: evalLocalData}, data);
     var rendered = template(data);
     var outName = outNameTemplate(data);
     fs.writeFileSync(path.join(outDir, outName), rendered);

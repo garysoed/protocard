@@ -42,68 +42,72 @@ var cards = [
   {
     name: 'Energy Orb',
     cost: 2,
-    element: 'ether',
+    element: '{{element.ether}}',
     type: 'device',
   },
   {
     name: 'Fire Turret',
     cost: 3,
-    element: 'fire',
+    element: '{{element.fire}}',
     type: 'device',
   },
   {
     name: 'Rest Hollow',
     cost: 3,
-    element: 'earth',
+    element: '{{element.earth}}',
     type: 'device',
   },
   {
     name: 'Refreshing Jar',
     cost: 3,
-    element: 'water',
+    element: '{{element.water}}',
     type: 'device',
   },
   {
     name: 'Dust Devil',
     cost: 2,
-    element: 'air',
+    element: '{{element.air}}',
     type: 'device',
   },
   {
     name: 'Mind Link',
     cost: 2,
-    element: 'ether',
+    element: '{{element.ether}}',
     type: 'enchant',
   },
   {
     name: 'Pyrophillic',
     cost: 1,
-    element: 'fire',
+    element: '{{element.fire}}',
     type: 'enchant',
   },
   {
     name: 'Alpha Minion',
     cost: 2,
-    element: 'earth',
+    element: '{{element.earth}}',
     type: 'enchant',
   },
   {
     name: 'Ice Armor',
     cost: 1,
-    element: 'water',
+    element: '{{element.water}}',
     type: 'enchant',
   },
   {
     name: 'Intimidate',
     cost: 1,
-    element: 'air',
+    element: '{{element.air}}',
     type: 'enchant',
   }
 ];
 
 var globals = {
   element: {
-    air: 'air'
+    air: 'air',
+    earth: 'earth',
+    ether: 'ether',
+    fire: 'fire',
+    water: 'water'
   }
 };
 

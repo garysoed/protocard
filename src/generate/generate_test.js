@@ -133,4 +133,93 @@ describe('generate', () => {
     expect(fileTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
     expect(nameTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
   });
+
+  it('should recursively resolve local data', () => {
+    let localDataList = [{ a: '{{a}}' }];
+    let globals = { a: 1 };
+    let outName = 'outName';
+    let rendered = 'rendered';
+
+    let fileTemplate = jasmine.createSpy('fileTemplate').and.returnValue(rendered);
+    let localTemplate = jasmine.createSpy('localTemplate').and.returnValue(globals.a);
+    let nameTemplate = jasmine.createSpy('nameTemplate').and.returnValue(outName);
+
+    fakeFs.statSync.and.throwError('Expected');
+    fakeFs.readFileSync.and.returnValue(TEMPLATE_TEXT);
+
+    fakeHandleBars.compile.and.callFake(name => {
+      switch(name) {
+        case TEMPLATE_TEXT:
+          return fileTemplate;
+        case localDataList[0].a:
+          return localTemplate;
+        default:
+          return nameTemplate;
+      }
+    });
+
+    generate(TEMPLATE_PATH, OUT_DIR, OUT_NAME, localDataList, globals);
+
+    expect(localTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
+    expect(fileTemplate)
+        .toHaveBeenCalledWith(jasmine.objectContaining({ _local: { a: 1 } }));
+  });
+
+  it('should not crash if local data value is non string', () => {
+    let localDataList = [{ a: 1 }];
+    let globals = { a: 1 };
+    let outName = 'outName';
+    let rendered = 'rendered';
+
+    let fileTemplate = jasmine.createSpy('fileTemplate').and.returnValue(rendered);
+    let localTemplate = jasmine.createSpy('localTemplate').and.returnValue(globals.a);
+    let nameTemplate = jasmine.createSpy('nameTemplate').and.returnValue(outName);
+
+    fakeFs.statSync.and.throwError('Expected');
+    fakeFs.readFileSync.and.returnValue(TEMPLATE_TEXT);
+
+    fakeHandleBars.compile.and
+        .callFake(name => (name === TEMPLATE_TEXT) ? fileTemplate : nameTemplate);
+
+    generate(TEMPLATE_PATH, OUT_DIR, OUT_NAME, localDataList, globals);
+
+    expect(localTemplate).not.toHaveBeenCalled();
+    expect(fileTemplate)
+        .toHaveBeenCalledWith(jasmine.objectContaining({ _local: localDataList[0] }));
+  });
+
+  it('should resolve local data with object value', () => {
+    let localDataList = [{
+      a: {
+        b: '{{a}}'
+      }
+    }];
+    let globals = { a: 1 };
+    let outName = 'outName';
+    let rendered = 'rendered';
+
+    let fileTemplate = jasmine.createSpy('fileTemplate').and.returnValue(rendered);
+    let localTemplate = jasmine.createSpy('localTemplate').and.returnValue(globals.a);
+    let nameTemplate = jasmine.createSpy('nameTemplate').and.returnValue(outName);
+
+    fakeFs.statSync.and.throwError('Expected');
+    fakeFs.readFileSync.and.returnValue(TEMPLATE_TEXT);
+
+    fakeHandleBars.compile.and.callFake(name => {
+      switch(name) {
+        case TEMPLATE_TEXT:
+          return fileTemplate;
+        case localDataList[0].a.b:
+          return localTemplate;
+        default:
+          return nameTemplate;
+      }
+    });
+
+    generate(TEMPLATE_PATH, OUT_DIR, OUT_NAME, localDataList, globals);
+
+    expect(localTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
+    expect(fileTemplate)
+        .toHaveBeenCalledWith(jasmine.objectContaining({ _local: { a: { b: 1 } } }));
+  });
 });
