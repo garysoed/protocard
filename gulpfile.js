@@ -1,5 +1,5 @@
-var babel = require('gulp-babel');
-var gulp = require('gulp');
+var babel   = require('gulp-babel');
+var gulp    = require('gulp');
 var jasmine = require('gulp-jasmine');
 
 gulp.task('compile', function() {
@@ -16,4 +16,4 @@ gulp.task('test', gulp.series(
           includeStackTrace: true
         }));
   }
-))
+));

@@ -19,18 +19,15 @@ function _resolve(handlebars, data, deps) {
   return resolvedData;
 }
 
-// TODO(gs): Gulpify this.
 function _generate(
     fs,
     handlebars,
     path,
     templatePath,
-    outDir,
     outName,
     localDataList,
     globals = {},
-    helpers = {},
-    assetsDir = null) {
+    helpers = {}) {
   // Register the helpers.
   for (let key in helpers) {
     handlebars.registerHelper(key, helpers[key]);
@@ -39,14 +36,9 @@ function _generate(
   let template = handlebars.compile(fs.readFileSync(templatePath, 'utf8'));
   let outNameTemplate = handlebars.compile(outName);
 
-  // Make the output directory if it doesn't exist.
-  try {
-    fs.statSync(outDir);
-  } catch (e) {
-    fs.mkdirSync(outDir);
-  }
+  let outContent = {};
 
-  // Generates all the cards.
+  // Generates all the local data.
   localDataList.forEach(function(localData) {
     var data = {
       _pc: {
@@ -60,26 +52,12 @@ function _generate(
 
     let evalLocalData = _resolve(handlebars, localData, data);
     Utils.mixin({_local: evalLocalData}, data);
-    var rendered = template(data);
-    var outName = outNameTemplate(data);
-    fs.writeFileSync(path.join(outDir, outName), rendered);
+    let rendered = template(data);
+    let outName = outNameTemplate(data);
+    outContent[outName] = rendered;
   });
 
-  // Copies all the assets.
-  // TODO(gs): Enable handlebar support in asset files.
-  if (assetsDir) {
-    var assetsName = path.basename(assetsDir);
-    var destAssets = path.join(outDir, assetsName)
-
-    // Deletes the link if it exists.
-    try {
-      fs.statSync(destAssets);
-      fs.unlink(destAssets);
-    } catch (e) { }
-
-    // Generates the symlink.
-    fs.linkSync(assetsDir, destAssets);
-  }
+  return outContent;
 }
 
 export { _generate as _provider };
@@ -96,7 +74,5 @@ export { _generate as _provider };
  * @param {Object} [globals] Key value pair of global values. This will be applied to all files.
  * @param {Object} [helpers] Key value pair of Handlebar helpers. This will be applied to all files.
  *    The key should be the helper's name and the value is the helper's function.
- * @param {string} [assetsDir] If specified, this method will copy the assets directory to the
- *    output directory.
  */
 export default _generate.bind(null, fs, handlebars, path);

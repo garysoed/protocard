@@ -6,7 +6,6 @@ import { _provider } from './generate';
 describe('generate', () => {
   const TEMPLATE_PATH = 'TEMPLATE_PATH';
   const TEMPLATE_TEXT = 'TEMPLATE_TEXT';
-  const OUT_DIR = 'OUT_DIR';
   const OUT_NAME = 'OUT_NAME';
 
   let fakeFs;
@@ -26,7 +25,7 @@ describe('generate', () => {
     generate = _provider.bind(null, fakeFs, fakeHandleBars, path);
   });
 
-  it('should generate all the cards at the specified output directory', () => {
+  it('should return all the cards', () => {
     let localDataList = [
       {
         a: 1
@@ -51,56 +50,19 @@ describe('generate', () => {
     fakeHandleBars.compile.and
         .callFake(name => (name === TEMPLATE_TEXT) ? fileTemplate : nameTemplate);
 
-    generate(TEMPLATE_PATH, OUT_DIR, OUT_NAME, localDataList);
-
-    expect(fakeFs.mkdirSync).toHaveBeenCalledWith(OUT_DIR);
-    expect(fakeFs.writeFileSync).toHaveBeenCalledWith(`${OUT_DIR}/${outName1}`, rendered1);
-    expect(fakeFs.writeFileSync).toHaveBeenCalledWith(`${OUT_DIR}/${outName2}`, rendered2);
-
-    expect(fileTemplate)
-        .toHaveBeenCalledWith(jasmine.objectContaining({ _local: localDataList[0] }));
-    expect(fileTemplate)
-        .toHaveBeenCalledWith(jasmine.objectContaining({ _local: localDataList[1] }));
-    expect(nameTemplate)
-        .toHaveBeenCalledWith(jasmine.objectContaining({ _local: localDataList[0] }));
-    expect(nameTemplate)
-        .toHaveBeenCalledWith(jasmine.objectContaining({ _local: localDataList[1] }));
-  });
-
-  it('should copy the assets if given', () => {
-    const ASSETS_NAME = 'ASSETS_NAME';
-    const ASSETS_DIR = `ASSETS_DIR/${ASSETS_NAME}`;
-    let expectedOutDir = `${OUT_DIR}/${ASSETS_NAME}`;
-
-    fakeFs.statSync.and.callFake(dir => {
-      if (dir === expectedOutDir) {
-        throw Error('Expected');
-      }
+    expect(generate(TEMPLATE_PATH, OUT_NAME, localDataList)).toEqual({
+      [outName1]: rendered1,
+      [outName2]: rendered2
     });
 
-    generate(TEMPLATE_PATH, OUT_DIR, OUT_NAME, [], undefined, undefined, ASSETS_DIR);
-    expect(fakeFs.linkSync).toHaveBeenCalled();
-    expect(fakeFs.linkSync).toHaveBeenCalledWith(ASSETS_DIR, expectedOutDir);
-    expect(fakeFs.statSync).toHaveBeenCalledWith(expectedOutDir);
-    expect(fakeFs.unlink).not.toHaveBeenCalled();
-  });
-
-  it('should delete the assets directory if it exists', () => {
-    const ASSETS_NAME = 'ASSETS_NAME';
-    const ASSETS_DIR = `ASSETS_DIR/${ASSETS_NAME}`;
-
-    fakeFs.statSync.and.returnValue({});
-
-    generate(TEMPLATE_PATH, OUT_DIR, OUT_NAME, [], undefined, undefined, ASSETS_DIR);
-    expect(fakeFs.unlink).toHaveBeenCalledWith(`${OUT_DIR}/${ASSETS_NAME}`);
-  });
-
-  it('should not make the output directory if it exists', () => {
-    fakeFs.statSync.and.returnValue({});
-
-    generate(TEMPLATE_PATH, OUT_DIR, OUT_NAME, []);
-    expect(fakeFs.statSync).toHaveBeenCalledWith(OUT_DIR);
-    expect(fakeFs.mkdirSync).not.toHaveBeenCalled();
+    expect(fileTemplate)
+        .toHaveBeenCalledWith(jasmine.objectContaining({ _local: localDataList[0] }));
+    expect(fileTemplate)
+        .toHaveBeenCalledWith(jasmine.objectContaining({ _local: localDataList[1] }));
+    expect(nameTemplate)
+        .toHaveBeenCalledWith(jasmine.objectContaining({ _local: localDataList[0] }));
+    expect(nameTemplate)
+        .toHaveBeenCalledWith(jasmine.objectContaining({ _local: localDataList[1] }));
   });
 
   it('should register all the given helpers', () => {
@@ -109,7 +71,7 @@ describe('generate', () => {
       helper2: () => {}
     };
 
-    generate(TEMPLATE_PATH, OUT_DIR, OUT_NAME, [], {}, helpers);
+    generate(TEMPLATE_PATH, OUT_NAME, [], {}, helpers);
     expect(fakeHandleBars.registerHelper).toHaveBeenCalledWith('helper1', helpers.helper1);
     expect(fakeHandleBars.registerHelper).toHaveBeenCalledWith('helper2', helpers.helper2);
   });
@@ -128,7 +90,7 @@ describe('generate', () => {
     fakeHandleBars.compile.and
         .callFake(name => (name === TEMPLATE_TEXT) ? fileTemplate : nameTemplate);
 
-    generate(TEMPLATE_PATH, OUT_DIR, OUT_NAME, localDataList, globals);
+    generate(TEMPLATE_PATH, OUT_NAME, localDataList, globals);
 
     expect(fileTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
     expect(nameTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
@@ -158,7 +120,7 @@ describe('generate', () => {
       }
     });
 
-    generate(TEMPLATE_PATH, OUT_DIR, OUT_NAME, localDataList, globals);
+    generate(TEMPLATE_PATH, OUT_NAME, localDataList, globals);
 
     expect(localTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
     expect(fileTemplate)
@@ -181,7 +143,7 @@ describe('generate', () => {
     fakeHandleBars.compile.and
         .callFake(name => (name === TEMPLATE_TEXT) ? fileTemplate : nameTemplate);
 
-    generate(TEMPLATE_PATH, OUT_DIR, OUT_NAME, localDataList, globals);
+    generate(TEMPLATE_PATH, OUT_NAME, localDataList, globals);
 
     expect(localTemplate).not.toHaveBeenCalled();
     expect(fileTemplate)
@@ -216,7 +178,7 @@ describe('generate', () => {
       }
     });
 
-    generate(TEMPLATE_PATH, OUT_DIR, OUT_NAME, localDataList, globals);
+    generate(TEMPLATE_PATH, OUT_NAME, localDataList, globals);
 
     expect(localTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
     expect(fileTemplate)
