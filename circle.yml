@@ -2,8 +2,6 @@ dependencies:
   pre:
     - sudo apt-get update
     - sudo apt-get install google-chrome-stable
-  post:
-    - bower install
 
 test:
   override:
