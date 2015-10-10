@@ -1,6 +1,5 @@
 import Utils from '../utils';
 
-let fs = require('fs');
 let handlebars = require('handlebars');
 let path = require('path');
 
@@ -20,10 +19,9 @@ function _resolve(handlebars, data, deps) {
 }
 
 function _generate(
-    fs,
     handlebars,
     path,
-    templatePath,
+    templateFile,
     outName,
     localDataList,
     globals = {},
@@ -33,7 +31,7 @@ function _generate(
     handlebars.registerHelper(key, helpers[key]);
   }
 
-  let template = handlebars.compile(fs.readFileSync(templatePath, 'utf8'));
+  let template = handlebars.compile(templateFile.contents.toString());
   let outNameTemplate = handlebars.compile(outName);
 
   let outContent = {};
@@ -66,7 +64,7 @@ export { _generate as _provider };
  * Generates the files using the given data.
  *
  * @method generate
- * @param {string} templatePath Path to the template to generate the files.
+ * @param {File} templateFile File containing the template.
  * @param {string} outDir Path to directory to contain the generated files.
  * @param {string} outName Handlebars string to generate the filename.
  * @param {Array} localDataList Array of objects containing the data for every file. This method
@@ -75,4 +73,4 @@ export { _generate as _provider };
  * @param {Object} [helpers] Key value pair of Handlebar helpers. This will be applied to all files.
  *    The key should be the helper's name and the value is the helper's function.
  */
-export default _generate.bind(null, fs, handlebars, path);
+export default _generate.bind(null, handlebars, path);

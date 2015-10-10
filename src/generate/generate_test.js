@@ -1,28 +1,23 @@
 require('babel/polyfill');
+
 let path = require('path');
+let File = require('gulp-util').File;
 
 import { _provider } from './generate';
 
 describe('generate', () => {
-  const TEMPLATE_PATH = 'TEMPLATE_PATH';
   const TEMPLATE_TEXT = 'TEMPLATE_TEXT';
+  const TEMPLATE_FILE = new File({
+    contents: new Buffer(TEMPLATE_TEXT)
+  });
   const OUT_NAME = 'OUT_NAME';
 
-  let fakeFs;
   let fakeHandleBars;
   let generate;
 
   beforeEach(() => {
-    fakeFs = jasmine.createSpyObj('fs', [
-      'linkSync',
-      'mkdirSync',
-      'readFileSync',
-      'statSync',
-      'unlink',
-      'writeFileSync'
-    ]);
     fakeHandleBars = jasmine.createSpyObj('handlebars', ['compile', 'registerHelper']);
-    generate = _provider.bind(null, fakeFs, fakeHandleBars, path);
+    generate = _provider.bind(null, fakeHandleBars, path);
   });
 
   it('should return all the cards', () => {
@@ -44,13 +39,10 @@ describe('generate', () => {
     let nameTemplate = jasmine.createSpy('nameTemplate').and
         .callFake(data => (data._local.a === 1) ? outName1 : outName2);
 
-    fakeFs.statSync.and.throwError('Expected');
-    fakeFs.readFileSync.and.returnValue(TEMPLATE_TEXT);
-
     fakeHandleBars.compile.and
         .callFake(name => (name === TEMPLATE_TEXT) ? fileTemplate : nameTemplate);
 
-    expect(generate(TEMPLATE_PATH, OUT_NAME, localDataList)).toEqual({
+    expect(generate(TEMPLATE_FILE, OUT_NAME, localDataList)).toEqual({
       [outName1]: rendered1,
       [outName2]: rendered2
     });
@@ -71,7 +63,7 @@ describe('generate', () => {
       helper2: () => {}
     };
 
-    generate(TEMPLATE_PATH, OUT_NAME, [], {}, helpers);
+    generate(TEMPLATE_FILE, OUT_NAME, [], {}, helpers);
     expect(fakeHandleBars.registerHelper).toHaveBeenCalledWith('helper1', helpers.helper1);
     expect(fakeHandleBars.registerHelper).toHaveBeenCalledWith('helper2', helpers.helper2);
   });
@@ -85,12 +77,10 @@ describe('generate', () => {
     let fileTemplate = jasmine.createSpy('fileTemplate').and.returnValue(rendered);
     let nameTemplate = jasmine.createSpy('nameTemplate').and.returnValue(outName);
 
-    fakeFs.readFileSync.and.returnValue(TEMPLATE_TEXT);
-
     fakeHandleBars.compile.and
         .callFake(name => (name === TEMPLATE_TEXT) ? fileTemplate : nameTemplate);
 
-    generate(TEMPLATE_PATH, OUT_NAME, localDataList, globals);
+    generate(TEMPLATE_FILE, OUT_NAME, localDataList, globals);
 
     expect(fileTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
     expect(nameTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
@@ -106,9 +96,6 @@ describe('generate', () => {
     let localTemplate = jasmine.createSpy('localTemplate').and.returnValue(globals.a);
     let nameTemplate = jasmine.createSpy('nameTemplate').and.returnValue(outName);
 
-    fakeFs.statSync.and.throwError('Expected');
-    fakeFs.readFileSync.and.returnValue(TEMPLATE_TEXT);
-
     fakeHandleBars.compile.and.callFake(name => {
       switch(name) {
         case TEMPLATE_TEXT:
@@ -120,7 +107,7 @@ describe('generate', () => {
       }
     });
 
-    generate(TEMPLATE_PATH, OUT_NAME, localDataList, globals);
+    generate(TEMPLATE_FILE, OUT_NAME, localDataList, globals);
 
     expect(localTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
     expect(fileTemplate)
@@ -137,13 +124,10 @@ describe('generate', () => {
     let localTemplate = jasmine.createSpy('localTemplate').and.returnValue(globals.a);
     let nameTemplate = jasmine.createSpy('nameTemplate').and.returnValue(outName);
 
-    fakeFs.statSync.and.throwError('Expected');
-    fakeFs.readFileSync.and.returnValue(TEMPLATE_TEXT);
-
     fakeHandleBars.compile.and
         .callFake(name => (name === TEMPLATE_TEXT) ? fileTemplate : nameTemplate);
 
-    generate(TEMPLATE_PATH, OUT_NAME, localDataList, globals);
+    generate(TEMPLATE_FILE, OUT_NAME, localDataList, globals);
 
     expect(localTemplate).not.toHaveBeenCalled();
     expect(fileTemplate)
@@ -164,9 +148,6 @@ describe('generate', () => {
     let localTemplate = jasmine.createSpy('localTemplate').and.returnValue(globals.a);
     let nameTemplate = jasmine.createSpy('nameTemplate').and.returnValue(outName);
 
-    fakeFs.statSync.and.throwError('Expected');
-    fakeFs.readFileSync.and.returnValue(TEMPLATE_TEXT);
-
     fakeHandleBars.compile.and.callFake(name => {
       switch(name) {
         case TEMPLATE_TEXT:
@@ -178,7 +159,7 @@ describe('generate', () => {
       }
     });
 
-    generate(TEMPLATE_PATH, OUT_NAME, localDataList, globals);
+    generate(TEMPLATE_FILE, OUT_NAME, localDataList, globals);
 
     expect(localTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
     expect(fileTemplate)

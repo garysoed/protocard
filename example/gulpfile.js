@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var debug = require('gulp-debug');
 
-var generate = require('../out/generate/gulp');
+var generate = require('../out/generate/gulp').default;
 
 var colors = {
   ether: {
@@ -114,15 +114,23 @@ var globals = {
   }
 };
 
-gulp.task('generate', function() {
+gulp.task('copy-assets', function() {
   return gulp.src(['assets/**'], { base: '.' })
-      .pipe(generate(
-        'template.html',
-        '{{lowercase _local.name}}.html',
-        cards,
-        globals,
-        helpers
-      ))
-      .pipe(debug({ title: 'generate' }))
+      .pipe(debug({ title: 'copy-assets' }))
       .pipe(gulp.dest('out'));
 });
+
+gulp.task('generate', gulp.parallel(
+    'copy-assets',
+    function _generate() {
+      return gulp.src('template.html')
+          .pipe(generate(
+            '{{lowercase _local.name}}.html',
+            cards,
+            globals,
+            helpers
+          ))
+          .pipe(debug({ title: 'generate' }))
+          .pipe(gulp.dest('out'));
+    })
+);

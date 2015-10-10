@@ -7,7 +7,6 @@ let PluginError = gutil.PluginError;
 
 /**
  * @method gulpGenerate
- * @param {string} templatePath Path to the template file.
  * @param {string} outName Handlebar string used to generate the output file.
  * @param {Array} localDataList Array of objects containing the data for every file. This method
  *    will use every entry of this entry to generate a file.
@@ -16,14 +15,10 @@ let PluginError = gutil.PluginError;
  *    The key should be the helper's name and the value is the helper's function.
  * @return {WriteableStream} The writeable stream object.
  */
-function _gulpGenerate(generate, templatePath, outName, localDataList, globals = {}, helpers = {}) {
+function _gulpGenerate(generate, outName, localDataList, globals = {}, helpers = {}) {
   return through.obj(
       function(file, enc, cb) {
-        this.push(file);
-        cb();
-      },
-      function(cb) {
-        let outFiles = generate(templatePath, outName, localDataList, globals, helpers);
+        let outFiles = generate(file, outName, localDataList, globals, helpers);
         for (let filename in outFiles) {
           this.push(new File({
             path: filename,
