@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var debug = require('gulp-debug');
+var webshot = require('gulp-webshot');
 
 var generate = require('../out/generate/gulp').default;
 
@@ -28,7 +29,7 @@ var colors = {
 
 var helpers = {
   'bg': function(type, element) {
-    return 'assets/images/bg_' + type + '_' + element + '.png';
+    return 'assets/backgrounds/' + element + '_' + type + '.png';
   },
 
   'color': function(element, shade) {
@@ -134,3 +135,11 @@ gulp.task('generate', gulp.parallel(
           .pipe(gulp.dest('out'));
     })
 );
+
+gulp.task('render', gulp.series(
+    'generate',
+    function _render() {
+      return gulp.src('out/*.html')
+          .pipe(webshot({ dest: 'render', root: 'out' }));
+    }
+));

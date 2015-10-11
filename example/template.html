@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="../../bower_components/html2canvas/build/html2canvas.js"></script>
   <style>
     @import url(https://fonts.googleapis.com/css?family=Audiowide);
     @import url(https://fonts.googleapis.com/css?family=Montserrat);
@@ -33,7 +34,8 @@
       font-size: 4rem;
       flex: 1;
       text-align: center;
-      text-shadow: 0 4px white, 0 -4px white, 4px 0 white, -4px 0 white;
+      color: white;
+      text-shadow: 2px 2px black;
     }
 
     .attr-banner {
@@ -57,8 +59,6 @@
     }
 
     .cost {
-      border-radius: 50%;
-      background-color: {{color _local.element "light"}};
       font-size: 6rem;
       width: 125px;
       height: 125px;
@@ -112,11 +112,21 @@
       margin-top: 0;
       margin-bottom: 47.91px;
     }
-
-    .name-banner, .art, .type, .text {
-      background-color: {{color _local.element "lightest"}};
-    }
   </style>
+
+  <script>
+    window.render = function() {
+      html2canvas(document.querySelector('.root'), {
+        onrendered: function(canvas) {
+          var targetCanvas = document.querySelector('canvas');
+          var ctx = targetCanvas.getContext('2d');
+          ctx.drawImage(canvas, 0, 0, 825, 1125);
+          var dataUri = targetCanvas.toDataURL('image/png');
+          document.querySelector('a').href = dataUri;
+        }
+      });
+    };
+  </script>
 </head>
 <body>
   <div class="root">
@@ -139,5 +149,9 @@
     </div>
     <img class="template" src="assets/images/template.png">
   </div>
+  <a download="{{lowercase _local.name}}.png">
+    <canvas width="825" height="1125"></canvas>
+  </a>
+  <button onclick="render()">RENDER</button>
 </body>
 </html>
