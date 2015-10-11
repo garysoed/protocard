@@ -1,0 +1,19 @@
+{
+  "name": "protocard",
+  "version": "0.0.0",
+  "homepage": "https://github.com/garysoed/protocard",
+  "authors": [
+    "Gary Soedarsono <garysoed@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "html2canvas": "~0.4.1"
+  }
+}
