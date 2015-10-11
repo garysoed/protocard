@@ -41,6 +41,10 @@ var helpers = {
   }
 };
 
+var partials = {
+  'energy': '<img class="icon" src="assets/icons/energy.svg"></img>'
+};
+
 // TODO(gs): Import from TSV
 var cards = [
   {
@@ -48,6 +52,7 @@ var cards = [
     cost: 2,
     element: '{{element.ether}}',
     type: 'device',
+    description: '+1 {{> energy}}'
   },
   {
     name: 'Fire Turret',
@@ -128,8 +133,11 @@ gulp.task('generate', gulp.parallel(
           .pipe(generate(
             '{{lowercase _local.name}}.html',
             cards,
-            globals,
-            helpers
+            {
+              globals: globals,
+              helpers: helpers,
+              partials: partials
+            }
           ))
           .pipe(debug({ title: 'generate' }))
           .pipe(gulp.dest('out'));

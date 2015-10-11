@@ -79,8 +79,19 @@
       display: flex;
     }
 
-    .text {
+    .text-container {
+      display: flex;
+      justify-content: center;
       flex: 1;
+      align-items: center;
+    }
+
+    .text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem; /** TODO(gs): Use flowtype */
+      padding: 15px;
+      text-align: center;
+      line-height: 46px;
     }
 
     .type {
@@ -91,10 +102,6 @@
     .art, .details {
       margin-left: calc(38.04px + 47.91px);
       margin-right: calc(38.04px + 47.91px);
-    }
-
-    .art, .text, .type {
-      border-radius: 15px;
     }
 
     .type .content {
@@ -111,6 +118,14 @@
     .details {
       margin-top: 0;
       margin-bottom: 47.91px;
+    }
+
+    .icon {
+      height: 40px;
+      border: 3px solid black;
+      display: inline-block;
+      vertical-align: middle;
+      border-radius: 23px;
     }
   </style>
 
@@ -145,7 +160,11 @@
       <div class="type">
         <div class="content">{{_local.element}} &bull; {{_local.type}}</div>
       </div>
-      <div class="text"></div>
+      <div class="text-container">
+        <div class="text">
+          {{_local.description}}
+        </div>
+    </div>
     </div>
     <img class="template" src="assets/images/template.png">
   </div>

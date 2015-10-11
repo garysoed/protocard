@@ -24,7 +24,7 @@ describe('gulp-generate', () => {
       outputData.push(file);
     });
     stream.once('finish', () => {
-      expect(fakeGenerate).toHaveBeenCalledWith(templateFile, outName, localDataList, {}, {});
+      expect(fakeGenerate).toHaveBeenCalledWith(templateFile, outName, localDataList, {});
       expect(outputData[0].path).toEqual('file1');
       expect(outputData[0].contents.toString()).toEqual('content1');
       expect(outputData[1].path).toEqual('file2');

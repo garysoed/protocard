@@ -16,7 +16,8 @@ describe('generate', () => {
   let generate;
 
   beforeEach(() => {
-    fakeHandleBars = jasmine.createSpyObj('handlebars', ['compile', 'registerHelper']);
+    fakeHandleBars = jasmine
+        .createSpyObj('handlebars', ['compile', 'registerHelper', 'registerPartial']);
     generate = _provider.bind(null, fakeHandleBars, path);
   });
 
@@ -63,10 +64,21 @@ describe('generate', () => {
       helper2: () => {}
     };
 
-    generate(TEMPLATE_FILE, OUT_NAME, [], {}, helpers);
+    generate(TEMPLATE_FILE, OUT_NAME, [], { helpers: helpers });
     expect(fakeHandleBars.registerHelper).toHaveBeenCalledWith('helper1', helpers.helper1);
     expect(fakeHandleBars.registerHelper).toHaveBeenCalledWith('helper2', helpers.helper2);
   });
+
+  it('should register all the given partials', () => {
+    let partials = {
+      partial1: 'partial1',
+      partial2: 'partial2'
+    };
+
+    generate(TEMPLATE_FILE, OUT_NAME, [], { partials: partials });
+    expect(fakeHandleBars.registerPartial).toHaveBeenCalledWith('partial1', partials.partial1);
+    expect(fakeHandleBars.registerPartial).toHaveBeenCalledWith('partial2', partials.partial2);
+  })
 
   it('should mixin the globals in the data', () => {
     let localDataList = [{ a: 1 }];
@@ -80,7 +92,7 @@ describe('generate', () => {
     fakeHandleBars.compile.and
         .callFake(name => (name === TEMPLATE_TEXT) ? fileTemplate : nameTemplate);
 
-    generate(TEMPLATE_FILE, OUT_NAME, localDataList, globals);
+    generate(TEMPLATE_FILE, OUT_NAME, localDataList, { globals: globals });
 
     expect(fileTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
     expect(nameTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
@@ -107,7 +119,7 @@ describe('generate', () => {
       }
     });
 
-    generate(TEMPLATE_FILE, OUT_NAME, localDataList, globals);
+    generate(TEMPLATE_FILE, OUT_NAME, localDataList, { globals: globals });
 
     expect(localTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
     expect(fileTemplate)
@@ -127,7 +139,7 @@ describe('generate', () => {
     fakeHandleBars.compile.and
         .callFake(name => (name === TEMPLATE_TEXT) ? fileTemplate : nameTemplate);
 
-    generate(TEMPLATE_FILE, OUT_NAME, localDataList, globals);
+    generate(TEMPLATE_FILE, OUT_NAME, localDataList, { globals: globals });
 
     expect(localTemplate).not.toHaveBeenCalled();
     expect(fileTemplate)
@@ -159,7 +171,7 @@ describe('generate', () => {
       }
     });
 
-    generate(TEMPLATE_FILE, OUT_NAME, localDataList, globals);
+    generate(TEMPLATE_FILE, OUT_NAME, localDataList, { globals: globals });
 
     expect(localTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
     expect(fileTemplate)
