@@ -17,3 +17,5 @@ gulp.task('test', gulp.series(
         }));
   }
 ));
+
+gulp.task('default', gulp.task('compile'));

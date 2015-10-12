@@ -36,9 +36,9 @@ describe('generate', () => {
     let rendered2 = 'rendered2';
 
     let fileTemplate = jasmine.createSpy('fileTemplate').and
-        .callFake(data => (data._local.a === 1) ? rendered1 : rendered2);
+        .callFake(data => (data._.a === 1) ? rendered1 : rendered2);
     let nameTemplate = jasmine.createSpy('nameTemplate').and
-        .callFake(data => (data._local.a === 1) ? outName1 : outName2);
+        .callFake(data => (data._.a === 1) ? outName1 : outName2);
 
     fakeHandleBars.compile.and
         .callFake(name => (name === TEMPLATE_TEXT) ? fileTemplate : nameTemplate);
@@ -49,13 +49,13 @@ describe('generate', () => {
     });
 
     expect(fileTemplate)
-        .toHaveBeenCalledWith(jasmine.objectContaining({ _local: localDataList[0] }));
+        .toHaveBeenCalledWith(jasmine.objectContaining({ _: localDataList[0] }));
     expect(fileTemplate)
-        .toHaveBeenCalledWith(jasmine.objectContaining({ _local: localDataList[1] }));
+        .toHaveBeenCalledWith(jasmine.objectContaining({ _: localDataList[1] }));
     expect(nameTemplate)
-        .toHaveBeenCalledWith(jasmine.objectContaining({ _local: localDataList[0] }));
+        .toHaveBeenCalledWith(jasmine.objectContaining({ _: localDataList[0] }));
     expect(nameTemplate)
-        .toHaveBeenCalledWith(jasmine.objectContaining({ _local: localDataList[1] }));
+        .toHaveBeenCalledWith(jasmine.objectContaining({ _: localDataList[1] }));
   });
 
   it('should register all the given helpers', () => {
@@ -123,7 +123,7 @@ describe('generate', () => {
 
     expect(localTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
     expect(fileTemplate)
-        .toHaveBeenCalledWith(jasmine.objectContaining({ _local: { a: 1 } }));
+        .toHaveBeenCalledWith(jasmine.objectContaining({ _: { a: 1 } }));
   });
 
   it('should not crash if local data value is non string', () => {
@@ -143,7 +143,7 @@ describe('generate', () => {
 
     expect(localTemplate).not.toHaveBeenCalled();
     expect(fileTemplate)
-        .toHaveBeenCalledWith(jasmine.objectContaining({ _local: localDataList[0] }));
+        .toHaveBeenCalledWith(jasmine.objectContaining({ _: localDataList[0] }));
   });
 
   it('should resolve local data with object value', () => {
@@ -175,6 +175,6 @@ describe('generate', () => {
 
     expect(localTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
     expect(fileTemplate)
-        .toHaveBeenCalledWith(jasmine.objectContaining({ _local: { a: { b: 1 } } }));
+        .toHaveBeenCalledWith(jasmine.objectContaining({ _: { a: { b: 1 } } }));
   });
 });

@@ -9,7 +9,7 @@
     .root {
       display: flex;
       position: relative;
-      background-image: url("{{bg _local.type _local.element}}");
+      background-image: url("{{bg _.type _.element}}");
       width: {{_pc.size.width}};
       height: {{_pc.size.height}};
       padding: 35.42px 0; /* TODO(gs): Move this to _pc */
@@ -121,10 +121,13 @@
     }
 
     .icon {
-      height: 40px;
-      border: 3px solid black;
+      width: 40px;
       display: inline-block;
       vertical-align: middle;
+    }
+
+    .icon.circled {
+      border: 3px solid black;
       border-radius: 23px;
     }
   </style>
@@ -147,28 +150,28 @@
   <div class="root">
     <div class="name-banner">
       <div class="name">
-        {{_local.name}}
+        {{_.name}}
       </div>
       <div class="cost-container">
         <div class="cost">
-          {{_local.cost}}
+          {{_.cost}}
         </div>
       </div>
     </div>
     <div class="art"></div>
     <div class="details">
       <div class="type">
-        <div class="content">{{_local.element}} &bull; {{_local.type}}</div>
+        <div class="content">{{_.element}} &bull; {{_.type}}</div>
       </div>
       <div class="text-container">
         <div class="text">
-          {{_local.description}}
+          {{_.description}}
         </div>
     </div>
     </div>
     <img class="template" src="assets/images/template.png">
   </div>
-  <a download="{{lowercase _local.name}}.png">
+  <a download="{{lowercase _.name}}.png">
     <canvas width="825" height="1125"></canvas>
   </a>
   <button onclick="render()">RENDER</button>

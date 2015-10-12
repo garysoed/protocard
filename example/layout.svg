@@ -1065,7 +1065,7 @@
            x="48.315788"
            y="153.47368" /></flowRegion><flowPara
          style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:10px;font-family:Futura;-inkscape-font-specification:'Futura Medium'"
-         id="flowPara3830">{{_local.description}}</flowPara></flowRoot>    <path
+         id="flowPara3830">{{_.description}}</flowPara></flowRoot>    <path
        sodipodi:nodetypes="sssssssss"
        style="fill:#c6e9af;stroke:none;stroke-dasharray:1.44"
        inkscape:connector-curvature="0"

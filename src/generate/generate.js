@@ -51,21 +51,26 @@ function _generate(
 
   // Generates all the local data.
   localDataList.forEach(function(localData) {
-    var data = {
-      _pc: {
-        size: {
-          height: '1125px',
-          width: '825px'
+    try {
+      var data = {
+        _pc: {
+          size: {
+            height: '1125px',
+            width: '825px'
+          }
         }
-      }
-    };
-    Utils.mixin(globals, data);
+      };
+      Utils.mixin(globals, data);
 
-    let evalLocalData = _resolve(handlebars, localData, data);
-    Utils.mixin({_local: evalLocalData}, data);
-    let rendered = template(data);
-    let outName = outNameTemplate(data);
-    outContent[outName] = rendered;
+      let evalLocalData = _resolve(handlebars, localData, data);
+      Utils.mixin({_: evalLocalData}, data);
+      let rendered = template(data);
+      let outName = outNameTemplate(data);
+      outContent[outName] = rendered;
+    } catch (e) {
+      throw Error('Error while trying to generate local data:\n' + JSON.stringify(localData, 2)
+          + '\n' + e);
+    }
   });
 
   return outContent;
