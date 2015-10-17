@@ -12,7 +12,17 @@ var helpers = {
     return 'assets/backgrounds/' + element + '_' + type + '.png';
   },
 
+  'frame': function(element) {
+    return 'assets/backgrounds/' + element + '_frame.png';
+  },
+
   // TODO(gs): Make this built in.
+  'ifeq': function(a, b, options) {
+    if (a == b) {
+      return options.fn(this);
+    }
+  },
+
   'lowercase': function(name) {
     return name.toLocaleLowerCase().replace(' ', '-');
   }
@@ -50,25 +60,27 @@ gulp.task('generate', gulp.parallel(
     function _generate() {
       var content = fs.readFileSync('./raw.tsv', 'utf8');
       var cards = Extract.fromTsv(content, 2).write(function(lineData) {
+        var type = lineData[2].toLowerCase();
         var card = {
           'name': lineData[0],
           'cost': lineData[8],
           'element': '{{element.' + lineData[1].toLowerCase() + '}}',
-          'type': '{{type.' + lineData[2].substr(0, 1).toLowerCase() + '}}',
+          'type': '{{type.' + type.substr(0, 1) + '}}',
           'description': lineData[7]
         };
 
-        // if (lineData[4]) {
-        //   card['life'] = lineData[4];
-        // }
-        //
-        // if (lineData[5]) {
-        //   card['attack'] = lineData[5];
-        // }
-        //
-        // if (lineData[6]) {
-        //   card['armor'] = lineData[6];
-        // }
+        if (type === 'device' || type === 'minion') {
+          card['life'] = lineData[4] || 0;
+        }
+
+        if (type === 'minion') {
+          card['attack'] = lineData[5] || 0;
+          card['armor'] = lineData[6] || 0;
+        }
+
+        if (lineData[0] === 'Psyche Mage') {
+          card['attack'] = '?';
+        }
 
         return card;
       });

@@ -9,7 +9,11 @@
     .root {
       display: flex;
       position: relative;
-      background-image: url("{{bg _.type _.element}}");
+      background-image: url("assets/backgrounds/cost.png"),
+                        {{#ifeq _.type "device"}}url("assets/backgrounds/device_stats.png"),{{/ifeq}}
+                        {{#ifeq _.type "minion"}}url("assets/backgrounds/minion_stats.png"),{{/ifeq}}
+                        url("{{frame _.element}}"),
+                        url("{{bg _.type _.element}}");
       width: {{_pc.size.width}};
       height: {{_pc.size.height}};
       padding: 35.42px 0; /* TODO(gs): Move this to _pc */
@@ -89,8 +93,8 @@
     .text {
       font-family: 'Montserrat', sans-serif;
       font-size: 2rem; /** TODO(gs): Use flowtype */
-      padding: 15px;
-      text-align: center;
+      padding: 25px;
+      text-align: justify;
       line-height: 46px;
     }
 
@@ -99,9 +103,41 @@
       margin-right: 20px;
     }
 
+    .art {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
     .art, .details {
       margin-left: calc(38.04px + 47.91px);
       margin-right: calc(38.04px + 47.91px);
+    }
+
+    .stats {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 4rem;
+      display: flex;
+      color: white;
+      margin-bottom: 15px;
+    }
+
+    .item {
+      width: 78px;
+      height: 78px;
+      text-align: center;
+    }
+
+    .stats > .item:first-child {
+      margin-left: 120px;
+    }
+
+    .stats > .item:nth-child(2) {
+      margin-left: 90px;
+    }
+
+    .stats > .item:nth-child(3) {
+      margin-left: 100px;
     }
 
     .type .content {
@@ -158,7 +194,20 @@
         </div>
       </div>
     </div>
-    <div class="art"></div>
+    <div class="art">
+      {{#ifeq _.type "device"}}
+      <div class="stats">
+        <div class="item">{{_.life}}</div>
+      </div>
+      {{/ifeq}}
+      {{#ifeq _.type "minion"}}
+      <div class="stats">
+        <div class="item">{{_.life}}</div>
+        <div class="item">{{_.attack}}</div>
+        <div class="item">{{_.armor}}</div>
+      </div>
+      {{/ifeq}}
+    </div>
     <div class="details">
       <div class="type">
         <div class="content">{{_.element}} &bull; {{_.type}}</div>
