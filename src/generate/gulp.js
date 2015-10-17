@@ -9,8 +9,6 @@ let PluginError = gutil.PluginError;
  * Generates the files using the given data.
  *
  * @method generate
- * @param {File} templateFile File containing the template.
- * @param {string} outDir Path to directory to contain the generated files.
  * @param {string} outName Handlebars string to generate the filename.
  * @param {Array} localDataList Array of objects containing the data for every file. This method
  *    will use every entry of this entry to generate a file.

@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var debug = require('gulp-debug');
 var webshot = require('gulp-webshot');
 
-var generate = require('../out/generate/gulp').default;
+var Generator = require('../out/generate/generator-gulp');
 var Extract = require('../out/convert/extract');
 
 var fs = require('fs');
@@ -49,6 +49,12 @@ var globals = {
   }
 };
 
+var generator = new Generator({
+  globals: globals,
+  helpers: helpers,
+  partials: partials
+});
+
 gulp.task('copy-assets', function() {
   return gulp.src(['assets/**'], { base: '.' })
       .pipe(debug({ title: 'copy-assets' }))
@@ -86,15 +92,7 @@ gulp.task('generate', gulp.parallel(
       });
 
       return gulp.src('template.html')
-          .pipe(generate(
-            '{{lowercase _.name}}.html',
-            cards,
-            {
-              globals: globals,
-              helpers: helpers,
-              partials: partials
-            }
-          ))
+          .pipe(generator.generate('{{lowercase _.name}}.html', cards))
           .pipe(debug({ title: 'generate' }))
           .pipe(gulp.dest('out'));
     })
