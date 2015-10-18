@@ -29,6 +29,16 @@ class Generator {
     let partials = config.partials || {};
 
     this[__globals__] = globals;
+    var data = {
+      _pc: {
+        size: {
+          height: '1125px',
+          width: '825px'
+        }
+      }
+    };
+    Utils.mixin(data, this[__globals__]);
+
     this[__handlebars__] = handlebars;
 
     // Register the helpers.
@@ -81,17 +91,8 @@ class Generator {
     // Generates all the local data.
     localDataList.forEach(localData => {
       try {
-        var data = {
-          _pc: {
-            size: {
-              height: '1125px',
-              width: '825px'
-            }
-          }
-        };
-        Utils.mixin(this[__globals__], data);
-
-        let evalLocalData = this[__resolve__](localData, data);
+        let evalLocalData = this[__resolve__](localData, this[__globals__]);
+        let data = JSON.parse(JSON.stringify(this[__globals__]));
         Utils.mixin({ _: evalLocalData }, data);
         let rendered = template(data);
         let outName = outNameTemplate(data);

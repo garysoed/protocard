@@ -52,10 +52,12 @@ class GeneratorGulp {
     let generator = this[__generator__];
     return through.obj(
         function(file, encoding, callback) {
-          this.push(new File({
-            path: file.path,
-            contents: new Buffer(generator.resolve(file.contents.toString()))
-          }));
+          if (file.contents) {
+            this.push(new File({
+              path: file.path,
+              contents: new Buffer(generator.resolve(file.contents.toString()))
+            }));
+          }
           callback();
         });
   }

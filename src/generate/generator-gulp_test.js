@@ -53,5 +53,10 @@ describe('GeneratorGulp', () => {
       });
       stream.write(new File({ contents: new Buffer(content) }));
     });
+
+    it('should skip files with no contents', () => {
+      let stream = generatorGulp.resolve();
+      stream.write(new File());
+    });
   });
 });

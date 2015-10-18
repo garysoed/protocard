@@ -55,11 +55,18 @@ var generator = new Generator({
   partials: partials
 });
 
-gulp.task('copy-assets', function() {
-  return gulp.src(['assets/**'], { base: '.' })
-      .pipe(debug({ title: 'copy-assets' }))
-      .pipe(gulp.dest('out'));
-});
+gulp.task('copy-assets', gulp.parallel(
+    function copyTexts_() {
+      return gulp.src(['assets/**/*.css'], { base: '.' })
+          .pipe(debug({ title: 'copyTexts_' }))
+          .pipe(generator.resolve())
+          .pipe(gulp.dest('out'));
+    },
+    function copyNonTexts_() {
+      return gulp.src(['assets/**', '!assets/**/*.css'], { base: '.',  })
+          .pipe(debug({ title: 'copyNonTexts_' }))
+          .pipe(gulp.dest('out'));
+    }));
 
 gulp.task('generate', gulp.parallel(
     'copy-assets',
