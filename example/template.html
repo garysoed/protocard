@@ -12,8 +12,12 @@
     }
 
     .stats {
-      background-image: {{#ifeq _.type "device"}}url("assets/backgrounds/device_stats.png"),{{/ifeq}}
-                        {{#ifeq _.type "minion"}}url("assets/backgrounds/minion_stats.png"),{{/ifeq}}
+      background-image: {{#ifeq _.type "device"}}
+                          url("assets/backgrounds/{{_.element}}_device_stats.png"),
+                        {{/ifeq}}
+                        {{#ifeq _.type "minion"}}
+                          url("assets/backgrounds/{{_.element}}_minion_stats.png"),
+                        {{/ifeq}}
                         url();
     }
 
@@ -62,7 +66,7 @@
   </div>
   <img class="template" src="assets/images/template.png">
   <a download="{{lowercase _.name}}.png">
-    <canvas width="825" height="1125"></canvas>
+    <canvas width="{{_pc.size.width}}" height="_pc.size.height"></canvas>
   </a>
   <button onclick="render()">RENDER</button>
 </body>
