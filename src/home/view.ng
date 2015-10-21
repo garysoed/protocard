@@ -1,0 +1,26 @@
+<div class="home-view">
+  <md-whiteframe class="md-whiteframe-1dp" layout="column">
+    <h1>Protoassets</h1>
+    <p>
+      Protoassets is a tool to help you generate assets. A typical generation involves 3 steps:
+    </p>
+    <ol>
+      <li>Grab and process the data
+      <li>Create asset template
+      <li>Generate assets
+    </ol>
+    <section class="buttons" layout="column" layout-align="center center">
+      <md-button class="md-raised md-primary" ng-click="ctrl.onCreateClick($event)">
+        Create New Asset
+      </md-button>
+      <md-input-container ng-show="ctrl.hasAssets()">
+        <label>Load Asset</label>
+        <md-select ng-model="loadedAsset" md-on-close="ctrl.onSelectClosed(loadedAsset)">
+          <md-option ng-repeat="asset in ctrl.getAssets()" value="{{asset.id}}">
+            {{asset.name}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </section>
+  </md-whiteframe>
+</div>

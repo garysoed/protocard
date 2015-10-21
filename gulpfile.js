@@ -1,7 +1,9 @@
 var babel   = require('gulp-babel');
+var concat  = require('gulp-concat');
 var gulp    = require('gulp');
 var debug   = require('gulp-debug');
 var jasmine = require('gulp-jasmine');
+var myth    = require('gulp-myth');
 var webpack = require('gulp-webpack');
 
 gulp.task('compile', function() {
@@ -12,7 +14,7 @@ gulp.task('compile', function() {
 
 gulp.task('test', gulp.series(
   'compile',
-  function _runTests() {
+  function runTests_() {
     return gulp.src(['out/**/*_test.js'])
         .pipe(jasmine({
           includeStackTrace: true
@@ -26,14 +28,20 @@ gulp.task('copy-assets', function() {
       .pipe(gulp.dest('out'));
 });
 
-gulp.task('ui', gulp.series(
-    'compile',
-    'copy-assets',
-    function _ng() {
-      return gulp.src(['src/**/*.ng'])
-          .pipe(gulp.dest('out'));
-    },
-    function _pack() {
+gulp.task('compile-ui', gulp.series(
+    gulp.parallel(
+        'compile',
+        function css_() {
+          return gulp.src(['src/**/*.css'])
+              .pipe(myth())
+              .pipe(concat('css.css'))
+              .pipe(gulp.dest('out'));
+        },
+        function ng_() {
+          return gulp.src(['src/**/*.ng'])
+              .pipe(gulp.dest('out'));
+        }),
+    function pack_() {
       return gulp.src(['out/app.js'])
           .pipe(webpack({
             output: { filename: 'js.js' }
@@ -41,5 +49,15 @@ gulp.task('ui', gulp.series(
           .pipe(gulp.dest('out'));
     }
 ));
+
+gulp.task('ui', gulp.parallel('compile-ui', 'copy-assets'));
+
+gulp.task('watch', function () {
+  gulp.watch(['src/**/*'], gulp.series('compile-ui'));
+});
+
+gulp.task('watch-test', function () {
+  gulp.watch(['src/**/*.js'], gulp.series('test'));
+});
 
 gulp.task('default', gulp.task('compile'));
