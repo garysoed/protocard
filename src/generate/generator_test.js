@@ -3,7 +3,7 @@ require('babel/polyfill');
 let path = require('path');
 let File = require('gulp-util').File;
 
-import { Ctor as Generator } from './generator';
+import Generator from './generator';
 
 describe('Generator', () => {
   const TEMPLATE_TEXT = 'TEMPLATE_TEXT';

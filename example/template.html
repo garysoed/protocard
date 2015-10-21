@@ -1,73 +1,197 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <script src="../../bower_components/html2canvas/build/html2canvas.js"></script>
-  <link rel="stylesheet" href="assets/main.css">
+<script src="../../bower_components/html2canvas/build/html2canvas.js"></script>
 
-  <style>
-    .root {
-      background-image: url("assets/backgrounds/cost.png"),
-                        url("{{frame _.element}}"),
-                        url("{{bg _.type _.element}}");
-    }
+<style>
+  @import url(https://fonts.googleapis.com/css?family=Audiowide);
+  @import url(https://fonts.googleapis.com/css?family=Montserrat);
 
-    .stats {
-      background-image: {{#ifeq _.type "device"}}
-                          url("assets/backgrounds/{{_.element}}_device_stats.png"),
-                        {{/ifeq}}
-                        {{#ifeq _.type "minion"}}
-                          url("assets/backgrounds/{{_.element}}_minion_stats.png"),
-                        {{/ifeq}}
-                        url();
-    }
+  .root {
+    display: flex;
+    position: relative;
+    width: {{_pc.size.width}};
+    height: {{_pc.size.height}};
+    box-sizing: border-box;
+  }
 
-    .art {
-      background-image: url("assets/images/{{lowercase _.name}}.png");
-    }
-  </style>
+  .name {
+    font-family: 'Audiowide', cursive;
+    font-size: 4rem;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px black;
+    position: absolute;
+    left: 46px;
+    top: 81px;
+    width: 619px;
+    height: 82px;
+  }
 
-  <script>
-    window.render = function() {
-      html2canvas(document.querySelector('.root'), {
-        onrendered: function(canvas) {
-          var targetCanvas = document.querySelector('canvas');
-          var ctx = targetCanvas.getContext('2d');
-          ctx.drawImage(canvas, 0, 0, 825, 1125);
-          var dataUri = targetCanvas.toDataURL('image/png');
-          document.querySelector('a').href = dataUri;
-        }
-      });
-    };
-  </script>
-</head>
-<body>
-  <div class="root">
-    <div class="name">{{_.name}}</div>
-    <div class="cost">{{_.cost}}</div>
-    <div class="art"></div>
-    <div class="stats"></div>
-    <div class="type">
-      <div class="content">{{_.element}} &bull; {{_.type}}</div>
-    </div>
-    <div class="description">
-      <div class="text">
-        {{_.description}}
-      </div>
-    </div>
+  .cost {
+    text-align: center;
+    font-family: 'Audiowide', cursive;
+    font-size: 6rem;
+    position: absolute;
+    left: 662px;
+    top: 59px;
+    width: 125px;
+    height: 125px;
+    line-height: 125px;
+  }
 
-    {{#ifeq _.type "device"}}
-      <div class="life">{{_.life}}</div>
-    {{/ifeq}}
-    {{#ifeq _.type "minion"}}
-      <div class="life">{{_.life}}</div>
-      <div class="attack">{{_.attack}}</div>
-      <div class="armor">{{_.armor}}</div>
-    {{/ifeq}}
+  .art {
+    position: absolute;
+    left: 94px;
+    top: 172px;
+    width: 637px;
+    height: 434px;
+  }
+
+  .stats {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .life, .attack, .armor {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 4rem;
+    color: white;
+    width: 78px;
+    height: 78px;
+    text-align: center;
+    position: absolute;
+    top: 507px;
+  }
+
+  .life {
+    left: 205px;
+  }
+
+  .attack {
+    left: 372px;
+  }
+
+  .armor {
+    left: 550px;
+  }
+
+  .type {
+    width: 80px;
+    height: 420px;
+    position: absolute;
+    left: 84px;
+    top: 630px;
+  }
+
+  .type .content {
+    transform: rotate(-90deg);
+    width: 420px;
+    height: 420px;
+    line-height: 80px;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem;
+  }
+
+  .description {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 194px;
+    top: 630px;
+    width: 553px;
+    height: 420px;
+  }
+
+  .text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem; /** TODO(gs): Use flowtype */
+    padding: 25px;
+    text-align: justify;
+    line-height: 46px;
+  }
+
+  .template {
+    display: none;
+    width: {{_pc.size.width}};
+    height: {{_pc.size.height}};
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: .1;
+  }
+
+  /* Inline styles */
+  .icon {
+    width: 40px;
+    display: inline-block;
+    vertical-align: bottom;
+  }
+
+  .icon.circled {
+    border: 3px solid black;
+    border-radius: 23px;
+  }
+</style>
+
+<style>
+  .root {
+    background-image: url("assets/backgrounds/cost.png"),
+                      url("{{frame _.element}}"),
+                      url("{{bg _.type _.element}}");
+  }
+
+  .stats {
+    background-image: {{#ifeq _.type "device"}}
+                        url("assets/backgrounds/{{_.element}}_device_stats.png"),
+                      {{/ifeq}}
+                      {{#ifeq _.type "minion"}}
+                        url("assets/backgrounds/{{_.element}}_minion_stats.png"),
+                      {{/ifeq}}
+                      url();
+  }
+
+  .art {
+    background-image: url("assets/images/{{lowercase _.name}}.png");
+  }
+</style>
+
+<script>
+  window.render = function() {
+    html2canvas(document.querySelector('.root'), {
+      onrendered: function(canvas) {
+        var targetCanvas = document.querySelector('canvas');
+        var ctx = targetCanvas.getContext('2d');
+        ctx.drawImage(canvas, 0, 0, 825, 1125);
+        var dataUri = targetCanvas.toDataURL('image/png');
+        document.querySelector('a').href = dataUri;
+      }
+    });
+  };
+</script>
+<div class="root">
+  <div class="name">{{_.name}}</div>
+  <div class="cost">{{_.cost}}</div>
+  <div class="art"></div>
+  <div class="stats"></div>
+  <div class="type">
+    <div class="content">{{_.element}} &bull; {{_.type}}</div>
   </div>
-  <img class="template" src="assets/images/template.png">
-  <a download="{{lowercase _.name}}.png">
-    <canvas width="{{_pc.size.width}}" height="_pc.size.height"></canvas>
-  </a>
-  <button onclick="render()">RENDER</button>
-</body>
-</html>
+  <div class="description">
+    <div class="text">
+      {{_.description}}
+    </div>
+  </div>
+
+  {{#ifeq _.type "device"}}
+    <div class="life">{{_.life}}</div>
+  {{/ifeq}}
+  {{#ifeq _.type "minion"}}
+    <div class="life">{{_.life}}</div>
+    <div class="attack">{{_.attack}}</div>
+    <div class="armor">{{_.armor}}</div>
+  {{/ifeq}}
+</div>

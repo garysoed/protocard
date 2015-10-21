@@ -29,8 +29,10 @@
     "gulp-babel": "^5.2.1",
     "gulp-debug": "^2.1.1",
     "gulp-jasmine": "^2.1.0",
+    "gulp-webpack": "^1.5.0",
     "jasmine": "^2.3.2",
     "karma": "^0.13.10",
-    "vinyl": "^1.0.0"
+    "vinyl": "^1.0.0",
+    "webpack": "^1.12.2"
   }
 }

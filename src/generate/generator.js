@@ -1,7 +1,5 @@
 import Utils from '../utils';
 
-let handlebars = require('handlebars');
-
 const __globals__ = Symbol('globals');
 const __handlebars__ = Symbol('handlebars');
 const __resolve__ = Symbol('resolve');
@@ -11,7 +9,7 @@ const __resolve__ = Symbol('resolve');
  *
  * @class Generator
  */
-class Generator {
+export default class {
 
   /**
    * @constructor
@@ -116,9 +114,4 @@ class Generator {
   resolve(templateString) {
     return this[__handlebars__].compile(templateString)(this[__globals__]);
   }
-}
-
-export { Generator as Ctor };
-export default function(config) {
-  return new Generator(handlebars, config);
-}
+};
