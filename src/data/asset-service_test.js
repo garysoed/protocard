@@ -15,17 +15,12 @@ describe('data.AssetService', () => {
 
   describe('hasAssets', () => {
     it('should return true if there are assets in local storage', () => {
-      mockStorageService.getItem.and.returnValue(JSON.stringify(['a']));
+      mockStorageService.getItem.and.returnValue(['a']);
       expect(assetService.hasAssets()).toEqual(true);
     });
 
     it('should return false if there are no assets in local storage', () => {
-      mockStorageService.getItem.and.returnValue(JSON.stringify([]));
-      expect(assetService.hasAssets()).toEqual(false);
-    });
-
-    it('should return false if there are no asset index in local storage', () => {
-      mockStorageService.getItem.and.returnValue(null);
+      mockStorageService.getItem.and.returnValue([]);
       expect(assetService.hasAssets()).toEqual(false);
     });
   });
@@ -39,35 +34,55 @@ describe('data.AssetService', () => {
 
     it('should return the assets stored locally', () => {
       mockStorageService.getItem.and.callFake(id => {
-        if (id === 'pc.assets') {
-          return JSON.stringify([asset.id]);
-        } else if (id === `pc.${asset.id}`) {
-          return JSON.stringify(asset);
+        if (id === KEY_INDEX) {
+          return [asset.id];
+        } else if (id === asset.id) {
+          return asset;
         }
       });
 
-      expect(assetService.getAssets()).toEqual([asset]);
-    });
-
-    it('should return empty array if there are no index', () => {
-      mockStorageService.getItem.and.returnValue(null);
-      expect(assetService.getAssets()).toEqual([]);
+      expect(assetService.getAssets()).toEqual({ [asset.id]: asset });
     });
 
     it('should cache the data', () => {
       mockStorageService.getItem.and.callFake(id => {
         if (id === KEY_INDEX) {
-          return JSON.stringify([asset.id]);
-        } else if (id === `pc.${asset.id}`) {
-          return JSON.stringify(asset);
+          return [asset.id];
+        } else if (id === asset.id) {
+          return asset;
         }
       });
       assetService.getAssets();
 
       // Now call again.
       mockStorageService.getItem.calls.reset();
-      expect(assetService.getAssets()).toEqual([asset]);
+      expect(assetService.getAssets()).toEqual({ [asset.id]: asset });
       expect(mockStorageService.getItem).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('getAsset', () => {
+    let asset1;
+    let asset2;
+
+    beforeEach(() => {
+      asset1 = new Asset('asset1');
+      asset2 = new Asset('asset2');
+
+      let data = {
+        [asset1.id]: asset1,
+        [asset2.id]: asset2,
+        [KEY_INDEX]: [asset1.id, asset2.id]
+      };
+      mockStorageService.getItem.and.callFake(id => data[id]);
+    });
+
+    it('should return the correct asset', () => {
+      expect(assetService.getAsset(asset2.id)).toEqual(asset2);
+    });
+
+    it('should return null if the asset does not exist', () => {
+      expect(assetService.getAsset('non-existent')).toEqual(null);
     });
   });
 
@@ -79,11 +94,19 @@ describe('data.AssetService', () => {
     });
 
     it('should update the storage', () => {
+      mockStorageService.getItem.and.returnValue([]);
+      assetService.saveAsset(asset);
+
+      expect(mockStorageService.setItem).toHaveBeenCalledWith(KEY_INDEX, [asset.id]);
+      expect(mockStorageService.setItem).toHaveBeenCalledWith(asset.id, asset);
+    });
+
+    it('should invalidate the cache', () => {
       mockStorageService.getItem.and.callFake(id => {
         if (id === KEY_INDEX) {
-          return JSON.stringify([asset.id]);
-        } else if (id === `pc.${asset.id}`) {
-          return JSON.stringify(asset);
+          return [asset.id];
+        } else if (id === asset.id) {
+          return asset;
         }
       });
       assetService.getAssets();
@@ -93,17 +116,13 @@ describe('data.AssetService', () => {
       mockStorageService.getItem.calls.reset();
       mockStorageService.getItem.and.callFake(id => {
         if (id === KEY_INDEX) {
-          return JSON.stringify([asset.id]);
-        } else if (id === `pc.${asset.id}`) {
-          return JSON.stringify(asset);
+          return [asset.id];
+        } else if (id === asset.id) {
+          return asset;
         }
       });
       mockStorageService.getItem();
       expect(mockStorageService.getItem).toHaveBeenCalled();
-    });
-
-    it('should invalidate the cache', () => {
-
     });
   });
 });

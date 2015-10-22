@@ -1,3 +1,9 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto+Mono);
+
 body {
   background-color: #efefef;
+}
+
+[ng-view] {
+  height: 100vh;
 }

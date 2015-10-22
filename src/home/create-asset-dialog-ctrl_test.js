@@ -16,12 +16,12 @@ describe('home.CreateAssetDialogCtrl', () => {
 
   describe('isValid', () => {
     it('should return true if the form is valid', () => {
-      $scope.mainForm = { $valid: true };
+      $scope.createForm = { $valid: true };
       expect(ctrl.isValid()).toEqual(true);
     });
 
     it('should return false if the form is invalid', () => {
-      $scope.mainForm = { $valid: false };
+      $scope.createForm = { $valid: false };
       expect(ctrl.isValid()).toEqual(false);
     });
 

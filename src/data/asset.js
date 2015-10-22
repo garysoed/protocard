@@ -1,3 +1,5 @@
+import RawSource from './raw-source';
+
 /**
  * Represents an asset.
  *
@@ -23,6 +25,12 @@ export default class {
      * @type {string}
      */
     this.name = name;
+
+    /**
+     * @property source
+     * @type {data.RawSource}
+     */
+    this.source = null;
   }
 
   /**
@@ -34,7 +42,8 @@ export default class {
   toJSON() {
     return {
       id: this.id,
-      name: this.name
+      name: this.name,
+      source: this.source ? this.source.toJSON() : null
     };
   }
 
@@ -47,8 +56,13 @@ export default class {
    * @static
    */
   static fromJSON(json) {
+    if (!json) {
+      return null;
+    }
+
     let asset = new this(json['name']);
     asset.id = json['id'];
+    asset.source = RawSource.fromJSON(json['source']);
     return asset;
   }
 
@@ -62,9 +76,14 @@ export default class {
    *    objects is not an Asset.
    */
   static equals(a, b) {
+    if (a === b) {
+      return true;
+    }
+
     if (a instanceof this && b instanceof this) {
-      return a.id === b.id &&
-          a.name === b.name
+      return a.id === b.id
+          && a.name === b.name
+          && RawSource.equals(a.source, b.source);
     }
   }
 };

@@ -1,0 +1,27 @@
+.load-tab {
+  position: relative;
+}
+
+.load-tab md-whiteframe {
+  background-color: white;
+  padding: 30px;
+
+  /* size */
+  width: 75vw;
+  min-width: 500px;
+
+  /* center align */
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.load-tab md-whiteframe > section {
+  padding: 20px;
+}
+
+.load-tab .preview {
+  max-height: 300px;
+  white-space: pre;
+  font-family: 'Roboto Mono';
+}

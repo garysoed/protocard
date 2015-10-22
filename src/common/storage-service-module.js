@@ -1,4 +1,7 @@
-// TODO(gs): Move some of the parsing and namespacing stuff here.
+import StorageService from './storage-service';
+
 export default angular
     .module('pc.common.StorageServiceModule', [])
-    .constant('StorageService', window.localStorage);
+    .service('StorageService', function($window) {
+      return new StorageService($window, 'pc');
+    });

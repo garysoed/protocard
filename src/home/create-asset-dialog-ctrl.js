@@ -26,7 +26,7 @@ export default class {
    * @return {Boolean} True iff the form is valid
    */
   isValid() {
-    return !!(this[__$scope__].mainForm && this[__$scope__].mainForm.$valid);
+    return !!(this[__$scope__].createForm && this[__$scope__].createForm.$valid);
   }
 
   /**

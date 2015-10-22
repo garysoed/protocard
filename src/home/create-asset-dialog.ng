@@ -1,11 +1,11 @@
 <md-dialog>
   <md-dialog-content>
     <div class="md-dialog-content">
-      <form name="mainForm">
+      <form name="createForm">
         <md-input-container>
           <label>Name</label>
           <input required ng-model="name" type="text" name="name">
-          <div ng-messages="mainForm.name.$error">
+          <div ng-messages="createForm.name.$error">
             <div ng-message="required">Name is required</div>
           </div>
         </md-input-container>

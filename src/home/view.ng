@@ -16,7 +16,7 @@
       <md-input-container ng-show="ctrl.hasAssets()">
         <label>Load Asset</label>
         <md-select ng-model="loadedAsset" md-on-close="ctrl.onSelectClosed(loadedAsset)">
-          <md-option ng-repeat="asset in ctrl.getAssets()" value="{{asset.id}}">
+          <md-option ng-repeat="(id, asset) in ctrl.getAssets()" value="{{asset.id}}">
             {{asset.name}}
           </md-option>
         </md-select>

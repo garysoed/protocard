@@ -41,6 +41,11 @@ gulp.task('compile-ui', gulp.series(
           return gulp.src(['src/**/*.ng'])
               .pipe(gulp.dest('out'));
         }),
+        function api_() {
+          return gulp.src(['api/test.js'])
+              .pipe(concat('api.js'))
+              .pipe(gulp.dest('out'));
+        },
     function pack_() {
       return gulp.src(['out/app.js'])
           .pipe(webpack({

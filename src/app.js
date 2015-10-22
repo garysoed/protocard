@@ -1,3 +1,4 @@
+import CreateViewModule from './create/view-module';
 import GenerateViewModule from './generate/view-module';
 import HomeViewModule from './home/view-module';
 
@@ -6,6 +7,7 @@ angular
       'ngMaterial',
       'ngMessages',
       'ngRoute',
+      CreateViewModule.name,
       GenerateViewModule.name,
       HomeViewModule.name
     ])
@@ -13,6 +15,6 @@ angular
       $mdThemingProvider
           .theme('default')
           .primaryPalette('deep-purple')
-          .accentPalette('green')
+          .accentPalette('green');
       $routeProvider.otherwise('/');
     });

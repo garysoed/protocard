@@ -11,7 +11,7 @@ const __storage__ = Symbol('storage');
  * @type {String}
  * @static
  */
-export const KEY_INDEX = 'pc.assets';
+export const KEY_INDEX = 'assets';
 
 /**
  * Manages assets in the storage.
@@ -35,8 +35,7 @@ export default class {
    * @private
    */
   [__getIndex__]() {
-    let jsonString = this[__storage__].getItem(KEY_INDEX);
-    return jsonString ? JSON.parse(jsonString) : [];
+    return this[__storage__].getItem(KEY_INDEX, Array, []);
   }
 
   /**
@@ -44,17 +43,28 @@ export default class {
    * @return {Boolean} True iff there are assets stored.
    */
   hasAssets() {
-    return this.getAssets().length > 0;
+    return Object.keys(this.getAssets()).length > 0;
+  }
+
+  /**
+   * @method getAsset
+   * @param {string} id ID of the asset to return.
+   * @return {data.Asset} The asset corresponding to the given ID.
+   */
+  getAsset(id) {
+    return this.getAssets()[id] || null;
   }
 
   /**
    * @method getAssets
-   * @return {Array} Array of `data.Asset`s stored.
+   * @return {Object} Dictionary of `data.Asset`s stored with the ID as the key and
+   *    asset object as the value.
    */
   getAssets() {
     if (this[__assets__] === null) {
-      this[__assets__] = this[__getIndex__]().map(id => {
-        return Asset.fromJSON(JSON.parse(this[__storage__].getItem(`pc.${id}`)));
+      this[__assets__] = {};
+      this[__getIndex__]().forEach(id => {
+        this[__assets__][id] = this[__storage__].getItem(id, Asset);
       });
     }
     return this[__assets__];
@@ -70,8 +80,8 @@ export default class {
     let index = this[__getIndex__]();
     index.push(asset.id);
 
-    this[__storage__].setItem(KEY_INDEX, JSON.stringify(index));
-    this[__storage__].setItem(`pc.${asset.id}`, JSON.stringify(asset));
+    this[__storage__].setItem(KEY_INDEX, index);
+    this[__storage__].setItem(asset.id, asset);
 
     // invalidates the cache.
     this[__assets__] = null;

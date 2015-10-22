@@ -1,0 +1,41 @@
+<div class="load-tab">
+  <md-whiteframe class="md-whiteframe-1dp" layout="column">
+    <section ng-if="ctrl.hasDataPreview()">
+      <h2>Preview</h2>
+      <md-content class="preview">
+        {{ctrl.getDataPreview()}}
+      </md-content>
+      <md-divider></md-divider>
+    </section>
+    <section layout="column">
+      <form name="uploadForm">
+        <input type="file" id="upload">
+        <md-input-container>
+          <label>Format</label>
+          <md-select ng-model="dataFormat" required>
+            <md-option ng-repeat="(id, format) in ctrl.getSupportedFormat()" value={{format}}>
+              {{format}}
+            </md-option>
+          </md-select>
+          <div ng-messages="uploadForm.dataFormat.$error">
+            <div ng-message="required">Data format is required</div>
+          </div>
+        </md-input-container>
+      </form>
+      <div layout="row" layout-align="end">
+        <md-button class="md-primary md-raised"
+            ng-click="ctrl.onLoadClick()"
+            ng-disabled="!ctrl.isValid()"
+            ng-if="!ctrl.hasDataPreview()">
+          Load
+        </md-button>
+        <md-button class="md-raised"
+            ng-click="ctrl.onLoadClick()"
+            ng-disabled="!ctrl.isValid()"
+            ng-if="ctrl.hasDataPreview()">
+          Replace
+        </md-button>
+      </div>
+    </section>
+  </md-whiteframe>
+</div>

@@ -4,15 +4,17 @@ import Asset from '../data/asset';
 import ViewCtrl from './view-ctrl';
 
 describe('home.ViewCtrl', () => {
+  let mock$location;
   let mockAssetService;
   let mockCreateAssetDialogService;
   let ctrl;
 
   beforeEach(() => {
+    mock$location = jasmine.createSpyObj('$location', ['path']);
     mockAssetService = jasmine.createSpyObj(
         'AssetService', ['getAssets', 'hasAssets', 'saveAsset']);
     mockCreateAssetDialogService = jasmine.createSpyObj('CreateAssetDialogService', ['show']);
-    ctrl = new ViewCtrl(mockAssetService, mockCreateAssetDialogService);
+    ctrl = new ViewCtrl(mock$location, mockAssetService, mockCreateAssetDialogService);
   });
 
   describe('getAssets', () => {
@@ -52,6 +54,14 @@ describe('home.ViewCtrl', () => {
             expect(mockAssetService.saveAsset).toHaveBeenCalledWith(asset);
             done();
           }, done.fail);
+    });
+  });
+
+  describe('onSelectClosed', () => {
+    it('should navigate to the create page', () => {
+      let assetId = 'assetId';
+      ctrl.onSelectClosed(assetId);
+      expect(mock$location.path).toHaveBeenCalledWith(`/create/${assetId}`);
     });
   });
 });
