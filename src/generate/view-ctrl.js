@@ -110,7 +110,7 @@ export default class {
             card['armor'] = lineData[6] || 0;
           }
 
-          if (lineData[0] === 'Psyche Mage') {
+          if (lineData[0] === 'Poltergeist') {
             card['attack'] = '?';
           }
 
