@@ -1,4 +1,4 @@
-import { toClassName, toFileName } from './utils';
+import { toClassName, writeFile } from './utils';
 
 let fs = require('fs');
 
@@ -14,6 +14,5 @@ describe('${namespace}.${classname}', () => {
 
 });
 `;
-  // TODO(gs): Print out the file name.
-  fs.writeFileSync(toFileName(namespace, `${testname}.js`), out, 'utf8');
+  writeFile(namespace, testname, 'js', out);
 };

@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/garysoed/protocard.git"
@@ -24,6 +23,7 @@
   "devDependencies": {
     "babel": "^5.8.23",
     "babel-core": "^5.8.25",
+    "chalk": "^1.1.1",
     "gulp": "git://github.com/gulpjs/gulp.git#4.0",
     "gulp-babel": "^5.2.1",
     "gulp-concat": "^2.6.0",

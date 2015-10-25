@@ -1,5 +1,5 @@
 import test from './test';
-import { toClassName, toFileName } from './utils';
+import { toClassName, writeFile } from './utils';
 import * as module from './module';
 
 var fs = require('fs');
@@ -45,7 +45,7 @@ export default class {
 };
 `;
 
-  fs.writeFileSync(toFileName(namespace, `${serviceName}.js`), out, 'utf8');
+  writeFile(namespace, serviceName, 'js', out);
   test(namespace, serviceName);
 };
 

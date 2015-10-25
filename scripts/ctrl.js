@@ -1,7 +1,8 @@
 import test from './test';
-import { toClassName, toFileName } from './utils';
+import { toClassName, writeFile } from './utils';
 
-let fs = require('fs');
+let chalk = require('chalk');
+let fs    = require('fs');
 
 export default function(namespace, name) {
   let ctrlname = `${name}-ctrl`;
@@ -17,7 +18,7 @@ export default class {
   constructor() { }
 }
 `;
-  fs.writeFileSync(toFileName(namespace, `${ctrlname}.js`), out, 'utf8');
+  writeFile(namespace, ctrlname, 'js', out);
 
   test(namespace, ctrlname);
 };

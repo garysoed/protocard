@@ -1,4 +1,6 @@
-let path = require('path');
+let chalk = require('chalk');
+let fs    = require('fs');
+let path  = require('path');
 
 export function toClassName(name) {
   return name
@@ -9,6 +11,12 @@ export function toClassName(name) {
       .join('');
 };
 
-export function toFileName(namespace, name) {
+function toFileName(namespace, name) {
   return path.join(__dirname, '..', '..', 'src', namespace, `${name}`)
+};
+
+export function writeFile(namespace, name, ext, content) {
+  let filename = toFileName(namespace, `${name}.${ext}`);
+  fs.writeFileSync(filename, content, 'utf8');
+  console.log(chalk.blue(`Wrote: ${filename}`));
 };

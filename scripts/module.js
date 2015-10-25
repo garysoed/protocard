@@ -1,4 +1,4 @@
-import { toClassName, toFileName } from './utils';
+import { toClassName, writeFile } from './utils';
 
 let fs = require('fs');
 
@@ -15,7 +15,7 @@ export default angular
     .service('${serviceClassName}', ${serviceClassName});
 `;
 
-  fs.writeFileSync(toFileName(namespace, `${name}-module.js`), out, 'utf8');
+  writeFile(namespace, `${name}-module`, 'js', out);
 };
 
 export function directive(namespace, name) {
@@ -41,5 +41,5 @@ export default angular
     });
 `;
 
-  fs.writeFileSync(toFileName(namespace, `${name}-module.js`), out, 'utf8');
+  writeFile(namespace, `${name}-module`, 'js', out);
 };

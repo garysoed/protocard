@@ -1,5 +1,5 @@
 import AssetServiceModule from '../data/asset-service-module';
-import EditGlobalsDialogModule from './edit-globals-dialog-module';
+import EditGlobalsDialogModule from '../settings/edit-globals-dialog-module';
 import SettingsCardCtrl from './settings-card-ctrl';
 
 export default angular
