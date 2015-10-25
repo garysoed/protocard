@@ -10,7 +10,6 @@ const __$mdDialog__ = Symbol('$mdDialog');
 export default class {
   /**
    * @constructor
-   * @method constructor
    * @param {ng.$mdDialog} $mdDialog
    */
   constructor($mdDialog) {

@@ -1,4 +1,4 @@
-import CreateViewModule from './create/view-module';
+import AssetViewModule from './asset/view-module';
 import GenerateViewModule from './generate/view-module';
 import HomeViewModule from './home/view-module';
 
@@ -7,7 +7,7 @@ angular
       'ngMaterial',
       'ngMessages',
       'ngRoute',
-      CreateViewModule.name,
+      AssetViewModule.name,
       GenerateViewModule.name,
       HomeViewModule.name
     ])

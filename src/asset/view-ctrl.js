@@ -1,26 +1,25 @@
 const __asset__ = Symbol('asset');
-const __$location__ = Symbol('$location');
+const __navigateService__ = Symbol('navigateService');
 
 /**
  * Controller for the create page view.
  *
- * @class create.ViewCtrl
+ * @class asset.ViewCtrl
  */
 export default class {
 
   /**
    * @constructor
-   * @param {ng.$location} $location
    * @param {ng.$routeParams} $routeParams
    * @param {data.AssetService} AssetService
+   * @param {common.NavigateService} NavigateService
    */
-  constructor($location, $routeParams, AssetService) {
+  constructor($routeParams, AssetService, NavigateService) {
     this[__asset__] = AssetService.getAsset($routeParams.assetId);
+    this[__navigateService__] = NavigateService;
     if (!this[__asset__]) {
-      $location.path('/');
+      NavigateService.toHome();
     }
-
-    this[__$location__] = $location;
   }
 
   /**
@@ -39,15 +38,11 @@ export default class {
     return this[__asset__].name;
   }
 
-  getSelectedTab() {
-    return 0;
-  }
-
   /**
    * Handler called when the back button is clicked.
    * @method onBackClick
    */
   onBackClick() {
-    this[__$location__].path('/');
+    this[__navigateService__].toHome();
   }
 };

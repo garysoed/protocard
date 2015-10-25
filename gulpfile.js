@@ -15,6 +15,7 @@ gulp.task('compile', function() {
 gulp.task('test', gulp.series(
   'compile',
   function runTests_() {
+    // TODO(gs): Better jasmine reporter.
     return gulp.src(['out/**/*_test.js'])
         .pipe(jasmine({
           includeStackTrace: true
@@ -54,6 +55,12 @@ gulp.task('compile-ui', gulp.series(
           .pipe(gulp.dest('out'));
     }
 ));
+
+gulp.task('compile-scripts', function() {
+  return gulp.src(['scripts/**/*.js'])
+      .pipe(babel())
+      .pipe(gulp.dest('out/scripts'));
+});
 
 gulp.task('ui', gulp.parallel('compile-ui', 'copy-assets'));
 

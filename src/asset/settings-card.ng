@@ -1,0 +1,13 @@
+<md-card class="settings-card">
+  <md-card-content>
+    <h2>Settings</h2>
+    <div layout="row">
+      <div class="text" flex>Global values</div>
+      <md-button ng-click="ctrl.onGlobalsEditClick($event)">
+        Edit
+      </md-button>
+    </div>
+  </md-card-content>
+  <md-divider></md-divider>
+  <md-card-content>Helper functions</md-card-content>
+</md-card>

@@ -1,7 +1,7 @@
-const __$location__ = Symbol('$location');
 const __assetService__ = Symbol('assetService');
 const __assets__ = Symbol('assets');
 const __createAssetDialogService__ = Symbol('createAssetDialogService');
+const __navigateService__ = Symbol('navigateService');
 
 /**
  * Controller for the home view.
@@ -11,14 +11,14 @@ const __createAssetDialogService__ = Symbol('createAssetDialogService');
 export default class {
   /**
    * @constructor
-   * @param {ng.$location} $location
    * @param {data.AssetService} AssetService
    * @param {data.CreateAssetDialogService} CreateAssetDialogService
+   * @param {common.NavigateService} NavigateService
    */
-  constructor($location, AssetService, CreateAssetDialogService) {
-    this[__$location__] = $location;
+  constructor(AssetService, CreateAssetDialogService, NavigateService) {
     this[__assetService__] = AssetService;
     this[__createAssetDialogService__] = CreateAssetDialogService;
+    this[__navigateService__] = NavigateService;
   }
 
   /**
@@ -47,7 +47,7 @@ export default class {
     return this[__createAssetDialogService__].show($event)
         .then(asset => {
           this[__assetService__].saveAsset(asset);
-          // TODO(gs): Automatically select this asset.
+          this[__navigateService__].toAssetHome(asset.id);
         });
   }
 
@@ -58,6 +58,6 @@ export default class {
    * @param {string} selectedAssetId ID of the selected asset.
    */
   onSelectClosed(selectedAssetId) {
-    this[__$location__].path(`/create/${selectedAssetId}`);
+    this[__navigateService__].toAssetHome(selectedAssetId);
   }
 };

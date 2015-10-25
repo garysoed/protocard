@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -34,6 +33,7 @@
     "gulp-webpack": "^1.5.0",
     "jasmine": "^2.3.2",
     "karma": "^0.13.10",
+    "minimist": "^1.2.0",
     "vinyl": "^1.0.0",
     "webpack": "^1.12.2"
   }

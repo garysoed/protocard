@@ -1,0 +1,11 @@
+<md-dialog class="edit-globals-dialog">
+  <md-tabs>
+    <md-tab label="root">
+      <pc-object-editor object="ctrl.getGlobals()"></pc-object-editor>
+    </md-tab>
+  </md-tabs>
+  <div class="md-actions" layout="row" layout-align="end">
+    <md-button class="md-primary md-raised" ng-click="ctrl.onSaveClick()">Save</md-button>
+    <md-button ng-click="ctrl.onCancelClick()">Cancel</md-button>
+  </div>
+</md-dialog>

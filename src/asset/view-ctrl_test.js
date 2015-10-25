@@ -3,18 +3,18 @@ import TestBase from '../testbase';
 import Asset from '../data/asset';
 import ViewCtrl from './view-ctrl';
 
-describe('create.ViewCtrl', () => {
+describe('asset.ViewCtrl', () => {
   let asset;
-  let mock$location;
+  let mockNavigateService;
   let ctrl;
 
   beforeEach(() => {
     asset = new Asset('test');
-    mock$location = jasmine.createSpyObj('$location', ['path']);
+    mockNavigateService = jasmine.createSpyObj('NavigateService', ['toHome']);
 
     let mockAssetService = jasmine.createSpyObj('AssetService', ['getAsset']);
     mockAssetService.getAsset.and.returnValue(asset);
-    ctrl = new ViewCtrl(mock$location, { assetId: 'assetId' }, mockAssetService);
+    ctrl = new ViewCtrl({ assetId: 'assetId' }, mockAssetService, mockNavigateService);
   });
 
   describe('constructor', () => {
@@ -27,17 +27,17 @@ describe('create.ViewCtrl', () => {
     it('should redirect to home page if the asset does not exist', () => {
       let assetId = 'assetId';
       mockAssetService.getAsset.and.returnValue(null);
-      new ViewCtrl(mock$location, { assetId: assetId }, mockAssetService);
+      new ViewCtrl({ assetId: assetId }, mockAssetService, mockNavigateService);
 
-      expect(mock$location.path).toHaveBeenCalledWith('/');
+      expect(mockNavigateService.toHome).toHaveBeenCalledWith();
       expect(mockAssetService.getAsset).toHaveBeenCalledWith(assetId);
     });
 
     it('should not redirect to home page if the asset exists', () => {
       mockAssetService.getAsset.and.returnValue(asset);
-      new ViewCtrl(mock$location, { assetId: 'assetId' }, mockAssetService);
+      new ViewCtrl({ assetId: 'assetId' }, mockAssetService, mockNavigateService);
 
-      expect(mock$location.path).not.toHaveBeenCalled();
+      expect(mockNavigateService.toHome).not.toHaveBeenCalled();
     });
   });
 
@@ -56,7 +56,7 @@ describe('create.ViewCtrl', () => {
   describe('onBackClick', () => {
     it('should redirect to the home page', () => {
       ctrl.onBackClick();
-      expect(mock$location.path).toHaveBeenCalledWith('/');
+      expect(mockNavigateService.toHome).toHaveBeenCalledWith();
     });
   });
 });

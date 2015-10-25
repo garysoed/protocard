@@ -1,4 +1,8 @@
+import Field from './field';
 import RawSource from './raw-source';
+import Utils from '../utils';
+
+const __id__ = Symbol('id');
 
 /**
  * Represents an asset.
@@ -17,8 +21,9 @@ export default class {
     /**
      * @property id
      * @type {string}
+     * @readonly
      */
-    this.id = `asset.${Date.now()}`;
+    this[__id__] = `asset.${Date.now()}`;
 
     /**
      * @property name
@@ -31,6 +36,16 @@ export default class {
      * @type {data.RawSource}
      */
     this.source = null;
+
+    /**
+     * @property globals
+     * @type {Object}
+     */
+    this.globals = {};
+  }
+
+  get id() {
+    return this[__id__];
   }
 
   /**
@@ -43,7 +58,8 @@ export default class {
     return {
       id: this.id,
       name: this.name,
-      source: this.source ? this.source.toJSON() : null
+      source: this.source ? this.source.toJSON() : null,
+      globals: Utils.mapValue(this.globals, field => field.toJSON())
     };
   }
 
@@ -61,8 +77,9 @@ export default class {
     }
 
     let asset = new this(json['name']);
-    asset.id = json['id'];
+    asset[__id__] = json['id'];
     asset.source = RawSource.fromJSON(json['source']);
+    asset.globals = Utils.mapValue(json['globals'], json => Field.fromJSON(json));
     return asset;
   }
 
@@ -83,7 +100,8 @@ export default class {
     if (a instanceof this && b instanceof this) {
       return a.id === b.id
           && a.name === b.name
-          && RawSource.equals(a.source, b.source);
+          && RawSource.equals(a.source, b.source)
+          && Utils.equals(a.globals, b.globals, Field.equals.bind(Field));
     }
   }
 };
