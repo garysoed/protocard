@@ -8,7 +8,8 @@ export default angular
         controllerAs: 'ctrl',
         restrict: 'E',
         scope: {
-          field: '='
+          field: '=',
+          index: '='
         },
         templateUrl: './settings/field-editor.ng'
       };

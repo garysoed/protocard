@@ -15,7 +15,6 @@ gulp.task('compile', function() {
 gulp.task('test', gulp.series(
   'compile',
   function runTests_() {
-    // TODO(gs): Better jasmine reporter.
     return gulp.src(['out/**/*_test.js'])
         .pipe(jasmine({
           includeStackTrace: true

@@ -6,7 +6,7 @@
     </md-input-container>
   </div>
   <div>
-    <md-switch ng-model="isObject">
+    <md-switch ng-model="isObject" ng-change="ctrl.onObjectChange(isObject)">
       Is Object
     </md-switch>
   </div>

@@ -1,14 +1,14 @@
 Name	Element	Type	#	L	A	D	Description	Cost	Mech	Flav	Art	_override	@ cast	@ turn	@ tap						max tap	_cost	_lifetime	_adjustment	_hasEntrance
-									92.41%	74.68%	11.39%				tap 1	tap 2	tap 3	innate	attack	armor					
+									93.04%	79.75%	15.19%				tap 1	tap 2	tap 3	innate	attack	armor					
 Meditate	Base	Spell	10				Name an element. Replace a card in the draft slot until you reveal a card of the named element. Draft a card.	1	2	2			2.00								0.00	1.00	0	-1	FALSE
-Mind Link	Base	Enchantment	10				At the beginning of the turn, draw a card	2	2	1				1.00							0.00	2.00	2.00	0	FALSE
+Mind Link	Base	Enchantment	10				At the beginning of the turn, draw a card	2	2	2				1.00							0.00	2.00	2.00	0	FALSE
 Bot	Base	Minion	10	3	2	0		3	2	2	2							1.50	1.5	0.00	1.50	3.21	2.142857143	0	FALSE
 Energy Orb	Base	Device	10	3			{{>T}}: +1 Energy	2	2	2	2				1						1.00	2.14	2.142857143	0	FALSE
 Fire Ball	Fire	Spell	3				Damage up to 3 Minions by 1	1	2	2			2.25								0.00	1.25	0	-1	FALSE
-Magma Ball	Fire	Spell	2				Damage up to 2 Minions by 2	2	1	1			3.00								0.00	2.00	0	-1	FALSE
+Magma Ball	Fire	Spell	2				Damage up to 2 Minions by 2	2	2	2			3.00								0.00	2.00	0	-1	FALSE
 Overheat	Fire	Spell	2				While this card is in play, increase all damage you, or any cards you control do, by 1	1	2	2			2.25								0.00	1.25	0	-1	FALSE
 Recharge	Fire	Spell	3				Untap all your Devices	1	2	2			2.40								0.00	1.40	0	-1	FALSE
-Construct	Fire	Spell	2				Put a Device into play for free	2	1	2			2.50								0.00	1.50	0	-1	FALSE
+Construct	Fire	Spell	2				Put a Device into play for free	1	2	2		1	2.50								0.00	1.50	0	-1	FALSE
 Burning Aura	Fire	Enchantment	2				When this Minion is damaged, damage up to 2 Minions by 1	2	2	2				0.75							0.00	1.50	2.00	0	FALSE
 Combust	Fire	Enchantment	2				When this Minion is damaged, draw 2 cards	3	2	1				1.25							0.00	2.50	2.00	0	
 Warm Up	Fire	Enchantment	2				When this Minion is damaged, untap a device	1	1					0.45							0.00	0.90	2.00	0	FALSE
@@ -18,9 +18,9 @@ Fire Elemental	Fire	Minion	2	5	1	0	When this Minion takes a damage, draw a card	
 Salamander	Fire	Minion	2	3	2	0	When this Minion takes a damage, damage all opponent Minions by 1	5	2	2				0.75				1.50	1.5	0.00	1.50	4.82	2.142857143	0	FALSE
 Flame Whip	Fire	Device	3	3			{{>T}}: Damage a non Device you control by 1. If the target receives damage, increase all damage you or any cards you control do by 1 until the end of your turn.	3	2	2					1.5						1.50	3.21	2.142857143	0	FALSE
 Fire Ward	Fire	Device	3	3			{{>T}}: Damage up to 2 Minions by 1	3	2	2	2				1.5						1.50	3.21	2.142857143	0	FALSE
-Crown of Flame	Fire	Device	2	3			{{>T}}: Damage a non Device you control by 1. If the target receives damage, you may draft up to 2 cards	3	1						1.25						1.25	2.68	2.142857143	0	FALSE
+Flame Mask	Fire	Device	2	3			{{>T}}: Damage a non Device you control by 1. If the target receives damage, you may draft up to 2 cards	3	1						1.25						1.25	2.68	2.142857143	0	FALSE
 Fire Orb	Fire	Device	3	3			{{>T}}: Damage a non Device you control by 2. If the target receives damage, draw 3 cards	3	2	2					1.5						1.50	3.21	2.142857143	0	FALSE
-Thermo Cycle	Fire	Device	2	3			{{>T}}: Damage a non Device you control by 2. If the target receives damage, untap all your Devices	2	2						0.90						0.90	1.93	2.142857143	0	FALSE
+Carnot Engine	Fire	Device	2	3			{{>T}}: Damage a non Device you control by 2. If the target receives damage, untap all your Devices other than Carnot Engine	2	1	2					0.90						0.90	1.93	2.142857143	0	FALSE
 Magma Tower	Fire	Device	2	3			{{>T}}: Damage a non Device you control by 2. If the target receives damage, damage up to 2 Minions by 2	3	2	2					1.5						1.50	3.21	2.142857143	0	FALSE
 Solar Orb	Fire	Device	3	3			{{>T}}: Damage a non Device you control by 2. If the target receives damage, +3 Energy	3	2	2					1.5						1.50	3.21	2.142857143	0	FALSE
 Purify	Earth	Spell	3				Reveal the top 4 cards of the deck. Put any Minions in hand, discard the rest or replace them in any order. Draw a card.	1	1				2.20								0.00	1.20	0	-1	FALSE
@@ -57,7 +57,7 @@ Sylph	Air	Minion	3	2	1	0	When you play a Spell, pick a player. That player disca
 Garuda	Air	Minion	1	2	2	0	Flying	4	2	2				1.00				1.50	1.5	0.00	1.50	3.57	1.428571429	0	FALSE
 Poltergeist	Air	Minion	2	3	1.00	0	This Minion's attack power is equal to the number of Spells you have in play	2	2	2	2							0.75	0.75	0.00	0.75	1.61	2.142857143	0	FALSE
 Crystal Ball	Air	Device	3	3			{{>T}}: Reveal the top card of your deck. If it is a spell, put it into play for free. Otherwise, put it in your hand.	2	1	2				1.1							0.00	2.36	2.142857143	0	FALSE
-Mind Controller	Air	Device	2	3			{{>T}}: Take control a Minion with the same summoning cost as the number of Spell you have in play until the end of your turn.	2	2						1.00						1.00	2.14	2.142857143	0	FALSE
+Crown of Thrall	Air	Device	2	3			{{>T}}: Take control a Minion with the same summoning cost as the number of Spell you have in play until the end of your turn.	2	2	2					1.00						1.00	2.14	2.142857143	0	FALSE
 Mind Orb	Air	Device	2	3			{{>T}}: Draw a Card. Pick a player. Both you and that player take a card from hand and put it on top of the other player’s deck.	2	2	2					1.00						1.00	2.14	2.142857143	0	FALSE
 Redirection Chamber	Air	Device	2	3			{{>T}}: Pick a Minion. Redirect that Minion's next attack causing up to X damage, where X is the number of Spells in play, to a target of your choice.	3	2						1.50						1.50	3.21	2.142857143	0	FALSE
 Looking Glass	Air	Device	3	3			{{>T}}: Look at the top 4 cards of a deck. You may put any of them at the bottom of the deck in any order. Replace the rest of them in any order.	2	2	2	2				1.00						1.00	2.14	2.142857143	0	FALSE
@@ -71,11 +71,11 @@ Healing Water	Water	Enchantment	2				At the beginning of the turn, this Minion h
 Shiny Crystal	Water	Enchantment	2				At the beginning of the turn, pick an Enchantment on this Minion. This Enchantment gains all the abilities of that Enchantment.	2	2					1.10							0.00	2.20	2.00	0	FALSE
 Clarity	Water	Enchantment	2				At the beginning of the turn, draw X cards, where X is the number of Enchantments on this Minion	3	2					1.50							0.00	3.00	2.00	0	FALSE
 Ice Golem	Water	Minion	2	3	2	2	Discard an Enchantment from play or from hand to redirect damage to this Minion.	6	2	2				0.00				2.90	1.5	1.40	2.90	6.21	2.142857143	0	FALSE
-Water Elemental	Water	Minion	3	3	2	1	Discard an Enchantment from play or from hand to draw 2 cards.	6	2	2				0.50				2.50	1.5	1.00	2.50	6.43	2.142857143	0	FALSE
+Water Elemental	Water	Minion	3	3	2	1	Discard an Enchantment from play or from hand to draw 2 cards.	6	2	2	2			0.50				2.50	1.5	1.00	2.50	6.43	2.142857143	0	FALSE
 Water Blob	Water	Minion	2	5	1	1	Discard an Enchantment from play or from hand to fully heal a Minion.	6	2	2				-0.15				1.75	0.75	1.00	1.75	5.71	3.571428571	0	FALSE
-Apsara	Water	Minion	2	5	0	3	Discard an Enchantment from play or from hand to untap a Minion.	5	2	2				0.00				1.40	0	1.40	1.40	5.00	3.571428571	0	FALSE
+Apsara	Water	Minion	2	5	0	3	Discard an Enchantment from play or from hand to untap a Minion.	5	2	2	2			0.00				1.40	0	1.40	1.40	5.00	3.571428571	0	FALSE
 Naga	Water	Minion	3	5	1	1	Discard an Enchantment from play or from hand to increase this Minion's attack by 2 until the end of your turn.	6	2	2				0.00				1.75	0.75	1.00	1.75	6.25	3.571428571	0	FALSE
 Water Orb	Water	Device	2	3			{{>T}}: Pick a Minion. Draw X cards, where X is the number of Enchantments on that Minion.	3	2	2	2				1.5						1.50	3.21	2.142857143	0	FALSE
-Water Bearer	Water	Device	3	3			{{>T}}: Heal a Minion by the number of Enchantments on that Minion	2	2						1.125						1.13	2.41	2.142857143	0	FALSE
-Ice Sword	Water	Device	2	3			{{>T}}: Pick a Minion. Increase that Minion's attack by X until the end of your turn, where X is the number of Enchantments on that Minion.	2	2	2					1.125						1.13	2.41	2.142857143	0	FALSE
+Curative Salve	Water	Device	3	3			{{>T}}: Heal a Minion by the number of Enchantments on that Minion	2	2	2					1.125						1.13	2.41	2.142857143	0	FALSE
+Ice Trident	Water	Device	2	3			{{>T}}: Pick a Minion. Increase that Minion's attack by X until the end of your turn, where X is the number of Enchantments on that Minion.	2	2	2	2				1.125						1.13	2.41	2.142857143	0	FALSE
 Refreshing Jar	Water	Device	2	3			{{>T}}: Untap a Minion	3	2	2					1.5						1.50	3.21	2.142857143	0	FALSE

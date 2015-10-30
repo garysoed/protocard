@@ -1,4 +1,6 @@
 <div layout="column">
-  <pc-field-editor ng-repeat="(key, field) in ctrl.getFields()" field="field"></pc-field-editor>
+  <pc-field-editor ng-repeat="(key, field) in ctrl.getFields()"
+      field="field"
+      index="index"></pc-field-editor>
   <md-button ng-click="ctrl.onAddClick()">Add</md-button>
 </div>

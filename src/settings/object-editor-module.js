@@ -11,6 +11,7 @@ export default angular
         controllerAs: 'ctrl',
         restrict: 'E',
         scope: {
+          index: '=',
           object: '='
         },
         templateUrl: './settings/object-editor.ng'

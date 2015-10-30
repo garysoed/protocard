@@ -14,15 +14,15 @@
 
   .name {
     font-family: 'Audiowide', cursive;
-    font-size: 4rem;
+    font-size: 3.5rem;
     text-align: center;
     color: white;
     text-shadow: 2px 2px black;
     position: absolute;
     left: 46px;
-    top: 81px;
+    top: 87px;
     width: 619px;
-    height: 82px;
+    height: 69px;
   }
 
   .cost {
@@ -42,7 +42,12 @@
     left: 94px;
     top: 172px;
     width: 637px;
-    height: 434px;
+    {{#ifeq _.type "device"}}
+      height: 434px;
+    {{/ifeq}}
+    {{#ifeq _.type "minion"}}
+      height: 375px;
+    {{/ifeq}}
   }
 
   .stats {
@@ -156,6 +161,8 @@
 
   .art {
     background-image: url("assets/images/{{lowercase _.name}}.png");
+    background-position: center;
+    background-size: contain;
   }
 </style>
 
