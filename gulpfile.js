@@ -1,10 +1,12 @@
-var babel   = require('gulp-babel');
-var concat  = require('gulp-concat');
-var gulp    = require('gulp');
-var debug   = require('gulp-debug');
-var jasmine = require('gulp-jasmine');
-var myth    = require('gulp-myth');
-var webpack = require('gulp-webpack');
+var babel      = require('gulp-babel');
+var concat     = require('gulp-concat');
+var gulp       = require('gulp');
+var debug      = require('gulp-debug');
+var insert     = require('gulp-insert');
+var jasmine    = require('gulp-jasmine');
+var myth       = require('gulp-myth');
+var sourcemaps = require('gulp-sourcemaps');
+var webpack    = require('gulp-webpack-sourcemaps');
 
 gulp.task('compile', function() {
   return gulp.src(['src/**/*.js'])
@@ -48,9 +50,14 @@ gulp.task('compile-ui', gulp.series(
         },
     function pack_() {
       return gulp.src(['out/app.js'])
+          .pipe(sourcemaps.init())
           .pipe(webpack({
-            output: { filename: 'js.js' }
+            output: {
+              filename: 'js.js'
+            }
           }))
+          .pipe(insert.append('//# sourceMappingURL=app.js.map'))
+          .pipe(sourcemaps.write('./', { includeContent: true }))
           .pipe(gulp.dest('out'));
     }
 ));
