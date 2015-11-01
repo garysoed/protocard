@@ -1,20 +1,22 @@
-<div ng-show="!ctrl.hasData()">
-  <label for="data">Raw Data</label>
-  <input type="file" name="data">
-  <label for="template">Template</label>
-  <input type="file" name="template">
-  <md-button ng-click="ctrl.onLoadClick()">
-    Load
-  </md-button>
-</div>
+<div class="generate-view">
+  <div ng-show="!ctrl.hasData()">
+    <label for="data">Raw Data</label>
+    <input type="file" name="data">
+    <label for="template">Template</label>
+    <input type="file" name="template">
+    <md-button ng-click="ctrl.onLoadClick()">
+      Load
+    </md-button>
+  </div>
 
-<div ng-show="ctrl.hasData()">
-  <md-button ng-click="ctrl.onGenerateClick()">
-    Generate
-  </md-button>
-</div>
+  <div ng-show="ctrl.hasData()">
+    <md-button ng-click="ctrl.onGenerateClick()">
+      Generate
+    </md-button>
+  </div>
 
-<pc-preview content="ctrl.getGeneratedData(name)"
-    ng-repeat="(name, data) in ctrl.getGenerated()"
-    id="{{name}}">
-</pc-preview>
+  <pc-preview content="ctrl.getGeneratedData(name)"
+      ng-repeat="(name, data) in ctrl.getGenerated()"
+      id="{{name}}">
+  </pc-preview>
+</div>

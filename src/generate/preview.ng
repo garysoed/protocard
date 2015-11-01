@@ -1,3 +1,3 @@
-<div>
-  <content></content>
+<div class="generate-preview">
+  <iframe style="width: 825px; height: 1125px;" src="generate/preview-app.html"></iframe>
 </div>

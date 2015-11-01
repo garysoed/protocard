@@ -1,8 +1,8 @@
-<script src="../../bower_components/html2canvas/build/html2canvas.js"></script>
-
 <style>
   @import url(https://fonts.googleapis.com/css?family=Audiowide);
   @import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+  .unused {} /** For some reason the first selector is ignored ... */
 
   .root {
     display: flex;
@@ -10,6 +10,9 @@
     width: {{_pc.size.width}};
     height: {{_pc.size.height}};
     box-sizing: border-box;
+    background-image: url("assets/backgrounds/cost.png"),
+                      url("{{frame _.element}}"),
+                      url("{{bg _.type _.element}}");
   }
 
   .name {
@@ -39,14 +42,14 @@
 
   .art {
     position: absolute;
-    left: 94px;
+    left: 78px;
     top: 172px;
-    width: 637px;
+    width: 673px;
     {{#ifeq _.type "device"}}
       height: 434px;
     {{/ifeq}}
     {{#ifeq _.type "minion"}}
-      height: 375px;
+      height: 409px;
     {{/ifeq}}
   }
 
@@ -60,25 +63,25 @@
 
   .life, .attack, .armor {
     font-family: 'Montserrat', sans-serif;
-    font-size: 4rem;
+    font-size: 3rem;
     color: white;
     width: 78px;
-    height: 78px;
+    height: 57px;
     text-align: center;
     position: absolute;
-    top: 507px;
+    top: 529px;
   }
 
   .life {
-    left: 205px;
+    left: 163px;
   }
 
   .attack {
-    left: 372px;
+    left: 290px;
   }
 
   .armor {
-    left: 550px;
+    left: 423px;
   }
 
   .type {
@@ -140,14 +143,6 @@
     border: 3px solid black;
     border-radius: 23px;
   }
-</style>
-
-<style>
-  .root {
-    background-image: url("assets/backgrounds/cost.png"),
-                      url("{{frame _.element}}"),
-                      url("{{bg _.type _.element}}");
-  }
 
   .stats {
     background-image: {{#ifeq _.type "device"}}
@@ -162,22 +157,14 @@
   .art {
     background-image: url("assets/images/{{lowercase _.name}}.png");
     background-position: center;
-    background-size: contain;
+    background-size: auto 409px;
+    /** background-size: contain; */ /* TODO(gs): html2canvas doesn't support this */
+    background-repeat: no-repeat;
   }
 </style>
 
 <script>
-  window.render = function() {
-    html2canvas(document.querySelector('.root'), {
-      onrendered: function(canvas) {
-        var targetCanvas = document.querySelector('canvas');
-        var ctx = targetCanvas.getContext('2d');
-        ctx.drawImage(canvas, 0, 0, 825, 1125);
-        var dataUri = targetCanvas.toDataURL('image/png');
-        document.querySelector('a').href = dataUri;
-      }
-    });
-  };
+
 </script>
 <div class="root">
   <div class="name">{{_.name}}</div>

@@ -6,7 +6,7 @@ var insert     = require('gulp-insert');
 var jasmine    = require('gulp-jasmine');
 var myth       = require('gulp-myth');
 var sourcemaps = require('gulp-sourcemaps');
-var webpack    = require('gulp-webpack-sourcemaps');
+var webpack    = require('gulp-webpack');
 
 gulp.task('compile', function() {
   return gulp.src(['src/**/*.js'])
@@ -42,13 +42,17 @@ gulp.task('compile-ui', gulp.series(
         function ng_() {
           return gulp.src(['src/**/*.ng'])
               .pipe(gulp.dest('out'));
-        }),
+        },
         function api_() {
           return gulp.src(['api/test.js'])
               .pipe(concat('api.js'))
               .pipe(gulp.dest('out'));
         },
-    function pack_() {
+        function subPages_() {
+          return gulp.src(['src/**/*.html'])
+              .pipe(gulp.dest('out'));
+        }),
+    function packApp_() {
       return gulp.src(['out/app.js'])
           .pipe(sourcemaps.init())
           .pipe(webpack({
@@ -56,9 +60,19 @@ gulp.task('compile-ui', gulp.series(
               filename: 'js.js'
             }
           }))
-          .pipe(insert.append('//# sourceMappingURL=app.js.map'))
           .pipe(sourcemaps.write('./', { includeContent: true }))
           .pipe(gulp.dest('out'));
+    },
+    function packPreview_() {
+      return gulp.src(['out/generate/preview-app.js'])
+          .pipe(sourcemaps.init())
+          .pipe(webpack({
+            output: {
+              filename: 'js.js'
+            }
+          }))
+          .pipe(sourcemaps.write('./', { includeContent: true }))
+          .pipe(gulp.dest('out/generate'));
     }
 ));
 

@@ -1,0 +1,10 @@
+.generate-preview {
+  display: inline-block;
+  height: 562.5px;
+}
+
+.generate-preview .small {
+  display: inline-block;
+  width: 412.5px;
+  height: 562.5px;
+}

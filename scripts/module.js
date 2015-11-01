@@ -31,7 +31,7 @@ export default angular
     .module('pc.${namespace}.${moduleClassName}', [])
     .directive('pc${className}', () => {
       return {
-        controller: ${ctrClassName},
+        controller: ${ctrlClassName},
         controllerAs: 'ctrl',
         restrict: 'E',
         scope: {
