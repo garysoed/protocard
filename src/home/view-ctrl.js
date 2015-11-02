@@ -47,7 +47,7 @@ export default class {
     return this[__createAssetDialogService__].show($event)
         .then(asset => {
           this[__assetService__].saveAsset(asset);
-          this[__navigateService__].toAssetHome(asset.id);
+          this[__navigateService__].toAsset(asset.id);
         });
   }
 
@@ -58,6 +58,8 @@ export default class {
    * @param {string} selectedAssetId ID of the selected asset.
    */
   onSelectClosed(selectedAssetId) {
-    this[__navigateService__].toAssetHome(selectedAssetId);
+    if (selectedAssetId) {
+      this[__navigateService__].toAsset(selectedAssetId);
+    }
   }
 };

@@ -1,6 +1,3 @@
-const __asset__ = Symbol('asset');
-const __navigateService__ = Symbol('navigateService');
-
 /**
  * Controller for the create page view.
  *
@@ -15,34 +12,53 @@ export default class {
    * @param {common.NavigateService} NavigateService
    */
   constructor($routeParams, AssetService, NavigateService) {
-    this[__asset__] = AssetService.getAsset($routeParams.assetId);
-    this[__navigateService__] = NavigateService;
-    if (!this[__asset__]) {
+    this.asset_ = AssetService.getAsset($routeParams['assetId']);
+    this.navigateService_ = NavigateService;
+    this.subview_ = $routeParams['section'] || null;
+    if (!this.asset_) {
       NavigateService.toHome();
     }
   }
 
   /**
-   * @method getAsset
-   * @return {data.Asset} The asset in context.
+   * Name of the asset viewed.
+   *
+   * @property assetName
+   * @type {string}
+   * @readonly
    */
-  getAsset() {
-    return this[__asset__];
+  get assetName() {
+    return this.asset_.name;
   }
 
   /**
-   * @method getAssetName
-   * @return {string} The name of the asset in context.
+   * Name of the current subview.
+   *
+   * @property subview
+   * @type {string}
+   * @readonly
    */
-  getAssetName() {
-    return this[__asset__].name;
+  get subview() {
+    return this.subview_;
   }
 
   /**
    * Handler called when the back button is clicked.
+   *
    * @method onBackClick
    */
   onBackClick() {
-    this[__navigateService__].toHome();
+    this.navigateService_.toHome();
+  }
+
+  /**
+   * Handler called when the navigation button is clicked.
+   *
+   * @method onNavigateClick
+   * @param {string} value Name of subview to navigate to.
+   */
+  onNavigateClick(value) {
+    this.subview_ = value;
+    this.navigateService_.toAsset(this.asset_.id, value);
   }
 };

@@ -1,0 +1,12 @@
+.accordion .header {
+  cursor: pointer;
+}
+
+.accordion .content {
+  overflow: hidden;
+  transition: height .2s;
+}
+
+.accordion.expanded .content {
+  transition: height .2s;
+}

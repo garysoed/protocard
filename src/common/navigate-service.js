@@ -13,12 +13,14 @@ export default class {
   }
 
   /**
-   * Navigates to asset home.
-   * @method toAssetHome
+   * Navigates to the given asset's subview.
+   *
+   * @method toAsset
    * @param {string} assetId ID of asset to navigate to.
+   * @param {string} [subview] Name of asset subview to navigate to. Defaults to empty string.
    */
-  toAssetHome(assetId) {
-    this[__$location__].path(`/asset/${assetId}`);
+  toAsset(assetId, subview = '') {
+    this[__$location__].path(`/asset/${assetId}/${subview}`);
   }
 
   /**

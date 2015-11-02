@@ -2,38 +2,57 @@
   <md-toolbar>
     <div class="md-toolbar-tools">
       <md-button ng-click="ctrl.onBackClick()">
-        back
+        Back
       </md-button>
-      <h2>{{ctrl.getAssetName()}}</h2>
+      <h2>{{ctrl.assetName}}</h2>
     </div>
   </md-toolbar>
   <section layout="row">
-    <md-content class="actions" layout="column">
-      <pc-settings-card asset="ctrl.getAsset()"></pc-settings-card>
-      <md-card>
-        <md-card-content>
-          <h2>Data</h2>
-          Text data
-        </md-card-content>
-        <md-divider></md-divider>
-        <md-card-content>Other data</md-card-content>
-      </md-card>
-      <md-card>
-        <md-card-content>
-          <h2>Template</h2>
-          Main template
-        </md-card-content>
-        <md-divider></md-divider>
-        <md-card-content>Partials</md-card-content>
-      </md-card>
-      <md-card>
-        <md-card-content>
-          <h2>Preview</h2>
-        </md-card-content>
-      </md-card>
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2"
+        md-component-id="left"
+        md-is-locked-open="$mdMedia('gt-sm')">
+      <md-content layout="column">
+        <pc-accordion title="Settings">
+          <div layout="column">
+            <!-- Use custom radio button -->
+            <md-button ng-click="ctrl.onNavigateClick('global')">
+              Global values
+            </md-button>
+            <md-button>Helper functions</md-button>
+          </div>
+        </pc-accordion>
+
+
+        <md-card>
+          <md-card-content>
+            <h2>Data</h2>
+            Text data
+          </md-card-content>
+          <md-divider></md-divider>
+          <md-card-content>Other data</md-card-content>
+        </md-card>
+        <md-card>
+          <md-card-content>
+            <h2>Template</h2>
+            Main template
+          </md-card-content>
+          <md-divider></md-divider>
+          <md-card-content>Partials</md-card-content>
+        </md-card>
+        <md-card>
+          <md-card-content>
+            <h2>Preview</h2>
+          </md-card-content>
+        </md-card>
+      </md-content>
+    </md-sidenav>
+    <md-content flex>
+      <div ng-switch on="ctrl.subview">
+        <div ng-switch-when="global">
+          <pc-asset-global></pc-asset-global>
+        </div>
+        <div ng-switch-default>Click the left</div>
+      </div>
     </md-content>
-    <section flex>
-      TODO(gs): PREVIEW
-    </section>
   </section>
 </div>

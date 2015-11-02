@@ -10,7 +10,7 @@ describe('asset.ViewCtrl', () => {
 
   beforeEach(() => {
     asset = new Asset('test');
-    mockNavigateService = jasmine.createSpyObj('NavigateService', ['toHome']);
+    mockNavigateService = jasmine.createSpyObj('NavigateService', ['toHome', 'toAsset']);
 
     let mockAssetService = jasmine.createSpyObj('AssetService', ['getAsset']);
     mockAssetService.getAsset.and.returnValue(asset);
@@ -41,15 +41,9 @@ describe('asset.ViewCtrl', () => {
     });
   });
 
-  describe('getAsset', () => {
-    it('should return the asset', () => {
-      expect(ctrl.getAsset()).toEqual(asset);
-    });
-  });
-
-  describe('getAssetName', () => {
+  describe('get assetName', () => {
     it('should return the asset name', () => {
-      expect(ctrl.getAssetName()).toEqual(asset.name);
+      expect(ctrl.assetName).toEqual(asset.name);
     });
   });
 
@@ -57,6 +51,15 @@ describe('asset.ViewCtrl', () => {
     it('should redirect to the home page', () => {
       ctrl.onBackClick();
       expect(mockNavigateService.toHome).toHaveBeenCalledWith();
+    });
+  });
+
+  describe('onNavigateClick', () => {
+    it('should navigate to the right subview', () => {
+      let newSubview = 'newSubview';
+      ctrl.onNavigateClick(newSubview);
+
+      expect(mockNavigateService.toAsset).toHaveBeenCalledWith(asset.id, newSubview);
     });
   });
 });
