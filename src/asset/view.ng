@@ -46,13 +46,9 @@
         </md-card>
       </md-content>
     </md-sidenav>
-    <md-content flex>
-      <div ng-switch on="ctrl.subview">
-        <div ng-switch-when="global">
-          <pc-asset-global></pc-asset-global>
-        </div>
-        <div ng-switch-default>Click the left</div>
-      </div>
+    <md-content ng-switch on="ctrl.subview" flex layout="column">
+      <pc-asset-global flex ng-switch-when="global" asset="ctrl.asset"></pc-asset-global>
+      <div ng-switch-default>Click the left menu</div>
     </md-content>
   </section>
 </div>

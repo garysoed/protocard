@@ -1,21 +1,27 @@
 import AceServiceModule from '../thirdparty/ace-service-module';
 import CodeEditorCtrl from './code-editor-ctrl';
 
+// TODO(gs): Test this.
+export function link(scope, element, attr, ctrls) {
+  let [codeEditorCtrl, ngModelCtrl] = ctrls;
+  codeEditorCtrl.onLink(element[0].querySelector('.editor'), scope['language'], ngModelCtrl);
+};
+
 export default angular
     .module('pc.editor.CodeEditorModule', [
       'ngMaterial',
       AceServiceModule.name
     ])
-    .directive('pcCodeEditor', (AceService) => {
+    .directive('pcCodeEditor', () => {
       return {
         controller: CodeEditorCtrl,
         controllerAs: 'ctrl',
+        require: ['pcCodeEditor', 'ngModel', '?ngChange'],
         restrict: 'E',
         scope: {
+          'language': '@'
         },
         templateUrl: './editor/code-editor.ng',
-        link: function(scope, element) {
-
-        }
+        link: link
       };
     });

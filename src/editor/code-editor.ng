@@ -1,4 +1,4 @@
-<div>
-  <div></div>
-  <md-button>Save</md-button>
+<div layout="column" class="pc-fill-parent">
+  <div class="editor" flex></div>
+  <md-button ng-click="ctrl.onSaveClick()">Save</md-button>
 </div>

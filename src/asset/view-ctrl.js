@@ -21,6 +21,17 @@ export default class {
   }
 
   /**
+   * The asset viewed.
+   *
+   * @property asset
+   * @type {data.Asset}
+   * @readonly
+   */
+  get asset() {
+    return this.asset_;
+  }
+
+  /**
    * Name of the asset viewed.
    *
    * @property assetName

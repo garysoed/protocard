@@ -1,1 +1,4 @@
-TODO: global
+<div class="asset-global pc-fill-parent" layout="column" ng-init="ctrl.onInit()">
+  <pc-code-editor flex ng-model="globalsString" language="json" onsave="ctrl.onChange()">
+  </pc-code-editor>
+</div>

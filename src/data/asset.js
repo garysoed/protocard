@@ -2,8 +2,6 @@ import Field from './field';
 import RawSource from './raw-source';
 import Utils from '../utils';
 
-const __id__ = Symbol('id');
-
 /**
  * Represents an asset.
  *
@@ -18,12 +16,7 @@ export default class {
    * @param {string} name Name of the asset.
    */
   constructor(name) {
-    /**
-     * @property id
-     * @type {string}
-     * @readonly
-     */
-    this[__id__] = `asset.${Date.now()}`;
+    this.id_ = `asset.${Date.now()}`;
 
     /**
      * @property name
@@ -36,16 +29,41 @@ export default class {
      * @type {data.RawSource}
      */
     this.source = null;
-
-    /**
-     * @property globals
-     * @type {Object}
-     */
-    this.globals = {};
+    this.globalsString_ = JSON.stringify(this.globals_);
   }
 
+  /**
+   * @property id
+   * @type {string}
+   * @readonly
+   */
   get id() {
-    return this[__id__];
+    return this.id_;
+  }
+
+  /**
+   * JSON representation of the globals object.
+   * WARNING: This method can be very expensive.
+   *
+   * @property globals
+   * @type {Object}
+   * @readonly
+   */
+  get globals() {
+    return JSON.parse(this.globalsString_);
+  }
+
+  /**
+   * String representation of the globals object.
+   *
+   * @property globalsString
+   * @type {string}
+   */
+  get globalsString() {
+    return this.globalsString_;
+  }
+  set globalsString(newValue) {
+    this.globalsString_ = newValue;
   }
 
   /**
@@ -59,7 +77,7 @@ export default class {
       id: this.id,
       name: this.name,
       source: this.source ? this.source.toJSON() : null,
-      globals: Utils.mapValue(this.globals, field => field.toJSON())
+      globals: this.globalsString
     };
   }
 
@@ -77,9 +95,9 @@ export default class {
     }
 
     let asset = new this(json['name']);
-    asset[__id__] = json['id'];
+    asset.id_ = json['id'];
     asset.source = RawSource.fromJSON(json['source']);
-    asset.globals = Utils.mapValue(json['globals'], json => Field.fromJSON(json));
+    asset.globalsString = json['globals'];
     return asset;
   }
 
@@ -101,7 +119,7 @@ export default class {
       return a.id === b.id
           && a.name === b.name
           && RawSource.equals(a.source, b.source)
-          && Utils.equals(a.globals, b.globals, Field.equals.bind(Field));
+          && Utils.equals(a.globals, b.globals);
     }
   }
 };
