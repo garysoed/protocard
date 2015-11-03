@@ -7,17 +7,23 @@ describe('asset.ViewCtrl', () => {
   let asset;
   let mockNavigateService;
   let ctrl;
+  let $scope;
 
   beforeEach(() => {
+    $scope = {};
     asset = new Asset('test');
     mockNavigateService = jasmine.createSpyObj('NavigateService', ['toHome', 'toAsset']);
 
     let mockAssetService = jasmine.createSpyObj('AssetService', ['getAsset']);
     mockAssetService.getAsset.and.returnValue(asset);
-    ctrl = new ViewCtrl({ assetId: 'assetId' }, mockAssetService, mockNavigateService);
+    ctrl = new ViewCtrl(
+        $scope,
+        { assetId: 'assetId', section: 'section' },
+        mockAssetService,
+        mockNavigateService);
   });
 
-  describe('constructor', () => {
+  describe('onInit', () => {
     let mockAssetService;
 
     beforeEach(() => {
@@ -27,7 +33,12 @@ describe('asset.ViewCtrl', () => {
     it('should redirect to home page if the asset does not exist', () => {
       let assetId = 'assetId';
       mockAssetService.getAsset.and.returnValue(null);
-      new ViewCtrl({ assetId: assetId }, mockAssetService, mockNavigateService);
+      ctrl = new ViewCtrl(
+          $scope,
+          { assetId: 'assetId', section: 'section' },
+          mockAssetService,
+          mockNavigateService);
+      ctrl.onInit();
 
       expect(mockNavigateService.toHome).toHaveBeenCalledWith();
       expect(mockAssetService.getAsset).toHaveBeenCalledWith(assetId);
@@ -35,9 +46,15 @@ describe('asset.ViewCtrl', () => {
 
     it('should not redirect to home page if the asset exists', () => {
       mockAssetService.getAsset.and.returnValue(asset);
-      new ViewCtrl({ assetId: 'assetId' }, mockAssetService, mockNavigateService);
+      ctrl.onInit();
 
       expect(mockNavigateService.toHome).not.toHaveBeenCalled();
+    });
+
+    it('should set the subview in the $scope', () => {
+      ctrl.onInit();
+
+      expect($scope['subview']).toEqual('section');
     });
   });
 

@@ -12,14 +12,10 @@ export default class {
    * @param {common.NavigateService} NavigateService
    */
   constructor($scope, $routeParams, AssetService, NavigateService) {
+    this.$scope_ = $scope;
     this.asset_ = AssetService.getAsset($routeParams['assetId']);
     this.navigateService_ = NavigateService;
     this.subview_ = $routeParams['section'] || null;
-    
-    $scope['subview'] = this.subview_;
-    if (!this.asset_) {
-      NavigateService.toHome();
-    }
   }
 
   /**
@@ -62,6 +58,18 @@ export default class {
    */
   onBackClick() {
     this.navigateService_.toHome();
+  }
+
+  /**
+   * Handler called when the controller is initialized
+   *
+   * @method onInit
+   */
+  onInit() {
+    this.$scope_['subview'] = this.subview_;
+    if (!this.asset_) {
+      this.navigateService_.toHome();
+    }
   }
 
   /**
