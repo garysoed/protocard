@@ -11,10 +11,12 @@ export default class {
    * @param {data.AssetService} AssetService
    * @param {common.NavigateService} NavigateService
    */
-  constructor($routeParams, AssetService, NavigateService) {
+  constructor($scope, $routeParams, AssetService, NavigateService) {
     this.asset_ = AssetService.getAsset($routeParams['assetId']);
     this.navigateService_ = NavigateService;
     this.subview_ = $routeParams['section'] || null;
+    
+    $scope['subview'] = this.subview_;
     if (!this.asset_) {
       NavigateService.toHome();
     }

@@ -1,7 +1,0 @@
-<div class="accordion {{ctrl.isExpanded ? 'expanded' : ''}}" ng-init="ctrl.onInit()">
-  <div class="header" ng-click="ctrl.onHeaderClick()">
-    <h2 layout-padding>{{title}}</h2>
-    <!-- TODO(gs): Add icon -->
-  </div>
-  <div class="content" ng-transclude></div>
-</div>

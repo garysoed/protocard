@@ -1,4 +1,4 @@
-<div class="asset-view" layout="column">
+<div class="asset-view" layout="column" ng-init="ctrl.onInit()">
   <md-toolbar>
     <div class="md-toolbar-tools">
       <md-button ng-click="ctrl.onBackClick()">
@@ -12,15 +12,17 @@
         md-component-id="left"
         md-is-locked-open="$mdMedia('gt-sm')">
       <md-content layout="column">
-        <pc-accordion title="Settings">
-          <div layout="column">
-            <!-- Use custom radio button -->
-            <md-button ng-click="ctrl.onNavigateClick('global')">
-              Global values
-            </md-button>
-            <md-button>Helper functions</md-button>
+        <md-radio-group ng-model="subview" ng-change="ctrl.onNavigateClick(subview)">
+          <div>
+            <div>
+              <h2 layout-padding>Settings</h2>
+            </div>
+            <div layout="column">
+              <md-radio-button value="global">Global values</md-radio-button>
+              <md-radio-button value="helper">Helper functions</md-radio-button>
+            </div>
           </div>
-        </pc-accordion>
+        </md-radio-group>
 
 
         <md-card>
