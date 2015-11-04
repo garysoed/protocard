@@ -21,6 +21,29 @@ export default class {
     this.aceService_ = AceService;
     this.editor_ = null;
     this.ngModelCtrl_ = null;
+    this.valid_ = true;
+  }
+
+  /**
+   * Handler called when the ctrl is destroy.
+   *
+   * @method on$destroy_
+   * @private
+   */
+  on$destroy_() {
+    this.editor_.destroy();
+  }
+
+  /**
+   * Handler called when the editor's annotation list has changed.
+   *
+   * @method onEditorChangeAnnotation_
+   * @private
+   */
+  onEditorChangeAnnotation_() {
+    this.$scope_.$apply(() => {
+      this.valid_ = this.editor_.getSession().getAnnotations().length === 0;
+    });
   }
 
   /**
@@ -35,6 +58,17 @@ export default class {
   }
 
   /**
+   * True iff the editor value is valid.
+   *
+   * @property isValid
+   * @type {Boolean}
+   * @readonly
+   */
+  get isValid() {
+    return this.valid_;
+  }
+
+  /**
    * Handler called when the controller is linked.
    *
    * @method onLink
@@ -46,11 +80,17 @@ export default class {
     this.editor_ = this.aceService_.edit(editorEl);
     this.editor_.setTheme('ace/theme/monokai');
 
-    this.editor_.getSession().setTabSize(2);
-    this.editor_.getSession().setMode(`ace/mode/${language}`);
+    let session = this.editor_.getSession();
+    session.setTabSize(2);
+    session.setMode(`ace/mode/${language}`);
+    session.on('changeAnnotation', this.onEditorChangeAnnotation_.bind(this));
+
+    this.valid_ = session.getAnnotations().length === 0;
 
     this.ngModelCtrl_ = ngModelCtrl;
     ngModelCtrl.$render = this.renderModel_.bind(this);
+
+    this.$scope_.$on('$destroy', this.on$destroy_.bind(this));
   }
 
   /**

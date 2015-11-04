@@ -1,4 +1,6 @@
 <div layout="column" class="pc-fill-parent">
   <div class="editor" flex></div>
-  <md-button ng-click="ctrl.onSaveClick()">Save</md-button>
+  <md-button ng-click="ctrl.onSaveClick()" ng-disabled="!ctrl.isValid">
+    Save
+  </md-button>
 </div>
