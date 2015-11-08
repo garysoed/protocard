@@ -4,13 +4,15 @@ import CodeEditorCtrl, { Events } from './code-editor-ctrl';
 
 describe('editor.CodeEditorCtrl', () => {
   let mock$scope;
+  let mock$timeout;
   let mockAceService;
   let ctrl;
 
   beforeEach(() => {
-    mock$scope = jasmine.createSpyObj('$scope', ['$emit', '$on', '$apply']);
+    mock$scope = jasmine.createSpyObj('$scope', ['$emit', '$on']);
+    mock$timeout = jasmine.createSpy('$timeout');
     mockAceService = jasmine.createSpyObj('AceService', ['edit']);
-    ctrl = new CodeEditorCtrl(mock$scope, mockAceService);
+    ctrl = new CodeEditorCtrl(mock$scope, mock$timeout, mockAceService);
   });
 
   function createMockEditor() {
@@ -20,6 +22,7 @@ describe('editor.CodeEditorCtrl', () => {
 
     mockSession = jasmine.
         createSpyObj('session', ['setTabSize', 'setMode', 'on', 'getAnnotations']);
+    mockSession.getAnnotations.and.returnValue([]);
     mockSelection = jasmine.createSpyObj('selection', ['clearSelection']);
     mockEditor = jasmine.createSpyObj(
         'editor', ['setTheme', 'getSession', 'getValue', 'setValue', 'destroy']);
@@ -32,6 +35,18 @@ describe('editor.CodeEditorCtrl', () => {
       editor: mockEditor
     };
   }
+
+  it('should destroy the editor when receiving the $destroy event', () => {
+    let mocks = createMockEditor();
+    mockAceService.edit.and.returnValue(mocks.editor);
+
+    ctrl.onLink({}, 'language', {});
+
+    expect(mock$scope.$on).toHaveBeenCalledWith('$destroy', jasmine.any(Function));
+    mock$scope.$on.calls.argsFor(0)[1]();
+
+    expect(mocks.editor.destroy).toHaveBeenCalledWith();
+  });
 
   describe('onLink', () => {
     let mockSession;
@@ -87,50 +102,47 @@ describe('editor.CodeEditorCtrl', () => {
 
       expect(ctrl.isValid).toEqual(true);
     });
-
-    it('should destroy the editor when receiving the $destroy event', () => {
-      ctrl.onLink({}, 'language', {});
-
-      expect(mock$scope.$on).toHaveBeenCalledWith('$destroy', jasmine.any(Function));
-      mock$scope.$on.calls.argsFor(0)[1]();
-
-      expect(mockEditor.destroy).toHaveBeenCalledWith();
-    });
-
-    it('should update the isValid value when receiving changeAnnotation event', () => {
-      let annotations = ['a'];
-      mockSession.getAnnotations.and.returnValue(annotations);
-
-      ctrl.onLink({}, 'language', {});
-
-      expect(mockSession.on).toHaveBeenCalledWith('changeAnnotation', jasmine.any(Function));
-      mockSession.on.calls.argsFor(0)[1]();
-
-      expect(mock$scope.$apply).toHaveBeenCalledWith(jasmine.any(Function));
-      mock$scope.$apply.calls.argsFor(0)[0]();
-
-      expect(ctrl.isValid).toEqual(false);
-    });
   });
 
-  describe('onSaveClick', () => {
-    it('should emit the save event and update the model value', () => {
-      let ngModelCtrl = jasmine.createSpyObj('ngModelCtrl', ['$setViewValue']);
-      let newValue = 'newValue';
+  describe('onEditorChangeAnnotation_', () => {
+    let onChangeAnnotationHandler;
+    let mockEditor;
+    let mockNgModelCtrl;
+    let mockSession;
 
+    beforeEach(() => {
       let mocks = createMockEditor();
-      let mockEditor = mocks.editor;
-      mockEditor.getValue.and.returnValue(newValue);
-
-      let mockSession = mocks.session;
-      mockSession.getAnnotations.and.returnValue([]);
+      mockEditor = mocks.editor;
+      mockNgModelCtrl = jasmine.createSpyObj('ngModelCtrl', ['$setViewValue']);
+      mockSession = mocks.session;
       mockAceService.edit.and.returnValue(mockEditor);
 
-      ctrl.onLink({}, 'language', ngModelCtrl);
-      ctrl.onSaveClick();
+      ctrl.onLink({}, 'language', mockNgModelCtrl);
+      onChangeAnnotationHandler = mockSession.on.calls.argsFor(0)[1];
+    });
 
-      expect(ngModelCtrl.$setViewValue).toHaveBeenCalledWith(newValue);
-      expect(mock$scope.$emit).toHaveBeenCalledWith(Events.SAVE);
+    it('should trigger digest and update the model view value', () => {
+      let value = 'value';
+      mockEditor.getValue.and.returnValue(value);
+      mockSession.getAnnotations.and.returnValue([]);
+
+      onChangeAnnotationHandler();
+
+      expect(mock$timeout).toHaveBeenCalledWith(jasmine.any(Function));
+      mock$timeout.calls.argsFor(0)[0]();
+
+      expect(mockNgModelCtrl.$setViewValue).toHaveBeenCalledWith(value);
+    });
+
+    it('should update the model view value to null if invalid', () => {
+      mockSession.getAnnotations.and.returnValue(['annotation']);
+
+      onChangeAnnotationHandler();
+
+      expect(mock$timeout).toHaveBeenCalledWith(jasmine.any(Function));
+      mock$timeout.calls.argsFor(0)[0]();
+
+      expect(mockNgModelCtrl.$setViewValue).toHaveBeenCalledWith(null);
     });
   });
 });

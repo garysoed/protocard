@@ -17,6 +17,6 @@ angular
       $mdThemingProvider
           .theme('default')
           .primaryPalette('deep-purple')
-          .accentPalette('green');
+          .accentPalette('light-green');
       $routeProvider.otherwise('/');
     });

@@ -1,4 +1,7 @@
-<div class="asset-global pc-fill-parent" layout="column" ng-init="ctrl.onInit()">
-  <pc-code-editor flex ng-model="globalsString" language="json" onsave="ctrl.onChange()">
+<div class="asset-global pc-fill-parent" layout="column" layout-align="start end">
+  <pc-code-editor flex ng-model="ctrl.globalsString" language="json" onsave="ctrl.onChange()">
   </pc-code-editor>
+  <md-button ng-click="ctrl.onSaveClick()" ng-disabled="!ctrl.isValid()" class="button md-fab">
+    <md-icon>save</md-icon>
+  </md-button>
 </div>

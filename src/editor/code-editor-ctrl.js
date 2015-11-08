@@ -1,13 +1,4 @@
 /**
- * Types of events dispatched by the editor.CodeEditorCtrl.
- * TODO(gs): Make the id unique.
- * @enum {string}
- */
-export const Events = {
-  SAVE: 'save'
-};
-
-/**
  * @class editor.CodeEditorCtrl
  */
 export default class {
@@ -18,12 +9,13 @@ export default class {
    * @param {thirdparty.AceService} AceService
    */
   constructor($scope, $timeout, AceService) {
-    this.$scope_ = $scope;
     this.$timeout_ = $timeout;
     this.aceService_ = AceService;
     this.editor_ = null;
     this.ngModelCtrl_ = null;
     this.valid_ = true;
+
+    $scope.$on('$destroy', this.on$destroy_.bind(this));
   }
 
   /**
@@ -45,6 +37,11 @@ export default class {
   onEditorChangeAnnotation_() {
     this.$timeout_(() => {
       this.valid_ = this.editor_.getSession().getAnnotations().length === 0;
+      if (this.valid_) {
+        this.ngModelCtrl_.$setViewValue(this.editor_.getValue());
+      } else {
+        this.ngModelCtrl_.$setViewValue(null);
+      }
     });
   }
 
@@ -91,17 +88,5 @@ export default class {
 
     this.ngModelCtrl_ = ngModelCtrl;
     ngModelCtrl.$render = this.renderModel_.bind(this);
-
-    this.$scope_.$on('$destroy', this.on$destroy_.bind(this));
-  }
-
-  /**
-   * Handler called when the save button is clicked.
-   *
-   * @method onSaveClick
-   */
-  onSaveClick() {
-    this.ngModelCtrl_.$setViewValue(this.editor_.getValue());
-    this.$scope_.$emit(Events.SAVE);
   }
 };

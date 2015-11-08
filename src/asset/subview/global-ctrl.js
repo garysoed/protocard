@@ -10,30 +10,37 @@ export default class {
    * @param {data.AssetService} AssetService
    */
   constructor($scope, AssetService) {
-    this.$scope_ = $scope;
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
-
-    // TODO(gs): off when $destroy
-    $scope.$on(CodeEditorEvents.SAVE, this.onSave_.bind(this))
+    this.globalsString_ = this.asset_.globalsString;
   }
 
   /**
-   * Handler called when the controller is initialized.
-   *
-   * @method onInit
+   * @method isValid
+   * @return {Boolean} True iff the globals string is non null.
    */
-  onInit() {
-    this.$scope_['globalsString'] = this.asset_.globalsString;
+  isValid() {
+    return this.globalsString !== null;
   }
 
   /**
-   * Handler called when a save event is received.
-   *
-   * @method onSave_
+   * String representation of the globals value.
+   * @property globalsString
+   * @type {string}
    */
-  onSave_() {
-    this.asset_.globalsString = this.$scope_['globalsString'];
+  get globalsString() {
+    return this.globalsString_;
+  }
+  set globalsString(newValue) {
+    this.globalsString_ = newValue;
+  }
+
+  /**
+   * Handler called when the save button is clicked.
+   * @method onSaveClick
+   */
+  onSaveClick() {
+    this.asset_.globalsString = this.globalsString_;
     this.assetService_.saveAsset(this.asset_);
   }
 }

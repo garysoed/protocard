@@ -1,3 +1,8 @@
 .asset-global {
   height: 100%;
 }
+
+.asset-global .button {
+  margin-bottom: 40px;
+  margin-right: 40px;
+}

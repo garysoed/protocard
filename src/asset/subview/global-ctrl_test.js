@@ -18,24 +18,33 @@ describe('asset.subview.GlobalCtrl', () => {
     ctrl = new GlobalCtrl(mock$scope, mockAssetService);
   });
 
-  it('should update the value and save it on save event', () => {
+  it('should initialize globalsString to the value in the asset', () => {
     let globalsString = 'globalsString';
-    mock$scope['globalsString'] = globalsString;
-
-    expect(mock$scope.$on).toHaveBeenCalledWith(CodeEditorEvents.SAVE, jasmine.any(Function));
-
-    mock$scope.$on.calls.argsFor(0)[1]();
-    expect(mockAssetService.saveAsset).toHaveBeenCalledWith(mockAsset);
-    expect(mockAsset.globalsString).toEqual(globalsString);
+    mockAsset.globalsString = globalsString;
+    ctrl = new GlobalCtrl(mock$scope, mockAssetService);
+    expect(ctrl.globalsString).toEqual(globalsString);
   });
 
-  describe('onInit', () => {
-    it('should update the scope', () => {
-      let globalsString = 'globalsString';
-      mockAsset.globalsString = globalsString;
+  describe('isValid', () => {
+    it('should return true if the globals string is non null', () => {
+      ctrl.globalsString = 'blah';
+      expect(ctrl.isValid()).toEqual(true);
+    });
 
-      ctrl.onInit();
-      expect(mock$scope['globalsString']).toEqual(globalsString);
+    it('should return false if the globals string is null', () => {
+      ctrl.globalsString = null;
+      expect(ctrl.isValid()).toEqual(false);
+    });
+  });
+
+  describe('onSaveClick', () => {
+    it('should update the asset and save it', () => {
+      let newValue = 'newValue';
+      ctrl.globalsString = newValue;
+      ctrl.onSaveClick();
+
+      expect(mockAsset.globalsString).toEqual(newValue);
+      expect(mockAssetService.saveAsset).toHaveBeenCalledWith(mockAsset);
     });
   });
 });
