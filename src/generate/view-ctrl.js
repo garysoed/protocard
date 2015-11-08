@@ -2,7 +2,6 @@ import Extract from '../convert/extract';
 import Generator from './generator';
 
 const __$document__ = Symbol('$document');
-const __$scope__ = Symbol('$scope');
 const __generated__ = Symbol('generated');
 const __loadFile__ = Symbol('loadFile');
 const __localStorage__ = Symbol('localStorage');
@@ -57,10 +56,12 @@ const GENERATOR = new Generator(Handlebars, {
 
 export default class {
   constructor($document, $scope, $window) {
+    this.$scope_ = $scope;
     this[__$document__] = $document[0];
-    this[__$scope__] = $scope;
     this[__generated__] = [];
     this[__localStorage__] = $window.localStorage;
+    this.progress_ = 0;
+    $scope.$on('progress', this.onProgress_.bind(this));
   }
 
   [__loadFile__](inputName, storageKey) {
@@ -83,11 +84,12 @@ export default class {
       this[__loadFile__]('data', 'data'),
       this[__loadFile__]('template', 'template')
     ]).then(() => {
-      this[__$scope__].$apply(() => {});
+      this.$scope_.$apply(() => {});
     });
   }
 
   onGenerateClick() {
+    this.progress_ = 0;
     let content = this[__localStorage__].getItem('data');
     let cards = Extract
         .fromTsv(content, 2)
@@ -118,7 +120,7 @@ export default class {
         });
     this[__generated__] = GENERATOR.generate(
         this[__localStorage__].getItem('template'),
-        '{{lowercase _.name}}.html',
+        '{{lowercase _.name}}',
         cards);
   }
 
@@ -128,6 +130,17 @@ export default class {
 
   getGeneratedData(key) {
     return this.getGenerated()[key];
+  }
+
+  get progress() {
+    let total = Object.keys(this.getGenerated()).length;
+    return this.progress_ * 100 / total;
+  }
+
+  onProgress_() {
+    this.$scope_.$apply(() => {
+      this.progress_++;
+    });
   }
 
   hasData() {

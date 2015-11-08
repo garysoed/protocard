@@ -157,7 +157,13 @@
   .art {
     background-image: url("assets/images/{{lowercase _.name}}.png");
     background-position: center;
-    background-size: auto 409px;
+
+    {{#ifeq _.type "device"}}
+      background-size: auto 434px;
+    {{/ifeq}}
+    {{#ifeq _.type "minion"}}
+      background-size: auto 409px;
+    {{/ifeq}}
     /** background-size: contain; */ /* TODO(gs): html2canvas doesn't support this */
     background-repeat: no-repeat;
   }

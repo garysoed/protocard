@@ -11,8 +11,8 @@ export function toClassName(name) {
       .join('');
 };
 
-function toFileName(namespace, name) {
-  return path.join(__dirname, '..', '..', 'src', namespace, `${name}`)
+export function toFileName(namespace, name) {
+  return path.join(__dirname, '..', '..', 'src', ...namespace.split('.'), `${name}`)
 };
 
 export function writeFile(namespace, name, ext, content) {

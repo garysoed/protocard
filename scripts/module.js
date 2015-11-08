@@ -1,4 +1,4 @@
-import { toClassName, writeFile } from './utils';
+import { toClassName, toFileName, writeFile } from './utils';
 
 let fs = require('fs');
 
@@ -24,6 +24,7 @@ export function directive(namespace, name) {
   let moduleName = `${name}-module`;
   let moduleClassName = toClassName(moduleName);
   let className = toClassName(name);
+  let dir = namespace.replace('.', '/');
   let out =
 `import ${ctrlClassName} from './${ctrlName}';
 
@@ -36,7 +37,7 @@ export default angular
         restrict: 'E',
         scope: {
         },
-        templateUrl: './${namespace}/${name}.ng'
+        templateUrl: './${dir}/${name}.ng'
       };
     });
 `;

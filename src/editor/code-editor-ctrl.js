@@ -14,10 +14,12 @@ export default class {
   /**
    * @constructor
    * @param {ng.$scope} $scope
+   * @param {ng.$timeout} $timeout
    * @param {thirdparty.AceService} AceService
    */
-  constructor($scope, AceService) {
+  constructor($scope, $timeout, AceService) {
     this.$scope_ = $scope;
+    this.$timeout_ = $timeout;
     this.aceService_ = AceService;
     this.editor_ = null;
     this.ngModelCtrl_ = null;
@@ -41,7 +43,7 @@ export default class {
    * @private
    */
   onEditorChangeAnnotation_() {
-    this.$scope_.$apply(() => {
+    this.$timeout_(() => {
       this.valid_ = this.editor_.getSession().getAnnotations().length === 0;
     });
   }

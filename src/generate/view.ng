@@ -13,6 +13,8 @@
     <md-button ng-click="ctrl.onGenerateClick()">
       Generate
     </md-button>
+    <md-progress-circular md-mode="determinate" value="{{vm.progress}}">
+    </md-progress-circular>
   </div>
 
   <pc-preview content="ctrl.getGeneratedData(name)"

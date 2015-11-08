@@ -1,6 +1,4 @@
-<div>
+<div class="app" ng-init="ctrl.onInit()">
   <div class="content"></div>
-  <md-button ng-click="ctrl.onGrabClick()">Grab</md-button>
-  <canvas width="825" height="1125"></canvas>
-  <a download="download.png">Download</a>
+  <canvas style="display: none;" width="825" height="1125"></canvas>
 </div>
