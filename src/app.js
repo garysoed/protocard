@@ -11,7 +11,9 @@ angular
       GenerateViewModule.name,
       HomeViewModule.name
     ])
-    .config(($mdThemingProvider, $routeProvider) => {
+    .config(($mdIconProvider, $mdThemingProvider, $routeProvider) => {
+      $mdIconProvider
+          .defaultFontSet('material-icons');
       $mdThemingProvider
           .theme('default')
           .primaryPalette('deep-purple')

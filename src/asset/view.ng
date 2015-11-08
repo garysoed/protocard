@@ -1,8 +1,8 @@
 <div class="asset-view" layout="column" ng-init="ctrl.onInit()">
   <md-toolbar>
     <div class="md-toolbar-tools">
-      <md-button ng-click="ctrl.onBackClick()">
-        Back
+      <md-button class="md-icon-button" ng-click="ctrl.onBackClick()">
+        <md-icon>home</md-icon>
       </md-button>
       <h2>{{ctrl.assetName}}</h2>
     </div>
