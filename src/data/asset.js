@@ -1,4 +1,5 @@
 import Field from './field';
+import Helper from './helper';
 import RawSource from './raw-source';
 import Utils from '../utils';
 
@@ -30,6 +31,8 @@ export default class {
      */
     this.source = null;
     this.globalsString_ = JSON.stringify(this.globals_);
+
+    this.helpers_ = {};
   }
 
   /**
@@ -51,6 +54,17 @@ export default class {
    */
   get globals() {
     return JSON.parse(this.globalsString_);
+  }
+
+  /**
+   * Helpers for the asset, indexed by the helper function name.
+   *
+   * @property helpers
+   * @type {Object}
+   * @readonly
+   */
+  get helpers() {
+    return this.helpers_;
   }
 
   /**
@@ -77,7 +91,8 @@ export default class {
       id: this.id,
       name: this.name,
       source: this.source ? this.source.toJSON() : null,
-      globals: this.globalsString
+      globals: this.globalsString,
+      helpers: Utils.mapValue(this.helpers, helper => helper.toJSON())
     };
   }
 
@@ -98,6 +113,7 @@ export default class {
     asset.id_ = json['id'];
     asset.source = RawSource.fromJSON(json['source']);
     asset.globalsString = json['globals'];
+    asset.helpers_ = Utils.mapValue(json['helpers'], json => Helper.fromJSON(json));
     return asset;
   }
 
@@ -109,6 +125,7 @@ export default class {
    * @param {Any} b Second object to compare.
    * @return {Boolean} True if the two objects are equal. False if not, or undefined if one of the
    *    objects is not an Asset.
+   * @static
    */
   static equals(a, b) {
     if (a === b) {
@@ -119,7 +136,8 @@ export default class {
       return a.id === b.id
           && a.name === b.name
           && RawSource.equals(a.source, b.source)
-          && Utils.equals(a.globals, b.globals);
+          && Utils.equals(a.globals, b.globals)
+          && Utils.equals(a.helpers, b.helpers);
     }
   }
 };

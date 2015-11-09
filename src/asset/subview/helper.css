@@ -1,0 +1,14 @@
+.asset-helper .button {
+  position: absolute;
+  right: 40px;
+  bottom: 40px;
+}
+
+.asset-helper .item-list {
+  width: 100%;
+  padding: 20px;
+}
+
+.asset-helper .item-list > pc-asset-helper-item {
+  width: 100%;
+}

@@ -50,6 +50,7 @@
     </md-sidenav>
     <md-content ng-switch on="ctrl.subview" flex layout="column">
       <pc-asset-global flex ng-switch-when="global" asset="ctrl.asset"></pc-asset-global>
+      <pc-asset-helper flex ng-switch-when="helper" asset="ctrl.asset"></pc-asset-helper>
       <div ng-switch-default>Click the left menu</div>
     </md-content>
   </section>

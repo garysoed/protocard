@@ -1,4 +1,40 @@
+export const IDS = {};
+
 export default {
+  /**
+   * Generates a key that is not a key in the given object.
+   *
+   * @method generateKey
+   * @param {Object} object Object containing keys that the newly generated key should not conflict
+   *    with.
+   * @param {string} prefix Prefix of key to generate.
+   * @return {string} Key with the given prefix that does not conflict with the keys in the given
+   *    object.
+   */
+  generateKey(object, prefix) {
+    let index = 0;
+    let guess = prefix;
+
+    while (object[guess] !== undefined) {
+      guess = `${prefix}_${index}`;
+      index++;
+    }
+    return guess;
+  },
+
+  /**
+   * Generates an ID that has never been generated before.
+   *
+   * @method getUniqueId
+   * @param {string} prefix Prefix of the ID to generate.
+   * @return {string} Newly generated unique ID.
+   */
+  getUniqueId(prefix) {
+    let newId = this.generateKey(IDS, prefix);
+    IDS[newId] = newId;
+    return newId;
+  },
+
   /**
    * Mixes in two objects together.
    *
