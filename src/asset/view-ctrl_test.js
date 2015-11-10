@@ -5,61 +5,56 @@ import ViewCtrl from './view-ctrl';
 
 describe('asset.ViewCtrl', () => {
   let asset;
+  let routeParams;
+  let mockAssetService
   let mockNavigateService;
   let ctrl;
   let $scope;
 
   beforeEach(() => {
     $scope = {};
+    routeParams = {};
     asset = new Asset('test');
     mockNavigateService = jasmine.createSpyObj('NavigateService', ['toHome', 'toAsset']);
-
-    let mockAssetService = jasmine.createSpyObj('AssetService', ['getAsset']);
-    mockAssetService.getAsset.and.returnValue(asset);
+    mockAssetService = jasmine.createSpyObj('AssetService', ['getAsset']);
     ctrl = new ViewCtrl(
         $scope,
-        { assetId: 'assetId', section: 'section' },
+        routeParams,
         mockAssetService,
         mockNavigateService);
   });
 
   describe('onInit', () => {
-    let mockAssetService;
-
-    beforeEach(() => {
-      mockAssetService = jasmine.createSpyObj('AssetService', ['getAsset']);
-    });
-
     it('should redirect to home page if the asset does not exist', () => {
       let assetId = 'assetId';
       mockAssetService.getAsset.and.returnValue(null);
-      ctrl = new ViewCtrl(
-          $scope,
-          { assetId: 'assetId', section: 'section' },
-          mockAssetService,
-          mockNavigateService);
+      routeParams['assetId'] = assetId;
       ctrl.onInit();
 
       expect(mockNavigateService.toHome).toHaveBeenCalledWith();
       expect(mockAssetService.getAsset).toHaveBeenCalledWith(assetId);
     });
 
-    it('should not redirect to home page if the asset exists', () => {
+    it('should not redirect to home page if the asset exists and initialize the current helper', () => {
+      let helperName = 'helperName';
+      let helper = {};
+      asset.helpers[helperName] = helper;
+      routeParams['assetId'] = 'assetId';
+      routeParams['section'] = 'helper-editor';
+      routeParams['helper'] = helperName;
       mockAssetService.getAsset.and.returnValue(asset);
       ctrl.onInit();
 
       expect(mockNavigateService.toHome).not.toHaveBeenCalled();
-    });
-
-    it('should set the subview in the $scope', () => {
-      ctrl.onInit();
-
-      expect($scope['subview']).toEqual('section');
+      expect(ctrl.subview).toEqual('helper-editor');
+      expect(ctrl.currentHelper).toEqual(helper);
     });
   });
 
   describe('get assetName', () => {
     it('should return the asset name', () => {
+      mockAssetService.getAsset.and.returnValue(asset);
+      ctrl.onInit();
       expect(ctrl.assetName).toEqual(asset.name);
     });
   });
@@ -73,6 +68,9 @@ describe('asset.ViewCtrl', () => {
 
   describe('onNavigateClick', () => {
     it('should navigate to the right subview', () => {
+      mockAssetService.getAsset.and.returnValue(asset);
+      ctrl.onInit();
+
       let newSubview = 'newSubview';
       ctrl.onNavigateClick(newSubview);
 

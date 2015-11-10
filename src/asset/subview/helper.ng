@@ -1,6 +1,8 @@
 <md-content class="asset-helper pc-fill-parent" layout="column" layout-align="start end">
   <div class="item-list" flex layout="column" layout-align="start start">
-    <pc-asset-helper-item ng-repeat="(name, helper) in ctrl.helpers" helper="helper">
+    <pc-asset-helper-item ng-repeat="(name, helper) in ctrl.helpers"
+        helper="helper"
+        name="name">
     </pc-asset-helper-item>
   </div>
   <md-button ng-click="ctrl.onAddClick()" class="button md-fab">

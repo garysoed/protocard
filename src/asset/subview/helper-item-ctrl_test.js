@@ -5,13 +5,16 @@ import HelperItemCtrl, { Events } from './helper-item-ctrl';
 
 describe('asset.subview.HelperItemCtrl', () => {
   let helper;
+  let name;
   let mock$scope;
   let ctrl;
 
   beforeEach(() => {
     helper = {};
+    name = 'name';
     mock$scope = new FakeScope();
     mock$scope.helper = helper;
+    mock$scope.name = name;
     ctrl = new HelperItemCtrl(mock$scope);
   });
 
@@ -22,8 +25,26 @@ describe('asset.subview.HelperItemCtrl', () => {
       spyOn(mock$scope, '$emit');
       ctrl.name = newName;
 
-      expect(helper.name).toEqual(newName);
-      expect(mock$scope.$emit).toHaveBeenCalledWith(Events.CHANGED);
+      expect(ctrl.name).toEqual(newName);
+      expect(mock$scope.$emit).toHaveBeenCalledWith(Events.CHANGED, name, newName);
+    });
+  });
+
+  describe('onDeleteClick', () => {
+    it('should emit deleted event', () => {
+      spyOn(mock$scope, '$emit');
+
+      ctrl.onDeleteClick();
+      expect(mock$scope.$emit).toHaveBeenCalledWith(Events.DELETED, name);
+    });
+  });
+
+  describe('onEditClick', () => {
+    it('should emit edited event', () => {
+      spyOn(mock$scope, '$emit');
+
+      ctrl.onEditClick();
+      expect(mock$scope.$emit).toHaveBeenCalledWith(Events.EDITED, name);
     });
   });
 });

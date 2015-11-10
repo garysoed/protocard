@@ -8,7 +8,8 @@ export default angular
         controllerAs: 'ctrl',
         restrict: 'E',
         scope: {
-          helper: '='
+          helper: '=',
+          name: '='
         },
         templateUrl: './asset/subview/helper-item.ng'
       };

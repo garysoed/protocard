@@ -12,7 +12,7 @@
         md-component-id="left"
         md-is-locked-open="$mdMedia('gt-sm')">
       <md-content layout="column">
-        <md-radio-group ng-model="subview" ng-change="ctrl.onNavigateClick(subview)">
+        <md-radio-group ng-model="ctrl.subview" ng-change="ctrl.onNavigateClick(ctrl.subview)">
           <div>
             <div>
               <h2 layout-padding>Settings</h2>
@@ -51,6 +51,11 @@
     <md-content ng-switch on="ctrl.subview" flex layout="column">
       <pc-asset-global flex ng-switch-when="global" asset="ctrl.asset"></pc-asset-global>
       <pc-asset-helper flex ng-switch-when="helper" asset="ctrl.asset"></pc-asset-helper>
+      <pc-asset-helper-editor
+          flex
+          ng-switch-when="helper-editor"
+          helper="ctrl.currentHelper"
+          ng-if="!!ctrl.currentHelper"></pc-asset-helper-editor>
       <div ng-switch-default>Click the left menu</div>
     </md-content>
   </section>

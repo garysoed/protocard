@@ -9,12 +9,7 @@ export default class {
    * @constructor
    * @param {string} name Name of the helper function.
    */
-  constructor(name) {
-    /**
-     * @property name
-     * @type {string}
-     */
-    this.name = name;
+  constructor() {
 
     /**
      * @property fnString
@@ -42,7 +37,6 @@ export default class {
    */
   toJSON() {
     return {
-      name: this.name,
       fnString: this.fnString
     };
   }
@@ -60,7 +54,7 @@ export default class {
       return null;
     }
 
-    let fn = new this(json['name']);
+    let fn = new this();
     fn.fnString = json['fnString'];
     return fn;
   }
@@ -81,8 +75,7 @@ export default class {
     }
 
     if (a instanceof this && b instanceof this) {
-      return a.name === b.name
-          && a.fnString === b.fnString;
+      return a.fnString === b.fnString;
     }
   }
 };

@@ -8,24 +8,54 @@ describe('asset.subview.HelperCtrl', () => {
   let asset;
   let mock$scope;
   let mockAssetService;
+  let mockNavigateService;
   let ctrl;
 
   beforeEach(() => {
     asset = {};
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
+    mockNavigateService = jasmine.createSpyObj('NavigateService', ['toAsset']);
     mock$scope = new FakeScope();
     mock$scope.asset = asset;
-    ctrl = new HelperCtrl(mock$scope, mockAssetService);
+
+    spyOn(mock$scope, '$on');
+    ctrl = new HelperCtrl(mock$scope, mockAssetService, mockNavigateService);
   });
 
-  it('should save the asset on HelperItem CHANGED event', () => {
-    spyOn(mock$scope, '$on');
-    ctrl = new HelperCtrl(mock$scope, mockAssetService);
+  it('should update and save the asset on HelperItem CHANGED event', () => {
+    let helper = jasmine.createObj('Helper');
+    let oldName = 'oldName';
+    let newName = 'newName';
+    asset.helpers = { [oldName]: helper };
 
     expect(mock$scope.$on).toHaveBeenCalledWith(HelperItemEvents.CHANGED, jasmine.any(Function));
-    mock$scope.$on.calls.argsFor(0)[1]();
+    mock$scope.$on.calls.argsFor(0)[1]({}, oldName, newName);
 
+    expect(asset.helpers).toEqual({ [newName]: helper });
     expect(mockAssetService.saveAsset).toHaveBeenCalledWith(asset);
+  });
+
+  it('should delete the helper and save the asset on HelperItem DELETED event', () => {
+    let helper = jasmine.createObj('Helper');
+    let name = 'name';
+    asset.helpers = { [name]: helper };
+
+    expect(mock$scope.$on).toHaveBeenCalledWith(HelperItemEvents.DELETED, jasmine.any(Function));
+    mock$scope.$on.calls.argsFor(1)[1]({}, name);
+
+    expect(asset.helpers).toEqual({});
+    expect(mockAssetService.saveAsset).toHaveBeenCalledWith(asset);
+  });
+
+  it('should navigate to the helper editor on HelperItem EDITED event', () => {
+    let id = 'id';
+    let name = 'name';
+    asset.id = id;
+
+    expect(mock$scope.$on).toHaveBeenCalledWith(HelperItemEvents.EDITED, jasmine.any(Function));
+    mock$scope.$on.calls.argsFor(2)[1]({}, name);
+
+    expect(mockNavigateService.toAsset).toHaveBeenCalledWith(id, 'helper-editor', name);
   });
 
   describe('onAddClick', () => {

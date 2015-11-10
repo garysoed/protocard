@@ -1,5 +1,3 @@
-const __$location__ = Symbol('$location');
-
 /**
  * @class common.NavigateService
  */
@@ -9,7 +7,7 @@ export default class {
    * @param {ng.$location} $location
    */
   constructor($location) {
-    this[__$location__] = $location;
+    this.$location_ = $location;
   }
 
   /**
@@ -18,9 +16,14 @@ export default class {
    * @method toAsset
    * @param {string} assetId ID of asset to navigate to.
    * @param {string} [subview] Name of asset subview to navigate to. Defaults to empty string.
+   * @param {string} [helperName] Name of the helper associated with the asset.
    */
-  toAsset(assetId, subview = '') {
-    this[__$location__].path(`/asset/${assetId}/${subview}`);
+  toAsset(assetId, subview = '', helperName = null) {
+    let path = `/asset/${assetId}/${subview}`;
+    if (helperName !== null) {
+      path += `/${helperName}`;
+    }
+    this.$location_.path(path);
   }
 
   /**
@@ -28,6 +31,6 @@ export default class {
    * @method toHome
    */
   toHome() {
-    this[__$location__].path('/');
+    this.$location_.path('/');
   }
 };

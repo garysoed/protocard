@@ -13,9 +13,12 @@ export default class {
    */
   constructor($scope, $routeParams, AssetService, NavigateService) {
     this.$scope_ = $scope;
-    this.asset_ = AssetService.getAsset($routeParams['assetId']);
+    this.$routeParams_ = $routeParams;
+    this.assetService_ = AssetService;
     this.navigateService_ = NavigateService;
-    this.subview_ = $routeParams['section'] || null;
+    this.asset_ = null;
+    this.subview_ = null;
+    this.currentHelper_ = null;
   }
 
   /**
@@ -37,7 +40,7 @@ export default class {
    * @readonly
    */
   get assetName() {
-    return this.asset_.name;
+    return this.asset_ && this.asset_.name;
   }
 
   /**
@@ -49,6 +52,30 @@ export default class {
    */
   get subview() {
     return this.subview_;
+  }
+
+  /**
+   * Current helper associated with the view, if any.
+   *
+   * @property currentHelper
+   * @type {data.Helper}
+   * @readonly
+   */
+  get currentHelper() {
+    return this.currentHelper_;
+  }
+
+  /**
+   * Name of the current subview, if any.
+   *
+   * @property subview
+   * @type {string}
+   */
+  get subview() {
+    return this.subview_;
+  }
+  set subview(subview) {
+    this.subview_ = subview;
   }
 
   /**
@@ -66,9 +93,14 @@ export default class {
    * @method onInit
    */
   onInit() {
-    this.$scope_['subview'] = this.subview_;
+    this.asset_ = this.assetService_.getAsset(this.$routeParams_['assetId']);
     if (!this.asset_) {
       this.navigateService_.toHome();
+    } else {
+      this.subview_ = this.$routeParams_['section'];
+      this.currentHelper_ = this.subview_ === 'helper-editor'
+          ? this.asset_.helpers[this.$routeParams_['helper']]
+          : null;
     }
   }
 
