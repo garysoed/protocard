@@ -54,6 +54,7 @@
       <pc-asset-helper-editor
           flex
           ng-switch-when="helper-editor"
+          asset="ctrl.asset"
           helper="ctrl.currentHelper"
           ng-if="!!ctrl.currentHelper"></pc-asset-helper-editor>
       <div ng-switch-default>Click the left menu</div>
