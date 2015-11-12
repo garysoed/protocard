@@ -1,20 +1,21 @@
 import AssetServiceModule from '../../data/asset-service-module';
 import CodeEditorModule from '../../editor/code-editor-module';
-import GlobalCtrl from './global-ctrl';
+import HelperEditorCtrl from './helper-editor-ctrl';
 
 export default angular
-    .module('pc.asset.subview.GlobalModule', [
+    .module('pc.asset.subview.HelperEditorModule', [
       AssetServiceModule.name,
       CodeEditorModule.name
     ])
-    .directive('pcAssetGlobal', () => {
+    .directive('pcAssetHelperEditor', () => {
       return {
-        controller: GlobalCtrl,
+        controller: HelperEditorCtrl,
         controllerAs: 'ctrl',
         restrict: 'E',
         scope: {
-          'asset': '='
+          asset: '=',
+          helper: '='
         },
-        templateUrl: './asset/subview/global.ng'
+        templateUrl: './asset/helper/helper-editor.ng'
       };
     });

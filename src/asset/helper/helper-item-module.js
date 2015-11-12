@@ -11,6 +11,6 @@ export default angular
           helper: '=',
           name: '='
         },
-        templateUrl: './asset/subview/helper-item.ng'
+        templateUrl: './asset/helper/helper-item.ng'
       };
     });
