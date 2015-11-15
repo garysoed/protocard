@@ -5,7 +5,7 @@
         name="name">
     </pc-asset-helper-item>
   </div>
-  <md-button ng-click="ctrl.onAddClick()" class="button md-fab">
+  <md-button ng-click="ctrl.onAddClick()" class="pc-context-button md-fab">
     <md-icon>add</md-icon>
   </md-button>
 </md-content>

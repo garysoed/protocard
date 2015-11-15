@@ -8,12 +8,12 @@
       </tr>
     </table>
   </md-content>
-  <md-fab-speed-dial class="button" md-direction="up">
+  <md-fab-speed-dial class="pc-context-button" md-direction="up">
     <md-fab-trigger>
-      <md-button class="button md-fab" ng-if="!ctrl.hasData()">
+      <md-button class="md-fab" ng-if="!ctrl.hasData()">
         <md-icon>add<md-icon>
       </md-button>
-      <md-button class="button md-fab" ng-if="ctrl.hasData()">
+      <md-button class="md-fab" ng-if="ctrl.hasData()">
         <md-icon>edit<md-icon>
       </md-button>
     </md-fab-trigger>
