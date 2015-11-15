@@ -1,0 +1,20 @@
+.asset-text md-fab-speed-dial {
+  position: absolute;
+  right: 40px;
+  bottom: 40px;
+}
+
+.asset-text md-content.preview {
+  font-family: Monaco, Menlo, 'Ubuntu Mono', Consolas, source-code-pro, monospace;
+  font-size: 12px;
+  padding: 20px;
+}
+
+.asset-text md-content.preview table {
+  border-collapse: collapse;
+}
+
+.asset-text md-content.preview td {
+  border: 1px solid black;
+  padding: 5px;
+}

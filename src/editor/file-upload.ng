@@ -1,0 +1,6 @@
+<div class="file-upload">
+  <md-button ng-click="ctrl.onUploadClick()" class="md-fab" ng-class="ctrl.classes">
+    <md-icon>file_upload</md-icon>
+  </md-button>
+  <input type="file" accept="{{ctrl.extensions}}">
+</div>

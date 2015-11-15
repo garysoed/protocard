@@ -2,6 +2,7 @@ import AssetGlobalModule from './global/global-module';
 import AssetHelperEditorModule from './helper/helper-editor-module';
 import AssetHelperModule from './helper/helper-module';
 import AssetServiceModule from '../data/asset-service-module';
+import AssetTextModule from './text/text-module';
 import NavigateServiceModule from '../common/navigate-service-module';
 import ViewCtrl from './view-ctrl';
 
@@ -12,6 +13,7 @@ export default angular
       AssetHelperEditorModule.name,
       AssetHelperModule.name,
       AssetServiceModule.name,
+      AssetTextModule.name,
       NavigateServiceModule.name
     ])
     .config($routeProvider => {

@@ -1,6 +1,6 @@
 import Field from './field';
+import File from './file';
 import Helper from './helper';
-import RawSource from './raw-source';
 import Utils from '../utils';
 
 /**
@@ -25,14 +25,11 @@ export default class {
      */
     this.name = name;
 
-    /**
-     * @property source
-     * @type {data.RawSource}
-     */
-    this.source = null;
     this.globalsString_ = JSON.stringify(this.globals_);
 
     this.helpers_ = {};
+
+    this.data_ = null;
   }
 
   /**
@@ -81,6 +78,19 @@ export default class {
   }
 
   /**
+   * Data used to generate the asset.
+   *
+   * @property data
+   * @type {data.File}
+   */
+  get data() {
+    return this.data_;
+  }
+  set data(data) {
+    this.data_ = data;
+  }
+
+  /**
    * Converts the asset to its JSON format.
    *
    * @method toJSON
@@ -90,9 +100,9 @@ export default class {
     return {
       id: this.id,
       name: this.name,
-      source: this.source ? this.source.toJSON() : null,
       globals: this.globalsString,
-      helpers: Utils.mapValue(this.helpers, helper => helper.toJSON())
+      helpers: Utils.mapValue(this.helpers, helper => helper.toJSON()),
+      data: this.data ? this.data.toJSON() : null
     };
   }
 
@@ -111,9 +121,9 @@ export default class {
 
     let asset = new this(json['name']);
     asset.id_ = json['id'];
-    asset.source = RawSource.fromJSON(json['source']);
     asset.globalsString = json['globals'];
     asset.helpers_ = Utils.mapValue(json['helpers'], json => Helper.fromJSON(json));
+    asset.data_ = File.fromJSON(json['data']);
     return asset;
   }
 
@@ -135,9 +145,9 @@ export default class {
     if (a instanceof this && b instanceof this) {
       return a.id === b.id
           && a.name === b.name
-          && RawSource.equals(a.source, b.source)
-          && Utils.equals(a.globals, b.globals)
-          && Utils.equals(a.helpers, b.helpers);
+          && Utils.equals(a.globalsString, b.globalsString)
+          && Utils.equals(a.helpers, b.helpers)
+          && File.equals(a.data, b.data);
     }
   }
 };
