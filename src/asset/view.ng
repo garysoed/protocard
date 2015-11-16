@@ -60,6 +60,7 @@
           helper="ctrl.currentHelper"
           ng-if="!!ctrl.currentHelper"></pc-asset-helper-editor>
       <pc-asset-text flex ng-switch-when="text" asset="ctrl.asset"></pc-asset-text>
+      <pc-asset-image flex ng-switch-when="image" asset="ctrl.asset"></pc-asset-image>
       <div ng-switch-default>Click the left menu</div>
     </md-content>
   </section>

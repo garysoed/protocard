@@ -12,8 +12,6 @@ export function service(namespace, name) {
   let out =
 `import ${ctrlClassName} from './${ctrlName}';
 
-const __$mdDialog__ = Symbol('$mdDialog');
-
 /**
  * @class ${namespace}.${serviceClassName}
  */
@@ -23,7 +21,7 @@ export default class {
    * @param {ng.$mdDialog} $mdDialog
    */
   constructor($mdDialog) {
-    this[__$mdDialog__] = $mdDialog;
+    this.$mdDialog_ = $mdDialog;
   }
 
   /**
@@ -35,7 +33,7 @@ export default class {
    *    dialog is cancelled.
    */
   show($event) {
-    this[__$mdDialog__].show({
+    this.$mdDialog_.show({
       controller: ${ctrlClassName},
       controllerAs: 'ctrl',
       targetEvent: $event,
@@ -50,6 +48,6 @@ export default class {
 };
 
 export default function(namespace, name) {
-  service(namespace, name);
-  module.service(namespace, name);
+  service(namespace, `${name}-dialog`);
+  module.service(namespace, `${name}-dialog`);
 };

@@ -1,0 +1,14 @@
+<div class="pc-fill-parent">
+  <md-fab-speed-dial class="pc-context-button" md-direction="up">
+    <md-fab-trigger>
+      <md-button class="md-fab">
+        <md-icon>add<md-icon>
+      </md-button>
+    </md-fab-trigger>
+    <md-fab-actions>
+      <md-button class="md-fab md-raised md-mini" ng-click="ctrl.onDriveClick($event)">
+        <md-icon>insert_drive_file</md-icon>
+      </md-button>
+    </md-fab-actions>
+  </md-fab-speed-dial>
+</div>

@@ -1,0 +1,30 @@
+<md-dialog class="drive-dialog" layout="column">
+  <md-dialog-content layout="column">
+    <div class="md-dialog-content" flex layout="column">
+      <md-input-container>
+        <label>Resource URL</label>
+        <input type="text" ng-model="ctrl.resourceURL" ng-model-options="{ updateOn: 'blur' }">
+      </md-input-container>
+      <md-content flex>
+        <md-grid-list
+            md-cols="5"
+            md-row-height="2:2"
+            md-gutter="6px">
+        <md-grid-tile ng-repeat="resource in ctrl.resources">
+          <img src="{{resource.previewUrl}}">
+          <md-grid-tile-footer>
+            {{resource.alias}}
+          </md-grid-tile-footer>
+        </md-grid-tile>
+      </md-content>
+    </div>
+  </md-dialog-content>
+  <md-dialog-actions layout="row" layout-align="end">
+    <md-button class="md-primary md-raised" ng-click="ctrl.onOkClick()">
+      OK
+    </md-button>
+    <md-button ng-click="ctrl.onCancelClick()">
+     Cancel
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

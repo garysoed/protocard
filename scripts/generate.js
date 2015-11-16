@@ -11,9 +11,9 @@ var name = args[2];
 
 switch(type) {
   case 'dialog':
-    ctrl(namespace, name);
+    ctrl(namespace, name + '-dialog');
     dialog(namespace, name);
-    ng(namespace, name);
+    ng(namespace, name + '-dialog');
     break;
   case 'directive':
     ctrl(namespace, name);
