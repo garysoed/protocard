@@ -6,13 +6,3 @@
 .drive-dialog md-dialog-actions {
   order: 2;
 }
-
-.drive-dialog img {
-  max-width: 100%;
-  max-height: 100%;
-  margin: auto;
-}
-
-.drive-dialog md-grid-tile {
-  background-color: grey;
-}

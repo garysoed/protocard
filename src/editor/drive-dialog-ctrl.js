@@ -9,12 +9,14 @@ export default class {
    * @param {ng.$scope} $scope
    * @param {common.GapiService} GapiService
    */
-  constructor($scope, GapiService) {
+  constructor($mdDialog, $scope, GapiService) {
+    this.$mdDialog_ = $mdDialog;
     this.$scope_ = $scope;
     this.gapiService_ = GapiService;
     this.clientPromise_ = GapiService.getClientPromise('drive', 'v2');
     this.resourceUrl_ = '';
     this.resources_ = [];
+    this.selectedImages_ = [];
   }
 
   /**
@@ -91,5 +93,57 @@ export default class {
   set resourceURL(resourceUrl) {
     this.resourceUrl_ = resourceUrl;
     this.updateResources_(resourceUrl);
+  }
+
+  /**
+   * Images that are selected.
+   *
+   * @property selectedImages
+   * @return {Array} Array of selected images.
+   */
+  get selectedImages() {
+    return this.selectedImages_;
+  }
+  set selectedImages(selectedImages) {
+    this.selectedImages_ = selectedImages;
+  }
+
+  /**
+   * @method hasSelected
+   * @return {Boolean} True iff there are images being selected.
+   */
+  hasSelected() {
+    return this.selectedImages_.length > 0;
+  }
+
+  /**
+   * Handler called when the delete button is clicked.
+   *
+   * @method onDeleteClick
+   */
+  onDeleteClick() {
+    for (let selectedImage of this.selectedImages_) {
+      let index = this.resources_.indexOf(selectedImage);
+      this.resources_.splice(index, 1);
+    }
+    this.selectedImages_ = [];
+  }
+
+  /**
+   * Handler called when the OK button is clicked.
+   *
+   * @method onOkClick
+   */
+  onOkClick() {
+    this.$mdDialog_.hide(this.resources_);
+  }
+
+  /**
+   * Handler called when the Cancel button is clicked.
+   *
+   * @method onCancelClick
+   */
+  onCancelClick() {
+    this.$mdDialog_.cancel();
   }
 }

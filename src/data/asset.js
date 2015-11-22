@@ -1,6 +1,7 @@
 import Field from './field';
 import File from './file';
 import Helper from './helper';
+import ImageResource from './image-resource';
 import Utils from '../utils';
 
 /**
@@ -30,6 +31,8 @@ export default class {
     this.helpers_ = {};
 
     this.data_ = null;
+
+    this.images_ = [];
   }
 
   /**
@@ -90,6 +93,10 @@ export default class {
     this.data_ = data;
   }
 
+  get images() {
+    return this.images_;
+  }
+
   /**
    * Converts the asset to its JSON format.
    *
@@ -102,7 +109,8 @@ export default class {
       name: this.name,
       globals: this.globalsString,
       helpers: Utils.mapValue(this.helpers, helper => helper.toJSON()),
-      data: this.data ? this.data.toJSON() : null
+      data: this.data ? this.data.toJSON() : null,
+      images: this.images_.map(image => image.toJSON())
     };
   }
 
@@ -124,6 +132,10 @@ export default class {
     asset.globalsString = json['globals'];
     asset.helpers_ = Utils.mapValue(json['helpers'], json => Helper.fromJSON(json));
     asset.data_ = File.fromJSON(json['data']);
+
+    if (json['images']) {
+      asset.images_ = json['images'].map(json => ImageResource.fromJSON(json));
+    }
     return asset;
   }
 
@@ -147,7 +159,8 @@ export default class {
           && a.name === b.name
           && Utils.equals(a.globalsString, b.globalsString)
           && Utils.equals(a.helpers, b.helpers)
-          && File.equals(a.data, b.data);
+          && File.equals(a.data, b.data)
+          && Utils.equals(a.images_, b.images_);
     }
   }
 };

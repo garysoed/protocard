@@ -21,7 +21,7 @@ export default class {
    *    dialog is cancelled.
    */
   show($event) {
-    this.$mdDialog_.show({
+    return this.$mdDialog_.show({
       controller: DriveDialogCtrl,
       controllerAs: 'ctrl',
       targetEvent: $event,
