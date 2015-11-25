@@ -90,16 +90,7 @@ export default {
       return true;
     }
 
-    if (typeof a === 'object' && typeof b === 'object') {
-      for (let key in a) {
-        let aValue = a[key];
-        let bValue = b[key];
-        if (!this.equals(aValue, bValue, equalsFn)) {
-          return false;
-        }
-      }
-      return true;
-    } else if (a instanceof Set && b instanceof Set) {
+    if (a instanceof Set && b instanceof Set) {
       let arrayA = Array.from(a);
       let arrayB = Array.from(b);
 
@@ -113,6 +104,15 @@ export default {
         });
       });
       return this.equals(Array.from(a), Array.from(b));
+    } else if (typeof a === 'object' && typeof b === 'object') {
+      for (let key in a) {
+        let aValue = a[key];
+        let bValue = b[key];
+        if (!this.equals(aValue, bValue, equalsFn)) {
+          return false;
+        }
+      }
+      return true;
     } else {
       return equalsFn(a, b);
     }
