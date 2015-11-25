@@ -86,5 +86,9 @@ describe('Utils', () => {
     it('should use the equalsFn to check for equality for objects', () => {
       expect(Utils.equals({ a: 1 }, { a: 2 }, () => true)).toEqual(true);
     });
+
+    it('should check equality for Set', () => {
+      expect(Utils.equals(new Set([1, 2]), new Set([2, 1]))).toEqual(true);
+    });
   });
 });

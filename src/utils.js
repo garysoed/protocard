@@ -99,6 +99,20 @@ export default {
         }
       }
       return true;
+    } else if (a instanceof Set && b instanceof Set) {
+      let arrayA = Array.from(a);
+      let arrayB = Array.from(b);
+
+      if (arrayA.length !== arrayB.length) {
+        return false;
+      }
+
+      return arrayA.every(itemA => {
+        return arrayB.some(itemB => {
+          return equalsFn(itemA, itemB);
+        });
+      });
+      return this.equals(Array.from(a), Array.from(b));
     } else {
       return equalsFn(a, b);
     }
