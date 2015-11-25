@@ -10,7 +10,9 @@ var webpack    = require('gulp-webpack');
 
 gulp.task('compile', function() {
   return gulp.src(['src/**/*.js'])
-      .pipe(babel())
+      .pipe(babel({
+        presets: ['es2015']
+      }))
       .pipe(gulp.dest('out'));
 });
 
