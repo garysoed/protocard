@@ -160,7 +160,7 @@ export default class {
           && Utils.equals(a.globalsString, b.globalsString)
           && Utils.equals(a.helpers, b.helpers)
           && File.equals(a.data, b.data)
-          && Utils.equals(a.images_, b.images_);
+          && Utils.equals(a.images_, b.images_, ImageResource.equals.bind(ImageResource));
     }
   }
 };
