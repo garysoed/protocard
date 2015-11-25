@@ -1,5 +1,9 @@
-<div class="pc-fill-parent">
-  <md-fab-speed-dial class="pc-context-button" md-direction="up">
+<div class="pc-fill-parent" layout="column" layout-align="start end">
+  <md-content class="pc-fill-parent" flex>
+    <pc-image-select ng-model="ctrl.selectedImages" images="ctrl.images"></pc-image-select>
+  </md-content>
+
+  <md-fab-speed-dial class="pc-context-button" md-direction="up" ng-if="!ctrl.hasSelectedImages()">
     <md-fab-trigger>
       <md-button class="md-fab">
         <md-icon>add<md-icon>
@@ -11,4 +15,11 @@
       </md-button>
     </md-fab-actions>
   </md-fab-speed-dial>
+
+  <md-button
+      class="pc-context-button md-fab"
+      ng-if="ctrl.hasSelectedImages()"
+      ng-click="ctrl.onDeleteClick()">
+    <md-icon>delete</md-icon>
+  </md-button>
 </div>

@@ -1,5 +1,5 @@
 Name	Element	Type	#	L	A	D	Description	Cost	Mech	Flav	Art	_override	@ cast	@ turn	@ tap						max tap	_cost	_lifetime	_adjustment	_hasEntrance
-									93.51%	77.27%	25.97%				tap 1	tap 2	tap 3	innate	attack	armor					
+									96.00%	81.33%	33.33%				tap 1	tap 2	tap 3	innate	attack	armor					
 Meditate	Base	Spell	10				Name an element. Replace a card in the draft slot until you reveal a card of the named element. Draft a card.	1	2	2			2.00								0.00	1.00	0	-1	FALSE
 Mind Link	Base	Enchantment	10				At the beginning of the turn, draw a card	2	2	2				1.00							0.00	1.98	1.98	0	FALSE
 Bot	Base	Minion	10	3	2	0		3	2	2	2							1.50	1.5	0.00	1.50	3.13	2.088607595	0	FALSE
@@ -7,9 +7,9 @@ Energy Orb	Base	Device	10	3			{{>T}}: +1 Energy	2	2	2	2				1						1.00	2.09	2.08
 Fire Ball	Fire	Spell	3				Damage up to 3 Minions by 1	2	2	2			3.45								0.00	2.45	0	-1	FALSE
 Overheat	Fire	Spell	2				While this card is in play, increase all damage you, or any cards you control do, by 1	1	2	2			2.25								0.00	1.25	0	-1	FALSE
 Spark	Fire	Spell	3				Untap all your Devices	1	2	2			2.40								0.00	1.40	0	-1	FALSE
-Explode	Fire	Spell	2				Destroy up to 2 Minions with at most 1 life.	1	1				2.35								0.00	1.35	0	-1	FALSE
+Explode	Fire	Spell	2				Destroy up to 2 Minions with at most 1 life.	1	1				2.32								0.00	1.32	0	-1	FALSE
 Construct	Fire	Spell	2				Put a Device from hand into play for free	1	2	2			1.50								0.00	0.50	0	-1	FALSE
-Burning Aura	Fire	Enchantment	3				When this Minion is damaged, damage up to 2 Minions by 1	1	2	2				0.75							0.00	1.48	1.978680879	0	FALSE
+Burning Aura	Fire	Enchantment	3				When this Minion is damaged, damage up to 2 Minions by 1	1	2	2				0.75							0.00	1.48	1.98	0	FALSE
 Combust	Fire	Enchantment	3				When this Minion is damaged, you may untap one Device.	3	2	1				1.65							0.00	3.26	1.98	0	
 Hellhound	Fire	Minion	3	2	3	0		3	2	2	2							2.25	2.25	0.00	2.25	3.13	1.392405063	0	FALSE
 Djinn	Fire	Minion	2	3	3	0		5	2	2								2.25	2.25	0.00	2.25	4.70	2.088607595	0	FALSE
@@ -17,32 +17,30 @@ Fire Elemental	Fire	Minion	2	5	1	0	When this Minion takes a damage, draw a card	
 Salamander	Fire	Minion	2	3	2	0	When this Minion takes a damage, damage all opponent Minions by 1	5	2	2	2			0.75				1.50	1.5	0.00	1.50	4.70	2.088607595	0	FALSE
 Flame Whip	Fire	Device	3	3			{{>T}}: Damage a non Device you control by 1. If the target receives damage, increase all damage you or any cards you control do by 1 until the end of your turn.	3	2	2					1.5						1.50	3.13	2.088607595	0	FALSE
 Fire Ward	Fire	Device	3	3			{{>T}}: Damage up to 2 Minions by 1	3	2	2	2				1.5						1.50	3.13	2.088607595	0	FALSE
-Blast Cannon	Fire	Device	2	3			{{>T}}: Damage a non Device you control by 1. If the target receives damage, you may destroy up to 2 Minions with at most 1 life.	3	1						1.595454545						1.60	3.33	2.088607595	0	FALSE
-Burning Gear	Fire	Device	2	3			{{>T}}: Damage a non Device you control by 1. If the target receives damage, you may put a device from hand into play for free	2	1						0.75						0.75	1.57	2.088607595	0	FALSE
+Blast Cannon	Fire	Device	3	3			{{>T}}: Damage a non Device you control by 1. If the target receives damage, you may destroy up to 2 Minions with at most 1 life.	3	1						1.568181818						1.57	3.28	2.088607595	0	FALSE
+Burning Gear	Fire	Device	3	3			{{>T}}: Damage a non Device you control by 1. If the target receives damage, you may put a device from hand into play for free	2	2	2	2				0.75						0.75	1.57	2.088607595	0	FALSE
 Fire Orb	Fire	Device	3	3			{{>T}}: Damage a non Device you control by 2. If the target receives damage, draw 3 cards	3	2	2	2				1.5						1.50	3.13	2.088607595	0	FALSE
-Magma Tower	Fire	Device	2	3			{{>T}}: Damage a non Device you control by 2. If the target receives damage, damage up to 2 Minions by 2	3	2	1					1.5						1.50	3.13	2.088607595	0	FALSE
-Solar Orb	Fire	Device	3	3			{{>T}}: Damage a non Device you control by 2. If the target receives damage, +3 Energy	3	2	2					1.5						1.50	3.13	2.088607595	0	FALSE
-Purify	Earth	Spell	3				Reveal the top 4 cards of the deck. Put any Minions in hand, discard the rest or replace them in any order. Draw a card.	1	1				2.20								0.00	1.20	0	-1	FALSE
+Solar Orb	Fire	Device	3	3			{{>T}}: Damage a non Device you control by 2. If the target receives damage, +3 Energy	3	2	2	2				1.5						1.50	3.13	2.088607595	0	FALSE
+Purify	Earth	Spell	3				Reveal the top 4 cards of the deck. Put any Minions in hand, discard the rest or replace them in any order. Draw a card.	1	2				2.20								0.00	1.20	0	-1	FALSE
 Pottery	Earth	Spell	2				Draft a Minion into hand	1	1				2.00								0.00	1.00	0	-1	FALSE
 Evolve	Earth	Spell	2				Put a Minion in play back in your hand. Put a Minion in your discard pile with summoning cost at most one more of the summoning cost of that minion into play.	2	2	2			3.00								0.00	2.00	0	-1	FALSE
 Revive	Earth	Spell	2				Draw a card from your discard pile	1	2	2			2.00								0.00	1.00	0	-1	FALSE
 Circle of Life	Earth	Enchantment	3				When a Minion you control enters play, you may take a card from your discard pile and put it on top of your deck	2	2	2				1.00							0.00	1.98	1.98	0	FALSE
 Adaptation	Earth	Enchantment	3				At the beginning of the turn, reveal the top 4 cards of your deck. Discard any of them and put the rest back in any order.	2	2	2				1.00							0.00	1.98	1.98	0	FALSE
 Symbiosis	Earth	Enchantment	2				When this Minion is about to receive a damage, you may redirect it to another Minion you control	2	2	2				1.00							0.00	1.98	1.98	0	FALSE
-Flora Secret	Earth	Enchantment	2				When a Minion you control enters play, you may draft a card.	2	1					1.00							0.00	1.98	1.98	0	FALSE
 Hive Mind	Earth	Enchantment	2				When a Minion you control enters play, draw a card	2	2	2				1.00							0.00	1.98	1.98	0	FALSE
 Gnome	Earth	Minion	3	2	1	0	When a Minion you control enters play, put a card in your discard pile on top of your deck.	2	2	2				1.00				0.75	0.75	0.00	0.75	2.44	1.392405063	0	FALSE
-Earth Elemental	Earth	Minion	2	3	0	0	When a Minion you control enters play, draw a card	2	2	2	2			1.00				0.00	0	0.00	0.00	2.09	2.088607595	0	FALSE
+Earth Elemental	Earth	Minion	3	3	0	0	When a Minion you control enters play, draw a card	2	2	2	2			1.00				0.00	0	0.00	0.00	2.09	2.088607595	0	FALSE
 Jungle Vines	Earth	Minion	3	1	1	1	You may put this Minion into play from your discard pile	2	2	2			1.00					1.75	0.75	1.00	1.75	2.22	0.6962025316	0	TRUE
 Thorny Vines	Earth	Minion	3	1	2	0	You may put this Minion into play from your discard pile	2	2	2	2		1.00					1.50	1.5	0.00	1.50	2.04	0.6962025316	0	TRUE
 Bark Vines	Earth	Minion	3	1	0	2	You may put this Minion into play from your discard pile	2	2	2			1.00					1.44	0	1.44	1.44	2.00	0.6962025316	0	TRUE
-Kitsune	Earth	Minion	4	2	1	1	When a Minion you control enters play, look at the top 2 cards of your deck. Replace them in any order. Every player discards the top card of their deck	2	2	2								1.75	0.75	1.00	1.75	2.44	1.392405063	0	FALSE
+Kitsune	Earth	Minion	3	2	1	1	When a Minion you control enters play, look at the top 2 cards of your deck. Replace them in any order. Every player discards the top card of their deck	2	2	2	2							1.75	0.75	1.00	1.75	2.44	1.392405063	0	FALSE
 Nature Orb	Earth	Device	2	3			{{>T}}: Draw a card. Every player discards the top card of their deck	2	2	2	2				1.00						1.00	2.09	2.088607595	0	FALSE
 Revival Pendant	Earth	Device	2	3			{{>T}}: Put a card from your discard pile on top of the deck.	2	2	2	2				1.00						1.00	2.09	2.088607595	0	FALSE
-Morph Hoop	Earth	Device	2	3			{{>T}}: Put a Minion in play back in your hand. Put another Minion with the same cost into play	3	2	1					1.38						1.38	2.89	2.088607595	0	FALSE
+Growth Scepter	Earth	Device	2	3			{{>T}}: Put a Minion in play back in your hand. Put another Minion with the same cost into play	3	2	1					1.38						1.38	2.89	2.088607595	0	FALSE
 Gathering Storm	Air	Spell	3				Reduce energy cost of Spells by 1. Draw a card.	2	2	2		2	2.00								0.00	1.00	0	-1	FALSE
 Bird's Eye View	Air	Spell	3				Pick a player. Reveal that player's hand. For every spell you have in play, discard a card you pick from that player's hand. Draw a card.	1	1				2.00								0.00	1.00	0	-1	FALSE
-Air Blade	Air	Spell	3				Damage a target by X, where X is the number of spells you have in play. Draw a card.	1	1				2.00								0.00	1.00	0	-1	FALSE
+Air Blade	Air	Spell	3				Damage a target by X, where X is the number of spells you have in play. Draw a card.	1	2	2			2.00								0.00	1.00	0	-1	FALSE
 Shock	Air	Spell	3				For every spell you have in play, tap a card. Draw a card.	1	1				2.35								0.00	1.35	0	-1	FALSE
 Demoralize	Air	Spell	2				Move a Minion you control back to the owner's hand. The owner gains the same amount of energy used to summon the Minion. Draw a card.	1	2	2			2.38								0.00	1.38	0	-1	FALSE
 Reset	Air	Spell	2				Shuffle your discard pile and put it on top of your deck. Draw a card.	2	2				3.00								0.00	2.00	0	-1	FALSE
@@ -51,12 +49,12 @@ Charged	Air	Enchantment	2				When you play a Spell, you may deal 1 damage to a t
 Flight	Air	Enchantment	3				This Minion is Flying	2	2	2				1.00							0.00	1.98	1.98	0	FALSE
 Intelligence	Air	Enchantment	2				When you play a Spell, draw a card	2	2	2				1.00							0.00	1.98	1.98	0	FALSE
 Intimidation	Air	Enchantment	2				When you play a Spell, tap a card	3	2	2				1.50							0.00	2.97	1.98	0	FALSE
-Sylph	Air	Minion	3	2	1	0	When you play a Spell, pick a player. That player discards a card you pick.	2	2	2				1.00				0.75	0.75	0.00	0.75	2.44	1.392405063	0	FALSE
-Garuda	Air	Minion	1	2	2	0	Flying	3	2	2	2			1.00				1.50	1.5	0.00	1.50	3.48	1.392405063	0	FALSE
+Sylph	Air	Minion	2	2	1	0	When you play a Spell, pick a player. That player discards a card you pick.	2	2	2	2			1.00				0.75	0.75	0.00	0.75	2.44	1.392405063	0	FALSE
+Garuda	Air	Minion	2	2	2	0	Flying	3	2	2	2			1.00				1.50	1.5	0.00	1.50	3.48	1.392405063	0	FALSE
 Poltergeist	Air	Minion	2	3	1.00	0	This Minion's attack power is equal to the number of Spells you have in play	2	2	2	2							0.75	0.75	0.00	0.75	1.57	2.088607595	0	FALSE
 Crystal Ball	Air	Device	3	3			{{>T}}: Reveal the top card of your deck. If it is a spell, put it into play for free. Otherwise, put it in your hand.	2	2	2	1			1.075							0.00	2.25	2.088607595	0	FALSE
 Crown of Thrall	Air	Device	2	3			{{>T}}: Take control a Minion with the same summoning cost as the number of Spell you have in play until the end of your turn.	2	2	2	1				1.00						1.00	2.09	2.088607595	0	FALSE
-Mind Orb	Air	Device	2	3			{{>T}}: Draw a Card. Pick a player. Both you and that player take a card from hand and put it on top of the other player’s deck.	2	2	2					1.00						1.00	2.09	2.088607595	0	FALSE
+Gale Orb	Air	Device	2	3			{{>T}}: Draw a Card. Pick a player. Both you and that player take a card from hand and put it on top of the other player’s deck.	2	2	2	2				1.00						1.00	2.09	2.088607595	0	FALSE
 Hologram	Air	Device	2	3			{{>T}}: Pick a Minion. Redirect that Minion's next attack causing up to X damage, where X is the number of Spells in play, to a target of your choice.	3	2	2	2				1.50						1.50	3.13	2.088607595	0	FALSE
 Looking Glass	Air	Device	3	3			{{>T}}: Look at the top 4 cards of a deck. You may put any of them at the bottom of the deck in any order. Replace the rest of them in any order.	2	2	2	2				1.00						1.00	2.09	2.088607595	0	FALSE
 Healing Rain	Water	Spell	3				Fully heal a Minion. Untap that Minion.	2	2	2			2.88								0.00	1.88	0	-1	FALSE

@@ -75,7 +75,10 @@ describe('editor.DriveDialogCtrl', () => {
       ctrl.updateResources_(resourceUrl)
           .then(() => {
             expect(mockGapiService.authenticate).toHaveBeenCalledWith(['drive.readonly']);
-            expect(mockDriveClient.children.list).toHaveBeenCalledWith({ folderId: resourceUrl });
+            expect(mockDriveClient.children.list).toHaveBeenCalledWith({
+              folderId: resourceUrl,
+              q: 'not trashed'
+            });
 
             expect(ctrl.resources[0].alias).toEqual('title1');
             expect(ctrl.resources[0].url).toEqual(`${webViewLink}title1`);

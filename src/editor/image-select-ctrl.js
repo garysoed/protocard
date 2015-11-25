@@ -48,6 +48,15 @@ export default class {
   }
 
   /**
+   * @method selectedCssFor
+   * @param {ImageResource} image The image whose CSS class should be returned.
+   * @return {string} CSS class for the given image.
+   */
+  selectedCssFor(image) {
+    return this.isSelected(image) ? 'selected' : '';
+  }
+
+  /**
    * Called during linking.
    *
    * @method onLink

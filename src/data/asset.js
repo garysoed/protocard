@@ -25,14 +25,10 @@ export default class {
      * @type {string}
      */
     this.name = name;
-
     this.globalsString_ = JSON.stringify(this.globals_);
-
     this.helpers_ = {};
-
     this.data_ = null;
-
-    this.images_ = [];
+    this.images_ = new Set([]);
   }
 
   /**
@@ -93,6 +89,10 @@ export default class {
     this.data_ = data;
   }
 
+  /**
+   * @property images
+   * @type {Set}
+   */
   get images() {
     return this.images_;
   }
@@ -110,7 +110,7 @@ export default class {
       globals: this.globalsString,
       helpers: Utils.mapValue(this.helpers, helper => helper.toJSON()),
       data: this.data ? this.data.toJSON() : null,
-      images: this.images_.map(image => image.toJSON())
+      images: Array.from(this.images_).map(image => image.toJSON())
     };
   }
 
@@ -134,7 +134,7 @@ export default class {
     asset.data_ = File.fromJSON(json['data']);
 
     if (json['images']) {
-      asset.images_ = json['images'].map(json => ImageResource.fromJSON(json));
+      asset.images_ = new Set(json['images'].map(json => ImageResource.fromJSON(json)));
     }
     return asset;
   }

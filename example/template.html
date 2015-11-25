@@ -118,6 +118,10 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 2rem; /** TODO(gs): Use flowtype */
     padding: 25px;
+    {{#ifeq _.type "device"}}
+      padding-left: 86px;
+      text-indent: -61px;
+    {{/ifeq}}
     text-align: justify;
     line-height: 46px;
   }

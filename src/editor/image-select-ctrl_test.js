@@ -50,4 +50,20 @@ describe('editor.ImageSelectCtrl', () => {
       expect(mockNgModelCtrl.$setViewValue).toHaveBeenCalledWith([]);
     });
   });
+
+  describe('selectedCssFor', () => {
+    beforeEach(() => {
+      ctrl.onLink(jasmine.createSpyObj('ngModelCtrl', ['$setViewValue']));
+    });
+
+    it('should return selected if the image is selected', () => {
+      let image = 'image';
+      ctrl.select(image);
+      expect(ctrl.selectedCssFor(image)).toEqual('selected');
+    });
+
+    it('should return empty string if the image is not selected', () => {
+      expect(ctrl.selectedCssFor('image')).toEqual('');
+    });
+  });
 });

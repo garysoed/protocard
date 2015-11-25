@@ -4,8 +4,11 @@
   margin: auto;
 }
 
-.image-select md-grid-tile {
-  background-color: grey;
+.image-select img {
+  background-color: lightgray;
+  background-image: linear-gradient(45deg, rgba(0,0,0,.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.1) 75%, rgba(0,0,0,.1)),
+                    linear-gradient(-45deg, rgba(0,0,0,.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.1) 75%, rgba(0,0,0,.1));
+  background-size: 15px 15px;
 }
 
 .image-select md-icon {
@@ -13,4 +16,13 @@
   position: absolute;
   top: 3px;
   left: 3px;
+}
+
+.image-select .selected {
+  filter: grayscale(50%) brightness(75%);
+}
+
+.image-select md-grid-tile-footer {
+  padding-left: 10px;
+  padding-right: 10px;
 }

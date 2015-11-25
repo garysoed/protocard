@@ -36,7 +36,7 @@ export default class {
         .then(client => {
           return Promise.all([
             client,
-            client.children.list({ folderId: resourceUrl })
+            client.children.list({ folderId: resourceUrl, q: 'not trashed' })
           ]);
         })
         .then(values => {
