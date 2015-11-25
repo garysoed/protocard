@@ -17,10 +17,10 @@ describe('data.Asset', () => {
       'field1': '1',
       'field2': '2'
     };
-    let images = [
+    let images = new Set([
       new ImageResource('image1.png', 'http://image1.png', 'http://preview/image1.png'),
       new ImageResource('image2.png', 'http://image2.png', 'http://preview/image2.png'),
-    ];
+    ]);
     let asset = new Asset('name');
     asset.globalsString = JSON.stringify(globals);
     asset.helpers['helper1'] = helpers[0];
