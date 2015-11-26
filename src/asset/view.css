@@ -5,3 +5,13 @@
 .asset-view .actions {
   width: 500px;
 }
+
+.asset-view .title {
+  padding-right: 10px;
+  margin-right: 10px;
+  border-right: 1px solid rgba(255, 255, 255, 0.870588);
+}
+
+.asset-view .title:hover {
+  cursor: pointer;
+}

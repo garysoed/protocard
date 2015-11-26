@@ -66,6 +66,17 @@ describe('asset.ViewCtrl', () => {
     });
   });
 
+  describe('onMenuClick', () => {
+    it('should flip the sidebar open status', () => {
+      ctrl.isSidebarOpen = false;
+      ctrl.onMenuClick();
+      expect(ctrl.isSidebarOpen).toEqual(true);
+
+      ctrl.onMenuClick();
+      expect(ctrl.isSidebarOpen).toEqual(false);
+    });
+  });
+
   describe('onNavigateClick', () => {
     it('should navigate to the right subview', () => {
       mockAssetService.getAsset.and.returnValue(asset);

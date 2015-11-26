@@ -19,6 +19,7 @@ export default class {
     this.asset_ = null;
     this.subview_ = null;
     this.currentHelper_ = null;
+    this.isSidebarOpen_ = true;
   }
 
   /**
@@ -78,6 +79,19 @@ export default class {
     this.subview_ = subview;
   }
 
+/**
+ * True iff the sidebar should be opened.
+ *
+ * @property isSidebarOpen
+ * @type {boolean}
+ */
+  get isSidebarOpen() {
+    return this.isSidebarOpen_;
+  }
+  set isSidebarOpen(open) {
+    this.isSidebarOpen_ = open;
+  }
+
   /**
    * Handler called when the back button is clicked.
    *
@@ -85,6 +99,15 @@ export default class {
    */
   onBackClick() {
     this.navigateService_.toHome();
+  }
+
+  /**
+   * Handler called when the menu button is clicked.
+   *
+   * @method onMenuClick
+   */
+  onMenuClick() {
+    this.isSidebarOpen_ = !this.isSidebarOpen_;
   }
 
   /**

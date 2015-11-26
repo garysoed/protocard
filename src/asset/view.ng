@@ -1,16 +1,17 @@
 <div class="asset-view" layout="column" ng-init="ctrl.onInit()">
   <md-toolbar>
-    <div class="md-toolbar-tools">
-      <md-button class="md-icon-button" ng-click="ctrl.onBackClick()">
-        <md-icon>home</md-icon>
+    <div class="md-toolbar-tools" layout="row">
+      <md-button class="md-icon-button" ng-click="ctrl.onMenuClick()">
+        <md-icon>menu</md-icon>
       </md-button>
+      <h2 class="title" ng-click="ctrl.onBackClick()">Protocard</h2>
       <h2>{{ctrl.assetName}}</h2>
     </div>
   </md-toolbar>
   <section flex layout="row">
     <md-sidenav class="md-sidenav-left md-whiteframe-z2"
         md-component-id="left"
-        md-is-locked-open="$mdMedia('gt-sm')">
+        md-is-open="ctrl.isSidebarOpen">
       <md-content layout="column">
         <md-radio-group ng-model="ctrl.subview" ng-change="ctrl.onNavigateClick(ctrl.subview)">
           <div>
