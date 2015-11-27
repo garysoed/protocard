@@ -11,6 +11,7 @@ export default class {
     this.assetService_ = AssetService;
     this.asset_ = $scope['asset'];
     this.helper_ = $scope['helper'];
+    this.helperString_ = this.helper_.fnString;
   }
 
   /**
@@ -18,27 +19,14 @@ export default class {
    * @type {string}
    */
   get helperString() {
-    return this.helper_.fnString;
+    return this.helperString_;
   }
 
   set helperString(newValue) {
-    this.helper_.fnString = newValue;
-  }
-
-  /**
-   * @method isValid
-   * @return {Boolean} True iff the helper editor has a valid value.
-   */
-  isValid() {
-    return this.helperString !== null;
-  }
-
-  /**
-   * Helper called when the save button is clicked.
-   *
-   * @method onSaveClick
-   */
-  onSaveClick() {
-    this.assetService_.saveAsset(this.asset_);
+    this.helperString_ = newValue;
+    if (newValue !== null) {
+      this.helper_.fnString = newValue;
+      this.assetService_.saveAsset(this.asset_);
+    }
   }
 }

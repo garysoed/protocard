@@ -16,30 +16,23 @@ describe('asset.subview.HelperEditorCtrl', () => {
   });
 
   describe('set helperString', () => {
-    it('should update the value in the helper object', () => {
+    it('should update the value in the helper object and saves it if non null', () => {
       let helperString = 'helperString';
       ctrl.helperString = helperString;
 
+      expect(ctrl.helperString).toEqual(helperString);
       expect(helper.fnString).toEqual(helperString);
-    });
-  });
-
-  describe('isValid', () => {
-    it('should return true is the helper string is not null', () => {
-      helper.fnString = 'fnString';
-      expect(ctrl.isValid()).toEqual(true);
-    });
-
-    it('should return false if the helper string is null', () => {
-      helper.fnString = null;
-      expect(ctrl.isValid()).toEqual(false);
-    });
-  });
-
-  describe('onSaveClick', () => {
-    it('should save the asset', () => {
-      ctrl.onSaveClick();
       expect(mockAssetService.saveAsset).toHaveBeenCalledWith(asset);
+    });
+
+    it('should update the value but not the helper if null', () => {
+      let oldValue = 'oldValue';
+      helper.fnString = oldValue;
+      ctrl.helperString = null;
+
+      expect(ctrl.helperString).toEqual(null);
+      expect(helper.fnString).toEqual(oldValue);
+      expect(mockAssetService.saveAsset).not.toHaveBeenCalled();
     });
   });
 });

@@ -1,7 +1,4 @@
 <div class="asset-helper-editor pc-fill-parent" layout="column" layout-align="start end">
   <pc-code-editor flex ng-model="ctrl.helperString" language="javascript">
   </pc-code-editor>
-  <md-button ng-click="ctrl.onSaveClick()" ng-disabled="!ctrl.isValid()" class="button md-fab">
-    <md-icon>save</md-icon>
-  </md-button>
 </div>
