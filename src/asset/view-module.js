@@ -1,3 +1,4 @@
+import AssetDataModule from './data/data-module';
 import AssetGlobalModule from './global/global-module';
 import AssetHelperEditorModule from './helper/helper-editor-module';
 import AssetHelperModule from './helper/helper-module';
@@ -11,6 +12,7 @@ import ViewCtrl from './view-ctrl';
 export default angular
     .module('asset.ViewModule', [
       'ngRoute',
+      AssetDataModule.name,
       AssetGlobalModule.name,
       AssetHelperEditorModule.name,
       AssetHelperModule.name,

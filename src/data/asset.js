@@ -30,6 +30,7 @@ export default class {
     this.data_ = null;
     this.images_ = new Set([]);
     this.templateString_ = '';
+    this.dataProcessor_ = new FunctionObject('return function(lineData) {};');
   }
 
   /**
@@ -90,6 +91,10 @@ export default class {
     this.data_ = data;
   }
 
+  get dataProcessor() {
+    return this.dataProcessor_;
+  }
+
   /**
    * @property images
    * @type {Set}
@@ -122,6 +127,7 @@ export default class {
       globals: this.globalsString,
       helpers: Utils.mapValue(this.helpers, helper => helper.toJSON()),
       data: this.data ? this.data.toJSON() : null,
+      dataProcessor: this.dataProcessor_,
       images: Array.from(this.images_).map(image => image.toJSON()),
       templateString: this.templateString
     };
@@ -146,6 +152,10 @@ export default class {
     asset.helpers_ = Utils.mapValue(json['helpers'], json => FunctionObject.fromJSON(json));
     asset.data_ = File.fromJSON(json['data']);
     asset.templateString_ = json['templateString'];
+
+    if (json['dataProcessor']) {
+      asset.dataProcessor_ = FunctionObject.fromJSON(json['dataProcessor']);
+    }
 
     if (json['images']) {
       asset.images_ = new Set(json['images'].map(json => ImageResource.fromJSON(json)));
@@ -174,6 +184,7 @@ export default class {
           && Utils.equals(a.globalsString, b.globalsString)
           && Utils.equals(a.helpers, b.helpers, FunctionObject.equals.bind(FunctionObject))
           && File.equals(a.data, b.data)
+          && FunctionObject.equals(a.dataProcessor, b.dataProcessor)
           && Utils.equals(a.images_, b.images_, ImageResource.equals.bind(ImageResource))
           && a.templateString === b.templateString;
     }

@@ -10,8 +10,8 @@ import RawSource from './raw-source';
 describe('data.Asset', () => {
   it('should be able to be converted to / from JSON', () => {
     let helpers = [
-      new FunctionObject('functionObject1'),
-      new FunctionObject('functionObject2')
+      new FunctionObject('function f1() {}'),
+      new FunctionObject('function f2() {}')
     ];
     let globals = {
       'field1': '1',

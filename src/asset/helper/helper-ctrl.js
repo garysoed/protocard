@@ -80,7 +80,7 @@ export default class {
    */
   onAddClick() {
     let newName = Utils.generateKey(this.asset_.helpers, 'helper');
-    let newHelper = new FunctionObject();
+    let newHelper = new FunctionObject('return function() { }');
     this.asset_.helpers[newName] = newHelper;
     this.assetService_.saveAsset(this.asset_);
   }

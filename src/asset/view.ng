@@ -28,6 +28,15 @@
 
           <div>
             <div>
+              <h2 layout-padding>Process</h2>
+            </div>
+            <div layout="column">
+              <md-radio-button value="data">Process Data</md-radio-button>
+            </div>
+          </div>
+
+          <div>
+            <div>
               <h2 layout-padding>Create</h2>
             </div>
             <div layout="column">
@@ -35,13 +44,18 @@
               <md-radio-button value="template">Main Template</md-radio-button>
             </div>
           </div>
+
+          <div>
+            <div>
+              <h2 layout-padding>Render</h2>
+            </div>
+            <div layout="column">
+              <md-radio-button value="render">Render</md-radio-button>
+            </div>
+          </div>
         </md-radio-group>
 
-        <md-card>
-          <md-card-content>
-            <h2>Preview</h2>
-          </md-card-content>
-        </md-card>
+        <!-- TODO(gs): Disable the buttons with conditions -->
       </md-content>
     </md-sidenav>
     <md-content ng-switch on="ctrl.subview" flex layout="column">
@@ -56,6 +70,7 @@
       <pc-asset-text flex ng-switch-when="text" asset="ctrl.asset"></pc-asset-text>
       <pc-asset-image flex ng-switch-when="image" asset="ctrl.asset"></pc-asset-image>
       <pc-asset-template flex ng-switch-when="template" asset="ctrl.asset"></pc-asset-template>
+      <pc-asset-data flex ng-switch-when="data" asset="ctrl.asset"></pc-asset-data>
       <div ng-switch-default>Click the left menu</div>
     </md-content>
   </section>

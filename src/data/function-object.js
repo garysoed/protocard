@@ -7,15 +7,15 @@ export default class {
 
   /**
    * @constructor
-   * @param {string} name Name of the helper function.
+   * @param {string} [fnString] Initial value of the function string.
    */
-  constructor() {
+  constructor(fnString = '') {
 
     /**
      * @property fnString
      * @type {string}
      */
-    this.fnString = 'return function() {};';
+    this.fnString = fnString;
   }
 
   /**

@@ -1,0 +1,5 @@
+<div class="pc-fill-parent" layout="column" layout-align="start end">
+  <pc-code-editor flex ng-model="ctrl.processorString" language="javascript">
+  </pc-code-editor>
+  <!-- TODO(gs): Add preview -->
+</div>
