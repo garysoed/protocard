@@ -1,6 +1,6 @@
 import Field from './field';
 import File from './file';
-import Helper from './helper';
+import FunctionObject from './function-object';
 import ImageResource from './image-resource';
 import Utils from '../utils';
 
@@ -143,7 +143,7 @@ export default class {
     let asset = new this(json['name']);
     asset.id_ = json['id'];
     asset.globalsString = json['globals'];
-    asset.helpers_ = Utils.mapValue(json['helpers'], json => Helper.fromJSON(json));
+    asset.helpers_ = Utils.mapValue(json['helpers'], json => FunctionObject.fromJSON(json));
     asset.data_ = File.fromJSON(json['data']);
     asset.templateString_ = json['templateString'];
 
@@ -172,7 +172,7 @@ export default class {
       return a.id === b.id
           && a.name === b.name
           && Utils.equals(a.globalsString, b.globalsString)
-          && Utils.equals(a.helpers, b.helpers)
+          && Utils.equals(a.helpers, b.helpers, FunctionObject.equals.bind(FunctionObject))
           && File.equals(a.data, b.data)
           && Utils.equals(a.images_, b.images_, ImageResource.equals.bind(ImageResource))
           && a.templateString === b.templateString;

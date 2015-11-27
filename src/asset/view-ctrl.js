@@ -19,7 +19,7 @@ export default class {
     this.asset_ = null;
     this.subview_ = null;
     this.currentHelper_ = null;
-    this.isSidebarOpen_ = true;
+    this.isSidebarOpen_ = false;
   }
 
   /**

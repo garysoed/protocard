@@ -1,5 +1,5 @@
 import Asset from './data/asset';
-import Helper from './data/helper';
+import FunctionObject from './data/function-object';
 
 jasmine.createObj = (name) => {
   return { type: name };
@@ -7,7 +7,7 @@ jasmine.createObj = (name) => {
 
 beforeEach(() => {
   jasmine.addCustomEqualityTester(Asset.equals.bind(Asset));
-  jasmine.addCustomEqualityTester(Helper.equals.bind(Helper));
+  jasmine.addCustomEqualityTester(FunctionObject.equals.bind(FunctionObject));
   jasmine.clock().install();
 });
 

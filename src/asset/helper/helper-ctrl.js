@@ -1,4 +1,4 @@
-import Helper from '../../data/helper';
+import FunctionObject from '../../data/function-object';
 import { Events as HelperItemEvents } from './helper-item-ctrl';
 import Utils from '../../utils';
 
@@ -80,7 +80,7 @@ export default class {
    */
   onAddClick() {
     let newName = Utils.generateKey(this.asset_.helpers, 'helper');
-    let newHelper = new Helper();
+    let newHelper = new FunctionObject();
     this.asset_.helpers[newName] = newHelper;
     this.assetService_.saveAsset(this.asset_);
   }

@@ -1,7 +1,7 @@
 /**
- * Represents a helper function.
+ * Represents a function.
  *
- * @class Helper
+ * @class FunctionObject
  */
 export default class {
 
