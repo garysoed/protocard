@@ -1,0 +1,4 @@
+<div class="pc-fill-parent" layout="column" layout-align="start">
+  <pc-code-editor flex ng-model="ctrl.templateString" language="html">
+  </pc-code-editor>
+</div>

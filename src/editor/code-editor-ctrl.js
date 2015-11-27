@@ -36,7 +36,9 @@ export default class {
    */
   onEditorChangeAnnotation_() {
     this.$timeout_(() => {
-      this.valid_ = this.editor_.getSession().getAnnotations().length === 0;
+      this.valid_ = !this.editor_.getSession().getAnnotations().some(annotation => {
+        return annotation.type === 'error';
+      });
       if (this.valid_) {
         this.ngModelCtrl_.$setViewValue(this.editor_.getValue());
       } else {

@@ -27,6 +27,7 @@ describe('data.Asset', () => {
     asset.helpers['helper2'] = helpers[1];
     asset.data = new File(FileTypes.TSV, 'content');
     asset.images_ = images;
+    asset.templateString = 'templateString';
 
     let copy = Asset.fromJSON(asset.toJSON());
     expect(copy).toEqual(asset);

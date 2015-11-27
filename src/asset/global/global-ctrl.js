@@ -33,14 +33,9 @@ export default class {
   }
   set globalsString(newValue) {
     this.globalsString_ = newValue;
-  }
-
-  /**
-   * Handler called when the save button is clicked.
-   * @method onSaveClick
-   */
-  onSaveClick() {
-    this.asset_.globalsString = this.globalsString_;
-    this.assetService_.saveAsset(this.asset_);
+    if (newValue !== null) {
+      this.asset_.globalsString = newValue;
+      this.assetService_.saveAsset(this.asset_);
+    }
   }
 }

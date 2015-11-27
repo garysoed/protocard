@@ -37,14 +37,25 @@ describe('asset.subview.GlobalCtrl', () => {
     });
   });
 
-  describe('onSaveClick', () => {
-    it('should update the asset and save it', () => {
+  describe('set globalsString', () => {
+    it('should update the asset and save it if set to non null', () => {
       let newValue = 'newValue';
       ctrl.globalsString = newValue;
-      ctrl.onSaveClick();
 
+      expect(ctrl.globalsString).toEqual(newValue);
       expect(mockAsset.globalsString).toEqual(newValue);
       expect(mockAssetService.saveAsset).toHaveBeenCalledWith(mockAsset);
+    });
+
+    it('should update the globalsString but not save it if null', () => {
+      let oldValue = 'oldValue';
+      mockAsset.globalsString = oldValue;
+
+      ctrl.globalsString = null;
+
+      expect(ctrl.globalsString).toEqual(null);
+      expect(mockAsset.globalsString).toEqual(oldValue);
+      expect(mockAssetService.saveAsset).not.toHaveBeenCalled();
     });
   });
 });

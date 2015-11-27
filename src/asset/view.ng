@@ -16,34 +16,27 @@
         <md-radio-group ng-model="ctrl.subview" ng-change="ctrl.onNavigateClick(ctrl.subview)">
           <div>
             <div>
-              <h2 layout-padding>Settings</h2>
+              <h2 layout-padding>Resources</h2>
             </div>
             <div layout="column">
               <md-radio-button value="global">Global values</md-radio-button>
               <md-radio-button value="helper">Helper functions</md-radio-button>
+              <md-radio-button value="text">Text data</md-radio-button>
+              <md-radio-button value="image">Image data</md-radio-button>
             </div>
           </div>
 
           <div>
             <div>
-              <h2 layout-padding>Data</h2>
+              <h2 layout-padding>Create</h2>
             </div>
             <div layout="column">
-              <md-radio-button value="text">Text data</md-radio-button>
-              <md-radio-button value="image">Image data</md-radio-button>
+              <md-radio-button value="partial">Partials</md-radio-button>
+              <md-radio-button value="template">Main Template</md-radio-button>
             </div>
           </div>
         </md-radio-group>
 
-
-        <md-card>
-          <md-card-content>
-            <h2>Template</h2>
-            Main template
-          </md-card-content>
-          <md-divider></md-divider>
-          <md-card-content>Partials</md-card-content>
-        </md-card>
         <md-card>
           <md-card-content>
             <h2>Preview</h2>
@@ -62,6 +55,7 @@
           ng-if="!!ctrl.currentHelper"></pc-asset-helper-editor>
       <pc-asset-text flex ng-switch-when="text" asset="ctrl.asset"></pc-asset-text>
       <pc-asset-image flex ng-switch-when="image" asset="ctrl.asset"></pc-asset-image>
+      <pc-asset-template flex ng-switch-when="template" asset="ctrl.asset"></pc-asset-template>
       <div ng-switch-default>Click the left menu</div>
     </md-content>
   </section>

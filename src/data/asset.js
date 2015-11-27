@@ -29,6 +29,7 @@ export default class {
     this.helpers_ = {};
     this.data_ = null;
     this.images_ = new Set([]);
+    this.templateString_ = '';
   }
 
   /**
@@ -98,6 +99,17 @@ export default class {
   }
 
   /**
+   * @property templateString
+   * @type {string}
+   */
+  get templateString() {
+    return this.templateString_;
+  }
+  set templateString(templateString) {
+    this.templateString_ = templateString;
+  }
+
+  /**
    * Converts the asset to its JSON format.
    *
    * @method toJSON
@@ -110,7 +122,8 @@ export default class {
       globals: this.globalsString,
       helpers: Utils.mapValue(this.helpers, helper => helper.toJSON()),
       data: this.data ? this.data.toJSON() : null,
-      images: Array.from(this.images_).map(image => image.toJSON())
+      images: Array.from(this.images_).map(image => image.toJSON()),
+      templateString: this.templateString
     };
   }
 
@@ -132,6 +145,7 @@ export default class {
     asset.globalsString = json['globals'];
     asset.helpers_ = Utils.mapValue(json['helpers'], json => Helper.fromJSON(json));
     asset.data_ = File.fromJSON(json['data']);
+    asset.templateString_ = json['templateString'];
 
     if (json['images']) {
       asset.images_ = new Set(json['images'].map(json => ImageResource.fromJSON(json)));
@@ -160,7 +174,8 @@ export default class {
           && Utils.equals(a.globalsString, b.globalsString)
           && Utils.equals(a.helpers, b.helpers)
           && File.equals(a.data, b.data)
-          && Utils.equals(a.images_, b.images_, ImageResource.equals.bind(ImageResource));
+          && Utils.equals(a.images_, b.images_, ImageResource.equals.bind(ImageResource))
+          && a.templateString === b.templateString;
     }
   }
 };

@@ -124,7 +124,7 @@ describe('editor.CodeEditorCtrl', () => {
     it('should trigger digest and update the model view value', () => {
       let value = 'value';
       mockEditor.getValue.and.returnValue(value);
-      mockSession.getAnnotations.and.returnValue([]);
+      mockSession.getAnnotations.and.returnValue([{ 'type': 'info' }]);
 
       onChangeAnnotationHandler();
 
@@ -135,7 +135,7 @@ describe('editor.CodeEditorCtrl', () => {
     });
 
     it('should update the model view value to null if invalid', () => {
-      mockSession.getAnnotations.and.returnValue(['annotation']);
+      mockSession.getAnnotations.and.returnValue([{ 'type': 'error' }]);
 
       onChangeAnnotationHandler();
 

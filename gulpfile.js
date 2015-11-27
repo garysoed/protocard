@@ -80,7 +80,9 @@ gulp.task('compile-ui', gulp.series(
 
 gulp.task('compile-scripts', function() {
   return gulp.src(['scripts/**/*.js'])
-      .pipe(babel())
+      .pipe(babel({
+        presets: ['es2015']
+      }))
       .pipe(gulp.dest('out/scripts'));
 });
 
