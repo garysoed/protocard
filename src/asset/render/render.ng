@@ -12,4 +12,34 @@
   <md-content ng-class="ctrl.isRendering() ? 'loading' : ''">
     <pc-image-select ng-model="ctrl.selectedImages" images="ctrl.images"></pc-image-select>
   </md-content>
+
+  <md-button
+      class="pc-context-button md-fab"
+      ng-click="ctrl.onSelectAllClick()"
+      ng-if="!ctrl.hasSelectedImages()">
+    <md-icon>select_all</md-icon>
+  </md-button>
+
+  <md-fab-speed-dial
+      class="pc-context-button"
+      md-direction="up"
+      md-open="ctrl.isFabOpen"
+      ng-mouseenter="ctrl.onFabMouseEnter()"
+      ng-mouseleave="ctrl.onFabMouseLeave()"
+      ng-if="ctrl.hasSelectedImages()">
+    <md-fab-trigger>
+      <md-button class="md-fab" ng-click="ctrl.onDownloadClick()">
+        <md-icon>file_download</md-icon>
+        <!-- TODO(gs): Add selected count -->
+      </md-button>
+    </md-fab-trigger>
+    <md-fab-actions>
+      <md-button class="md-fab md-raised md-mini" ng-click="ctrl.onSelectAllClick()">
+        <md-icon>select_all</md-icon>
+      </md-button>
+      <md-button class="md-fab md-raised md-mini" ng-click="ctrl.onUnselectAllClick()">
+        <md-icon>remove<md-icon>
+      </md-button>
+    </md-fab-actions>
+  </md-fab-speed-dial>
 </div>

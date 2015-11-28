@@ -15,6 +15,7 @@
   ],
   "dependencies": {
     "html2canvas": "~0.4.1",
-    "ace-builds": "~1.2.2"
+    "ace-builds": "~1.2.2",
+    "jszip": "Stuk/jszip#~2.5.0"
   }
 }

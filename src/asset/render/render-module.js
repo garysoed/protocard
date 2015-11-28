@@ -1,10 +1,14 @@
+import DownloadServiceModule from '../../common/download-service-module';
 import GeneratorServiceModule from '../../generate/generator-service-module';
 import ImageSelectModule from '../../editor/image-select-module';
+import JszipServiceModule from '../../thirdparty/jszip-service-module';
 import RenderCtrl from './render-ctrl';
 import RenderServiceModule from './render-service-module';
 
 export default angular
     .module('pc.asset.render.RenderModule', [
+      DownloadServiceModule.name,
+      JszipServiceModule.name,
       GeneratorServiceModule.name,
       RenderServiceModule.name
     ])

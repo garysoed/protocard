@@ -8,7 +8,9 @@ import RenderCtrl from './render-ctrl';
 describe('asset.render.RenderCtrl', () => {
   let mock$scope;
   let mockAsset;
+  let mockDownloadService;
   let mockGeneratorService;
+  let mockJszipService;
   let mockRenderService;
   let ctrl;
 
@@ -16,9 +18,16 @@ describe('asset.render.RenderCtrl', () => {
     mockAsset = {};
     mock$scope = new FakeScope();
     mock$scope['asset'] = mockAsset;
+    mockDownloadService = jasmine.createSpyObj('DownloadService', ['download']);
     mockGeneratorService = jasmine.createSpyObj('GeneratorService', ['generate']);
+    mockJszipService = jasmine.createSpy('JszipService');
     mockRenderService = jasmine.createSpyObj('RenderService', ['render']);
-    ctrl = new RenderCtrl(mock$scope, mockGeneratorService, mockRenderService);
+    ctrl = new RenderCtrl(
+        mock$scope,
+        mockDownloadService,
+        mockGeneratorService,
+        mockJszipService,
+        mockRenderService);
   });
 
   describe('renderNext_', () => {
@@ -67,6 +76,18 @@ describe('asset.render.RenderCtrl', () => {
     });
   });
 
+  describe('hasSelectedImages', () => {
+    it('should return true if there are images selected', () => {
+      ctrl.selectedImages = ['selected'];
+      expect(ctrl.hasSelectedImages()).toEqual(true);
+    });
+
+    it('should return false if there are no images selected', () => {
+      ctrl.selectedImages = [];
+      expect(ctrl.hasSelectedImages()).toEqual(false);
+    });
+  });
+
   describe('isRendering', () => {
     it('should return true if there are items to render', () => {
       ctrl.toRender_ = [{ content: 'content', key: 'key' }];
@@ -76,6 +97,30 @@ describe('asset.render.RenderCtrl', () => {
     it('should return false if there are no items to render', () => {
       ctrl.toRender_ = [];
       expect(ctrl.isRendering()).toEqual(false);
+    });
+  });
+
+  describe('onDownloadClick', () => {
+    it('should create the zip file and downloads it', () => {
+      let content = 'blobContent';
+      let mockZip = jasmine.createSpyObj('Zip', ['file', 'generate']);
+      mockZip.generate.and.returnValue(content);
+
+      mockJszipService.and.returnValue(mockZip);
+      mockAsset.name = 'assetName';
+
+      let selectedImages = [
+        { alias: 'imageAlias1', url: 'data:image/png,base64data1' }
+      ];
+      ctrl.selectedImages = selectedImages;
+
+      ctrl.onDownloadClick();
+
+      expect(mockZip.file)
+          .toHaveBeenCalledWith('imageAlias1.png', 'base64data1', { base64: true });
+      expect(mockZip.generate).toHaveBeenCalledWith({ type: 'blob' });
+      expect(mockDownloadService.download).toHaveBeenCalledWith(content, `${mockAsset.name}.zip`);
+      expect(ctrl.selectedImages).toEqual([]);
     });
   });
 
@@ -117,6 +162,34 @@ describe('asset.render.RenderCtrl', () => {
       expect(mock$scope.$on).toHaveBeenCalledWith('$destroy', jasmine.any(Function));
       mock$scope.$on.calls.argsFor(0)[1]();
       expect(ctrl.destroyed_).toEqual(true);
+    });
+  });
+
+  describe('onSelectAllClick', () => {
+    it('should select all rendered images', () => {
+      let renderedImages = ['image1', 'image2'];
+      renderedImages.forEach(image => ctrl.images.push(image));
+
+      ctrl.onSelectAllClick();
+      expect(ctrl.selectedImages).toEqual(renderedImages);
+    });
+
+    it('should unselect selected images, then select all rendered images', () => {
+      let renderedImages = ['image1', 'image2'];
+      renderedImages.forEach(image => ctrl.images.push(image));
+      ctrl.selectedImages.push('image1');
+
+      ctrl.onSelectAllClick();
+      expect(ctrl.selectedImages).toEqual(renderedImages);
+    });
+  });
+
+  describe('onUnselectAllClick', () => {
+    it('should unselect all selected images', () => {
+      ctrl.selectedImages.push('image');
+
+      ctrl.onUnselectAllClick();
+      expect(ctrl.selectedImages).toEqual([]);
     });
   });
 

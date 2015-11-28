@@ -11,19 +11,24 @@ export default class {
   /**
    * @constructor
    * @param {ng.Scope} $scope
+   * @param {common.DownloadService} DownloadService
    * @param {generator.GeneratorService} GeneratorService
+   * @param {thirdparty.JszipService} JszipService
    * @param {asset.render.RenderService} RenderService
    */
-  constructor($scope, GeneratorService, RenderService) {
+  constructor($scope, DownloadService, GeneratorService, JszipService, RenderService) {
     this.$scope_ = $scope;
     this.asset_ = $scope['asset'];
     this.destroyed_ = false;
+    this.downloadService_ = DownloadService;
     this.generatorService_ = GeneratorService;
+    this.jszipService_ = JszipService;
     this.renderService_ = RenderService;
     this.toRender_ = [];
     this.rendered_ = [];
     this.selectedImages_ = [];
     this.totalRender_ = 0;
+    this.isFabOpen_ = false;
   }
 
   /**
@@ -58,11 +63,63 @@ export default class {
   }
 
   /**
+   * Unselects all images.
+   *
+   * @method unselectAll_
+   * @private
+   */
+  unselectAll_() {
+    this.selectedImages_.splice(0, this.selectedImages_.length);
+  }
+
+  /**
+   * @method hasSelectedImages
+   * @return {Boolean} True iff there are images selected.
+   */
+  hasSelectedImages() {
+    return this.selectedImages_.length > 0;
+  }
+
+  /**
    * @method isLoading
    * @return {Boolean} True iff there are items to render.
    */
   isRendering() {
     return this.toRender_.length > 0;
+  }
+
+  /**
+   * Handler called when the download button is clicked.
+   *
+   * @method onDownloadClick
+   */
+  onDownloadClick() {
+    let zip = this.jszipService_();
+    this.selectedImages_.forEach(image => {
+      let imageData = image.url.substring(image.url.indexOf(',') + 1);
+      zip.file(`${image.alias}.png`, imageData, { base64: true });
+    });
+    let content = zip.generate({ type: 'blob' });
+    this.downloadService_.download(content, `${this.asset_.name}.zip`);
+    this.unselectAll_();
+  }
+
+  /**
+   * Handler called when the mouse enters the fab button.
+   *
+   * @method onFabMouseEnter
+   */
+  onFabMouseEnter() {
+    this.isFabOpen_ = true;
+  }
+
+  /**
+   * Handler called when the mouse leaves the fab button.
+   *
+   * @method onFabMouseLeave
+   */
+  onFabMouseLeave() {
+    this.isFabOpen_ = false;
   }
 
   /**
@@ -110,12 +167,44 @@ export default class {
   }
 
   /**
+   * Handler called when the select all button is clicked.
+   *
+   * @method onSelectAllClick
+   */
+  onSelectAllClick() {
+    this.unselectAll_();
+    this.images.forEach(image => {
+      this.selectedImages_.push(image);
+    });
+  }
+
+  /**
+   * Handler called when the unselect all button is clicked.
+   *
+   * @method onUnselectAllClick
+   */
+  onUnselectAllClick() {
+    this.unselectAll_();
+  }
+
+  /**
    * @property images
    * @type {Array}
    * @readonly
    */
   get images() {
     return this.rendered_;
+  }
+
+  /**
+   * @property isFabOpen
+   * @type {Boolean}
+   */
+  get isFabOpen() {
+    return this.isFabOpen_;
+  }
+  set isFabOpen(open) {
+    this.isFabOpen_ = open;
   }
 
   /**

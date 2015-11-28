@@ -13,7 +13,9 @@ describe('editor.ImageSelectCtrl', () => {
 
   describe('isSelected', () => {
     beforeEach(() => {
-      ctrl.onLink(jasmine.createSpyObj('ngModelCtrl', ['$setViewValue']));
+      let mockNgModelCtrl = jasmine.createSpyObj('ngModelCtrl', ['$setViewValue']);
+      mockNgModelCtrl.$viewValue = [];
+      ctrl.onLink(mockNgModelCtrl);
     });
 
     it('should return true if the given image is selected', () => {
@@ -32,28 +34,29 @@ describe('editor.ImageSelectCtrl', () => {
 
     beforeEach(() => {
       mockNgModelCtrl = jasmine.createSpyObj('NgModelCtrl', ['$setViewValue']);
+      mockNgModelCtrl.$viewValue = [];
       ctrl.onLink(mockNgModelCtrl);
     });
 
     it('should select the image if it is not selected', () => {
       let image = 'image';
       ctrl.select(image);
-      expect(mockNgModelCtrl.$setViewValue).toHaveBeenCalledWith([image]);
+      expect(mockNgModelCtrl.$viewValue).toEqual([image]);
     });
 
     it('should unselect the image if it is selected', () => {
       let image = 'image';
       ctrl.select(image);
-
-      mockNgModelCtrl.$setViewValue.calls.reset();
       ctrl.select(image);
-      expect(mockNgModelCtrl.$setViewValue).toHaveBeenCalledWith([]);
+      expect(mockNgModelCtrl.$viewValue).toEqual([]);
     });
   });
 
   describe('selectedCssFor', () => {
     beforeEach(() => {
-      ctrl.onLink(jasmine.createSpyObj('ngModelCtrl', ['$setViewValue']));
+      let mockNgModelCtrl = jasmine.createSpyObj('ngModelCtrl', ['$setViewValue']);
+      mockNgModelCtrl.$viewValue = [];
+      ctrl.onLink(mockNgModelCtrl);
     });
 
     it('should return selected if the image is selected', () => {

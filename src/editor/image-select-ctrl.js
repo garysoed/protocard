@@ -10,7 +10,6 @@ export default class {
   constructor($scope) {
     this.$scope_ = $scope;
     this.ngModelCtrl_ = null;
-    this.selected_ = new Set();
   }
 
   /**
@@ -28,7 +27,7 @@ export default class {
    * @return {Boolean} True iff the given image is selected.
    */
   isSelected(image) {
-    return this.selected_.has(image);
+    return this.ngModelCtrl_.$viewValue.indexOf(image) >= 0;
   }
 
   /**
@@ -39,12 +38,12 @@ export default class {
    *    image will be unselected, and vice versa.
    */
   select(image) {
-    if (this.selected_.has(image)) {
-      this.selected_.delete(image);
+    if (this.isSelected(image)) {
+      let index = this.ngModelCtrl_.$viewValue.indexOf(image);
+      this.ngModelCtrl_.$viewValue.splice(index, 1);
     } else {
-      this.selected_.add(image);
+      this.ngModelCtrl_.$viewValue.push(image);
     }
-    this.ngModelCtrl_.$setViewValue(Array.from(this.selected_));
   }
 
   /**

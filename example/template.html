@@ -150,12 +150,11 @@
 
   .stats {
     background-image: {{#ifeq _.type "device"}}
-                        url("assets/backgrounds/{{_.element}}_device_stats.png"),
+                        url("assets/backgrounds/{{_.element}}_device_stats.png");
                       {{/ifeq}}
                       {{#ifeq _.type "minion"}}
-                        url("assets/backgrounds/{{_.element}}_minion_stats.png"),
+                        url("assets/backgrounds/{{_.element}}_minion_stats.png");
                       {{/ifeq}}
-                      url();
   }
 
   .art {
@@ -171,11 +170,20 @@
     /** background-size: contain; */ /* TODO(gs): html2canvas doesn't support this */
     background-repeat: no-repeat;
   }
+
+  .sigil {
+    font-size: 3em;
+    font-family: 'Montserrat', sans-serif;
+    position: absolute;
+    right: 56px;
+    bottom: 56px;
+    text-align: center;
+    width: 83px;
+    height: 83px;
+    line-height: 83px;
+  }
 </style>
 
-<script>
-
-</script>
 <div class="root">
   <div class="name">{{_.name}}</div>
   <div class="cost">{{_.cost}}</div>
@@ -188,6 +196,9 @@
     <div class="text">
       {{_.description}}
     </div>
+  </div>
+  <div class="sigil">
+    {{_.count}}
   </div>
 
   {{#ifeq _.type "device"}}
