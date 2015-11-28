@@ -3,6 +3,7 @@ import AssetGlobalModule from './global/global-module';
 import AssetHelperEditorModule from './helper/helper-editor-module';
 import AssetHelperModule from './helper/helper-module';
 import AssetImageModule from './image/image-module';
+import AssetRenderModule from './render/render-module';
 import AssetServiceModule from '../data/asset-service-module';
 import AssetTemplateModule from './template/template-module';
 import AssetTextModule from './text/text-module';
@@ -17,6 +18,7 @@ export default angular
       AssetHelperEditorModule.name,
       AssetHelperModule.name,
       AssetImageModule.name,
+      AssetRenderModule.name,
       AssetServiceModule.name,
       AssetTemplateModule.name,
       AssetTextModule.name,

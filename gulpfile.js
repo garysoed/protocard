@@ -66,6 +66,7 @@ gulp.task('compile-ui', gulp.series(
           .pipe(gulp.dest('out'));
     },
     function packPreview_() {
+      // TODO(gs): delete
       return gulp.src(['out/generate/preview-app.js'])
           .pipe(sourcemaps.init())
           .pipe(webpack({
@@ -75,6 +76,18 @@ gulp.task('compile-ui', gulp.series(
           }))
           .pipe(sourcemaps.write('./', { includeContent: true }))
           .pipe(gulp.dest('out/generate'));
+    },
+    function packRender_() {
+      // TODO(gs): delete
+      return gulp.src(['out/asset/render/preview-app.js'])
+          .pipe(sourcemaps.init())
+          .pipe(webpack({
+            output: {
+              filename: 'js.js'
+            }
+          }))
+          .pipe(sourcemaps.write('./', { includeContent: true }))
+          .pipe(gulp.dest('out/asset/render'));
     }
 ));
 

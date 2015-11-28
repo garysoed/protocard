@@ -10,4 +10,11 @@ describe('Writer', () => {
     let writer = new Writer(input);
     expect(writer.write(data => data[0] + data[1])).toEqual(['line1', 'line2']);
   });
+
+  it('should remove undefined values', () => {
+    let input = ['included', 'excluded'];
+
+    let writer = new Writer(input);
+    expect(writer.write((data, index) => index === 0 ? data : undefined)).toEqual(['included']);
+  });
 });

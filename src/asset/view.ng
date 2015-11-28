@@ -71,6 +71,7 @@
       <pc-asset-image flex ng-switch-when="image" asset="ctrl.asset"></pc-asset-image>
       <pc-asset-template flex ng-switch-when="template" asset="ctrl.asset"></pc-asset-template>
       <pc-asset-data flex ng-switch-when="data" asset="ctrl.asset"></pc-asset-data>
+      <pc-asset-render flex ng-switch-when="render" asset="ctrl.asset"></pc-asset-render>
       <div ng-switch-default>Click the left menu</div>
     </md-content>
   </section>

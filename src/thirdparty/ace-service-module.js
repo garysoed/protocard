@@ -1,5 +1,5 @@
-import AceServiceProvider from './ace-service-provider';
+import ThirdpartyProvider from './thirdparty-provider';
 
 export default angular
     .module('pc.thirdparty.AceServiceModule', [])
-    .provider('AceService', AceServiceProvider);
+    .provider('AceService', ThirdpartyProvider('ace'));

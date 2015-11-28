@@ -1,5 +1,3 @@
-// TODO(gs): Don't bother with symbols.
-
 export default class {
   constructor($document, $window) {
     this.$window_ = $window;
@@ -9,6 +7,8 @@ export default class {
     this.canvasEl_ = $document[0].querySelector('canvas');
     this.appEl_ = $document[0].querySelector('.app');
     this.rootEl_ = $document[0].querySelector('[ng-view]');
+
+    $window.addEventListener('message', this.onMessage_.bind(this));
   }
 
   onMessage_(event) {
@@ -32,9 +32,5 @@ export default class {
         event.source.postMessage(dataUri, event.origin);
       }
     });
-  }
-
-  onInit() {
-    this.$window_.addEventListener('message', this.onMessage_.bind(this));
   }
 };
