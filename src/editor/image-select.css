@@ -1,3 +1,7 @@
+.image-select {
+  background-color: black;
+}
+
 .image-select img {
   max-width: 100%;
   max-height: 100%;
@@ -23,6 +27,13 @@
 }
 
 .image-select md-grid-tile-footer {
+  background-color: black;
+  cursor: pointer;
+  display: none;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.image-select md-grid-tile:hover md-grid-tile-footer {
+  display: flex;
 }

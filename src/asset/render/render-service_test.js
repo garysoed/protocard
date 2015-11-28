@@ -66,6 +66,30 @@ describe('asset.render.RenderService', () => {
   });
 
   describe('render', () => {
+    let spyRequestPoolQueue;
+
+    beforeEach(() => {
+      spyRequestPoolQueue = spyOn(service.requestPool_, 'queue');
+    });
+
+    it('should queue the request to the request pool', () => {
+      let content = 'content';
+      let width = 123;
+      let height = 456;
+      let promise = {};
+
+      spyRequestPoolQueue.and.returnValue(promise);
+
+      expect(service.render(content, width, height)).toEqual(promise);
+      expect(spyRequestPoolQueue).toHaveBeenCalledWith({
+        content: content,
+        width: width,
+        height: height
+      });
+    });
+  });
+
+  describe('onRequest_', () => {
     let mockIframeEl;
 
     beforeEach(() => {
@@ -93,7 +117,8 @@ describe('asset.render.RenderService', () => {
         handler(event);
       });
 
-      service.render(content, width, height)
+      service
+          .onRequest_({ content: content, width: width, height: height })
           .then(dataUri => {
             expect(mock$window.addEventListener)
                 .toHaveBeenCalledWith('message', jasmine.any(Function));
@@ -111,22 +136,8 @@ describe('asset.render.RenderService', () => {
                     }),
                     origin);
             expect(dataUri).toEqual(event.data);
-
-            expect(service.hasOngoingRendering()).toEqual(false);
             done();
           }, done.fail);
-      expect(service.hasOngoingRendering()).toEqual(true);
-    });
-
-    it('should throw exception if there is an ongoing rendering process', () => {
-        let host = 'abs.url:8080';
-        let protocol = 'http:';
-        let origin = `${protocol}//${host}`;
-        mock$window.location.host = host;
-        mock$window.location.protocol = protocol;
-
-        service.render('content1', 123, 456);
-        expect(() => service.render('content2', 789, 12)).toThrowError(/currently running/);
     });
 
     it('should ignore messages from other origin', done => {
@@ -136,7 +147,9 @@ describe('asset.render.RenderService', () => {
           handler({ data: 'dataUri', origin: 'https://other.origin' });
         });
 
-        service.render('content', 123, 4456).then(done.fail, done.fail);
+        service
+            .onRequest_({ content: 'content', width: 123, height: 4456 })
+            .then(done.fail, done.fail);
         setTimeout(done, 1);
         jasmine.clock().tick(2);
     });

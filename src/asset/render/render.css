@@ -1,0 +1,23 @@
+.pc-asset-render .load-overlay {
+  background-color: rgba(0,0,0,.5);
+  color: white;
+  z-index: 2;
+}
+
+.pc-asset-render .load-overlay .container {
+  position: relative;
+}
+
+.pc-asset-render .load-overlay .text {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+  line-height: 100px;
+}
+
+.pc-asset-render .loading {
+  filter: blur(5px) brightness(.5);
+}

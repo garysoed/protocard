@@ -1,3 +1,5 @@
+import RequestPool from '../../common/request-pool';
+
 export default class {
   /**
    * @constructor
@@ -8,11 +10,47 @@ export default class {
     this.$window_ = $window;
     this.document_ = $document[0];
     this.iframeElPromise_ = null;
-    this.runningRenderPromise_ = null;
+    this.requestPool_ = new RequestPool(this.onRequest_.bind(this));
   }
 
-  hasOngoingRendering() {
-    return this.runningRenderPromise_ !== null;
+  /**
+   * Handler called when the request pool is executing a request.
+   *
+   * @method onRequest_
+   * @param {Object} params
+   * @return {Promise} Promise that will be resolved when the request is completed.
+   */
+  onRequest_(params) {
+    let content = params.content;
+    let width = params.width;
+    let height = params.height;
+
+    return this.iframeElPromise
+        .then(iframeEl => {
+          // TODO(gs): Cache this.
+          let location = this.$window_.location;
+          let origin = `${location.protocol}//${location.host}`;
+          return new Promise((resolve, reject) => {
+            let messageHandler = event => {
+              if (event.origin !== origin) {
+                return;
+              }
+              this.$window_.removeEventListener('message', messageHandler);
+              resolve(event.data);
+            };
+            this.$window_.addEventListener('message', messageHandler);
+
+            iframeEl.style.width = `${width}px`;
+            iframeEl.style.height = `${height}px`;
+            iframeEl.contentWindow.postMessage(
+                {
+                  'content': content,
+                  'height': height,
+                  'width': width
+                },
+                origin);
+          });
+        });
   }
 
   /**
@@ -26,6 +64,7 @@ export default class {
         let iframeEl = this.document_.createElement('iframe');
         iframeEl.style.visibility = 'hidden';
         iframeEl.style.position = 'fixed';
+        iframeEl.style.top = '0';
         iframeEl.src = 'asset/render/preview-app.html';
         iframeEl.addEventListener('load', () => {
           resolve(iframeEl);
@@ -48,36 +87,10 @@ export default class {
    * @return {Promise} Promise that will be resolved with the data URI when the rendering is done.
    */
   render(content, width, height) {
-    if (this.hasOngoingRendering()) {
-      throw Error('A rendering process is currently running');
-    }
-    this.runningRenderPromise_ = this.iframeElPromise
-        .then(iframeEl => {
-          // TODO(gs): Cache this.
-          let location = this.$window_.location;
-          let origin = `${location.protocol}//${location.host}`;
-          return new Promise((resolve, reject) => {
-            let messageHandler = event => {
-              this.$window_.removeEventListener('message', messageHandler);
-              if (event.origin !== origin) {
-                return;
-              }
-              this.runningRenderPromise_ = null;
-              resolve(event.data);
-            };
-            this.$window_.addEventListener('message', messageHandler);
-
-            iframeEl.style.width = `${width}px`;
-            iframeEl.style.height = `${height}px`;
-            iframeEl.contentWindow.postMessage(
-                {
-                  'content': content,
-                  'height': height,
-                  'width': width
-                },
-                origin);
-          });
-        });
-    return this.runningRenderPromise_;
+    return this.requestPool_.queue({
+      content: content,
+      width: width,
+      height: height
+    });
   }
 };

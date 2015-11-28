@@ -1,1 +1,15 @@
-TODO: render
+<div class="pc-fill-parent pc-asset-render" layout="column" ng-init="ctrl.onInit()">
+  <div class="pc-fill-parent load-overlay"
+      layout="column"
+      layout-align="center center"
+      ng-if="ctrl.isRendering()">
+    <div class="container">
+      <md-progress-circular md-mode="determinate" md-diameter="100px" value="{{ctrl.percentDone}}">
+      </md-progress-circular>
+      <div class="text">{{ctrl.renderedCount}} / {{ctrl.totalCount}}</div>
+    </div>
+  </div>
+  <md-content ng-class="ctrl.isRendering() ? 'loading' : ''">
+    <pc-image-select ng-model="ctrl.selectedImages" images="ctrl.images"></pc-image-select>
+  </md-content>
+</div>

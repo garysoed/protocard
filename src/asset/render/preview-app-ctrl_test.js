@@ -13,7 +13,7 @@ describe('asset.render.PreviewAppCtrl', () => {
   let ctrl;
 
   beforeEach(() => {
-    mock$window = jasmine.createSpyObj('$window', ['addEventListener']);
+    mock$window = jasmine.createSpyObj('$window', ['addEventListener', 'setTimeout']);
     mockCanvasEl = jasmine.createSpyObj('CanvasEl', ['getContext', 'toDataURL']);
     mockContentEl = {};
     mockCustomStyleEl = {};
@@ -47,7 +47,7 @@ describe('asset.render.PreviewAppCtrl', () => {
         'height': 123,
         'width': 456
       };
-      let mockParsedStyleEl = { outerHTML: 'style outerHTML' };
+      let mockParsedStyleEl = { innerHTML: 'style innerHTML' };
       let mockParsedRootEl = { outerHTML: 'root outerHTML' };
 
       let fakeParsedDocument = new FakeDocument({
@@ -67,8 +67,13 @@ describe('asset.render.PreviewAppCtrl', () => {
       };
       onMessage_(event);
 
+      // Trigger the timeout.
+      expect(mock$window.setTimeout)
+          .toHaveBeenCalledWith(jasmine.any(Function), jasmine.any(Number));
+      mock$window.setTimeout.calls.argsFor(0)[0]();
+
       expect(mockDOMParser.parseFromString).toHaveBeenCalledWith(data['content'], 'text/html');
-      expect(mockCustomStyleEl.innerHTML).toEqual(mockParsedStyleEl.outerHTML);
+      expect(mockCustomStyleEl.innerHTML).toEqual(mockParsedStyleEl.innerHTML);
       expect(mockContentEl.innerHTML).toEqual(mockParsedRootEl.outerHTML);
       expect(mockHtml2canvasService).toHaveBeenCalledWith(mockContentEl, jasmine.objectContaining({
         'onrendered': jasmine.any(Function)

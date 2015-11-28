@@ -8,6 +8,7 @@ export default class {
    * @param {thirdparty.html2canvas} Html2canvasService
    */
   constructor($document, $window, DOMParserService, Html2canvasService) {
+    this.$window_ = $window;
     this.canvasEl_ = $document[0].querySelector('canvas');
     this.contentEl_ = $document[0].querySelector('#content');
     this.customStyleEl_ = $document[0].querySelector('style#custom');
@@ -31,16 +32,19 @@ export default class {
 
     let parser = new this.domParserService_();
     let doc = parser.parseFromString(content, 'text/html');
-    this.customStyleEl_.innerHTML = doc.querySelector('style').outerHTML;
+    this.customStyleEl_.innerHTML = doc.querySelector('style').innerHTML;
     this.contentEl_.innerHTML = doc.querySelector('.root').outerHTML;
 
-    this.html2canvasService_(this.contentEl_, {
-      'onrendered': (canvas) => {
-        var ctx = this.canvasEl_.getContext('2d');
-        ctx.drawImage(canvas, 0, 0, width, height);
-        var dataUri = this.canvasEl_.toDataURL('image/png');
-        event.source.postMessage(dataUri, event.origin);
-      }
-    });
+    // TODO(gs): Wait until everything is rendered.
+    this.$window_.setTimeout(() => {
+      this.html2canvasService_(this.contentEl_, {
+        'onrendered': (canvas) => {
+          var ctx = this.canvasEl_.getContext('2d');
+          ctx.drawImage(canvas, 0, 0, width, height);
+          var dataUri = this.canvasEl_.toDataURL('image/png');
+          event.source.postMessage(dataUri, event.origin);
+        }
+      });
+    }, 100);
   }
 };
