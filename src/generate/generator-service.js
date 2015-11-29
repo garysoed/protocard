@@ -25,13 +25,7 @@ export default class {
     this.handlebarsService_ = HandlebarsService;
   }
 
-  /**
-   * Generates the HTML contents.
-   * @method generate
-   * @param {data.Asset} asset The asset object to render.
-   * @return {Object} Object with file name as the key and the file content as its value.
-   */
-  generate(asset) {
+  localDataList(asset) {
     let data = asset.data;
     let writer;
     switch (data.type) {
@@ -42,8 +36,10 @@ export default class {
         throw Error(`Unhandled file type: ${dataFile.type}`);
     }
 
-    let localDataList = writer.write(asset.dataProcessor.asFunction());
+    return writer.write(asset.dataProcessor.asFunction());
+  }
 
+  newGenerator(asset) {
     let helpers = Utils.mapValue(asset.helpers, helper => helper.asFunction());
     helpers['_imgUrl'] = imageUrlHelper(asset);
     let options = {
@@ -53,7 +49,17 @@ export default class {
     };
 
     // TODO(gs): How to test this???
-    let generator = new Generator(this.handlebarsService_, options);
-    return generator.generate(asset.templateString, asset.templateName, localDataList);
+    return new Generator(this.handlebarsService_, options);
+  }
+
+  /**
+   * Generates the HTML contents.
+   * @method generate
+   * @param {data.Asset} asset The asset object to render.
+   * @return {Object} Object with file name as the key and the file content as its value.
+   */
+  generate(asset, localDataList) {
+    return this.newGenerator(asset)
+        .generate(asset.templateString, asset.templateName, localDataList);
   }
 };

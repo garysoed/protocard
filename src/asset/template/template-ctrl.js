@@ -14,7 +14,8 @@ export default class {
     this.assetService_ = AssetService;
     this.generatorService_ = GeneratorService;
     this.iframeEl_ = null;
-    this.previewKey_ = null;
+    this.localDataList_ = GeneratorService.localDataList($scope['asset']);
+    this.previewData_ = null;
     this.templateString_ = this.asset_.templateString;
   }
 
@@ -26,13 +27,15 @@ export default class {
    * @private
    */
   updatePreview_() {
-    let data = this.generatorService_.generate(this.asset_);
-    let keys = Object.keys(data);
-    if (this.previewKey_ === null && keys.length > 0) {
-      this.previewKey_ = keys[Math.floor(Math.random() * keys.length)];
+    if (this.previewData_ === null && this.localDataList_.length > 0) {
+      this.previewData_ =
+          this.localDataList_[Math.floor(Math.random() * this.localDataList_.length)];
     }
 
-    this.iframeEl_.srcdoc = data[this.previewKey_];
+    let data = this.generatorService_.generate(this.asset_, [this.previewData_]);
+    for (let key in data) {
+      this.iframeEl_.srcdoc = data[key];
+    }
     // TODO(gs): Expose error message.
   }
 
@@ -68,7 +71,7 @@ export default class {
    * @method onRefreshClick
    */
   onRefreshClick() {
-    this.previewKey_ = null;
+    this.previewData_ = null;
     this.updatePreview_();
   }
 }

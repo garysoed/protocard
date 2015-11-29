@@ -19,7 +19,7 @@ describe('asset.render.RenderCtrl', () => {
     mock$scope = new FakeScope();
     mock$scope['asset'] = mockAsset;
     mockDownloadService = jasmine.createSpyObj('DownloadService', ['download']);
-    mockGeneratorService = jasmine.createSpyObj('GeneratorService', ['generate']);
+    mockGeneratorService = jasmine.createSpyObj('GeneratorService', ['generate', 'localDataList']);
     mockJszipService = jasmine.createSpy('JszipService');
     mockRenderService = jasmine.createSpyObj('RenderService', ['render']);
     ctrl = new RenderCtrl(
@@ -135,16 +135,19 @@ describe('asset.render.RenderCtrl', () => {
     });
 
     it('should initialize correctly', () => {
-
       spyOn(ctrl, 'renderNext_').and.returnValue();
 
       let generatedHtml = { 'html1': 'content' };
       mockGeneratorService.generate.and.returnValue(generatedHtml);
 
+      let localDataList = ['localData'];
+      mockGeneratorService.localDataList.and.returnValue(localDataList);
+
       ctrl.onInit();
       expect(ctrl.toRender_).toEqual([{ key: 'html1', content: 'content' }]);
       expect(ctrl.totalCount).toEqual(1);
-      expect(mockGeneratorService.generate).toHaveBeenCalledWith(mockAsset);
+      expect(mockGeneratorService.generate).toHaveBeenCalledWith(mockAsset, localDataList);
+      expect(mockGeneratorService.localDataList).toHaveBeenCalledWith(mockAsset);
     });
 
     it('should mark itself as destroyed when getting $destroy event', () => {

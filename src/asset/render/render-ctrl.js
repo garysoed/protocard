@@ -129,11 +129,10 @@ export default class {
   onInit() {
     this.$scope_.$on('$destroy', this.onDestroy_.bind(this));
 
-    // TODO(gs): Make Handlebars a third party module.
-    // TODO(gs): Make some helpers built in
     // TODO(gs): Add Partials to asset
     // TODO(gs): Add name to asset
-    let generatedHtml = this.generatorService_.generate(this.asset_);
+    let generatedHtml = this.generatorService_
+        .generate(this.asset_, this.generatorService_.localDataList(this.asset_));
 
     this.rendered_ = [];
     this.toRender_ = [];

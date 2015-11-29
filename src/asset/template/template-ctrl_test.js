@@ -6,12 +6,15 @@ describe('asset.template.TemplateCtrl', () => {
   let mockAsset;
   let mockAssetService;
   let mockGeneratorService;
+  let mockLocalDataList;
   let ctrl;
 
   beforeEach(() => {
     mockAsset = {};
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
-    mockGeneratorService = jasmine.createSpyObj('GeneratorService', ['generate']);
+    mockLocalDataList = [];
+    mockGeneratorService = jasmine.createSpyObj('GeneratorService', ['generate', 'localDataList']);
+    mockGeneratorService.localDataList.and.returnValue(mockLocalDataList);
     ctrl = new TemplateCtrl(
         { 'asset': mockAsset },
         mockAssetService,
@@ -28,40 +31,37 @@ describe('asset.template.TemplateCtrl', () => {
     });
 
     it('should update the iframeEl srcdoc', () => {
-      let data = {
-        a: 'dataA',
-        b: 'dataB'
-      };
-      mockGeneratorService.generate.and.returnValue(data);
+      let localData = 'localData';
+      mockLocalDataList.push(localData);
+      mockGeneratorService.generate.and.returnValue({ a: 'dataA' });
 
       spyOn(Math, 'random').and.returnValue(0.5);
-      spyOn(Object, 'keys').and.returnValue(['a', 'b']);
       ctrl.updatePreview_();
 
-      expect(mockIframeEl.srcdoc).toEqual('dataB');
+      expect(mockIframeEl.srcdoc).toEqual('dataA');
+      expect(mockGeneratorService.generate).toHaveBeenCalledWith(mockAsset, [localData]);
     });
 
     it('should do nothing if there are no keys', () => {
-      mockGeneratorService.generate.and.returnValue({});
-
       ctrl.updatePreview_();
       expect(mockIframeEl.srcdoc).toEqual(undefined);
     });
 
     it('should keep previously set preview key', () => {
-      let data = {
-        a: 'dataA',
-        b: 'dataB'
-      };
-      mockGeneratorService.generate.and.returnValue(data);
+      let chosenData = 'chosenData';
+      mockLocalDataList.push('otherData');
+      mockLocalDataList.push(chosenData);
+
+      mockGeneratorService.generate.and.returnValue({ a: 'dataA' });
 
       spyOn(Math, 'random').and.returnValue(0.5);
-      spyOn(Object, 'keys').and.returnValue(['a', 'b']);
       ctrl.updatePreview_();
 
       Math.random.and.returnValue(0);
+      mockGeneratorService.generate.calls.reset();
       ctrl.updatePreview_();
-      expect(mockIframeEl.srcdoc).toEqual('dataB');
+      expect(mockIframeEl.srcdoc).toEqual('dataA');
+      expect(mockGeneratorService.generate).toHaveBeenCalledWith(mockAsset, [chosenData]);
     });
   });
 
@@ -97,14 +97,16 @@ describe('asset.template.TemplateCtrl', () => {
 
     beforeEach(() => {
       mockIframeEl = {};
-      mockGeneratorService.generate.and.returnValue({ a: 'data' });
+      mockLocalDataList.push('a');
       ctrl.onLink(mockIframeEl);
     });
 
     it('should update the input element srcdoc', () => {
-      mockGeneratorService.generate.and.returnValue({ b: 'newData' });
+      mockLocalDataList.push('b');
+
+      spyOn(Math, 'random').and.returnValue(0.5);
       ctrl.onRefreshClick();
-      expect(mockIframeEl.srcdoc).toEqual('newData');
+      expect(mockGeneratorService.generate).toHaveBeenCalledWith(mockAsset, ['b']);
     });
   });
 });
