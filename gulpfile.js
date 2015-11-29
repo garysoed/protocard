@@ -26,12 +26,6 @@ gulp.task('test', gulp.series(
   }
 ));
 
-gulp.task('copy-assets', function() {
-  return gulp.src(['example/assets/**', '!example/assets/**/*.css'], { base: './example',  })
-      .pipe(debug({ title: 'copyNonTexts_' }))
-      .pipe(gulp.dest('out'));
-});
-
 gulp.task('compile-ui', gulp.series(
     gulp.parallel(
         'compile',
@@ -99,7 +93,7 @@ gulp.task('compile-scripts', function() {
       .pipe(gulp.dest('out/scripts'));
 });
 
-gulp.task('ui', gulp.parallel('compile-ui', 'copy-assets'));
+gulp.task('ui', gulp.parallel('compile-ui'));
 
 gulp.task('watch', function () {
   gulp.watch(['src/**/*'], gulp.series('compile-ui'));

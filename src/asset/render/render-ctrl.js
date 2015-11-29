@@ -1,4 +1,3 @@
-import { Types as FileTypes } from '../../data/file';
 import Extract from '../../convert/extract';
 import Generator from '../../generate/generator';
 import ImageResource from '../../data/image-resource';
@@ -130,31 +129,11 @@ export default class {
   onInit() {
     this.$scope_.$on('$destroy', this.onDestroy_.bind(this));
 
-    let dataFile = this.asset_.data;
-    let writer = null;
-    switch (dataFile.type) {
-      case FileTypes.TSV:
-        writer = Extract.fromTsv(dataFile.content);
-        break;
-      default:
-        throw Error(`Unhandled file type: ${dataFile.type}`);
-    }
-
-    let data = writer.write(this.asset_.dataProcessor.asFunction());
-
     // TODO(gs): Make Handlebars a third party module.
     // TODO(gs): Make some helpers built in
     // TODO(gs): Add Partials to asset
     // TODO(gs): Add name to asset
-    let generatedHtml = this.generatorService_.generate(
-        this.asset_.templateString,
-        '{{lowercase _.name}}',
-        data,
-        {
-          globals: this.asset_.globals,
-          helpers: Utils.mapValue(this.asset_.helpers, helper => helper.asFunction()),
-          partials: {}
-        });
+    let generatedHtml = this.generatorService_.generate(this.asset_, '{{lowercase _.name}}');
 
     this.rendered_ = [];
     this.toRender_ = [];

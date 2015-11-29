@@ -38,6 +38,7 @@ export default class {
     // TODO(gs): Wait until everything is rendered.
     this.$window_.setTimeout(() => {
       this.html2canvasService_(this.contentEl_, {
+        'useCORS': true,
         'onrendered': (canvas) => {
           var ctx = this.canvasEl_.getContext('2d');
           ctx.drawImage(canvas, 0, 0, width, height);

@@ -144,15 +144,7 @@ describe('asset.render.RenderCtrl', () => {
       ctrl.onInit();
       expect(ctrl.toRender_).toEqual([{ key: 'html1', content: 'content' }]);
       expect(ctrl.totalCount).toEqual(1);
-      expect(mockGeneratorService.generate).toHaveBeenCalledWith(
-          mockAsset.templateString,
-          jasmine.any(String),
-          [{ name: 'a' }],
-          {
-            globals: mockAsset.globals,
-            helpers: {},
-            partials: jasmine.any(Object)
-          });
+      expect(mockGeneratorService.generate).toHaveBeenCalledWith(mockAsset, jasmine.any(String));
     });
 
     it('should mark itself as destroyed when getting $destroy event', () => {
