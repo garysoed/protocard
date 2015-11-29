@@ -30,6 +30,7 @@ export default class {
     this.globalsString_ = JSON.stringify(this.globals_);
     this.helpers_ = {};
     this.images_ = new Set([]);
+    this.partials_ = {};
     this.templateName_ = '{{lowercase _.name}}';
     this.templateString_ = '';
   }
@@ -104,6 +105,10 @@ export default class {
     return this.images_;
   }
 
+  get partials() {
+    return this.partials_;
+  }
+
   get templateName() {
     return this.templateName_;
   }
@@ -134,6 +139,7 @@ export default class {
       data: this.data ? this.data.toJSON() : null,
       dataProcessor: this.dataProcessor_,
       images: Array.from(this.images_).map(image => image.toJSON()),
+      partials: this.partials,
       templateString: this.templateString
     };
   }
@@ -165,6 +171,10 @@ export default class {
     if (json['images']) {
       asset.images_ = new Set(json['images'].map(json => ImageResource.fromJSON(json)));
     }
+
+    if (json['partials']) {
+      asset.partials_ = json['partials'];
+    }
     return asset;
   }
 
@@ -191,6 +201,7 @@ export default class {
           && File.equals(a.data, b.data)
           && FunctionObject.equals(a.dataProcessor, b.dataProcessor)
           && Utils.equals(a.images_, b.images_, ImageResource.equals.bind(ImageResource))
+          && Utils.equals(a.partials, b.partials)
           && a.templateString === b.templateString;
     }
   }

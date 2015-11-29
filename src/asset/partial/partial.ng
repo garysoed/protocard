@@ -1,0 +1,10 @@
+<md-content class="pc-asset-partial pc-fill-parent" layout="column" layout-align="start end">
+  <md-list>
+    <md-list-item ng-repeat="(name, partials) in ctrl.partials">
+      <pc-asset-partial-item asset="ctrl.asset" name="name"></pc-asset-partial-item>
+    </md-list-item>
+  </md-list>
+</md-content>
+<md-button ng-click="ctrl.onAddClick()" class="pc-context-button md-fab">
+  <md-icon>add</md-icon>
+</md-button>

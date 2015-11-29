@@ -1,8 +1,4 @@
-.asset-helper .item-list {
-  width: 100%;
-  padding: 20px;
-}
-
-.asset-helper .item-list > pc-asset-helper-item {
+.asset-helper md-list,
+.asset-helper pc-asset-helper-item {
   width: 100%;
 }

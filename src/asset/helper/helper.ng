@@ -1,11 +1,11 @@
 <md-content class="asset-helper pc-fill-parent" layout="column" layout-align="start end">
-  <div class="item-list" flex layout="column" layout-align="start start">
-    <pc-asset-helper-item ng-repeat="(name, helper) in ctrl.helpers"
-        helper="helper"
-        name="name">
-    </pc-asset-helper-item>
-  </div>
-  <md-button ng-click="ctrl.onAddClick()" class="pc-context-button md-fab">
-    <md-icon>add</md-icon>
-  </md-button>
+  <md-list>
+    <md-list-item ng-repeat="(name, helper) in ctrl.helpers">
+      <pc-asset-helper-item helper="helper" name="name"></pc-asset-helper-item>
+    </md-list-item>
+  </md-list>
 </md-content>
+<md-button ng-click="ctrl.onAddClick()" class="pc-context-button md-fab">
+  <md-icon>add</md-icon>
+</md-button>
+<!-- TODO(gs): The fab button should be outside content -->
