@@ -1,4 +1,21 @@
-<div class="pc-fill-parent" layout="column" layout-align="start">
-  <pc-code-editor flex ng-model="ctrl.templateString" language="html">
+<div class="pc-fill-parent pc-asset-template"
+    layout="row"
+    layout-align="start">
+  <pc-code-editor ng-model="ctrl.templateString" language="html">
   </pc-code-editor>
+  <md-content flex>
+    <iframe></iframe>
+  </md-content>
+
+  <md-fab-speed-dial
+      class="pc-context-button"
+      md-direction="up"
+      md-open="ctrl.isFabOpen">
+    <md-fab-trigger>
+      <md-button class="md-fab" ng-click="ctrl.onRefreshClick()">
+        <md-icon>refresh</md-icon>
+        <!-- TODO(gs): Add selected count -->
+      </md-button>
+    </md-fab-trigger>
+  </md-fab-speed-dial>
 </div>

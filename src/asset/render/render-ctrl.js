@@ -133,7 +133,7 @@ export default class {
     // TODO(gs): Make some helpers built in
     // TODO(gs): Add Partials to asset
     // TODO(gs): Add name to asset
-    let generatedHtml = this.generatorService_.generate(this.asset_, '{{lowercase _.name}}');
+    let generatedHtml = this.generatorService_.generate(this.asset_);
 
     this.rendered_ = [];
     this.toRender_ = [];

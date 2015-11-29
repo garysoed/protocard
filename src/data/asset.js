@@ -25,12 +25,13 @@ export default class {
      * @type {string}
      */
     this.name = name;
+    this.data_ = null;
+    this.dataProcessor_ = new FunctionObject('return function(lineData) {};');
     this.globalsString_ = JSON.stringify(this.globals_);
     this.helpers_ = {};
-    this.data_ = null;
     this.images_ = new Set([]);
+    this.templateName_ = '{{lowercase _.name}}';
     this.templateString_ = '';
-    this.dataProcessor_ = new FunctionObject('return function(lineData) {};');
   }
 
   /**
@@ -101,6 +102,10 @@ export default class {
    */
   get images() {
     return this.images_;
+  }
+
+  get templateName() {
+    return this.templateName_;
   }
 
   /**

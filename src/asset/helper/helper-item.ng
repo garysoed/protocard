@@ -1,7 +1,7 @@
 <div layout="row">
   <md-input-container flex>
     <label>Name</label>
-    <input ng-model="ctrl.name" type="text">
+    <input ng-model="ctrl.name" type="text" ng-model-options="{ updateOn: 'blur' }">
   </md-input-container>
   <md-button class="md-icon-button" ng-click="ctrl.onEditClick()">
     <md-icon>edit</md-icon>

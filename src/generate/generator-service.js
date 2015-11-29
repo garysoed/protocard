@@ -28,19 +28,10 @@ export default class {
   /**
    * Generates the HTML contents.
    * @method generate
-   * @param {string} templateBody Template string used to generate the file contents.
-   * @param {string} templateName Template used to generate the file names.
-   * @param {Array} localDataList Array of objects containing the data for every file. This method
-   *    will use every entry of this entry to generate a file.
-   * @param {Object} [config] Configuration object. Defaults to {}. Supported values are:
-   *    -   globals: Key value pair of global values. This will be applied to all files.
-   *    -   helpers: Key value pair of Handlebar helpers. This will be applied to all files.
-   *        The key should be the helper's name and the value is the helper's function.
-   *    -   partials: Key value pair of Handlebar partials. This will be applied to all files.
-   *        The key should be the partial's name, and the value is the partial's content.
+   * @param {data.Asset} asset The asset object to render.
    * @return {Object} Object with file name as the key and the file content as its value.
    */
-  generate(asset, templateName) {
+  generate(asset) {
     let data = asset.data;
     let writer;
     switch (data.type) {
@@ -61,7 +52,8 @@ export default class {
       partials: {}
     };
 
+    // TODO(gs): How to test this???
     let generator = new Generator(this.handlebarsService_, options);
-    return generator.generate(asset.templateString, templateName, localDataList);
+    return generator.generate(asset.templateString, asset.templateName, localDataList);
   }
 };
