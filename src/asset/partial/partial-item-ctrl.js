@@ -5,10 +5,11 @@ export default class {
   /**
    * @constructor
    */
-  constructor($scope, AssetService) {
+  constructor($scope, AssetService, NavigateService) {
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
     this.name_ = $scope['name'];
+    this.navigateService_ = NavigateService;
   }
 
   /**
@@ -22,7 +23,7 @@ export default class {
   }
 
   onEditClick() {
-    debugger;
+    this.navigateService_.toAsset(this.asset_.id, 'partial-editor', this.name_);
   }
 
   /**
@@ -37,6 +38,7 @@ export default class {
       let oldTemplate = this.asset_.partials[this.name_];
       delete this.asset_.partials[this.name_];
       this.asset_.partials[newName] = oldTemplate;
+      this.name_ = newName;
       this.assetService_.saveAsset(this.asset_);
     } else {
       // TODO(gs): Error message.

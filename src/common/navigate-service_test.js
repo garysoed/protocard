@@ -15,14 +15,14 @@ describe('common.NavigateService', () => {
     it('should construct the path correctly', () => {
       let assetId = 'assetId';
       let subview = 'subview';
-      let helperName = 'helperName';
+      let subitemId = 'subitemId';
 
-      service.toAsset(assetId, subview, helperName);
+      service.toAsset(assetId, subview, subitemId);
 
-      expect(mock$location.path).toHaveBeenCalledWith(`/asset/${assetId}/${subview}/${helperName}`);
+      expect(mock$location.path).toHaveBeenCalledWith(`/asset/${assetId}/${subview}/${subitemId}`);
     });
 
-    it('should ignore the helperName if not given', () => {
+    it('should ignore the subitemId if not given', () => {
       let assetId = 'assetId';
       let subview = 'subview';
 

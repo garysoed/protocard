@@ -3,6 +3,7 @@ import AssetGlobalModule from './global/global-module';
 import AssetHelperEditorModule from './helper/helper-editor-module';
 import AssetHelperModule from './helper/helper-module';
 import AssetImageModule from './image/image-module';
+import AssetPartialEditorModule from './partial/partial-editor-module';
 import AssetPartialModule from './partial/partial-module';
 import AssetRenderModule from './render/render-module';
 import AssetServiceModule from '../data/asset-service-module';
@@ -20,6 +21,7 @@ export default angular
       AssetHelperModule.name,
       AssetImageModule.name,
       AssetPartialModule.name,
+      AssetPartialEditorModule.name,
       AssetRenderModule.name,
       AssetServiceModule.name,
       AssetTemplateModule.name,
@@ -28,7 +30,7 @@ export default angular
     ])
     .config($routeProvider => {
       $routeProvider.when(
-          '/asset/:assetId/:section?/:helper?',
+          '/asset/:assetId/:section?/:subitemId?',
           {
             controller: ViewCtrl,
             controllerAs: 'ctrl',

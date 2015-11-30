@@ -16,6 +16,13 @@ function imageUrlHelper(asset) {
   };
 }
 
+function lowercase(input) {
+  return input
+      .replace(/[^a-zA-Z0-9 ]/g, '_')
+      .replace(' ', '-')
+      .toLocaleLowerCase();
+}
+
 export default class {
   /**
    * @constructor
@@ -42,10 +49,11 @@ export default class {
   newGenerator(asset) {
     let helpers = Utils.mapValue(asset.helpers, helper => helper.asFunction());
     helpers['_imgUrl'] = imageUrlHelper(asset);
+    helpers['_lowercase'] = lowercase;
     let options = {
       globals: asset.globals,
       helpers: helpers,
-      partials: {}
+      partials: asset.partials
     };
 
     // TODO(gs): How to test this???
@@ -58,8 +66,9 @@ export default class {
    * @param {data.Asset} asset The asset object to render.
    * @return {Object} Object with file name as the key and the file content as its value.
    */
-  generate(asset, localDataList) {
+  generate(asset, localDataList, templateString, templateName) {
+    // TODO(gs): Delete this.
     return this.newGenerator(asset)
-        .generate(asset.templateString, asset.templateName, localDataList);
+        .generate(templateString, templateName, localDataList);
   }
 };

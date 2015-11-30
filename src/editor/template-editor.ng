@@ -1,0 +1,7 @@
+<div class="pc-fill-parent pc-template-editor" layout="row">
+  <pc-code-editor ng-model="ctrl.templateString" language="html">
+  </pc-code-editor>
+  <md-content flex>
+    <iframe></iframe>
+  </md-content>
+</div>

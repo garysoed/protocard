@@ -21,55 +21,32 @@ describe('asset.template.TemplateCtrl', () => {
         mockGeneratorService);
   });
 
-  describe('updatePreview_', () => {
-    let mockIframeEl;
-
-    beforeEach(() => {
-      mockIframeEl = {};
-      mockGeneratorService.generate.and.returnValue({});
-      ctrl.onLink(mockIframeEl);
-    });
-
-    it('should update the iframeEl srcdoc', () => {
-      let localData = 'localData';
-      mockLocalDataList.push(localData);
-      mockGeneratorService.generate.and.returnValue({ a: 'dataA' });
-
+  describe('get previewData', () => {
+    it('should select a preview data randomly', () => {
+      mockLocalDataList.push('data1');
+      mockLocalDataList.push('data2');
       spyOn(Math, 'random').and.returnValue(0.5);
-      ctrl.updatePreview_();
 
-      expect(mockIframeEl.srcdoc).toEqual('dataA');
-      expect(mockGeneratorService.generate).toHaveBeenCalledWith(mockAsset, [localData]);
+      expect(ctrl.previewData).toEqual('data2');
     });
 
-    it('should do nothing if there are no keys', () => {
-      ctrl.updatePreview_();
-      expect(mockIframeEl.srcdoc).toEqual(undefined);
-    });
-
-    it('should keep previously set preview key', () => {
-      let chosenData = 'chosenData';
-      mockLocalDataList.push('otherData');
-      mockLocalDataList.push(chosenData);
-
-      mockGeneratorService.generate.and.returnValue({ a: 'dataA' });
-
+    it('should cache the previously selected preview data', () => {
+      mockLocalDataList.push('data1');
+      mockLocalDataList.push('data2');
       spyOn(Math, 'random').and.returnValue(0.5);
-      ctrl.updatePreview_();
 
+      ctrl.previewData;
       Math.random.and.returnValue(0);
-      mockGeneratorService.generate.calls.reset();
-      ctrl.updatePreview_();
-      expect(mockIframeEl.srcdoc).toEqual('dataA');
-      expect(mockGeneratorService.generate).toHaveBeenCalledWith(mockAsset, [chosenData]);
+
+      expect(ctrl.previewData).toEqual('data2');
+    });
+
+    it('should return null if the local data list is empty', () => {
+      expect(ctrl.previewData).toEqual(null);
     });
   });
 
   describe('set templateString', () => {
-    beforeEach(() => {
-      spyOn(ctrl, 'updatePreview_').and.callFake(() => {});
-    });
-
     it('should update the asset and saves it if the input is non null', () => {
       let newValue = 'newValue';
       ctrl.templateString = newValue;
@@ -77,7 +54,6 @@ describe('asset.template.TemplateCtrl', () => {
       expect(ctrl.templateString).toEqual(newValue);
       expect(mockAsset.templateString).toEqual(newValue);
       expect(mockAssetService.saveAsset).toHaveBeenCalledWith(mockAsset);
-      expect(ctrl.updatePreview_).toHaveBeenCalledWith();
     });
 
     it('should update the template string but not the asset if the input is null', () => {
@@ -88,7 +64,6 @@ describe('asset.template.TemplateCtrl', () => {
       expect(ctrl.templateString).toEqual(null);
       expect(mockAsset.templateString).toEqual(oldValue);
       expect(mockAssetService.saveAsset).not.toHaveBeenCalled();
-      expect(ctrl.updatePreview_).not.toHaveBeenCalled();
     });
   });
 
@@ -98,7 +73,7 @@ describe('asset.template.TemplateCtrl', () => {
     beforeEach(() => {
       mockIframeEl = {};
       mockLocalDataList.push('a');
-      ctrl.onLink(mockIframeEl);
+      ctrl.previewData;
     });
 
     it('should update the input element srcdoc', () => {
@@ -106,7 +81,7 @@ describe('asset.template.TemplateCtrl', () => {
 
       spyOn(Math, 'random').and.returnValue(0.5);
       ctrl.onRefreshClick();
-      expect(mockGeneratorService.generate).toHaveBeenCalledWith(mockAsset, ['b']);
+      expect(ctrl.previewData).toEqual('b');
     });
   });
 });

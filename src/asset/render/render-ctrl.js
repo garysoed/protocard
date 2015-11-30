@@ -131,8 +131,11 @@ export default class {
 
     // TODO(gs): Add Partials to asset
     // TODO(gs): Add name to asset
-    let generatedHtml = this.generatorService_
-        .generate(this.asset_, this.generatorService_.localDataList(this.asset_));
+    let generatedHtml = this.generatorService_.generate(
+        this.asset_,
+        this.generatorService_.localDataList(this.asset_),
+        this.asset_.templateString,
+        this.asset_.templateName);
 
     this.rendered_ = [];
     this.toRender_ = [];

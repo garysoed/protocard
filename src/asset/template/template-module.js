@@ -1,16 +1,12 @@
 import AssetServiceModule from '../../data/asset-service-module';
-import CodeEditorModule from '../../editor/code-editor-module';
+import TemplateEditorModule from '../../editor/template-editor-module';
 import GeneratorServiceModule from '../../generate/generator-service-module';
 import RenderServiceModule from '../render/render-service-module';
 import TemplateCtrl from './template-ctrl';
 
-function link(scope, element, attr, ctrl) {
-  ctrl.onLink(element[0].querySelector('iframe'));
-}
-
 export default angular
     .module('pc.asset.template.TemplateModule', [
-      CodeEditorModule.name,
+      TemplateEditorModule.name,
       GeneratorServiceModule.name,
       RenderServiceModule.name
     ])
@@ -22,7 +18,6 @@ export default angular
         scope: {
           'asset': '='
         },
-        templateUrl: './asset/template/template.ng',
-        link: link
+        templateUrl: './asset/template/template.ng'
       };
     });

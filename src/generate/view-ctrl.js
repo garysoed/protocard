@@ -43,15 +43,10 @@ var HELPERS = {
   }
 };
 
-const PARTIALS = {
-  'E': '<img class="icon circled" src="assets/icons/energy.svg">',
-  'T': '<img class="icon" src="assets/icons/tap.svg">'
-};
-
 const GENERATOR = new Generator(Handlebars, {
   globals: GLOBALS,
   helpers: HELPERS,
-  partials: PARTIALS
+  partials: {}
 });
 
 export default class {

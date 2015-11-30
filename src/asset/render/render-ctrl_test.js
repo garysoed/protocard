@@ -135,6 +135,11 @@ describe('asset.render.RenderCtrl', () => {
     });
 
     it('should initialize correctly', () => {
+      let templateString = 'templateString';
+      let templateName = 'templateName';
+      mockAsset.templateString = templateString;
+      mockAsset.templateName = templateName;
+
       spyOn(ctrl, 'renderNext_').and.returnValue();
 
       let generatedHtml = { 'html1': 'content' };
@@ -146,7 +151,8 @@ describe('asset.render.RenderCtrl', () => {
       ctrl.onInit();
       expect(ctrl.toRender_).toEqual([{ key: 'html1', content: 'content' }]);
       expect(ctrl.totalCount).toEqual(1);
-      expect(mockGeneratorService.generate).toHaveBeenCalledWith(mockAsset, localDataList);
+      expect(mockGeneratorService.generate).toHaveBeenCalledWith(
+          mockAsset, localDataList, templateString, templateName);
       expect(mockGeneratorService.localDataList).toHaveBeenCalledWith(mockAsset);
     });
 

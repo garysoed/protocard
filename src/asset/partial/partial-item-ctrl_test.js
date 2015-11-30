@@ -7,6 +7,7 @@ describe('asset.partial.PartialItemCtrl', () => {
   const EDITED_PARTIAL = 'editedPartial';
   let mockAsset;
   let mockAssetService;
+  let mockNavigateService;
   let ctrl;
 
   beforeEach(() => {
@@ -16,7 +17,11 @@ describe('asset.partial.PartialItemCtrl', () => {
       }
     };
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
-    ctrl = new PartialItemCtrl({ 'asset': mockAsset, 'name': NAME }, mockAssetService);
+    mockNavigateService = jasmine.createSpyObj('NavigateService', ['toAsset']);
+    ctrl = new PartialItemCtrl(
+        { 'asset': mockAsset, 'name': NAME },
+        mockAssetService,
+        mockNavigateService);
   });
 
   describe('onDeleteClick', () => {
@@ -24,6 +29,16 @@ describe('asset.partial.PartialItemCtrl', () => {
       ctrl.onDeleteClick();
       expect(mockAsset.partials).toEqual({});
       expect(mockAssetService.saveAsset).toHaveBeenCalledWith(mockAsset);
+    });
+  });
+
+  describe('onEditClick', () => {
+    it('should call navigate service', () => {
+      let id = 'assetId';
+      mockAsset.id = id;
+      ctrl.onEditClick();
+
+      expect(mockNavigateService.toAsset).toHaveBeenCalledWith(id, 'partial-editor', NAME);
     });
   });
 

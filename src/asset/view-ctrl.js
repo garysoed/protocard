@@ -19,6 +19,7 @@ export default class {
     this.asset_ = null;
     this.subview_ = null;
     this.currentHelper_ = null;
+    this.currentPartialName_ = null;
     this.isSidebarOpen_ = false;
   }
 
@@ -64,6 +65,15 @@ export default class {
    */
   get currentHelper() {
     return this.currentHelper_;
+  }
+
+  /**
+   * @property currentPartialName
+   * @type {string}
+   * @readonly
+   */
+  get currentPartialName() {
+    return this.currentPartialName_;
   }
 
   /**
@@ -121,9 +131,16 @@ export default class {
       this.navigateService_.toHome();
     } else {
       this.subview_ = this.$routeParams_['section'];
-      this.currentHelper_ = this.subview_ === 'helper-editor'
-          ? this.asset_.helpers[this.$routeParams_['helper']]
-          : null;
+      this.currentHelper_ = null;
+      this.currentPartialName_ = null;
+      switch (this.subview_) {
+        case 'helper-editor':
+          this.currentHelper_ = this.asset_.helpers[this.$routeParams_['subitemId']];
+          break;
+        case 'partial-editor':
+          this.currentPartialName_ = this.$routeParams_['subitemId'];
+          break;
+      }
     }
   }
 

@@ -41,13 +41,27 @@ describe('asset.ViewCtrl', () => {
       asset.helpers[helperName] = helper;
       routeParams['assetId'] = 'assetId';
       routeParams['section'] = 'helper-editor';
-      routeParams['helper'] = helperName;
+      routeParams['subitemId'] = helperName;
       mockAssetService.getAsset.and.returnValue(asset);
       ctrl.onInit();
 
       expect(mockNavigateService.toHome).not.toHaveBeenCalled();
       expect(ctrl.subview).toEqual('helper-editor');
       expect(ctrl.currentHelper).toEqual(helper);
+    });
+
+    it('should setup correctly for partial editor', () => {
+      let partialName = 'partialName';
+      let partial = 'partial';
+      routeParams['assetId'] = 'assetId';
+      routeParams['section'] = 'partial-editor';
+      routeParams['subitemId'] = partialName;
+      mockAssetService.getAsset.and.returnValue(asset);
+      ctrl.onInit();
+
+      expect(mockNavigateService.toHome).not.toHaveBeenCalled();
+      expect(ctrl.subview).toEqual('partial-editor');
+      expect(ctrl.currentPartialName).toEqual(partialName);
     });
   });
 

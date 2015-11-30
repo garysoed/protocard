@@ -1,4 +1,4 @@
-<pc-template-editor class="pc-fill-parent pc-asset-template"
+<pc-template-editor class="pc-fill-parent"
     asset="ctrl.asset"
     ng-model="ctrl.templateString"
     sample-data="ctrl.previewData">

@@ -31,7 +31,7 @@ export default class {
     this.helpers_ = {};
     this.images_ = new Set([]);
     this.partials_ = {};
-    this.templateName_ = '{{lowercase _.name}}';
+    this.templateName_ = '{{_lowercase _.name}}';
     this.templateString_ = '';
   }
 
@@ -111,6 +111,9 @@ export default class {
 
   get templateName() {
     return this.templateName_;
+  }
+  set templateName(templateName) {
+    this.templateName_ = templateName;
   }
 
   /**

@@ -7,6 +7,7 @@
       <h2 class="title" ng-click="ctrl.onBackClick()">Protocard</h2>
       <h2>{{ctrl.assetName}}</h2>
     </div>
+    <!-- TODO(gs): Back button for subview -->
   </md-toolbar>
   <section flex layout="row">
     <md-sidenav class="md-sidenav-left md-whiteframe-z2"
@@ -61,18 +62,26 @@
     <md-content ng-switch on="ctrl.subview" flex layout="column">
       <pc-asset-global flex ng-switch-when="global" asset="ctrl.asset"></pc-asset-global>
       <pc-asset-helper flex ng-switch-when="helper" asset="ctrl.asset"></pc-asset-helper>
-      <pc-asset-helper-editor
-          flex
-          ng-switch-when="helper-editor"
-          asset="ctrl.asset"
-          helper="ctrl.currentHelper"
-          ng-if="!!ctrl.currentHelper"></pc-asset-helper-editor>
       <pc-asset-text flex ng-switch-when="text" asset="ctrl.asset"></pc-asset-text>
       <pc-asset-image flex ng-switch-when="image" asset="ctrl.asset"></pc-asset-image>
       <pc-asset-template flex ng-switch-when="template" asset="ctrl.asset"></pc-asset-template>
       <pc-asset-data flex ng-switch-when="data" asset="ctrl.asset"></pc-asset-data>
       <pc-asset-render flex ng-switch-when="render" asset="ctrl.asset"></pc-asset-render>
       <pc-asset-partial flex ng-switch-when="partial" asset="ctrl.asset"></pc-asset-partial>
+
+      <!-- Sub views -->
+      <pc-asset-helper-editor
+          flex
+          ng-switch-when="helper-editor"
+          asset="ctrl.asset"
+          helper="ctrl.currentHelper"
+          ng-if="!!ctrl.currentHelper"></pc-asset-helper-editor>
+      <pc-asset-partial-editor
+          flex
+          ng-switch-when="partial-editor"
+          asset="ctrl.asset"
+          name="ctrl.currentPartialName"
+          ng-if="!!ctrl.currentPartialName"></pc-asset-partial-editor>
       <div ng-switch-default>Click the left menu</div>
     </md-content>
   </section>

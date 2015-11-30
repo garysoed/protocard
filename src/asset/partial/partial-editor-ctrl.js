@@ -1,36 +1,34 @@
 /**
- * @class asset.template.TemplateCtrl
+ * @class asset.partial.PartialEditorCtrl
  */
 export default class {
   /**
    * @constructor
-   * @param {ng.Scope} $scope
-   * @param {data.AssetService} AssetService
-   * @param {generate.GeneratorService} GeneratorService
    */
   constructor($scope, AssetService, GeneratorService) {
-    this.$scope_ = $scope;
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
     this.localDataList_ = GeneratorService.localDataList($scope['asset']);
+    this.name_ = $scope['name'];
     this.previewData_ = null;
-    this.templateString_ = this.asset_.templateString;
+    this.templateString_ = this.asset_.partials[this.name_];
   }
 
-  /**
-   * @property asset
-   * @type {data.Asset}
-   * @readonly
-   */
   get asset() {
     return this.asset_;
   }
 
-  /**
-   * @property
-   * @type {Object}
-   * @readonly
-   */
+  get templateString() {
+    return this.templateString_;
+  }
+  set templateString(newString) {
+    this.templateString_ = newString;
+    if (newString !== null) {
+      this.asset_.partials[this.name_] = newString;
+      this.assetService_.saveAsset(this.asset_);
+    }
+  }
+
   get previewData() {
     if (this.previewData_ === null && this.localDataList_.length > 0) {
       this.previewData_ =
@@ -39,21 +37,6 @@ export default class {
     return this.previewData_;
   }
 
-
-  /**
-   * @property templateString
-   * @type {string}
-   */
-  get templateString() {
-    return this.templateString_;
-  }
-  set templateString(templateString) {
-    this.templateString_ = templateString;
-    if (templateString !== null) {
-      this.asset_.templateString = templateString;
-      this.assetService_.saveAsset(this.asset_);
-    }
-  }
   /**
    * Called when the refresh button is clicked.
    *

@@ -16,12 +16,12 @@ export default class {
    * @method toAsset
    * @param {string} assetId ID of asset to navigate to.
    * @param {string} [subview] Name of asset subview to navigate to. Defaults to empty string.
-   * @param {string} [helperName] Name of the helper associated with the asset.
+   * @param {string} [subitemId] Name of the sub item associated with the asset.
    */
-  toAsset(assetId, subview = '', helperName = null) {
+  toAsset(assetId, subview = '', subitemId = null) {
     let path = `/asset/${assetId}/${subview}`;
-    if (helperName !== null) {
-      path += `/${helperName}`;
+    if (subitemId !== null) {
+      path += `/${subitemId}`;
     }
     this.$location_.path(path);
   }
