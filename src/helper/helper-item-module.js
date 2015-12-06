@@ -1,8 +1,8 @@
 import HelperItemCtrl from './helper-item-ctrl';
 
 export default angular
-    .module('pc.asset.subview.HelperItemModule', [])
-    .directive('pcAssetHelperItem', () => {
+    .module('pc.helper.HelperItemModule', [])
+    .directive('pcHelperItem', () => {
       return {
         controller: HelperItemCtrl,
         controllerAs: 'ctrl',
@@ -11,6 +11,6 @@ export default angular
           helper: '=',
           name: '='
         },
-        templateUrl: './asset/helper/helper-item.ng'
+        templateUrl: './helper/helper-item.ng'
       };
     });

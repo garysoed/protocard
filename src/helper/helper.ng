@@ -1,7 +1,7 @@
-<md-content class="asset-helper pc-fill-parent" layout="column" layout-align="start end">
+<md-content class="pc-helper pc-fill-parent" layout="column" layout-align="start end">
   <md-list>
     <md-list-item ng-repeat="(name, helper) in ctrl.helpers">
-      <pc-asset-helper-item helper="helper" name="name"></pc-asset-helper-item>
+      <pc-helper-item helper="helper" name="name"></pc-helper-item>
     </md-list-item>
   </md-list>
 </md-content>

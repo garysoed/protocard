@@ -1,13 +1,13 @@
-import AssetServiceModule from '../../asset/asset-service-module';
-import CodeEditorModule from '../../editor/code-editor-module';
+import AssetServiceModule from '../asset/asset-service-module';
+import CodeEditorModule from '../editor/code-editor-module';
 import HelperEditorCtrl from './helper-editor-ctrl';
 
 export default angular
-    .module('pc.asset.subview.HelperEditorModule', [
+    .module('pc.helper.HelperEditorModule', [
       AssetServiceModule.name,
       CodeEditorModule.name
     ])
-    .directive('pcAssetHelperEditor', () => {
+    .directive('pcHelperEditor', () => {
       return {
         controller: HelperEditorCtrl,
         controllerAs: 'ctrl',
@@ -16,6 +16,6 @@ export default angular
           asset: '=',
           helper: '='
         },
-        templateUrl: './asset/helper/helper-editor.ng'
+        templateUrl: './helper/helper-editor.ng'
       };
     });

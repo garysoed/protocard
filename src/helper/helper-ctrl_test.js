@@ -1,6 +1,6 @@
-import TestBase from '../../testbase';
+import TestBase from '../testbase';
 
-import FakeScope from '../../testing/fake-scope';
+import FakeScope from '../testing/fake-scope';
 import HelperCtrl from './helper-ctrl';
 import { Events as HelperItemEvents } from './helper-item-ctrl';
 

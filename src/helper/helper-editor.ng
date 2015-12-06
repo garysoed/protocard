@@ -1,4 +1,4 @@
-<div class="asset-helper-editor pc-fill-parent" layout="column" layout-align="start end">
+<div class="pc-helper-editor pc-fill-parent" layout="column" layout-align="start end">
   <pc-code-editor flex ng-model="ctrl.helperString" language="javascript">
   </pc-code-editor>
 </div>

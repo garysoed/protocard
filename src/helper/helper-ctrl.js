@@ -1,6 +1,6 @@
-import FunctionObject from '../../model/function-object';
+import FunctionObject from '../model/function-object';
 import { Events as HelperItemEvents } from './helper-item-ctrl';
-import Utils from '../../utils';
+import Utils from '../utils';
 
 /**
  * Controller for the helper subview.

@@ -1,6 +1,6 @@
-import TestBase from '../../testbase';
+import TestBase from '../testbase';
 
-import FakeScope from '../../testing/fake-scope';
+import FakeScope from '../testing/fake-scope';
 import HelperItemCtrl, { Events } from './helper-item-ctrl';
 
 describe('asset.subview.HelperItemCtrl', () => {

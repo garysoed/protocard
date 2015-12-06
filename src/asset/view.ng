@@ -60,22 +60,22 @@
       </md-content>
     </md-sidenav>
     <md-content ng-switch on="ctrl.subview" flex layout="column">
-      <pc-asset-helper flex ng-switch-when="helper" asset="ctrl.asset"></pc-asset-helper>
       <pc-asset-partial flex ng-switch-when="partial" asset="ctrl.asset"></pc-asset-partial>
       <pc-data flex ng-switch-when="data" asset="ctrl.asset"></pc-data>
       <pc-global flex ng-switch-when="global" asset="ctrl.asset"></pc-global>
+      <pc-helper flex ng-switch-when="helper" asset="ctrl.asset"></pc-helper>
       <pc-image flex ng-switch-when="image" asset="ctrl.asset"></pc-image>
       <pc-render flex ng-switch-when="render" asset="ctrl.asset"></pc-render>
       <pc-template flex ng-switch-when="template" asset="ctrl.asset"></pc-template>
       <pc-text flex ng-switch-when="text" asset="ctrl.asset"></pc-text>
 
       <!-- Sub views -->
-      <pc-asset-helper-editor
+      <pc-helper-editor
           flex
           ng-switch-when="helper-editor"
           asset="ctrl.asset"
           helper="ctrl.currentHelper"
-          ng-if="!!ctrl.currentHelper"></pc-asset-helper-editor>
+          ng-if="!!ctrl.currentHelper"></pc-helper-editor>
       <pc-asset-partial-editor
           flex
           ng-switch-when="partial-editor"
