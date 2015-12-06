@@ -1,13 +1,13 @@
-import AssetServiceModule from '../../asset/asset-service-module';
-import FileUploadModule from '../../editor/file-upload-module';
+import AssetServiceModule from '../asset/asset-service-module';
+import FileUploadModule from '../editor/file-upload-module';
 import TextCtrl from './text-ctrl';
 
 export default angular
-    .module('pc.asset.text.TextModule', [
+    .module('pc.text.TextModule', [
       AssetServiceModule.name,
       FileUploadModule.name
     ])
-    .directive('pcAssetText', () => {
+    .directive('pcText', () => {
       return {
         controller: TextCtrl,
         controllerAs: 'ctrl',
@@ -15,6 +15,6 @@ export default angular
         scope: {
           'asset': '='
         },
-        templateUrl: './asset/text/text.ng'
+        templateUrl: './text/text.ng'
       };
     });

@@ -7,7 +7,7 @@ import RenderCtrl from './render-ctrl';
 import RenderServiceModule from './render-service-module';
 
 export default angular
-    .module('pc.asset.render.RenderModule', [
+    .module('pc.render.RenderModule', [
       DownloadServiceModule.name,
       ErrorDisplayModule.name,
       JszipServiceModule.name,

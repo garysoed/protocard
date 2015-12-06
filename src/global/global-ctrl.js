@@ -1,4 +1,4 @@
-import { Events as CodeEditorEvents } from '../../editor/code-editor-ctrl';
+import { Events as CodeEditorEvents } from '../editor/code-editor-ctrl';
 
 /**
  * @class asset.subview.GlobalCtrl

@@ -1,4 +1,4 @@
-import TestBase from '../../testbase';
+import TestBase from '../testbase';
 
 import TemplateCtrl from './template-ctrl';
 

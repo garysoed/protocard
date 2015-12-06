@@ -1,6 +1,6 @@
-import TestBase from '../../testbase';
+import TestBase from '../testbase';
 
-import File, { Types as FileTypes } from '../../model/file';
+import File, { Types as FileTypes } from '../model/file';
 import TextCtrl from './text-ctrl';
 
 describe('asset.text.TextCtrl', () => {

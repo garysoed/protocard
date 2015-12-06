@@ -1,13 +1,13 @@
-import AssetServiceModule from '../../asset/asset-service-module';
-import CodeEditorModule from '../../editor/code-editor-module';
+import AssetServiceModule from '../asset/asset-service-module';
+import CodeEditorModule from '../editor/code-editor-module';
 import GlobalCtrl from './global-ctrl';
 
 export default angular
-    .module('pc.asset.subview.GlobalModule', [
+    .module('pc.global.GlobalModule', [
       AssetServiceModule.name,
       CodeEditorModule.name
     ])
-    .directive('pcAssetGlobal', () => {
+    .directive('pcGlobal', () => {
       return {
         controller: GlobalCtrl,
         controllerAs: 'ctrl',
@@ -15,6 +15,6 @@ export default angular
         scope: {
           'asset': '='
         },
-        templateUrl: './asset/global/global.ng'
+        templateUrl: './global/global.ng'
       };
     });
