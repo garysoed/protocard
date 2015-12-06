@@ -1,6 +1,6 @@
 import Extract from '../convert/extract';
 import Generator from '../generate/generator';
-import ImageResource from '../data/image-resource';
+import ImageResource from '../model/image-resource';
 import Utils from '../utils';
 
 /**

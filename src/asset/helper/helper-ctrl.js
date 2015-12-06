@@ -1,4 +1,4 @@
-import FunctionObject from '../../data/function-object';
+import FunctionObject from '../../model/function-object';
 import { Events as HelperItemEvents } from './helper-item-ctrl';
 import Utils from '../../utils';
 

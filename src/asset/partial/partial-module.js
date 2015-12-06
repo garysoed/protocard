@@ -1,4 +1,4 @@
-import AssetServiceModule from '../../data/asset-service-module';
+import AssetServiceModule from '../../asset/asset-service-module';
 import PartialCtrl from './partial-ctrl';
 import PartialItemModule from './partial-item-module';
 

@@ -1,4 +1,4 @@
-import AssetServiceModule from '../data/asset-service-module';
+import AssetServiceModule from '../asset/asset-service-module';
 import CreateAssetDialogModule from './create-asset-dialog-module';
 import NavigateServiceModule from '../common/navigate-service-module';
 import ViewCtrl from './view-ctrl';

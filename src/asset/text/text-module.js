@@ -1,4 +1,4 @@
-import AssetServiceModule from '../../data/asset-service-module';
+import AssetServiceModule from '../../asset/asset-service-module';
 import FileUploadModule from '../../editor/file-upload-module';
 import TextCtrl from './text-ctrl';
 

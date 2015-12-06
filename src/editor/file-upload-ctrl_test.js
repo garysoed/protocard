@@ -1,6 +1,6 @@
 import TestBase from '../testbase';
 
-import { Types as FileTypes } from '../data/file';
+import { Types as FileTypes } from '../model/file';
 import FileUploadCtrl from './file-upload-ctrl';
 
 describe('editor.FileUploadCtrl', () => {

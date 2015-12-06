@@ -1,5 +1,5 @@
 import Extract from '../../convert/extract';
-import { Types as FileTypes } from '../../data/file';
+import { Types as FileTypes } from '../../model/file';
 
 /**
  * @class asset.text.TextCtrl

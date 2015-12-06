@@ -1,4 +1,4 @@
-import AssetServiceModule from '../../data/asset-service-module';
+import AssetServiceModule from '../../asset/asset-service-module';
 import HelperCtrl from './helper-ctrl';
 import HelperItemModule from './helper-item-module';
 

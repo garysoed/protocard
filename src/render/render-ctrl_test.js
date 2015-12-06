@@ -1,8 +1,8 @@
 import TestBase from '../testbase';
 
 import FakeScope from '../testing/fake-scope';
-import File, { Types as FileTypes } from '../data/file';
-import FunctionObject from '../data/function-object';
+import File, { Types as FileTypes } from '../model/file';
+import FunctionObject from '../model/function-object';
 import RenderCtrl from './render-ctrl';
 
 describe('asset.render.RenderCtrl', () => {

@@ -1,7 +1,6 @@
 import TestBase from '../testbase';
 
 import Asset from './asset';
-import DataFormat from './data-format';
 import File, { Types as FileTypes } from './file';
 import FunctionObject from './function-object';
 import ImageResource from './image-resource';

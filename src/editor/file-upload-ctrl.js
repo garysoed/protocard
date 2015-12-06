@@ -1,5 +1,5 @@
 import Extract from '../convert/extract';
-import File from '../data/file';
+import File from '../model/file';
 
 /**
  * @class editor.FileUploadCtrl

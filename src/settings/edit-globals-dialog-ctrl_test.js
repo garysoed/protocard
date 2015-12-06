@@ -1,7 +1,7 @@
 // import TestBase from '../testbase';
 //
 // import EditGlobalsDialogCtrl from './edit-globals-dialog-ctrl';
-// import Field from '../data/field';
+// import Field from '../model/field';
 //
 // describe('settings.EditGlobalsDialogCtrl', () => {
 //   let mock$mdDialog;

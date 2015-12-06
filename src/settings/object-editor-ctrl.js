@@ -1,6 +1,8 @@
-import Field from '../data/field';
+import Field from '../model/field';
 
 const __object__ = Symbol('object');
+
+// TODO(gs): Delete
 
 /**
  * @class settings.ObjectEditor

@@ -1,4 +1,4 @@
-import Asset from '../data/asset';
+import Asset from '../model/asset';
 
 const __$mdDialog__ = Symbol('$mdDialog');
 const __$scope__ = Symbol('$scope');

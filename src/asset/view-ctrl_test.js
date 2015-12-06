@@ -1,6 +1,6 @@
 import TestBase from '../testbase';
 
-import Asset from '../data/asset';
+import Asset from '../model/asset';
 import ViewCtrl from './view-ctrl';
 
 describe('asset.ViewCtrl', () => {

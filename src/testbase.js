@@ -1,5 +1,5 @@
-import Asset from './data/asset';
-import FunctionObject from './data/function-object';
+import Asset from './model/asset';
+import FunctionObject from './model/function-object';
 
 jasmine.createObj = (name) => {
   return { type: name };

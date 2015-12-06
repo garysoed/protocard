@@ -1,8 +1,4 @@
-import Asset from './asset';
-
-const __assets__ = Symbol('assets');
-const __getIndex__ = Symbol('getIndex');
-const __storage__ = Symbol('storage');
+import Asset from '../model/asset';
 
 /**
  * Index for the asset index.
@@ -25,17 +21,17 @@ export default class {
    * @param {Storage} StorageService Provides access to storage.
    */
   constructor(StorageService) {
-    this[__assets__] = null;
-    this[__storage__] = StorageService;
+    this.asset_ = null;
+    this.storage_ = StorageService;
   }
 
   /**
-   * @method __getIndex__
+   * @method getIndex_
    * @return {Array} Array of asset IDs stored.
    * @private
    */
-  [__getIndex__]() {
-    return this[__storage__].getItem(KEY_INDEX, Array, []);
+  getIndex_() {
+    return this.storage_.getItem(KEY_INDEX, Array, []);
   }
 
   /**
@@ -61,13 +57,13 @@ export default class {
    *    asset object as the value.
    */
   getAssets() {
-    if (this[__assets__] === null) {
-      this[__assets__] = {};
-      this[__getIndex__]().forEach(id => {
-        this[__assets__][id] = this[__storage__].getItem(id, Asset);
+    if (this.asset_ === null) {
+      this.asset_ = {};
+      this.getIndex_().forEach(id => {
+        this.asset_[id] = this.storage_.getItem(id, Asset);
       });
     }
-    return this[__assets__];
+    return this.asset_;
   }
 
   /**
@@ -77,13 +73,13 @@ export default class {
    * @param {data.Asset} saveAsset The Asset to be stored.
    */
   saveAsset(asset) {
-    let index = this[__getIndex__]();
+    let index = this.getIndex_();
     index.push(asset.id);
 
-    this[__storage__].setItem(KEY_INDEX, index);
-    this[__storage__].setItem(asset.id, asset);
+    this.storage_.setItem(KEY_INDEX, index);
+    this.storage_.setItem(asset.id, asset);
 
     // invalidates the cache.
-    this[__assets__] = null;
+    this.asset_ = null;
   }
 };

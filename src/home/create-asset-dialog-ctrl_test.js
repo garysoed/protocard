@@ -1,6 +1,6 @@
 import TestBase from '../testbase';
 
-import Asset from '../data/asset';
+import Asset from '../model/asset';
 import CreateAssetDialogCtrl from './create-asset-dialog-ctrl';
 
 describe('home.CreateAssetDialogCtrl', () => {

@@ -1,6 +1,6 @@
 // import TestBase from '../testbase';
 //
-// import Field from '../data/field';
+// import Field from '../model/field';
 // import FieldEditorCtrl from './field-editor-ctrl';
 //
 // describe('settings.FieldEditorCtrl', () => {

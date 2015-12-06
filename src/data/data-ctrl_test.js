@@ -1,4 +1,4 @@
-import TestBase from '../../testbase';
+import TestBase from '../testbase';
 
 import DataCtrl from './data-ctrl';
 

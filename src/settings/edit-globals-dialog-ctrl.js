@@ -1,4 +1,4 @@
-import Field from '../data/field';
+import Field from '../model/field';
 import Utils from '../utils';
 
 const __$mdDialog__ = Symbol('$mdDialog');

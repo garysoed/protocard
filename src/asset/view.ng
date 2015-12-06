@@ -65,9 +65,9 @@
       <pc-asset-text flex ng-switch-when="text" asset="ctrl.asset"></pc-asset-text>
       <pc-asset-image flex ng-switch-when="image" asset="ctrl.asset"></pc-asset-image>
       <pc-asset-template flex ng-switch-when="template" asset="ctrl.asset"></pc-asset-template>
-      <pc-asset-data flex ng-switch-when="data" asset="ctrl.asset"></pc-asset-data>
-      <pc-render flex ng-switch-when="render" asset="ctrl.asset"></pc-render>
       <pc-asset-partial flex ng-switch-when="partial" asset="ctrl.asset"></pc-asset-partial>
+      <pc-data flex ng-switch-when="data" asset="ctrl.asset"></pc-data>
+      <pc-render flex ng-switch-when="render" asset="ctrl.asset"></pc-render>
 
       <!-- Sub views -->
       <pc-asset-helper-editor

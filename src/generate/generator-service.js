@@ -1,6 +1,6 @@
 import Extract from '../convert/extract';
 import Generator from './generator';
-import { Types as FileTypes } from '../data/file';
+import { Types as FileTypes } from '../model/file';
 import Utils from '../utils';
 
 // TODO(gs): Move to external file?

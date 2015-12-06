@@ -1,6 +1,6 @@
 import TestBase from '../testbase';
 
-import Asset from './asset';
+import Asset from '../model/asset';
 import AssetService from './asset-service';
 import { KEY_INDEX } from './asset-service';
 

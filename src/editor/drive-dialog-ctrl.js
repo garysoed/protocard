@@ -1,4 +1,4 @@
-import ImageResource from '../data/image-resource';
+import ImageResource from '../model/image-resource';
 
 /**
  * @class editor.DriveDialogCtrl

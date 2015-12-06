@@ -1,4 +1,4 @@
-import AssetServiceModule from '../../data/asset-service-module';
+import AssetServiceModule from '../../asset/asset-service-module';
 import CodeEditorModule from '../../editor/code-editor-module';
 import HelperEditorCtrl from './helper-editor-ctrl';
 
