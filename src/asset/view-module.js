@@ -5,7 +5,7 @@ import AssetHelperModule from './helper/helper-module';
 import AssetImageModule from './image/image-module';
 import AssetPartialEditorModule from './partial/partial-editor-module';
 import AssetPartialModule from './partial/partial-module';
-import AssetRenderModule from './render/render-module';
+import AssetRenderModule from '../render/render-module';
 import AssetServiceModule from '../data/asset-service-module';
 import AssetTemplateModule from './template/template-module';
 import AssetTextModule from './text/text-module';

@@ -1,8 +1,8 @@
-import DownloadServiceModule from '../../common/download-service-module';
-import ErrorDisplayModule from '../../common/error-display-module';
-import GeneratorServiceModule from '../../generate/generator-service-module';
-import ImageSelectModule from '../../editor/image-select-module';
-import JszipServiceModule from '../../thirdparty/jszip-service-module';
+import DownloadServiceModule from '../common/download-service-module';
+import ErrorDisplayModule from '../common/error-display-module';
+import GeneratorServiceModule from '../generate/generator-service-module';
+import ImageSelectModule from '../editor/image-select-module';
+import JszipServiceModule from '../thirdparty/jszip-service-module';
 import RenderCtrl from './render-ctrl';
 import RenderServiceModule from './render-service-module';
 
@@ -14,7 +14,7 @@ export default angular
       GeneratorServiceModule.name,
       RenderServiceModule.name
     ])
-    .directive('pcAssetRender', () => {
+    .directive('pcRender', () => {
       return {
         controller: RenderCtrl,
         controllerAs: 'ctrl',
@@ -22,6 +22,6 @@ export default angular
         scope: {
           'asset': '='
         },
-        templateUrl: './asset/render/render.ng'
+        templateUrl: './render/render.ng'
       };
     });

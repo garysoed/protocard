@@ -1,7 +1,7 @@
-import Extract from '../../convert/extract';
-import Generator from '../../generate/generator';
-import ImageResource from '../../data/image-resource';
-import Utils from '../../utils';
+import Extract from '../convert/extract';
+import Generator from '../generate/generator';
+import ImageResource from '../data/image-resource';
+import Utils from '../utils';
 
 /**
  * @class asset.render.RenderCtrl

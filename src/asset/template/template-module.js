@@ -1,7 +1,7 @@
 import AssetServiceModule from '../../data/asset-service-module';
 import TemplateEditorModule from '../../editor/template-editor-module';
 import GeneratorServiceModule from '../../generate/generator-service-module';
-import RenderServiceModule from '../render/render-service-module';
+import RenderServiceModule from '../../render/render-service-module';
 import TemplateCtrl from './template-ctrl';
 
 export default angular

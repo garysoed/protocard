@@ -1,5 +1,5 @@
-import DomServiceModule from '../../thirdparty/dom-service-module';
-import Html2canvasServiceModule from '../../thirdparty/html2canvas-service-module';
+import DomServiceModule from '../thirdparty/dom-service-module';
+import Html2canvasServiceModule from '../thirdparty/html2canvas-service-module';
 import PreviewAppCtrl from './preview-app-ctrl';
 
 angular
@@ -14,6 +14,6 @@ angular
           {
             controller: PreviewAppCtrl,
             controllerAs: 'ctrl',
-            templateUrl: 'asset/render/preview-app.ng'
+            templateUrl: 'render/preview-app.ng'
           });
     });

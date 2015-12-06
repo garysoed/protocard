@@ -1,6 +1,6 @@
-import TestBase from '../../testbase';
+import TestBase from '../testbase';
 
-import FakeDocument from '../../testing/fake-document';
+import FakeDocument from '../testing/fake-document';
 import PreviewAppCtrl from './preview-app-ctrl';
 
 describe('asset.render.PreviewAppCtrl', () => {
