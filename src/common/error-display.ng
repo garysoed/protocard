@@ -1,0 +1,1 @@
+<pre class="pc-error-display">{{ctrl.lastError}}</pre>

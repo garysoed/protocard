@@ -21,13 +21,14 @@ export default class {
     this.destroyed_ = false;
     this.downloadService_ = DownloadService;
     this.generatorService_ = GeneratorService;
-    this.jszipService_ = JszipService;
-    this.renderService_ = RenderService;
-    this.toRender_ = [];
-    this.rendered_ = [];
-    this.selectedImages_ = [];
-    this.totalRender_ = 0;
     this.isFabOpen_ = false;
+    this.jszipService_ = JszipService;
+    this.lastError_ = null;
+    this.rendered_ = [];
+    this.renderService_ = RenderService;
+    this.selectedImages_ = [];
+    this.toRender_ = [];
+    this.totalRender_ = 0;
   }
 
   /**
@@ -69,6 +70,10 @@ export default class {
    */
   unselectAll_() {
     this.selectedImages_.splice(0, this.selectedImages_.length);
+  }
+
+  hasLastError() {
+    return this.lastError_ !== null;
   }
 
   /**
@@ -129,22 +134,27 @@ export default class {
   onInit() {
     this.$scope_.$on('$destroy', this.onDestroy_.bind(this));
 
-    // TODO(gs): Add Partials to asset
-    // TODO(gs): Add name to asset
-    let generatedHtml = this.generatorService_.generate(
-        this.asset_,
-        this.generatorService_.localDataList(this.asset_),
-        this.asset_.templateString,
-        this.asset_.templateName);
+    this.lastError_ = null;
 
-    this.rendered_ = [];
-    this.toRender_ = [];
-    for (let key in generatedHtml) {
-      this.toRender_.push({ key: key, content: generatedHtml[key] });
+    try {
+      // TODO(gs): Add name to asset
+      let generatedHtml = this.generatorService_.generate(
+          this.asset_,
+          this.generatorService_.localDataList(this.asset_),
+          this.asset_.templateString,
+          this.asset_.templateName);
+
+      this.rendered_ = [];
+      this.toRender_ = [];
+      for (let key in generatedHtml) {
+        this.toRender_.push({ key: key, content: generatedHtml[key] });
+      }
+      this.totalRender_ = this.toRender_.length;
+
+      this.renderNext_();
+    } catch (e) {
+      this.lastError_ = e;
     }
-    this.totalRender_ = this.toRender_.length;
-
-    this.renderNext_();
   }
 
   /**
@@ -186,6 +196,10 @@ export default class {
   }
   set isFabOpen(open) {
     this.isFabOpen_ = open;
+  }
+
+  get lastError() {
+    return this.lastError_;
   }
 
   /**

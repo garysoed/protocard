@@ -1,4 +1,0 @@
-<div class="app" ng-init="ctrl.onInit()">
-  <div class="content"></div>
-  <canvas style="display: none;" width="825" height="1125"></canvas>
-</div>

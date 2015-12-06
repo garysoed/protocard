@@ -9,6 +9,7 @@ export default class {
    * @param {generate.GeneratorService} GeneratorService
    */
   constructor($scope, AssetService, GeneratorService) {
+    // TODO(gs): Show errors when rendering.
     this.$scope_ = $scope;
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
@@ -54,6 +55,7 @@ export default class {
       this.assetService_.saveAsset(this.asset_);
     }
   }
+
   /**
    * Called when the refresh button is clicked.
    *

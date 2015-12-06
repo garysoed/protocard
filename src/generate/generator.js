@@ -96,8 +96,11 @@ export default class {
         let outName = outNameTemplate(data);
         outContent[outName] = rendered;
       } catch (e) {
-        throw Error('Error while trying to generate local data:\n' + JSON.stringify(localData, 2)
-            + '\n' + e);
+        // TODO(gs): Clarify the causal chain.
+        throw Error([
+            'Error while trying to generate local data:',
+            JSON.stringify(localData, 2),
+            e].join('\n'));
       }
     });
 

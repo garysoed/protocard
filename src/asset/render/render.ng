@@ -10,7 +10,11 @@
     </div>
   </div>
   <md-content ng-class="ctrl.isRendering() ? 'loading' : ''">
-    <pc-image-select ng-model="ctrl.selectedImages" images="ctrl.images"></pc-image-select>
+    <pc-error-display ng-if="ctrl.hasLastError()" error="ctrl.lastError"></pc-error-display>
+    <pc-image-select
+        ng-if="!ctrl.hasLastError()"
+        ng-model="ctrl.selectedImages"
+        images="ctrl.images"></pc-image-select>
   </md-content>
 
   <md-button

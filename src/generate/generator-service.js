@@ -23,6 +23,12 @@ function lowercase(input) {
       .toLocaleLowerCase();
 }
 
+function ifeq(a, b, options) {
+  if (a === b) {
+    return options.fn(this);
+  }
+}
+
 export default class {
   /**
    * @constructor
@@ -48,6 +54,7 @@ export default class {
 
   newGenerator(asset) {
     let helpers = Utils.mapValue(asset.helpers, helper => helper.asFunction());
+    helpers['_ifeq'] = ifeq;
     helpers['_imgUrl'] = imageUrlHelper(asset);
     helpers['_lowercase'] = lowercase;
     let options = {
