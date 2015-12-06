@@ -1,8 +1,8 @@
-import TestBase from '../../testbase';
+import TestBase from '../testbase';
 
 import PartialEditorCtrl from './partial-editor-ctrl';
 
-describe('asset.partial.PartialEditorCtrl', () => {
+describe('partial.PartialEditorCtrl', () => {
   const NAME = 'partialName';
   const PARTIAL = 'partial';
 

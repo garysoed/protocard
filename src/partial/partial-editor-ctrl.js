@@ -1,5 +1,5 @@
 /**
- * @class asset.partial.PartialEditorCtrl
+ * @class partial.PartialEditorCtrl
  */
 export default class {
   /**

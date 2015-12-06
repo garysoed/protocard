@@ -1,8 +1,8 @@
-import TestBase from '../../testbase';
+import TestBase from '../testbase';
 
 import PartialItemCtrl from './partial-item-ctrl';
 
-describe('asset.partial.PartialItemCtrl', () => {
+describe('partial.PartialItemCtrl', () => {
   const NAME = 'name';
   const EDITED_PARTIAL = 'editedPartial';
   let mockAsset;

@@ -1,8 +1,8 @@
-import TestBase from '../../testbase';
+import TestBase from '../testbase';
 
 import PartialCtrl from './partial-ctrl';
 
-describe('asset.partial.PartialCtrl', () => {
+describe('partial.PartialCtrl', () => {
   let mockAsset;
   let mockAssetService;
   let ctrl;

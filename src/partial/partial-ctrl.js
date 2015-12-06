@@ -1,7 +1,7 @@
-import Utils from '../../utils';
+import Utils from '../utils';
 
 /**
- * @class asset.partial.PartialCtrl
+ * @class partial.PartialCtrl
  */
 export default class {
   /**

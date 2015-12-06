@@ -1,8 +1,8 @@
 import PartialEditorCtrl from './partial-editor-ctrl';
 
 export default angular
-    .module('pc.asset.partial.PartialEditorModule', [])
-    .directive('pcAssetPartialEditor', () => {
+    .module('pc.partial.PartialEditorModule', [])
+    .directive('pcPartialEditor', () => {
       return {
         controller: PartialEditorCtrl,
         controllerAs: 'ctrl',
@@ -11,6 +11,6 @@ export default angular
           'asset': '=',
           'name': '='
         },
-        templateUrl: './asset/partial/partial-editor.ng'
+        templateUrl: './partial/partial-editor.ng'
       };
     });

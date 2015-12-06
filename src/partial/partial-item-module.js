@@ -1,8 +1,8 @@
 import PartialItemCtrl from './partial-item-ctrl';
 
 export default angular
-    .module('pc.asset.partial.PartialItemModule', [])
-    .directive('pcAssetPartialItem', () => {
+    .module('pc.partial.PartialItemModule', [])
+    .directive('pcPartialItem', () => {
       return {
         controller: PartialItemCtrl,
         controllerAs: 'ctrl',
@@ -11,6 +11,6 @@ export default angular
           asset: '=',
           name: '='
         },
-        templateUrl: './asset/partial/partial-item.ng'
+        templateUrl: './partial/partial-item.ng'
       };
     });

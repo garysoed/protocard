@@ -1,7 +1,7 @@
-<md-content class="pc-asset-partial pc-fill-parent" layout="column" layout-align="start end">
+<md-content class="pc-partial pc-fill-parent" layout="column" layout-align="start end">
   <md-list>
     <md-list-item ng-repeat="(name, partials) in ctrl.partials">
-      <pc-asset-partial-item asset="ctrl.asset" name="name"></pc-asset-partial-item>
+      <pc-partial-item asset="ctrl.asset" name="name"></pc-partial-item>
     </md-list-item>
   </md-list>
 </md-content>

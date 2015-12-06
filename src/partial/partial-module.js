@@ -1,13 +1,13 @@
-import AssetServiceModule from '../../asset/asset-service-module';
+import AssetServiceModule from '../asset/asset-service-module';
 import PartialCtrl from './partial-ctrl';
 import PartialItemModule from './partial-item-module';
 
 export default angular
-    .module('pc.asset.partial.PartialModule', [
+    .module('pc.partial.PartialModule', [
       AssetServiceModule.name,
       PartialItemModule.name
     ])
-    .directive('pcAssetPartial', () => {
+    .directive('pcPartial', () => {
       return {
         controller: PartialCtrl,
         controllerAs: 'ctrl',
@@ -15,6 +15,6 @@ export default angular
         scope: {
           asset: '='
         },
-        templateUrl: './asset/partial/partial.ng'
+        templateUrl: './partial/partial.ng'
       };
     });
