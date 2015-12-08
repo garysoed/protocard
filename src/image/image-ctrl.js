@@ -55,6 +55,7 @@ export default class {
     }
     this.imagesArray_ = null;
     this.selectedImages_ = [];
+    // TODO(gs): Override images by their URL.
     return this.assetService_.saveAsset(this.asset_);
   }
 
