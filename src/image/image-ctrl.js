@@ -31,7 +31,10 @@ export default class {
    */
   get images() {
     if (this.imagesArray_ === null) {
-      this.imagesArray_ = Array.from(this.asset_.images);
+      this.imagesArray_ = [];
+      for (let key in this.asset_.images) {
+        this.imagesArray_.push(this.asset_.images[key]);
+      }
     }
     return this.imagesArray_;
   }
@@ -51,7 +54,7 @@ export default class {
    */
   onDeleteClick() {
     for (let selected of this.selectedImages_) {
-      this.asset_.images.delete(selected);
+      delete this.asset_.images[selected.alias];
     }
     this.imagesArray_ = null;
     this.selectedImages_ = [];
@@ -70,7 +73,7 @@ export default class {
         .show($event)
         .then(images => {
           images.forEach(image => {
-            this.asset_.images.add(image);
+            this.asset_.images[image.alias] = image;
           });
           this.imagesArray_ = null;
           this.assetService_.saveAsset(this.asset_);

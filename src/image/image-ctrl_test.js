@@ -29,8 +29,8 @@ describe('asset.image.ImageCtrl', () => {
 
   describe('onDeleteClick', () => {
     it('should delete the images from the asset and save it', () => {
-      mockAsset.images = new Set(['image1', 'image2']);
-      ctrl.selectedImages = ['image2'];
+      mockAsset.images = {'image1': 'image1', 'image2': 'image2'};
+      ctrl.selectedImages = [{ alias: 'image2' }];
 
       ctrl.onDeleteClick();
       expect(ctrl.images).toEqual(['image1']);
@@ -41,14 +41,15 @@ describe('asset.image.ImageCtrl', () => {
   describe('onDriveClick', () => {
     it('should return a Promise that updates the asset', done => {
       let $event = {};
-      let images = ['image1', 'image2'];
-      mockAsset.images = new Set([]);
+      let images = [{ alias: 'image1' }, { alias: 'image2' }];
+      mockAsset.images = {};
       mockDriveDialogService.show.and.returnValue(Promise.resolve(images));
 
       ctrl.onDriveClick($event)
           .then(() => {
             expect(mockDriveDialogService.show).toHaveBeenCalledWith($event);
-            expect(Array.from(mockAsset.images)).toEqual(images);
+            expect(mockAsset.images)
+                .toEqual({ 'image1': images[0], 'image2': images[1] });
             expect(mockAssetService.saveAsset).toHaveBeenCalledWith(mockAsset);
             done();
           }, done.fail);

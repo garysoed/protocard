@@ -16,10 +16,12 @@ describe('data.Asset', () => {
     asset.helpers['functionObject1'] = new FunctionObject('function f1() {}');
     asset.helpers['functionObject2'] = new FunctionObject('function f2() {}');
     asset.data = new File(FileTypes.TSV, 'content');
-    asset.images_ = new Set([
-      new ImageResource('image1.png', 'http://image1.png', 'http://preview/image1.png'),
-      new ImageResource('image2.png', 'http://image2.png', 'http://preview/image2.png'),
-    ]);
+    asset.images_ = {
+      'image1.png' :
+          new ImageResource('image1.png', 'http://image1.png', 'http://preview/image1.png'),
+      'image2.png' :
+          new ImageResource('image2.png', 'http://image2.png', 'http://preview/image2.png'),
+    };
     asset.partials['partial1'] = 'partial1content';
     asset.partials['partial2'] = 'partial2content';
     asset.templateString = 'templateString';

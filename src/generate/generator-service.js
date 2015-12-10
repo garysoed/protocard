@@ -7,12 +7,7 @@ import Utils from '../utils';
 function imageUrlHelper(asset) {
   return function(name) {
     let url = null;
-    asset.images.forEach(image => {
-      if (image.alias === name) {
-        url = image.url;
-      }
-    });
-    return url;
+    return asset.images[name] ? asset.images[name].url : null;
   };
 }
 

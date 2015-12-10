@@ -29,7 +29,7 @@ export default class {
     this.dataProcessor_ = new FunctionObject('return function(lineData) {};');
     this.globalsString_ = JSON.stringify(this.globals_);
     this.helpers_ = {};
-    this.images_ = new Set([]);
+    this.images_ = {};
     this.partials_ = {};
     this.templateName_ = '{{_lowercase _.name}}';
     this.templateString_ = '';
@@ -99,7 +99,7 @@ export default class {
 
   /**
    * @property images
-   * @type {Set}
+   * @type {Object}
    */
   get images() {
     return this.images_;
@@ -141,7 +141,7 @@ export default class {
       helpers: Utils.mapValue(this.helpers, helper => helper.toJSON()),
       data: this.data ? this.data.toJSON() : null,
       dataProcessor: this.dataProcessor_,
-      images: Array.from(this.images_).map(image => image.toJSON()),
+      images: Utils.mapValue(this.images_, image => image.toJSON()),
       partials: this.partials,
       templateString: this.templateString
     };
@@ -166,18 +166,21 @@ export default class {
     asset.helpers_ = Utils.mapValue(json['helpers'], json => FunctionObject.fromJSON(json));
     asset.data_ = File.fromJSON(json['data']);
     asset.templateString_ = json['templateString'];
-
-    if (json['dataProcessor']) {
-      asset.dataProcessor_ = FunctionObject.fromJSON(json['dataProcessor']);
-    }
+    asset.dataProcessor_ = FunctionObject.fromJSON(json['dataProcessor']);
 
     if (json['images']) {
-      asset.images_ = new Set(json['images'].map(json => ImageResource.fromJSON(json)));
+      if (json['images'] instanceof Array) {
+        let set = new Set(json['images'].map(json => ImageResource.fromJSON(json)));
+        asset.images_ = {};
+        set.forEach(image => {
+          asset.images_[image.alias] = image;
+        });
+      } else {
+        asset.images_ = Utils.mapValue(json['images'], json => ImageResource.fromJSON(json));
+      }
     }
 
-    if (json['partials']) {
-      asset.partials_ = json['partials'];
-    }
+    asset.partials_ = json['partials'];
     return asset;
   }
 
