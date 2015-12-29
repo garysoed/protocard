@@ -6,15 +6,23 @@ var insert     = require('gulp-insert');
 var jasmine    = require('gulp-jasmine');
 var myth       = require('gulp-myth');
 var sourcemaps = require('gulp-sourcemaps');
+var typescript = require('gulp-typescript');
 var webpack    = require('gulp-webpack');
 
-gulp.task('compile', function() {
-  return gulp.src(['src/**/*.js'])
-      .pipe(babel({
-        presets: ['es2015']
-      }))
-      .pipe(gulp.dest('out'));
-});
+gulp.task('compile',
+    gulp.parallel(
+        function js_() {
+          return gulp.src(['src/**/*.js'])
+              .pipe(babel({
+                presets: ['es2015']
+              }))
+              .pipe(gulp.dest('out'));
+        },
+        function ts_() {
+          return gulp.src(['src/**/*.ts'])
+              .pipe(typescript(typescript.createProject('tsconfig.json')))
+              .pipe(gulp.dest('out'));
+        }));
 
 gulp.task('test', gulp.series(
   'compile',
