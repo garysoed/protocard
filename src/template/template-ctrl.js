@@ -1,5 +1,5 @@
 /**
- * @class asset.template.TemplateCtrl
+ * @class template.TemplateCtrl
  */
 export default class {
   /**
@@ -13,9 +13,11 @@ export default class {
     this.$scope_ = $scope;
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
-    this.localDataList_ = GeneratorService.localDataList($scope['asset']);
+    this.localDataList_ = GeneratorService.generateNames($scope['asset']);
+    this.previewName_ = null;
     this.previewData_ = null;
     this.templateString_ = this.asset_.templateString;
+    this.query_ = '';
   }
 
   /**
@@ -33,13 +35,20 @@ export default class {
    * @readonly
    */
   get previewData() {
-    if (this.previewData_ === null && this.localDataList_.length > 0) {
-      this.previewData_ =
-          this.localDataList_[Math.floor(Math.random() * this.localDataList_.length)];
+    let names = Object.keys(this.localDataList_);
+    if (this.previewName_ === null && names.length > 0) {
+      this.previewName_ = names[Math.floor(Math.random() * names.length)];
     }
-    return this.previewData_;
+
+    return this.previewName_ !== null ? this.localDataList_[this.previewName_] : null;
   }
 
+  get query() {
+    return this.previewName_;
+  }
+  set query(newQuery) {
+    this.previewName_ = newQuery;
+  }
 
   /**
    * @property templateString
@@ -62,6 +71,6 @@ export default class {
    * @method onRefreshClick
    */
   onRefreshClick() {
-    this.previewData_ = null;
+    this.previewName_ = null;
   }
 }

@@ -14,7 +14,7 @@ function imageUrlHelper(asset) {
 function lowercase(input) {
   return input
       .replace(/[^a-zA-Z0-9 ]/g, '_')
-      .replace(' ', '-')
+      .replace(/ /g, '-')
       .toLocaleLowerCase();
 }
 
@@ -24,6 +24,7 @@ function ifeq(a, b, options) {
   }
 }
 
+// TODO(gs): Refactor this.
 export default class {
   /**
    * @constructor
@@ -72,5 +73,10 @@ export default class {
     // TODO(gs): Delete this.
     return this.newGenerator(asset)
         .generate(templateString, templateName, localDataList);
+  }
+
+  generateNames(asset) {
+    return this.newGenerator(asset)
+        .generateNames(asset.templateName, this.localDataList(asset));
   }
 };

@@ -1,9 +1,5 @@
 import Utils from '../utils';
 
-const __globals__ = Symbol('globals');
-const __handlebars__ = Symbol('handlebars');
-const __resolve__ = Symbol('resolve');
-
 /**
  * Generator logic.
  *
@@ -26,7 +22,7 @@ export default class {
     let helpers = config.helpers || {};
     let partials = config.partials || {};
 
-    this[__globals__] = globals;
+    this.globals_ = globals;
     var data = {
       _pc: {
         size: {
@@ -35,9 +31,9 @@ export default class {
         }
       }
     };
-    Utils.mixin(data, this[__globals__]);
+    Utils.mixin(data, this.globals_);
 
-    this[__handlebars__] = handlebars;
+    this.handlebars_ = handlebars;
 
     // Register the helpers.
     for (let key in helpers) {
@@ -50,14 +46,14 @@ export default class {
     }
   }
 
-  [__resolve__](data, deps, options) {
+  resolve_(data, deps, options) {
     let resolvedData = {};
     for (let key in data) {
       let value = data[key];
       if (typeof value === 'object') {
-        resolvedData[key] = this[__resolve__](value, deps, options);
+        resolvedData[key] = this.resolve_(value, deps, options);
       } else if (typeof value === 'string') {
-        resolvedData[key] = this[__handlebars__].compile(value, options)(deps);
+        resolvedData[key] = this.handlebars_.compile(value, options)(deps);
       } else {
         resolvedData[key] = value;
       }
@@ -81,20 +77,51 @@ export default class {
       noEscape: true
     };
 
-    let template = this[__handlebars__].compile(templateBody, options);
-    let outNameTemplate = this[__handlebars__].compile(templateName, options);
+    let template = this.handlebars_.compile(templateBody, options);
+    let outNameTemplate = this.handlebars_.compile(templateName, options);
 
     let outContent = {};
 
     // Generates all the local data.
     localDataList.forEach(localData => {
       try {
-        let evalLocalData = this[__resolve__](localData, this[__globals__]);
-        let data = JSON.parse(JSON.stringify(this[__globals__]));
+        let evalLocalData = this.resolve_(localData, this.globals_);
+        let data = JSON.parse(JSON.stringify(this.globals_));
         Utils.mixin({ _: evalLocalData }, data);
         let rendered = template(data);
         let outName = outNameTemplate(data);
         outContent[outName] = rendered;
+      } catch (e) {
+        // TODO(gs): Clarify the causal chain.
+        throw Error([
+            'Error while trying to generate local data:',
+            JSON.stringify(localData, 2),
+            e].join('\n'));
+      }
+    });
+
+    return outContent;
+  }
+
+  generateNames(templateName, localDataList) {
+    // TODO(gs): Combine with generate
+    // TODO(gs): Expose this
+    let options = {
+      noEscape: true
+    };
+
+    let outNameTemplate = this.handlebars_.compile(templateName, options);
+
+    let outContent = {};
+
+    // Generates all the local data.
+    localDataList.forEach(localData => {
+      try {
+        let evalLocalData = this.resolve_(localData, this.globals_);
+        let data = JSON.parse(JSON.stringify(this.globals_));
+        Utils.mixin({ _: evalLocalData }, data);
+        let outName = outNameTemplate(data);
+        outContent[outName] = localData;
       } catch (e) {
         // TODO(gs): Clarify the causal chain.
         throw Error([
@@ -115,6 +142,6 @@ export default class {
    * @return {string} String based on the resolved template string.
    */
   resolve(templateString) {
-    return this[__handlebars__].compile(templateString)(this[__globals__]);
+    return this.handlebars_.compile(templateString)(this.globals_);
   }
 };

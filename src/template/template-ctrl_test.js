@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 
 import TemplateCtrl from './template-ctrl';
 
-describe('asset.template.TemplateCtrl', () => {
+describe('template.TemplateCtrl', () => {
   let mockAsset;
   let mockAssetService;
   let mockGeneratorService;
@@ -13,12 +13,17 @@ describe('asset.template.TemplateCtrl', () => {
     mockAsset = {};
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
     mockLocalDataList = [];
-    mockGeneratorService = jasmine.createSpyObj('GeneratorService', ['generate', 'localDataList']);
-    mockGeneratorService.localDataList.and.returnValue(mockLocalDataList);
+
+    mockGeneratorService = jasmine.createSpyObj('GeneratorService', ['generateNames']);
+    mockGeneratorService.generateNames.and.returnValue(mockLocalDataList);
     ctrl = new TemplateCtrl(
         { 'asset': mockAsset },
         mockAssetService,
         mockGeneratorService);
+  });
+
+  it('should generate the names based on the given asset', () => {
+    expect(mockGeneratorService.generateNames).toHaveBeenCalledWith(mockAsset);
   });
 
   describe('get previewData', () => {
