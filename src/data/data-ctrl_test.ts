@@ -12,7 +12,9 @@ describe('asset.data.DataCtrl', () => {
     dataProcessor = {};
     asset = { dataProcessor: dataProcessor };
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
-    ctrl = new DataCtrl({ 'asset': asset }, mockAssetService);
+    let scope = <angular.IScope>{};
+    scope['asset'] = asset;
+    ctrl = new DataCtrl(scope, mockAssetService);
   });
 
   describe('set processorString', () => {

@@ -1,6 +1,6 @@
 import Extract from '../convert/extract';
 import Generator from './generator';
-import { Types as FileTypes } from '../model/file';
+import { FileTypes } from '../model/file';
 import Utils from '../utils';
 
 // TODO(gs): Move to external file?
@@ -42,7 +42,7 @@ export default class {
         writer = Extract.fromTsv(data.content);
         break;
       default:
-        throw Error(`Unhandled file type: ${dataFile.type}`);
+        throw Error(`Unhandled file type: ${data.type}`);
     }
 
     return writer.write(asset.dataProcessor.asFunction());

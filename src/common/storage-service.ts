@@ -1,10 +1,5 @@
-const __namespace__ = Symbol('namespace');
-const __storage__ = Symbol('storage');
-
 /**
  * Service to manage local storage.
- *
- * @class common.StorageService
  */
 export default class StorageService<T> {
 

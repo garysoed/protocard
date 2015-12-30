@@ -1,17 +1,27 @@
+import Asset from '../model/asset'
+import AssetService from './asset-service';
+import FunctionObject from '../model/function-object';
+import NavigateService from '../common/navigate-service';
+
 /**
  * Controller for the create page view.
- *
- * @class asset.ViewCtrl
  */
-export default class {
+export default class ViewCtrl {
+  private $scope_: angular.IScope;
+  private $routeParams_: any;
+  private asset_: Asset;
+  private assetService_: AssetService;
+  private currentHelper_: FunctionObject;
+  private currentPartialName_: string;
+  private isSidebarOpen_: boolean;
+  private navigateService_: NavigateService;
+  private subview_: string;
 
-  /**
-   * @constructor
-   * @param {ng.$routeParams} $routeParams
-   * @param {data.AssetService} AssetService
-   * @param {common.NavigateService} NavigateService
-   */
-  constructor($scope, $routeParams, AssetService, NavigateService) {
+  constructor(
+      $scope: angular.IScope,
+      $routeParams: any,
+      AssetService: AssetService,
+      NavigateService: NavigateService) {
     this.$scope_ = $scope;
     this.$routeParams_ = $routeParams;
     this.assetService_ = AssetService;
@@ -25,64 +35,32 @@ export default class {
 
   /**
    * The asset viewed.
-   *
-   * @property asset
-   * @type {data.Asset}
-   * @readonly
    */
-  get asset() {
+  get asset(): Asset {
     return this.asset_;
   }
 
   /**
    * Name of the asset viewed.
-   *
-   * @property assetName
-   * @type {string}
-   * @readonly
    */
-  get assetName() {
+  get assetName(): string {
     return this.asset_ && this.asset_.name;
   }
-
-  /**
-   * Name of the current subview.
-   *
-   * @property subview
-   * @type {string}
-   * @readonly
-   */
-  get subview() {
-    return this.subview_;
-  }
-
   /**
    * Current helper associated with the view, if any.
-   *
-   * @property currentHelper
-   * @type {data.Helper}
-   * @readonly
    */
-  get currentHelper() {
+  get currentHelper(): FunctionObject {
     return this.currentHelper_;
   }
 
-  /**
-   * @property currentPartialName
-   * @type {string}
-   * @readonly
-   */
-  get currentPartialName() {
+  get currentPartialName(): string {
     return this.currentPartialName_;
   }
 
   /**
    * Name of the current subview, if any.
-   *
-   * @property subview
-   * @type {string}
    */
-  get subview() {
+  get subview(): string {
     return this.subview_;
   }
   set subview(subview) {
@@ -91,21 +69,16 @@ export default class {
 
 /**
  * True iff the sidebar should be opened.
- *
- * @property isSidebarOpen
- * @type {boolean}
  */
-  get isSidebarOpen() {
+  get isSidebarOpen(): boolean {
     return this.isSidebarOpen_;
   }
-  set isSidebarOpen(open) {
+  set isSidebarOpen(open: boolean) {
     this.isSidebarOpen_ = open;
   }
 
   /**
    * Handler called when the back button is clicked.
-   *
-   * @method onBackClick
    */
   onBackClick() {
     this.navigateService_.toHome();
@@ -113,8 +86,6 @@ export default class {
 
   /**
    * Handler called when the menu button is clicked.
-   *
-   * @method onMenuClick
    */
   onMenuClick() {
     this.isSidebarOpen_ = !this.isSidebarOpen_;
@@ -122,8 +93,6 @@ export default class {
 
   /**
    * Handler called when the controller is initialized
-   *
-   * @method onInit
    */
   onInit() {
     this.asset_ = this.assetService_.getAsset(this.$routeParams_['assetId']);
@@ -146,11 +115,9 @@ export default class {
 
   /**
    * Handler called when the navigation button is clicked.
-   *
-   * @method onNavigateClick
-   * @param {string} value Name of subview to navigate to.
+   * @param value Name of subview to navigate to.
    */
-  onNavigateClick(value) {
+  onNavigateClick(value: string) {
     this.subview_ = value;
     this.navigateService_.toAsset(this.asset_.id, value);
   }

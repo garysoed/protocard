@@ -1,62 +1,54 @@
 import Asset from '../model/asset';
+import StorageService from '../common/storage-service';
 
 /**
  * Index for the asset index.
- *
- * @property KEY_INDEX
- * @type {String}
- * @static
  */
-export const KEY_INDEX = 'assets';
+export const KEY_INDEX: string = 'assets';
 
 /**
  * Manages assets in the storage.
- *
- * @class data.AssetService
  */
-export default class {
+export default class AssetService {
+
+  private asset_: { [id: string]: Asset };
+  private storage_: StorageService<any>;
 
   /**
-   * @constructor
-   * @param {Storage} StorageService Provides access to storage.
+   * @param StorageService Provides access to storage.
    */
-  constructor(StorageService) {
+  constructor(StorageService: StorageService<any>) {
     this.asset_ = null;
     this.storage_ = StorageService;
   }
 
   /**
-   * @method getIndex_
-   * @return {Array} Array of asset IDs stored.
-   * @private
+   * @return Array of asset IDs stored.
    */
-  getIndex_() {
+  private getIndex_(): string[] {
     return this.storage_.getItem(KEY_INDEX, Array, []);
   }
 
   /**
-   * @method hasAssets
-   * @return {Boolean} True iff there are assets stored.
+   * @return True iff there are assets stored.
    */
-  hasAssets() {
+  hasAssets(): boolean {
     return Object.keys(this.getAssets()).length > 0;
   }
 
   /**
-   * @method getAsset
-   * @param {string} id ID of the asset to return.
-   * @return {data.Asset} The asset corresponding to the given ID.
+   * @param id ID of the asset to return.
+   * @return The asset corresponding to the given ID.
    */
-  getAsset(id) {
+  getAsset(id: string): Asset {
     return this.getAssets()[id] || null;
   }
 
   /**
-   * @method getAssets
-   * @return {Object} Dictionary of `data.Asset`s stored with the ID as the key and
-   *    asset object as the value.
+   * @return Dictionary of `data.Asset`s stored with the ID as the key and asset object as the
+   *    value.
    */
-  getAssets() {
+  getAssets(): { [id: string]: Asset } {
     if (this.asset_ === null) {
       this.asset_ = {};
       this.getIndex_().forEach(id => {
@@ -69,10 +61,9 @@ export default class {
   /**
    * Saves the given asset to the storage.
    *
-   * @method saveAsset
-   * @param {data.Asset} saveAsset The Asset to be stored.
+   * @param saveAsset The Asset to be stored.
    */
-  saveAsset(asset) {
+  saveAsset(asset: Asset) {
     let index = this.getIndex_();
     index.push(asset.id);
 
