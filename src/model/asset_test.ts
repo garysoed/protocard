@@ -20,8 +20,8 @@ describe('model.Asset', () => {
     asset.images['image2.png'] =
         new ImageResource('image2.png', 'http://image2.png', 'http://preview/image2.png');
 
-    asset.partials['partial1'] = new FunctionObject('function p1() {}');
-    asset.partials['partial2'] = new FunctionObject('function p2() {}');
+    asset.partials['partial1'] = 'partial1';
+    asset.partials['partial2'] = 'partial2';
     asset.templateString = 'templateString';
 
     let copy = Asset.fromJSON(asset.toJSON());

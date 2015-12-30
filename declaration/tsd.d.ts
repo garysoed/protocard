@@ -5,3 +5,4 @@
 /// <reference path="gapi/gapi.d.ts" />
 /// <reference path="ace/ace.d.ts" />
 /// <reference path="angular-material/angular-material.d.ts" />
+/// <reference path="handlebars/handlebars.d.ts" />

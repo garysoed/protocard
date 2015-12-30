@@ -1,23 +1,25 @@
 import Utils from '../utils';
 
+interface Config {
+  globals?: { [key: string]: any };
+  helpers?: { [key: string]: Function };
+  partials?: { [key: string]: string };
+}
+
 /**
  * Generator logic.
- *
- * @class Generator
  */
-export default class {
+export default class Generator {
+
+  private globals_: { [key: string]: string };
+  private handlebars_: IHandlebars;
 
   /**
    * @constructor
-   * @param {*} handlebars Reference to Handlebars
-   * @param {Object} [config] Configuration object. Defaults to {}. Supported values are:
-   *    -   globals: Key value pair of global values. This will be applied to all files.
-   *    -   helpers: Key value pair of Handlebar helpers. This will be applied to all files.
-   *        The key should be the helper's name and the value is the helper's function.
-   *    -   partials: Key value pair of Handlebar partials. This will be applied to all files.
-   *        The key should be the partial's name, and the value is the partial's content.
+   * @param handlebars Reference to Handlebars
+   * @param [config] Configuration object. Defaults to {}.
    */
-  constructor(handlebars, config = {}) {
+  constructor(handlebars: IHandlebars, config: Config = {}) {
     let globals = config.globals || {};
     let helpers = config.helpers || {};
     let partials = config.partials || {};
@@ -46,8 +48,11 @@ export default class {
     }
   }
 
-  resolve_(data, deps, options) {
-    let resolvedData = {};
+  private resolve_(
+      data: { [key: string]: any },
+      deps: any,
+      options: any): { [key: string]: any } {
+    let resolvedData = <{ [key: string]: any }>{};
     for (let key in data) {
       let value = data[key];
       if (typeof value === 'object') {
@@ -65,13 +70,16 @@ export default class {
    * Generates files using the given template and data.
    *
    * @method generate
-   * @param {string} templateBody Template string used to generate the file contents.
-   * @param {string} templateName Template used to generate the file names.
-   * @param {Array} localDataList Array of objects containing the data for every file. This method
+   * @param templateBody Template string used to generate the file contents.
+   * @param templateName Template used to generate the file names.
+   * @param localDataList Array of objects containing the data for every file. This method
    *    will use every entry of this entry to generate a file.
-   * @return {Object} Object with file name as the key and the file content as its value.
+   * @return Object with file name as the key and the file content as its value.
    */
-  generate(templateBody, templateName, localDataList) {
+  generate(
+      templateBody: string,
+      templateName: string,
+      localDataList: any[]): { [name: string]: string } {
     // TODO(gs): Expose this
     let options = {
       noEscape: true
@@ -80,12 +88,12 @@ export default class {
     let template = this.handlebars_.compile(templateBody, options);
     let outNameTemplate = this.handlebars_.compile(templateName, options);
 
-    let outContent = {};
+    let outContent = <{ [name: string]: string }>{};
 
     // Generates all the local data.
     localDataList.forEach(localData => {
       try {
-        let evalLocalData = this.resolve_(localData, this.globals_);
+        let evalLocalData = this.resolve_(localData, this.globals_, options);
         let data = JSON.parse(JSON.stringify(this.globals_));
         Utils.mixin({ _: evalLocalData }, data);
         let rendered = template(data);
@@ -95,7 +103,7 @@ export default class {
         // TODO(gs): Clarify the causal chain.
         throw Error([
             'Error while trying to generate local data:',
-            JSON.stringify(localData, 2),
+            JSON.stringify(localData, null, 2),
             e].join('\n'));
       }
     });
@@ -103,7 +111,8 @@ export default class {
     return outContent;
   }
 
-  generateNames(templateName, localDataList) {
+  // TODO(gs): Generic the local data type.
+  generateNames(templateName: string, localDataList: any[]): { [key: string]: any } {
     // TODO(gs): Combine with generate
     // TODO(gs): Expose this
     let options = {
@@ -117,7 +126,7 @@ export default class {
     // Generates all the local data.
     localDataList.forEach(localData => {
       try {
-        let evalLocalData = this.resolve_(localData, this.globals_);
+        let evalLocalData = this.resolve_(localData, this.globals_, options);
         let data = JSON.parse(JSON.stringify(this.globals_));
         Utils.mixin({ _: evalLocalData }, data);
         let outName = outNameTemplate(data);
@@ -126,7 +135,7 @@ export default class {
         // TODO(gs): Clarify the causal chain.
         throw Error([
             'Error while trying to generate local data:',
-            JSON.stringify(localData, 2),
+            JSON.stringify(localData, null, 2),
             e].join('\n'));
       }
     });

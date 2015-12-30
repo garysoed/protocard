@@ -1,3 +1,4 @@
+import Asset from '../model/asset';
 import Extract from '../convert/extract';
 import Generator from './generator';
 import { FileTypes } from '../model/file';
@@ -25,16 +26,17 @@ function ifeq(a, b, options) {
 }
 
 // TODO(gs): Refactor this.
-export default class {
+export default class GeneratorService {
+  private handlebarsService_: IHandlebars;
+
   /**
-   * @constructor
-   * @param {Handlebars} HandlebarsService
+   * @param HandlebarsService
    */
-  constructor(HandlebarsService) {
+  constructor(HandlebarsService: IHandlebars) {
     this.handlebarsService_ = HandlebarsService;
   }
 
-  localDataList(asset) {
+  localDataList(asset: Asset): any[] {
     let data = asset.data;
     let writer;
     switch (data.type) {
@@ -48,14 +50,14 @@ export default class {
     return writer.write(asset.dataProcessor.asFunction());
   }
 
-  newGenerator(asset) {
+  newGenerator(asset: Asset): Generator {
     let helpers = Utils.mapValue(asset.helpers, helper => helper.asFunction());
     helpers['_ifeq'] = ifeq;
     helpers['_imgUrl'] = imageUrlHelper(asset);
     helpers['_lowercase'] = lowercase;
     let options = {
       globals: asset.globals,
-      helpers: helpers,
+      helpers: <{ [index: string]: Function }>helpers,
       partials: asset.partials
     };
 
@@ -65,17 +67,20 @@ export default class {
 
   /**
    * Generates the HTML contents.
-   * @method generate
-   * @param {data.Asset} asset The asset object to render.
-   * @return {Object} Object with file name as the key and the file content as its value.
+   * @param asset The asset object to render.
+   * @return Object with file name as the key and the file content as its value.
    */
-  generate(asset, localDataList, templateString, templateName) {
+  generate(
+      asset: Asset,
+      localDataList: any[],
+      templateString: string,
+      templateName: string): { [key: string]: string } {
     // TODO(gs): Delete this.
     return this.newGenerator(asset)
         .generate(templateString, templateName, localDataList);
   }
 
-  generateNames(asset) {
+  generateNames(asset: Asset): { [key: string]: any } {
     return this.newGenerator(asset)
         .generateNames(asset.templateName, this.localDataList(asset));
   }

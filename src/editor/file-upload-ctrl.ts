@@ -1,28 +1,25 @@
 import Extract from '../convert/extract';
 import File from '../model/file';
 
-/**
- * @class editor.FileUploadCtrl
- */
 export default class FileUploadCtrl {
-  /**
-   * @constructor
-   */
-  constructor($scope, $window) {
-    this.inputEl_ = null;
-    this.ngModelCtrl_ = null;
-    this.file_ = null;
+  private $window_: Window;
+  private classes_: string;
+  private extensions_: string;
+  private inputEl_: HTMLInputElement;
+  private ngModelCtrl_: angular.INgModelController;
+
+  constructor($scope: angular.IScope, $window: Window) {
+    this.$window_ = $window;
     this.classes_ = $scope['classes'];
     this.extensions_ = $scope['extensions'];
-    this.$window_ = $window;
+    this.inputEl_ = null;
+    this.ngModelCtrl_ = null;
   }
 
   /**
    * Handler called when the is a change event on the input element.
-   * @method onFileChange_
-   * @private
    */
-  onFileChange_() {
+  private onFileChange_() {
     let file = this.inputEl_.files[0];
     let fileReader = new this.$window_['FileReader']();
     fileReader.addEventListener('loadend', () => {
@@ -33,29 +30,26 @@ export default class FileUploadCtrl {
   }
 
   /**
-   * @method classes
-   * @return {string} Additional classes to be applied to the file upload button.
+   * @return Additional classes to be applied to the file upload button.
    */
-  get classes() {
+  get classes(): string {
     return this.classes_;
   }
 
   /**
-   * @method extensions
-   * @return {string} File extensions to be applied to the file upload input.
+   * @return File extensions to be applied to the file upload input.
    */
-  get extensions() {
+  get extensions(): string {
     return this.extensions_;
   }
 
   /**
    * Method called when linking the file upload.
    *
-   * @method onLink
-   * @param {Element} inputEl The input element for the file upload.
-   * @param {ng.NgModelCtrl} ngModelCtrl Angular's ngModelCtrl.
+   * @param inputEl The input element for the file upload.
+   * @param ngModelCtrl Angular's ngModelCtrl.
    */
-  onLink(inputEl, ngModelCtrl) {
+  onLink(inputEl: HTMLInputElement, ngModelCtrl: angular.INgModelController) {
     this.inputEl_ = inputEl;
     this.ngModelCtrl_ = ngModelCtrl;
     inputEl.addEventListener('change', this.onFileChange_.bind(this));
@@ -63,8 +57,6 @@ export default class FileUploadCtrl {
 
   /**
    * Handler called when the upload button is clicked.
-   *
-   * @method onUploadClick
    */
   onUploadClick() {
     this.inputEl_.click();

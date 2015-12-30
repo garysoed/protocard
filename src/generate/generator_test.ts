@@ -1,8 +1,3 @@
-require('babel/polyfill');
-
-let path = require('path');
-let File = require('gulp-util').File;
-
 import Generator from './generator';
 
 describe('Generator', () => {
@@ -57,25 +52,23 @@ describe('Generator', () => {
     });
 
     it('should register all the given helpers', () => {
-      let helpers = {
-        helper1: () => {},
-        helper2: () => {}
-      };
+      let helpers = <{ [index: string]: Function }>{};
+      helpers['helper1'] = () => {};
+      helpers['helper2'] = () => {};
 
       new Generator(fakeHandleBars, { helpers: helpers });
-      expect(fakeHandleBars.registerHelper).toHaveBeenCalledWith('helper1', helpers.helper1);
-      expect(fakeHandleBars.registerHelper).toHaveBeenCalledWith('helper2', helpers.helper2);
+      expect(fakeHandleBars.registerHelper).toHaveBeenCalledWith('helper1', helpers['helper1']);
+      expect(fakeHandleBars.registerHelper).toHaveBeenCalledWith('helper2', helpers['helper2']);
     });
 
     it('should register all the given partials', () => {
-      let partials = {
-        partial1: 'partial1',
-        partial2: 'partial2'
-      };
+      let partials = <{ [index: string]: string }>{};
+      partials['partial1'] = 'partial1';
+      partials['partial2'] = 'partial2';
 
       new Generator(fakeHandleBars, { partials: partials });
-      expect(fakeHandleBars.registerPartial).toHaveBeenCalledWith('partial1', partials.partial1);
-      expect(fakeHandleBars.registerPartial).toHaveBeenCalledWith('partial2', partials.partial2);
+      expect(fakeHandleBars.registerPartial).toHaveBeenCalledWith('partial1', partials['partial1']);
+      expect(fakeHandleBars.registerPartial).toHaveBeenCalledWith('partial2', partials['partial2']);
     })
 
     it('should mixin the globals in the data', () => {

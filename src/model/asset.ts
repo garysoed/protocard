@@ -18,7 +18,7 @@ export default class Asset {
   private helpers_: { [key: string]: FunctionObject };
   private images_: { [key: string]: ImageResource };
   private name_: string;
-  private partials_: { [key: string]: FunctionObject };
+  private partials_: { [key: string]: string };
   private templateName_: string;
   private templateString_: string;
 
@@ -89,7 +89,7 @@ export default class Asset {
     return this.images_;
   }
 
-  get partials(): { [key: string]: FunctionObject } {
+  get partials(): { [key: string]: string } {
     return this.partials_;
   }
 

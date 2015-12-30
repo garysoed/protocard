@@ -1,7 +1,7 @@
 import Writer from './writer';
 
 export default {
-  fromTsv(content, headerLineCount = 0) {
+  fromTsv(content: string, headerLineCount = 0): Writer<string[]> {
     let lines = content.split('\n');
     lines.splice(0, headerLineCount);
 
@@ -9,6 +9,6 @@ export default {
       return line.split('\t');
     });
 
-    return new Writer(lineData);
+    return new Writer<string[]>(lineData);
   }
 };

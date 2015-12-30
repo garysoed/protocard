@@ -1,11 +1,14 @@
-/**
- * @class editor.TemplateEditorCtrl
- */
-export default class {
-  /**
-   * @constructor
-   */
-  constructor($scope, GeneratorService) {
+import Asset from '../model/asset';
+import GeneratorService from '../generate/generator-service';
+
+export default class TemplateEditorCtrl {
+  private $scope_: angular.IScope;
+  private asset_: Asset;
+  private generatorService_: GeneratorService;
+  private iframeEl_: HTMLIFrameElement;
+  private ngModelCtrl_: angular.INgModelController;
+
+  constructor($scope: angular.IScope, GeneratorService: GeneratorService) {
     this.$scope_ = $scope;
     this.asset_ = $scope['asset'];
     this.generatorService_ = GeneratorService;
