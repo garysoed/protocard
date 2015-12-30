@@ -1,11 +1,11 @@
 import TestBase from '../testbase';
 
 import FakeScope from '../testing/fake-scope';
-import File, { Types as FileTypes } from '../model/file';
+import File, { FileTypes } from '../model/file';
 import FunctionObject from '../model/function-object';
 import RenderCtrl from './render-ctrl';
 
-describe('asset.render.RenderCtrl', () => {
+describe('render.RenderCtrl', () => {
   let mock$scope;
   let mockAsset;
   let mockDownloadService;

@@ -1,4 +1,3 @@
-import Field from './field';
 import File from './file';
 import FunctionObject from './function-object';
 import ImageResource from './image-resource';
@@ -8,26 +7,30 @@ import Utils from '../utils';
  * Represents an asset.
  *
  * TODO(gs): make common value class.
- *
- * @class data.Asset
  */
-export default class {
+export default class Asset {
+
+  private id_: string;
+
+  private data_: File;
+  private dataProcessor_: FunctionObject;
+  private globalsString_: string;
+  private helpers_: { [key: string]: FunctionObject };
+  private images_: { [key: string]: ImageResource };
+  private name_: string;
+  private partials_: { [key: string]: FunctionObject };
+  private templateName_: string;
+  private templateString_: string;
 
   /**
-   * @constructor
-   * @param {string} name Name of the asset.
+   * @param name Name of the asset.
    */
   constructor(name) {
     this.id_ = `asset.${Date.now()}`;
-
-    /**
-     * @property name
-     * @type {string}
-     */
-    this.name = name;
+    this.name_ = name;
     this.data_ = null;
     this.dataProcessor_ = new FunctionObject('return function(lineData) {};');
-    this.globalsString_ = JSON.stringify(this.globals_);
+    this.globalsString_ = JSON.stringify({});
     this.helpers_ = {};
     this.images_ = {};
     this.partials_ = {};
@@ -35,105 +38,81 @@ export default class {
     this.templateString_ = '';
   }
 
-  /**
-   * @property id
-   * @type {string}
-   * @readonly
-   */
-  get id() {
+  get name(): string {
+    return this.name_;
+  }
+
+  get id(): string {
     return this.id_;
   }
 
   /**
    * JSON representation of the globals object.
    * WARNING: This method can be very expensive.
-   *
-   * @property globals
-   * @type {Object}
-   * @readonly
    */
-  get globals() {
+  get globals(): {[key: string]: any} {
     return JSON.parse(this.globalsString_);
   }
 
   /**
    * Helpers for the asset, indexed by the helper function name.
-   *
-   * @property helpers
-   * @type {Object}
-   * @readonly
    */
-  get helpers() {
+  get helpers(): {[key: string]: FunctionObject} {
     return this.helpers_;
   }
 
   /**
    * String representation of the globals object.
-   *
-   * @property globalsString
-   * @type {string}
    */
-  get globalsString() {
+  get globalsString(): string {
     return this.globalsString_;
   }
-  set globalsString(newValue) {
+  set globalsString(newValue: string) {
     this.globalsString_ = newValue;
   }
 
   /**
    * Data used to generate the asset.
-   *
-   * @property data
-   * @type {data.File}
    */
-  get data() {
+  get data(): File {
     return this.data_;
   }
-  set data(data) {
+  set data(data: File) {
     this.data_ = data;
   }
 
-  get dataProcessor() {
+  get dataProcessor(): FunctionObject {
     return this.dataProcessor_;
   }
 
-  /**
-   * @property images
-   * @type {Object}
-   */
-  get images() {
+  get images(): { [key: string]: ImageResource } {
     return this.images_;
   }
 
-  get partials() {
+  get partials(): { [key: string]: FunctionObject } {
     return this.partials_;
   }
 
-  get templateName() {
+  get templateName(): string {
     return this.templateName_;
   }
-  set templateName(templateName) {
+  set templateName(templateName: string) {
     this.templateName_ = templateName;
   }
 
-  /**
-   * @property templateString
-   * @type {string}
-   */
-  get templateString() {
+  get templateString(): string {
     return this.templateString_;
   }
-  set templateString(templateString) {
+  set templateString(templateString: string) {
     this.templateString_ = templateString;
   }
 
   /**
    * Converts the asset to its JSON format.
    *
-   * @method toJSON
-   * @return {Object} JSON representation of the asset.
+   * @return JSON representation of the asset.
    */
-  toJSON() {
+  toJSON(): any {
     return {
       id: this.id,
       name: this.name,
@@ -150,12 +129,10 @@ export default class {
   /**
    * Parses the given JSON to asset.
    *
-   * @method fromJSON
-   * @param {Object} json The JSON to parse.
-   * @return {data.Asset} The asset object.
-   * @static
+   * @param json The JSON to parse.
+   * @return The asset object.
    */
-  static fromJSON(json) {
+  static fromJSON(json: any): Asset {
     if (!json) {
       return null;
     }
@@ -170,7 +147,8 @@ export default class {
 
     if (json['images']) {
       if (json['images'] instanceof Array) {
-        let set = new Set(json['images'].map(json => ImageResource.fromJSON(json)));
+        let set = new Set(
+            <ImageResource[]>json['images'].map(json => ImageResource.fromJSON(json)));
         asset.images_ = {};
         set.forEach(image => {
           asset.images_[image.alias] = image;

@@ -33,6 +33,7 @@
     "gulp-jasmine": "^2.1.0",
     "gulp-myth": "^1.0.3",
     "gulp-sourcemaps": "^1.6.0",
+    "gulp-typescript": "^2.10.0",
     "gulp-webpack": "^1.5.0",
     "gulp-webpack-sourcemaps": "^0.3.0",
     "jasmine": "^2.3.2",

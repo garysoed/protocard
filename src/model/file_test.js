@@ -1,8 +1,8 @@
 import TestBase from '../testbase';
 
-import File, { Types as FileTypes } from './file';
+import File, { FileTypes } from './file';
 
-describe('data.File', () => {
+describe('model.File', () => {
   it('should be able to be converted to / from JSON', () => {
     let file = new File(FileTypes.TSV, 'content');
     let copy = File.fromJSON(file.toJSON());

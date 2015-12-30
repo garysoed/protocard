@@ -25,8 +25,12 @@
     "buildOnSave": false,
     "files": [
         "bower_components/ace-builds/demo/kitchen-sink/docs/typescript.ts",
-        "src/model/image-resource_test.ts",
-        "src/model/image-resource.ts"
+        "declaration/es6.d.ts",
+        "src/model/asset.ts",
+        "src/model/file.ts",
+        "src/model/function-object.ts",
+        "src/model/image-resource.ts",
+        "src/utils.ts"
     ],
     "atom": {
         "rewriteTsconfig": true

@@ -1,9 +1,9 @@
 import TestBase from '../testbase';
 
-import File, { Types as FileTypes } from '../model/file';
+import File, { FileTypes } from '../model/file';
 import TextCtrl from './text-ctrl';
 
-describe('asset.text.TextCtrl', () => {
+describe('text.TextCtrl', () => {
   let mockAsset;
   let mockAssetService;
   let ctrl;
