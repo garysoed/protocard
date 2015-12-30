@@ -1,14 +1,14 @@
-/**
- * @class editor.CodeEditorCtrl
- */
-export default class {
-  /**
-   * @constructor
-   * @param {ng.$scope} $scope
-   * @param {ng.$timeout} $timeout
-   * @param {thirdparty.AceService} AceService
-   */
-  constructor($scope, $timeout, AceService) {
+export default class CodeEditorCtrl {
+  private $timeout_: angular.ITimeoutService;
+  private aceService_: AceAjax.Ace;
+  private editor_: AceAjax.Editor;
+  private ngModelCtrl_: angular.INgModelController;
+  private valid_: boolean;
+
+  constructor(
+      $scope: angular.IScope,
+      $timeout: angular.ITimeoutService,
+      AceService: AceAjax.Ace) {
     this.$timeout_ = $timeout;
     this.aceService_ = AceService;
     this.editor_ = null;
@@ -20,21 +20,15 @@ export default class {
 
   /**
    * Handler called when the ctrl is destroy.
-   *
-   * @method on$destroy_
-   * @private
    */
-  on$destroy_() {
+  private on$destroy_() {
     this.editor_.destroy();
   }
 
   /**
    * Handler called when the editor's annotation list has changed.
-   *
-   * @method onEditorChangeAnnotation_
-   * @private
    */
-  onEditorChangeAnnotation_() {
+  private onEditorChangeAnnotation_() {
     this.$timeout_(() => {
       this.valid_ = !this.editor_.getSession().getAnnotations().some(annotation => {
         return annotation.type === 'error';
@@ -49,35 +43,26 @@ export default class {
 
   /**
    * Render function for ngModel.
-   *
-   * @method renderModel_
-   * @private
    */
-  renderModel_() {
+  private renderModel_() {
     this.editor_.setValue(this.ngModelCtrl_.$viewValue || '');
     this.editor_.selection.clearSelection();
   }
 
   /**
    * True iff the editor value is valid.
-   *
-   * @property isValid
-   * @type {Boolean}
-   * @readonly
    */
-  get isValid() {
+  get isValid(): boolean {
     return this.valid_;
   }
 
   /**
    * Handler called when the controller is linked.
-   *
-   * @method onLink
-   * @param {Element} editorEl The editor container element.
-   * @param {string} language The language to set the editor.
-   * @param {ng.ngModelController} ngModelCtrl
+   * @param editorEl The editor container element.
+   * @param language The language to set the editor.
+   * @param ngModelCtrl
    */
-  onLink(editorEl, language, ngModelCtrl) {
+  onLink(editorEl: HTMLElement, language: string, ngModelCtrl: angular.INgModelController) {
     this.editor_ = this.aceService_.edit(editorEl);
     this.editor_.setTheme('ace/theme/monokai');
 

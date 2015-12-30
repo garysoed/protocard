@@ -1,19 +1,23 @@
+import GapiService from '../common/gapi-service';
 import ImageResource from '../model/image-resource';
 
-/**
- * @class editor.DriveDialogCtrl
- */
-export default class {
-  /**
-   * @constructor
-   * @param {ng.$scope} $scope
-   * @param {common.GapiService} GapiService
-   */
-  constructor($mdDialog, $scope, GapiService) {
+export default class DriveDialogCtrl {
+  private $mdDialog_: angular.material.IDialogService;
+  private $scope_: angular.IScope;
+  private gapiService_: GapiService;
+  private clientPromise_: Promise<gapi.drive.Client>;
+  private resourceUrl_: string;
+  private resources_: ImageResource[];
+  private selectedImages_: ImageResource[];
+
+  constructor(
+      $mdDialog: angular.material.IDialogService,
+      $scope: angular.IScope,
+      GapiService: GapiService) {
     this.$mdDialog_ = $mdDialog;
     this.$scope_ = $scope;
     this.gapiService_ = GapiService;
-    this.clientPromise_ = GapiService.getClientPromise('drive', 'v2');
+    this.clientPromise_ = GapiService.getClientPromise<gapi.drive.Client>('drive', 'v2');
     this.resourceUrl_ = '';
     this.resources_ = [];
     this.selectedImages_ = [];
@@ -21,11 +25,10 @@ export default class {
 
   /**
    * Updates the resources with the given resource URL.
-   * @method updateResources_
-   * @param {string} resourceUrl URL to update the resources with.
-   * @return {Promise} Promise that will be resolved after the resources has been updated.
+   * @param resourceUrl URL to update the resources with.
+   * @return Promise that will be resolved after the resources has been updated.
    */
-  updateResources_(resourceUrl) {
+  private updateResources_(resourceUrl: string): Promise<void> {
     // TODO(gs): Actually allow any URLs
     // TODO(gs): Loading
     return this.gapiService_
@@ -72,54 +75,41 @@ export default class {
 
   /**
    * Resources that have been loaded.
-   *
-   * @property resources
-   * @type {Array}
-   * @readonly
    */
-  get resources() {
+  get resources(): ImageResource[] {
     return this.resources_;
   }
 
   /**
    * URL to load the resources.
-   *
-   * @property resourceURL
-   * @type string
    */
-  get resourceURL() {
+  get resourceURL(): string {
     return this.resourceUrl_;
   }
-  set resourceURL(resourceUrl) {
+  set resourceURL(resourceUrl: string) {
     this.resourceUrl_ = resourceUrl;
     this.updateResources_(resourceUrl);
   }
 
   /**
    * Images that are selected.
-   *
-   * @property selectedImages
-   * @return {Array} Array of selected images.
    */
-  get selectedImages() {
+  get selectedImages(): ImageResource[] {
     return this.selectedImages_;
   }
-  set selectedImages(selectedImages) {
+  set selectedImages(selectedImages: ImageResource[]) {
     this.selectedImages_ = selectedImages;
   }
 
   /**
-   * @method hasSelected
-   * @return {Boolean} True iff there are images being selected.
+   * @return True iff there are images being selected.
    */
-  hasSelected() {
+  hasSelected(): boolean {
     return this.selectedImages_.length > 0;
   }
 
   /**
    * Handler called when the delete button is clicked.
-   *
-   * @method onDeleteClick
    */
   onDeleteClick() {
     for (let selectedImage of this.selectedImages_) {
@@ -131,8 +121,6 @@ export default class {
 
   /**
    * Handler called when the OK button is clicked.
-   *
-   * @method onOkClick
    */
   onOkClick() {
     this.$mdDialog_.hide(this.resources_);
@@ -140,8 +128,6 @@ export default class {
 
   /**
    * Handler called when the Cancel button is clicked.
-   *
-   * @method onCancelClick
    */
   onCancelClick() {
     this.$mdDialog_.cancel();

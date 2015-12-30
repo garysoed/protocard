@@ -65,7 +65,7 @@ export default class {
    * @param version The version of the Gapi client to return.
    * @return Promise that will be resolved with the client object when loaded.
    */
-  getClientPromise(name: string, version: string): Promise<void> {
+  getClientPromise<T>(name: string, version: string): Promise<T> {
     return this.gapi_.client
         .load(name, version)
         .then(() => {

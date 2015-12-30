@@ -4,7 +4,7 @@ import File from '../model/file';
 /**
  * @class editor.FileUploadCtrl
  */
-export default class {
+export default class FileUploadCtrl {
   /**
    * @constructor
    */

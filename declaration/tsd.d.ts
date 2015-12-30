@@ -4,3 +4,4 @@
 /// <reference path="jasmine/jasmine.d.ts" />
 /// <reference path="gapi/gapi.d.ts" />
 /// <reference path="ace/ace.d.ts" />
+/// <reference path="angular-material/angular-material.d.ts" />

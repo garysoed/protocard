@@ -47,7 +47,7 @@ describe('editor.DriveDialogCtrl', () => {
         }
       };
       let batch = Promise.resolve(batchResponse);
-      batch.add = jasmine.createSpy('batch.add');
+      batch['add'] = jasmine.createSpy('batch.add');
 
       mockGapiService.authenticate.and.returnValue(Promise.resolve());
       mockGapiService.newBatch.and.returnValue(batch);

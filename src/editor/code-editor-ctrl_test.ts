@@ -1,6 +1,6 @@
 import TestBase from '../testbase';
 
-import CodeEditorCtrl, { Events } from './code-editor-ctrl';
+import CodeEditorCtrl from './code-editor-ctrl';
 
 describe('editor.CodeEditorCtrl', () => {
   let mock$scope;
@@ -79,8 +79,8 @@ describe('editor.CodeEditorCtrl', () => {
       ctrl.onLink({}, 'language', ngModelCtrl);
 
       let modelValue = 'modelValue';
-      ngModelCtrl.$viewValue = modelValue;
-      ngModelCtrl.$render();
+      ngModelCtrl['$viewValue'] = modelValue;
+      ngModelCtrl['$render']();
 
       expect(mockEditor.setValue).toHaveBeenCalledWith(modelValue);
       expect(mockEditor.selection.clearSelection).toHaveBeenCalledWith();
@@ -91,8 +91,8 @@ describe('editor.CodeEditorCtrl', () => {
 
       ctrl.onLink({}, 'language', ngModelCtrl);
 
-      ngModelCtrl.$viewValue = null;
-      ngModelCtrl.$render();
+      ngModelCtrl['$viewValue'] = null;
+      ngModelCtrl['$render']();
 
       expect(mockEditor.setValue).toHaveBeenCalledWith('');
     });
