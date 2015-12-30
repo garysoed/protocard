@@ -8,7 +8,6 @@ export default angular
         controllerAs: 'ctrl',
         restrict: 'E',
         scope: {
-          helper: '=',
           name: '='
         },
         templateUrl: './helper/helper-item.ng'

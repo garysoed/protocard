@@ -1,6 +1,5 @@
 import TestBase from '../testbase';
 
-import { Events as CodeEditorEvents } from '../editor/code-editor-ctrl';
 import GlobalCtrl from './global-ctrl';
 
 describe('asset.subview.GlobalCtrl', () => {

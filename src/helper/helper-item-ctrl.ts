@@ -1,8 +1,5 @@
 import Utils from '../utils';
 
-/**
- * @enum {string}
- */
 export const Events = {
   CHANGED: Utils.getUniqueId('changed'),
   DELETED: Utils.getUniqueId('deleted'),
@@ -12,25 +9,22 @@ export const Events = {
 /**
  * @class asset.subview.HelperItemCtrl
  */
-export default class {
+export default class HelperItemCtrl {
+  private $scope_: angular.IScope;
+  private name_: string;
+
   /**
-   * @constructor
    * @param {ng.$scope} $scope
    */
-  constructor($scope) {
+  constructor($scope: angular.IScope) {
     this.$scope_ = $scope;
-    this.helper_ = $scope['helper'];
     this.name_ = $scope['name'];
   }
 
-  /**
-   * @property name
-   * @type {string}
-   */
-  get name() {
+  get name(): string {
     return this.name_;
   }
-  set name(newValue) {
+  set name(newValue: string) {
     let oldName = this.name_;
     this.name_ = newValue;
     this.$scope_.$emit(Events.CHANGED, oldName, newValue);
@@ -38,8 +32,6 @@ export default class {
 
   /**
    * Handler called when the delete button is clicked.
-   *
-   * @method onDeleteClick
    */
   onDeleteClick() {
     this.$scope_.$emit(Events.DELETED, this.name_);
@@ -47,8 +39,6 @@ export default class {
 
   /**
    * Handler called when the edit button is clicked.
-   *
-   * @method onEditClick
    */
   onEditClick() {
     this.$scope_.$emit(Events.EDITED, this.name_);

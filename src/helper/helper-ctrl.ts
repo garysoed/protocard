@@ -1,19 +1,26 @@
+import Asset from '../model/asset';
+import AssetService from '../asset/asset-service';
 import FunctionObject from '../model/function-object';
 import { Events as HelperItemEvents } from './helper-item-ctrl';
+import NavigateService from '../common/navigate-service';
 import Utils from '../utils';
 
 /**
  * Controller for the helper subview.
- *
- * @class asset.subview.HelperCtrl
  */
 export default class {
+  private asset_: Asset;
+  private assetService_: AssetService;
+  private navigateService_: NavigateService;
+
   /**
-   * @constructor
    * @param {ng.$scope} $scope
    * @param {data.AssetService} AssetService
    */
-  constructor($scope, AssetService, NavigateService) {
+  constructor(
+      $scope: angular.IScope,
+      AssetService: AssetService,
+      NavigateService: NavigateService) {
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
     this.navigateService_ = NavigateService;
@@ -23,25 +30,18 @@ export default class {
     $scope.$on(HelperItemEvents.EDITED, this.onHelperItemEdited_.bind(this));
   }
 
-  /**
-   * @property helpers
-   * @type {Object}
-   * @readonly
-   */
-  get helpers() {
+  get helpers(): { [key: string]: FunctionObject } {
     return this.asset_.helpers;
   }
 
   /**
    * Handler called when a helper item fires a changed event.
    *
-   * @method onHelperItemChanged_
-   * @param {ng.Event} event
-   * @param {string} oldName Previous name of the helper.
-   * @param {string} newName New name of the helper.
-   * @private
+   * @param event
+   * @param oldName Previous name of the helper.
+   * @param newName New name of the helper.
    */
-  onHelperItemChanged_(event, oldName, newName) {
+  private onHelperItemChanged_(event: any, oldName: string, newName: string) {
     let helper = this.asset_.helpers[oldName];
     delete this.asset_.helpers[oldName];
     this.asset_.helpers[newName] = helper;
@@ -51,12 +51,10 @@ export default class {
   /**
    * Handler called when a helper item fires a deleted event.
    *
-   * @method onHelperItemDeleted_
-   * @param {ng.Event} event
-   * @param {string} helperName Name of the helper that was deleted.
-   * @private
+   * @param event
+   * @param helperName Name of the helper that was deleted.
    */
-  onHelperItemDeleted_(event, helperName) {
+  private onHelperItemDeleted_(event: any, helperName: string) {
     delete this.asset_.helpers[helperName];
     this.assetService_.saveAsset(this.asset_);
   }
@@ -64,19 +62,15 @@ export default class {
   /**
    * Handler called when a helper item fires an edited event.
    *
-   * @method onHelperItemEdited_
-   * @param {ng.Event} event
-   * @param {string} helperName Name of the helper that was edited.
-   * @private
+   * @param event
+   * @param helperName Name of the helper that was edited.
    */
-  onHelperItemEdited_(event, helperName) {
+  onHelperItemEdited_(event: any, helperName: string) {
     this.navigateService_.toAsset(this.asset_.id, 'helper-editor', helperName);
   }
 
   /**
    * Handler called when the add button is clicked.
-   *
-   * @method onAddClick
    */
   onAddClick() {
     let newName = Utils.generateKey(this.asset_.helpers, 'helper');
