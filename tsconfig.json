@@ -35,7 +35,6 @@
         "declaration/jasmine/jasmine.d.ts",
         "declaration/jquery/jquery.d.ts",
         "declaration/tsd.d.ts",
-        "declaration/typescript/typescript.d.ts",
         "src/common/download-service_test.ts",
         "src/common/download-service-module.ts",
         "src/common/download-service.ts",

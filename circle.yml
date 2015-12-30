@@ -4,7 +4,5 @@ dependencies:
     - sudo apt-get install google-chrome-stable
 
 test:
-  pre:
-    - 
   override:
     - node_modules/.bin/gulp test
