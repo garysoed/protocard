@@ -15,7 +15,7 @@ describe('common.DownloadService', () => {
 
   describe('linkEl', () => {
     it('should create a new link element and return it', () => {
-      let mockAnchor = {};
+      let mockAnchor = <HTMLAnchorElement>{};
       mockDocument.createElement.and.returnValue(mockAnchor);
 
       expect(service.linkEl).toEqual(mockAnchor);

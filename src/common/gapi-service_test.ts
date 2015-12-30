@@ -7,20 +7,20 @@ describe('common.GapiService', () => {
   let API_KEY = 'API_KEY';
   let mockGapiAuth;
   let mockGapiClient;
-  let $window;
   let service;
 
   beforeEach(() => {
     mockGapiAuth = jasmine.createSpyObj('GapiAuth', ['authorize']);
     mockGapiClient = jasmine.createSpyObj('GapiClient', ['load', 'newBatch', 'setApiKey']);
-    service = new GapiService({
-      gapi: {
-        auth: mockGapiAuth,
-        client: mockGapiClient
-      },
-      API_KEY: API_KEY,
-      CLIENT_ID: CLIENT_ID
-    });
+
+    let mock$window = <Window>{};
+    mock$window['gapi'] = {
+      auth: mockGapiAuth,
+      client: mockGapiClient
+    };
+    mock$window['API_KEY'] = API_KEY;
+    mock$window['CLIENT_ID'] = CLIENT_ID;
+    service = new GapiService(mock$window);
   });
 
   it('should set the api key when initialized', () => {

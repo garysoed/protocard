@@ -19,14 +19,40 @@
     "filesGlob": [
         "**/*.ts",
         "**/*.tsx",
-        "!node_modules/**"
+        "!node_modules/**",
+        "!bower_components/**",
+        "node_modules/gulp-typescript/node_modules/typescript/lib/lib.es6.d.ts"
     ],
     "compileOnSave": true,
     "buildOnSave": false,
     "files": [
-        "bower_components/ace-builds/demo/kitchen-sink/docs/typescript.ts",
+        "declaration/angular.d.ts",
+        "declaration/angularjs/angular.d.ts",
+        "declaration/dom.d.ts",
         "declaration/es6.d.ts",
+        "declaration/gapi.d.ts",
         "declaration/jasmine.d.ts",
+        "declaration/jasmine/jasmine.d.ts",
+        "declaration/jquery/jquery.d.ts",
+        "declaration/tsd.d.ts",
+        "declaration/typescript/typescript.d.ts",
+        "src/common/download-service_test.ts",
+        "src/common/download-service-module.ts",
+        "src/common/download-service.ts",
+        "src/common/error-display-ctrl_test.ts",
+        "src/common/error-display-ctrl.ts",
+        "src/common/error-display-module.ts",
+        "src/common/gapi-service_test.ts",
+        "src/common/gapi-service-module.ts",
+        "src/common/gapi-service.ts",
+        "src/common/navigate-service_test.ts",
+        "src/common/navigate-service-module.ts",
+        "src/common/navigate-service.ts",
+        "src/common/request-pool_test.ts",
+        "src/common/request-pool.ts",
+        "src/common/storage-service_test.ts",
+        "src/common/storage-service-module.ts",
+        "src/common/storage-service.ts",
         "src/model/asset_test.ts",
         "src/model/asset.ts",
         "src/model/file_test.ts",
@@ -36,7 +62,8 @@
         "src/model/image-resource_test.ts",
         "src/model/image-resource.ts",
         "src/testbase.ts",
-        "src/utils.ts"
+        "src/utils.ts",
+        "node_modules/gulp-typescript/node_modules/typescript/lib/lib.es6.d.ts"
     ],
     "atom": {
         "rewriteTsconfig": true

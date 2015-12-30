@@ -1,5 +1,3 @@
-/// <
-
 import Asset from './model/asset';
 import FunctionObject from './model/function-object';
 

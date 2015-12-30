@@ -6,7 +6,8 @@ describe('common.RequestPool', () => {
   describe('queue', () => {
     it('should return a promise that resolves the value resolved by the callback function', done => {
       let value = 'value';
-      let callbackFn = jasmine.createSpy('callback').and.returnValue(Promise.resolve(value));
+      let callbackFn = jasmine.createSpy('callback');
+      callbackFn.and.returnValue(Promise.resolve(value));
       let params = { a: 1, b: 2 };
       let pool = new RequestPool(callbackFn);
 

@@ -1,6 +1,8 @@
 import StorageService from './storage-service';
 
 class FakeClass {
+  data: any;
+
   constructor(data) {
     this.data = data;
   }
@@ -23,7 +25,9 @@ describe('common.StorageService', () => {
 
   beforeEach(() => {
     mockStorage = jasmine.createSpyObj('storage', ['getItem', 'setItem']);
-    service = new StorageService({ localStorage: mockStorage }, NAMESPACE);
+    let mockWindow = <Window>{};
+    mockWindow['localStorage'] = mockStorage;
+    service = new StorageService(mockWindow, NAMESPACE);
   });
 
   describe('getItem', () => {

@@ -19,8 +19,9 @@ gulp.task('compile',
               .pipe(gulp.dest('out'));
         },
         function ts_() {
-          return gulp.src(['src/**/*.ts', 'declaration/**/*.ts'])
-              .pipe(typescript(typescript.createProject('tsconfig.json')))
+          var tsProject = typescript.createProject('tsconfig.json');
+          return tsProject.src()
+              .pipe(typescript(tsProject))
               .pipe(gulp.dest('out'));
         }));
 

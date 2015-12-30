@@ -1,20 +1,15 @@
-export default class {
-  /**
-   * @constructor
-   * @param {Document} $document
-   * @param {Window} $window
-   */
-  constructor($document, $window) {
+export default class DownloadService {
+  private $window_: Window;
+  private document_: Document;
+  private linkEl_: HTMLAnchorElement;
+
+  constructor($document: JQLite<Document>, $window: Window) {
     this.$window_ = $window;
     this.document_ = $document[0];
     this.linkEl_ = null;
   }
 
-  /**
-   * @property linkEl
-   * @type {Element}
-   */
-  get linkEl() {
+  get linkEl(): HTMLAnchorElement {
     if (this.linkEl_ === null) {
       this.linkEl_ = this.document_.createElement('a');
       this.linkEl_.target = '_blank';
@@ -25,11 +20,10 @@ export default class {
   /**
    * Downloads the given blob with the given filename.
    *
-   * @method download
-   * @param {Blob} blob
-   * @param {string} filename
+   * @param blob The blob to download.
+   * @param filename The filename to download the blob as.
    */
-  download(blob, filename) {
+  download(blob: Blob, filename: string) {
     let url = this.$window_.URL.createObjectURL(blob);
     this.linkEl.download = filename;
     this.linkEl.href = url;

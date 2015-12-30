@@ -1,21 +1,23 @@
-export default class {
+export default class RequestPool<P> {
+  private callbackFn_: (P) => Promise<any>;
+  private queue_: Promise<any>[];
+
   /**
    * @constructor
-   * @param {Function} callbackFn Function to call for getting a request. The function takes in a
+   * @param callbackFn Function to call for getting a request. The function takes in a
    *    parameter object and returns a promise that will be resolved when the request is complete.
    */
-  constructor(callbackFn) {
+  constructor(callbackFn: (params: P) => Promise<any>) {
     this.callbackFn_ = callbackFn;
     this.queue_ = [];
   }
 
   /**
    * Queues up a request with the given parameter object.
-   * @method queue
-   * @param {Object} params Object to be passed to the callback function.
-   * @return {Promise} Promise that will be resolved when the request has been fulfilled.
+   * @param params Object to be passed to the callback function.
+   * @return Promise that will be resolved when the request has been fulfilled.
    */
-  queue(params) {
+  queue(params: P): Promise<any> {
     let promise;
     if (this.queue_.length === 0) {
       promise = this.callbackFn_(params)

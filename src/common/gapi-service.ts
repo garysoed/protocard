@@ -1,14 +1,14 @@
 /**
  * Interface to Gapi Client.
- * @class common.GapiService
  */
 export default class {
+  private gapi_: Gapi;
+  private clientId_: string;
 
   /**
-   * @constructor
-   * @param {Window} $window The window object.
+   * @param $window The window object.
    */
-  constructor($window) {
+  constructor($window: Window) {
     this.gapi_ = $window['gapi'];
     this.clientId_ = $window['CLIENT_ID'];
     this.gapi_.client.setApiKey($window['API_KEY']);
@@ -17,15 +17,13 @@ export default class {
   /**
    * Authenticates the current user.
    *
-   * @method authenticate_
-   * @param {Array} scopes Array of strings representing the scopes. This is just the part that
+   * @param scopes Array of strings representing the scopes. This is just the part that
    *    comes after the auth/.
-   * @param {Boolean} immediate True iff the api should try to just refresh the auth token.
-   * @return {Promise} Promise that will be resolved with the authentication result when done,
-   *    or rejected if authentication failed.
-   * @private
+   * @param immediate True iff the api should try to just refresh the auth token.
+   * @return Promise that will be resolved with the authentication result when done, or rejected if
+   *    authentication failed.
    */
-  authenticate_(scopes, immediate) {
+  private authenticate_(scopes: string[], immediate: boolean): Promise<any> {
     return new Promise((resolve, reject) => {
       let normalizedScopes = scopes
           .map(scope => `https://www.googleapis.com/auth/${scope}`)
@@ -50,13 +48,12 @@ export default class {
    * Authenticates the current user. First try to just refresh the token. If that fails, prompts
    * the OAuth prompt.
    *
-   * @method authenticate
-   * @param {Array} scopes Array of strings representing the scopes. This is just the part that
+   * @param scopes Array of strings representing the scopes. This is just the part that
    *    comes after the auth/.
-   * @return {Promise} Promise that will be resolved with the authentication result when done,
-   *    or rejected if authentication failed.
+   * @return Promise that will be resolved with the authentication result when done, or rejected if
+   *    authentication failed.
    */
-  authenticate(scopes) {
+  authenticate(scopes: string[]): Promise<any> {
     return this.authenticate_(scopes, true)
         .catch(() => {
           return this.authenticate_(scopes, false);
@@ -64,12 +61,11 @@ export default class {
   }
 
   /**
-   * @method getClientPromise
-   * @param {string} name Name of the Gapi client to return.
-   * @param {string} version The version of the Gapi client to return.
-   * @return {Promise} Promise that will be resolved with the client object when loaded.
+   * @param name Name of the Gapi client to return.
+   * @param version The version of the Gapi client to return.
+   * @return Promise that will be resolved with the client object when loaded.
    */
-  getClientPromise(name, version) {
+  getClientPromise(name: string, version: string): Promise<void> {
     return this.gapi_.client
         .load(name, version)
         .then(() => {
@@ -78,10 +74,9 @@ export default class {
   }
 
   /**
-   * @method newBatch
-   * @return {gapi.Batch} A new batch object from gapi client.
+   * @return A new batch object from gapi client.
    */
-  newBatch() {
+  newBatch(): gapi.Batch<any> {
     return this.gapi_.client.newBatch();
   }
 };
