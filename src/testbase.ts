@@ -1,7 +1,7 @@
 import Asset from './model/asset';
 import FunctionObject from './model/function-object';
 
-// require('babel-core/browser-polyfill');
+eval(`require('babel-core/browser-polyfill')`);
 
 let called = false;
 
