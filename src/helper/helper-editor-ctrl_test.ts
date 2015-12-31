@@ -12,7 +12,10 @@ describe('asset.subview.HelperEditorCtrl', () => {
     asset = {};
     helper = {};
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
-    ctrl = new HelperEditorCtrl({ asset: asset, helper: helper }, mockAssetService);
+    let scope = <angular.IScope>{};
+    scope['asset'] = asset;
+    scope['helper'] = helper;
+    ctrl = new HelperEditorCtrl(scope, mockAssetService);
   });
 
   describe('set helperString', () => {

@@ -6,3 +6,5 @@
 /// <reference path="ace/ace.d.ts" />
 /// <reference path="angular-material/angular-material.d.ts" />
 /// <reference path="handlebars/handlebars.d.ts" />
+/// <reference path="jszip/jszip.d.ts" />
+/// <reference path="html2canvas/html2canvas.d.ts" />

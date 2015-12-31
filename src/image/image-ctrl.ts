@@ -1,35 +1,34 @@
-/**
- * @class asset.image.ImageCtrl
- */
-export default class {
+import Asset from '../model/asset';
+import AssetService from '../asset/asset-service';
+import DriveDialogService from '../editor/drive-dialog-service';
+import ImageResource from '../model/image-resource';
+
+export default class ImageCtrl {
+  private asset_: Asset;
+  private assetService_: AssetService;
+  private driveDialogService_: DriveDialogService;
+  private imagesArray_: ImageResource[];
+  private selectedImages_: ImageResource[];
+
   /**
-   * @constructor
    * @param {!editor.DriveDialogService} DriveDialogService
    */
   constructor($scope, AssetService, DriveDialogService) {
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
     this.driveDialogService_ = DriveDialogService;
-    this.selectedImages_ = [];
     this.imagesArray_ = null;
+    this.selectedImages_ = [];
   }
 
-  /**
-   * @property selectedImages
-   * @type {Array}
-   */
-  get selectedImages() {
+  get selectedImages(): ImageResource[] {
     return this.selectedImages_;
   }
-  set selectedImages(images) {
+  set selectedImages(images: ImageResource[]) {
     this.selectedImages_ = images;
   }
 
-  /**
-   * @property images
-   * @type {Array}
-   */
-  get images() {
+  get images(): ImageResource[] {
     if (this.imagesArray_ === null) {
       this.imagesArray_ = [];
       for (let key in this.asset_.images) {
@@ -40,17 +39,14 @@ export default class {
   }
 
   /**
-   * @method hasSelectedImages
-   * @return {Boolean} True iff there are selected images.
+   * @return True iff there are selected images.
    */
-  hasSelectedImages() {
+  hasSelectedImages(): boolean {
     return this.selectedImages_.length > 0;
   }
 
   /**
    * Handler called when the delete button is clicked.
-   * @method onDeleteClick
-   * @return {Promise} Promise that will be resolved when the saving the serving is done.
    */
   onDeleteClick() {
     for (let selected of this.selectedImages_) {
@@ -59,16 +55,15 @@ export default class {
     this.imagesArray_ = null;
     this.selectedImages_ = [];
     // TODO(gs): Override images by their URL.
-    return this.assetService_.saveAsset(this.asset_);
+    this.assetService_.saveAsset(this.asset_);
   }
 
   /**
    * Handler called when the drive button is clicked.
-   * @method onDriveClick
-   * @param {ng.$Event} $event The Angular event.
-   * @return {Promise} Promise that will be resolved when the dialog has been closed.
+   * @param $event The Angular event.
+   * @return Promise that will be resolved when the dialog has been closed.
    */
-  onDriveClick($event) {
+  onDriveClick($event: MouseEvent): angular.IPromise<void> {
     return this.driveDialogService_
         .show($event)
         .then(images => {

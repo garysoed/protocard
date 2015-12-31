@@ -140,7 +140,7 @@ describe('render.RenderCtrl', () => {
       mockAsset.templateString = templateString;
       mockAsset.templateName = templateName;
 
-      spyOn(ctrl, 'renderNext_').and.returnValue();
+      spyOn(ctrl, 'renderNext_').and.returnValue(undefined);
 
       let generatedHtml = { 'html1': 'content' };
       mockGeneratorService.generate.and.returnValue(generatedHtml);

@@ -11,7 +11,10 @@ describe('text.TextCtrl', () => {
   beforeEach(() => {
     mockAsset = {};
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
-    ctrl = new TextCtrl({ asset: mockAsset }, mockAssetService);
+
+    let scope = <angular.IScope>{};
+    scope['asset'] = mockAsset;
+    ctrl = new TextCtrl(scope, mockAssetService);
   });
 
   describe('set data', () => {

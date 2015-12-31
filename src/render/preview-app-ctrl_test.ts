@@ -26,8 +26,13 @@ describe('asset.render.PreviewAppCtrl', () => {
       'style#custom': mockCustomStyleEl
     });
 
+    let jqliteDoc = jasmine.cast<JQLite<Document>>([fake$document]);
+
     ctrl = new PreviewAppCtrl(
-        [fake$document], mock$window, mockDOMParserService, mockHtml2canvasService);
+        jqliteDoc,
+        mock$window,
+        mockDOMParserService,
+        mockHtml2canvasService);
   });
 
   it('should listen to message event from $window', () => {
@@ -47,8 +52,8 @@ describe('asset.render.PreviewAppCtrl', () => {
         'height': 123,
         'width': 456
       };
-      let mockParsedStyleEl = { innerHTML: 'style innerHTML' };
-      let mockParsedRootEl = { outerHTML: 'root outerHTML' };
+      let mockParsedStyleEl = jasmine.cast<HTMLElement>({ innerHTML: 'style innerHTML' });
+      let mockParsedRootEl = jasmine.cast<HTMLElement>({ outerHTML: 'root outerHTML' });
 
       let fakeParsedDocument = new FakeDocument({
         'style': mockParsedStyleEl,

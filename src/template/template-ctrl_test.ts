@@ -16,10 +16,11 @@ describe('template.TemplateCtrl', () => {
 
     mockGeneratorService = jasmine.createSpyObj('GeneratorService', ['generateNames']);
     mockGeneratorService.generateNames.and.returnValue(mockLocalDataList);
-    ctrl = new TemplateCtrl(
-        { 'asset': mockAsset },
-        mockAssetService,
-        mockGeneratorService);
+
+    let scope = <angular.IScope>{};
+    scope['asset'] = mockAsset;
+
+    ctrl = new TemplateCtrl(scope, mockAssetService, mockGeneratorService);
   });
 
   it('should generate the names based on the given asset', () => {
@@ -38,10 +39,11 @@ describe('template.TemplateCtrl', () => {
     it('should cache the previously selected preview data', () => {
       mockLocalDataList.push('data1');
       mockLocalDataList.push('data2');
-      spyOn(Math, 'random').and.returnValue(0.5);
+      let randomSpy = spyOn(Math, 'random');
+      randomSpy.and.returnValue(0.5);
 
       ctrl.previewData;
-      Math.random.and.returnValue(0);
+      randomSpy.and.returnValue(0);
 
       expect(ctrl.previewData).toEqual('data2');
     });

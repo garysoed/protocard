@@ -1,26 +1,28 @@
 import RequestPool from '../common/request-pool';
 
-export default class {
-  /**
-   * @constructor
-   * @param {Document} $document
-   * @param {Window} $window
-   */
-  constructor($document, $window) {
+interface Params {
+  content: string;
+  width: number;
+  height: number;
+}
+
+export default class RenderService {
+  private $window_: Window;
+  private document_: Document;
+  private iframeElPromise_: Promise<HTMLIFrameElement>;
+  private requestPool_: RequestPool<Params>;
+
+  constructor($document: JQLite<Document>, $window: Window) {
     this.$window_ = $window;
     this.document_ = $document[0];
     this.iframeElPromise_ = null;
-    this.requestPool_ = new RequestPool(this.onRequest_.bind(this));
+    this.requestPool_ = new RequestPool<Params>(this.onRequest_.bind(this));
   }
 
   /**
    * Handler called when the request pool is executing a request.
-   *
-   * @method onRequest_
-   * @param {Object} params
-   * @return {Promise} Promise that will be resolved when the request is completed.
    */
-  onRequest_(params) {
+  private onRequest_(params: Params): Promise<any> {
     let content = params.content;
     let width = params.width;
     let height = params.height;

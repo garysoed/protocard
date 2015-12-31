@@ -1,14 +1,21 @@
-/**
- * @class template.TemplateCtrl
- */
-export default class {
-  /**
-   * @constructor
-   * @param {ng.Scope} $scope
-   * @param {data.AssetService} AssetService
-   * @param {generate.GeneratorService} GeneratorService
-   */
-  constructor($scope, AssetService, GeneratorService) {
+import Asset from '../model/asset';
+import AssetService from '../asset/asset-service';
+import GeneratorService from '../generate/generator-service';
+
+export default class TemplateCtrl {
+  private $scope_: angular.IScope;
+  private asset_: Asset;
+  private assetService_: AssetService;
+  private localDataList_: { [key: string]: any };
+  private previewName_: string;
+  private previewData_: any;
+  private query_: string;
+  private templateString_: string;
+
+  constructor(
+      $scope: angular.IScope,
+      AssetService: AssetService,
+      GeneratorService: GeneratorService) {
     // TODO(gs): Show errors when rendering.
     this.$scope_ = $scope;
     this.asset_ = $scope['asset'];
@@ -16,25 +23,15 @@ export default class {
     this.localDataList_ = GeneratorService.generateNames($scope['asset']);
     this.previewName_ = null;
     this.previewData_ = null;
-    this.templateString_ = this.asset_.templateString;
     this.query_ = '';
+    this.templateString_ = this.asset_.templateString;
   }
 
-  /**
-   * @property asset
-   * @type {data.Asset}
-   * @readonly
-   */
-  get asset() {
+  get asset(): Asset {
     return this.asset_;
   }
 
-  /**
-   * @property
-   * @type {Object}
-   * @readonly
-   */
-  get previewData() {
+  get previewData(): any {
     let names = Object.keys(this.localDataList_);
     if (this.previewName_ === null && names.length > 0) {
       this.previewName_ = names[Math.floor(Math.random() * names.length)];
@@ -43,21 +40,17 @@ export default class {
     return this.previewName_ !== null ? this.localDataList_[this.previewName_] : null;
   }
 
-  get query() {
+  get query(): string {
     return this.previewName_;
   }
-  set query(newQuery) {
+  set query(newQuery: string) {
     this.previewName_ = newQuery;
   }
 
-  /**
-   * @property templateString
-   * @type {string}
-   */
-  get templateString() {
+  get templateString(): string {
     return this.templateString_;
   }
-  set templateString(templateString) {
+  set templateString(templateString: string) {
     this.templateString_ = templateString;
     if (templateString !== null) {
       this.asset_.templateString = templateString;
@@ -67,8 +60,6 @@ export default class {
 
   /**
    * Called when the refresh button is clicked.
-   *
-   * @method onRefreshClick
    */
   onRefreshClick() {
     this.previewName_ = null;
