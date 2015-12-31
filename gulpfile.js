@@ -10,29 +10,21 @@ var typescript = require('gulp-typescript');
 var webpack    = require('gulp-webpack');
 
 gulp.task('compile',
-    gulp.parallel(
-        function js_() {
-          return gulp.src(['src/**/*.js'])
-              .pipe(babel({
-                presets: ['es2015']
-              }))
-              .pipe(gulp.dest('out'));
-        },
-        function ts_() {
-          var tsProject = typescript.createProject('tsconfig.json');
-          return tsProject.src()
-              .pipe(typescript(tsProject))
-              .pipe(gulp.dest('out'));
-        }));
+    function ts_() {
+      var tsProject = typescript.createProject('tsconfig.json');
+      return tsProject.src()
+          .pipe(typescript(tsProject))
+          .pipe(gulp.dest('out'));
+    });
 
 gulp.task('test', gulp.series(
-  'compile',
-  function runTests_() {
-    return gulp.src(['out/**/*_test.js'])
-        .pipe(jasmine({
-          includeStackTrace: true
-        }));
-  }
+    'compile',
+    function runTests_() {
+      return gulp.src(['out/**/*_test.js'])
+          .pipe(jasmine({
+            includeStackTrace: true
+          }));
+    }
 ));
 
 gulp.task('compile-ui', gulp.series(
@@ -96,7 +88,7 @@ gulp.task('watch', function () {
 });
 
 gulp.task('watch-test', function () {
-  gulp.watch(['src/**/*.js', 'src/**/*.ts'], gulp.series('test'));
+  gulp.watch(['src/**/*.ts'], gulp.series('test'));
 });
 
 gulp.task('default', gulp.task('compile'));
