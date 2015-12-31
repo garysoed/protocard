@@ -1,15 +1,12 @@
+import Asset from '../model/asset';
+import AssetService from '../asset/asset-service';
 import Utils from '../utils';
 
-/**
- * @class partial.PartialCtrl
- */
 export default class {
-  /**
-   * @constructor
-   * @param {ng.Scope} $scope
-   * @param {data.AssetService} AssetService
-   */
-  constructor($scope, AssetService) {
+  private asset_: Asset;
+  private assetService_: AssetService;
+
+  constructor($scope: angular.IScope, AssetService: AssetService) {
     // TODO(gs): Check types from the $scope at runtime.
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
@@ -17,8 +14,6 @@ export default class {
 
   /**
    * Called when the add button is clicked.
-   *
-   * @method onAddClick
    */
   onAddClick() {
     let newName = Utils.generateKey(this.asset_.partials, 'partial');
@@ -27,21 +22,11 @@ export default class {
     this.assetService_.saveAsset(this.asset_);
   }
 
-  /**
-   * @property asset
-   * @type {data.Asset}
-   * @readonly
-   */
-  get asset() {
+  get asset(): Asset {
     return this.asset_;
   }
 
-  /**
-   * @property
-   * @type {Object}
-   * @readonly
-   */
-  get partials() {
+  get partials(): { [key: string]: string } {
     return this.asset_.partials;
   }
 }

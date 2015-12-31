@@ -10,7 +10,9 @@ describe('partial.PartialCtrl', () => {
   beforeEach(() => {
     mockAsset = {};
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
-    ctrl = new PartialCtrl({ 'asset': mockAsset }, mockAssetService);
+    ctrl = new PartialCtrl(
+        jasmine.cast<angular.IScope>({ 'asset': mockAsset }),
+        mockAssetService);
   });
 
   describe('onAddClick', () => {

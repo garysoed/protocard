@@ -96,7 +96,7 @@ gulp.task('watch', function () {
 });
 
 gulp.task('watch-test', function () {
-  gulp.watch(['src/**/*.js'], gulp.series('test'));
+  gulp.watch(['src/**/*.js', 'src/**/*.ts'], gulp.series('test'));
 });
 
 gulp.task('default', gulp.task('compile'));

@@ -1,4 +1,4 @@
-import AssetServiceModule from './asset/asset-service-module';
+import AssetServiceModule from './asset-service-module';
 import DataModule from '../data/data-module';
 import GlobalModule from '../global/global-module';
 import HelperEditorModule from '../helper/helper-editor-module';

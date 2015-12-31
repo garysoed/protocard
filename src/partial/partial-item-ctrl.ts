@@ -1,11 +1,17 @@
-/**
- * @class partial.PartialItemCtrl
- */
+import Asset from '../model/asset';
+import AssetService from '../asset/asset-service';
+import NavigateService from '../common/navigate-service';
+
 export default class {
-  /**
-   * @constructor
-   */
-  constructor($scope, AssetService, NavigateService) {
+  private asset_: Asset;
+  private assetService_: AssetService;
+  private name_: string;
+  private navigateService_: NavigateService;
+
+  constructor(
+      $scope: angular.IScope,
+      AssetService: AssetService,
+      NavigateService: NavigateService) {
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
     this.name_ = $scope['name'];
@@ -14,8 +20,6 @@ export default class {
 
   /**
    * Called when the delete button is clicked.
-   *
-   * @method onDeleteClick
    */
   onDeleteClick() {
     delete this.asset_.partials[this.name_];
@@ -26,14 +30,10 @@ export default class {
     this.navigateService_.toAsset(this.asset_.id, 'partial-editor', this.name_);
   }
 
-  /**
-   * @property name
-   * @type {string}
-   */
-  get name() {
+  get name(): string {
     return this.name_;
   }
-  set name(newName) {
+  set name(newName: string) {
     if (this.asset_.partials[newName] === undefined) {
       let oldTemplate = this.asset_.partials[this.name_];
       delete this.asset_.partials[this.name_];
