@@ -1,4 +1,5 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import PartialEditorCtrl from './partial-editor-ctrl';
 

@@ -7,7 +7,7 @@ export enum FileTypes {
 };
 
 // TODO(gs): Fix when Typescript supports es6 map.
-const FILE_TYPE_MAP: Map<FileTypes, string[]> = <Map<FileTypes, string[]>>new Map([
+const FILE_TYPE_MAP: Map<FileTypes, string[]> = new Map<FileTypes, string[]>([
   [FileTypes.CSV, ['csv']],
   [FileTypes.TSV, ['tsv']]
 ]);

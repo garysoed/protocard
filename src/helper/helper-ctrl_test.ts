@@ -1,10 +1,11 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import FakeScope from '../testing/fake-scope';
 import HelperCtrl from './helper-ctrl';
 import { Events as HelperItemEvents } from './helper-item-ctrl';
 
-describe('asset.subview.HelperCtrl', () => {
+describe('helper.HelperCtrl', () => {
   let asset;
   let mock$scope;
   let mockAssetService;

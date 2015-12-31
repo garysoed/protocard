@@ -19,6 +19,10 @@ gulp.task('compile',
 
 gulp.task('test', gulp.series(
     'compile',
+    function copyJs_() {
+      return gulp.src(['src/testing/*.js'], { root: 'src' })
+          .pipe(gulp.dest('out'));
+    },
     function runTests_() {
       return gulp.src(['out/**/*_test.js'])
           .pipe(jasmine({

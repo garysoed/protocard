@@ -1,3 +1,6 @@
+import TestBase from './testbase';
+TestBase.init();
+
 import Utils, { IDS } from './utils';
 
 describe('Utils', () => {

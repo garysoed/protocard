@@ -1,9 +1,10 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import FakeDocument from '../testing/fake-document';
 import PreviewAppCtrl from './preview-app-ctrl';
 
-describe('asset.render.PreviewAppCtrl', () => {
+describe('render.PreviewAppCtrl', () => {
   let mock$window;
   let mockCanvasEl;
   let mockContentEl;

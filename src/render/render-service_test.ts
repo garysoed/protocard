@@ -1,8 +1,9 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import RenderService from './render-service';
 
-describe('asset.render.RenderService', () => {
+describe('render.RenderService', () => {
   let mock$document;
   let mock$window;
   let service;
