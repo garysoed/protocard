@@ -19,7 +19,7 @@ describe('partial.PartialItemCtrl', () => {
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
     mockNavigateService = jasmine.createSpyObj('NavigateService', ['toAsset']);
     ctrl = new PartialItemCtrl(
-        { 'asset': mockAsset, 'name': NAME },
+        jasmine.cast<angular.IScope>({ 'asset': mockAsset, 'name': NAME }),
         mockAssetService,
         mockNavigateService);
   });

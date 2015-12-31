@@ -1,5 +1,3 @@
-require('babel/polyfill');
-
 import Utils, { IDS } from './utils';
 
 describe('Utils', () => {
@@ -61,10 +59,10 @@ describe('Utils', () => {
 
   describe('mapValue', () => {
     it('should map the values of the given array', () => {
-      let obj = {
+      let obj = jasmine.cast<{ [index: string]: string }>({
         a: 'a',
         b: 'b'
-      };
+      });
       let out = Utils.mapValue(obj, value => `${value}_`);
       expect(out).toEqual({ a: 'a_', b: 'b_' });
     });
@@ -88,6 +86,14 @@ describe('Utils', () => {
     });
 
     it('should check equality for Set', () => {
+      Array.from = (set) => {
+        let output = [];
+        for (let entry of set) {
+          output.push(entry);
+        }
+        return output;
+      };
+
       expect(Utils.equals(new Set([1, 2]), new Set([2, 1]))).toEqual(true);
     });
   });

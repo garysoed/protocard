@@ -1,31 +1,27 @@
 import Ctrl from './create-asset-dialog-ctrl';
 
-const __$mdDialog__ = Symbol('$mdDialog');
-
 /**
  * Manages the create asset dialog.
  *
  * @class home.CreateAssetDialogService
  */
 export default class {
-  /**
-   * @constructor
-   * @param {ng.$mdDialog} $mdDialog
-   */
-  constructor($mdDialog) {
-    this[__$mdDialog__] = $mdDialog;
+  private $mdDialog_: angular.material.IDialogService;
+
+  constructor($mdDialog: angular.material.IDialogService) {
+    this.$mdDialog_ = $mdDialog;
   }
 
   /**
    * Shows the create asset dialog.
    *
    * @method show
-   * @param {ng.$event} $event Angular event that triggered this event.
-   * @return {Promise} Promise that will be resolved with the newly created asset, or rejected if
+   * @param $event Angular event that triggered this event.
+   * @return Promise that will be resolved with the newly created asset, or rejected if
    *    asset creation was cancelled.
    */
-  show($event) {
-    return this[__$mdDialog__].show({
+  show($event: MouseEvent): angular.IPromise<any> {
+    return this.$mdDialog_.show({
       controller: Ctrl,
       controllerAs: 'ctrl',
       targetEvent: $event,
