@@ -1,0 +1,14 @@
+.pc-navigate-button {
+  border-right: 5px solid transparent;
+  height: 21px;
+  padding: 15px;
+}
+
+.pc-navigate-button.selected {
+  border-right-color: rgb(103,58,183);
+  color: rgb(103,58,183);
+}
+
+.pc-navigate-button:hover {
+  cursor: pointer;
+}

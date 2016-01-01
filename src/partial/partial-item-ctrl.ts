@@ -27,7 +27,7 @@ export default class {
   }
 
   onEditClick() {
-    this.navigateService_.toAsset(this.asset_.id, 'partial-editor', this.name_);
+    this.navigateService_.toAsset(this.asset_.id, 'partial.editor', this.name_);
   }
 
   get name(): string {

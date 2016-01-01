@@ -8,17 +8,11 @@ export default function(namespace, name) {
   let ctrlname = `${name}-ctrl`;
   let ctrlClassName = toClassName(ctrlname);
   let out =
-`/**
- * @class ${namespace}.${ctrlClassName}
- */
-export default class {
-  /**
-   * @constructor
-   */
+`export default class {
   constructor() { }
 }
 `;
-  writeFile(namespace, ctrlname, 'js', out);
+  writeFile(namespace, ctrlname, 'ts', out);
 
   test(namespace, ctrlname);
 };

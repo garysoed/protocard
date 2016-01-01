@@ -38,7 +38,7 @@ describe('partial.PartialItemCtrl', () => {
       mockAsset.id = id;
       ctrl.onEditClick();
 
-      expect(mockNavigateService.toAsset).toHaveBeenCalledWith(id, 'partial-editor', NAME);
+      expect(mockNavigateService.toAsset).toHaveBeenCalledWith(id, 'partial.editor', NAME);
     });
   });
 

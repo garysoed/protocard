@@ -1,0 +1,3 @@
+<div class="pc-navigate-button" ng-class="ctrl.selectedCss" ng-click="ctrl.onClick()">
+  {{ctrl.text}}
+</div>

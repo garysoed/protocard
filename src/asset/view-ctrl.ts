@@ -7,10 +7,9 @@ import NavigateService from '../common/navigate-service';
  * Controller for the create page view.
  */
 export default class ViewCtrl {
+  private $location_: angular.ILocationService;
   private $scope_: angular.IScope;
-  private $routeParams_: any;
   private asset_: Asset;
-  private assetService_: AssetService;
   private currentHelper_: FunctionObject;
   private currentPartialName_: string;
   private isSidebarOpen_: boolean;
@@ -18,19 +17,37 @@ export default class ViewCtrl {
   private subview_: string;
 
   constructor(
+      $location: angular.ILocationService,
       $scope: angular.IScope,
       $routeParams: any,
       AssetService: AssetService,
       NavigateService: NavigateService) {
+    this.$location_ = $location;
     this.$scope_ = $scope;
-    this.$routeParams_ = $routeParams;
-    this.assetService_ = AssetService;
+    this.asset_ = AssetService.getAsset($routeParams['assetId']);
     this.navigateService_ = NavigateService;
-    this.asset_ = null;
     this.subview_ = null;
     this.currentHelper_ = null;
     this.currentPartialName_ = null;
     this.isSidebarOpen_ = false;
+
+    $scope.$on('$routeUpdate', this.onRouteUpdate_.bind(this));
+    $scope.$on('$routeChangeSuccess', this.onRouteUpdate_.bind(this));
+  }
+
+  private onRouteUpdate_() {
+    this.currentHelper_ = null;
+    this.currentPartialName_ = null;
+
+    let subitemId = this.$location_.search()['subitem'];
+    switch (this.subview) {
+      case 'helper.editor':
+        this.currentHelper_ = this.asset_.helpers[subitemId];
+        break;
+      case 'partial.editor':
+        this.currentPartialName_ = subitemId;
+        break;
+    }
   }
 
   /**
@@ -40,12 +57,17 @@ export default class ViewCtrl {
     return this.asset_;
   }
 
+  get assetId(): string {
+    return this.asset_.id;
+  }
+
   /**
    * Name of the asset viewed.
    */
   get assetName(): string {
     return this.asset_ && this.asset_.name;
   }
+
   /**
    * Current helper associated with the view, if any.
    */
@@ -61,10 +83,7 @@ export default class ViewCtrl {
    * Name of the current subview, if any.
    */
   get subview(): string {
-    return this.subview_;
-  }
-  set subview(subview) {
-    this.subview_ = subview;
+    return this.navigateService_.getSubview() || null;
   }
 
 /**
@@ -89,36 +108,5 @@ export default class ViewCtrl {
    */
   onMenuClick() {
     this.isSidebarOpen_ = !this.isSidebarOpen_;
-  }
-
-  /**
-   * Handler called when the controller is initialized
-   */
-  onInit() {
-    this.asset_ = this.assetService_.getAsset(this.$routeParams_['assetId']);
-    if (!this.asset_) {
-      this.navigateService_.toHome();
-    } else {
-      this.subview_ = this.$routeParams_['section'];
-      this.currentHelper_ = null;
-      this.currentPartialName_ = null;
-      switch (this.subview_) {
-        case 'helper-editor':
-          this.currentHelper_ = this.asset_.helpers[this.$routeParams_['subitemId']];
-          break;
-        case 'partial-editor':
-          this.currentPartialName_ = this.$routeParams_['subitemId'];
-          break;
-      }
-    }
-  }
-
-  /**
-   * Handler called when the navigation button is clicked.
-   * @param value Name of subview to navigate to.
-   */
-  onNavigateClick(value: string) {
-    this.subview_ = value;
-    this.navigateService_.toAsset(this.asset_.id, value);
   }
 };

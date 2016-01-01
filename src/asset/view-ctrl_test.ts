@@ -1,74 +1,75 @@
 import TestBase from '../testbase';
 
 import Asset from '../model/asset';
+import FakeScope from '../testing/fake-scope';
 import ViewCtrl from './view-ctrl';
 
 describe('asset.ViewCtrl', () => {
   let asset;
   let routeParams;
-  let mockAssetService
+  let mock$location;
+  let mockAssetService;
   let mockNavigateService;
   let ctrl;
   let $scope;
 
   beforeEach(() => {
-    $scope = {};
-    routeParams = {};
+    $scope = new FakeScope();
+    spyOn($scope, '$on');
+
+    routeParams = { 'assetId': 'assetId' };
     asset = new Asset('test');
-    mockNavigateService = jasmine.createSpyObj('NavigateService', ['toHome', 'toAsset']);
+    mock$location = jasmine.createSpyObj('$location', ['search']);
+    mockNavigateService = jasmine.createSpyObj('NavigateService', ['getSubview', 'toHome']);
+
     mockAssetService = jasmine.createSpyObj('AssetService', ['getAsset']);
+    mockAssetService.getAsset.and.returnValue(asset);
+
     ctrl = new ViewCtrl(
+        mock$location,
         $scope,
         routeParams,
         mockAssetService,
         mockNavigateService);
   });
 
-  describe('onInit', () => {
-    it('should redirect to home page if the asset does not exist', () => {
-      let assetId = 'assetId';
-      mockAssetService.getAsset.and.returnValue(null);
-      routeParams['assetId'] = assetId;
-      ctrl.onInit();
+  it('should load the correct asset', () => {
+    expect(ctrl.asset).toEqual(asset);
+    expect(mockAssetService.getAsset).toHaveBeenCalledWith(routeParams['assetId']);
+  });
 
-      expect(mockNavigateService.toHome).toHaveBeenCalledWith();
-      expect(mockAssetService.getAsset).toHaveBeenCalledWith(assetId);
-    });
-
-    it('should not redirect to home page if the asset exists and initialize the current helper', () => {
-      let helperName = 'helperName';
-      let helper = {};
-      asset.helpers[helperName] = helper;
-      routeParams['assetId'] = 'assetId';
-      routeParams['section'] = 'helper-editor';
-      routeParams['subitemId'] = helperName;
-      mockAssetService.getAsset.and.returnValue(asset);
-      ctrl.onInit();
-
-      expect(mockNavigateService.toHome).not.toHaveBeenCalled();
-      expect(ctrl.subview).toEqual('helper-editor');
-      expect(ctrl.currentHelper).toEqual(helper);
-    });
-
+  describe('onRouteUpdate_', () => {
     it('should setup correctly for partial editor', () => {
       let partialName = 'partialName';
-      let partial = 'partial';
-      routeParams['assetId'] = 'assetId';
-      routeParams['section'] = 'partial-editor';
-      routeParams['subitemId'] = partialName;
-      mockAssetService.getAsset.and.returnValue(asset);
-      ctrl.onInit();
 
-      expect(mockNavigateService.toHome).not.toHaveBeenCalled();
-      expect(ctrl.subview).toEqual('partial-editor');
+      mockNavigateService.getSubview.and.returnValue('partial.editor');
+      mock$location.search.and.returnValue({ 'subitem': partialName });
+
+      expect($scope.$on).toHaveBeenCalledWith('$routeUpdate', jasmine.any(Function));
+      $scope.$on.calls.argsFor(0)[1]();
+
+      expect(ctrl.subview).toEqual('partial.editor');
       expect(ctrl.currentPartialName).toEqual(partialName);
+    });
+
+    it('should setup correctly for helper editor', () => {
+      let helperId = 'helperId';
+      let helper = jasmine.createObj('helper');
+      asset.helpers[helperId] = helper;
+
+      mockNavigateService.getSubview.and.returnValue('helper.editor');
+      mock$location.search.and.returnValue({ 'subitem': helperId });
+
+      expect($scope.$on).toHaveBeenCalledWith('$routeUpdate', jasmine.any(Function));
+      $scope.$on.calls.argsFor(0)[1]();
+
+      expect(ctrl.subview).toEqual('helper.editor');
+      expect(ctrl.currentHelper).toEqual(helper);
     });
   });
 
   describe('get assetName', () => {
     it('should return the asset name', () => {
-      mockAssetService.getAsset.and.returnValue(asset);
-      ctrl.onInit();
       expect(ctrl.assetName).toEqual(asset.name);
     });
   });
@@ -88,18 +89,6 @@ describe('asset.ViewCtrl', () => {
 
       ctrl.onMenuClick();
       expect(ctrl.isSidebarOpen).toEqual(false);
-    });
-  });
-
-  describe('onNavigateClick', () => {
-    it('should navigate to the right subview', () => {
-      mockAssetService.getAsset.and.returnValue(asset);
-      ctrl.onInit();
-
-      let newSubview = 'newSubview';
-      ctrl.onNavigateClick(newSubview);
-
-      expect(mockNavigateService.toAsset).toHaveBeenCalledWith(asset.id, newSubview);
     });
   });
 });

@@ -42,5 +42,5 @@ export default angular
     });
 `;
 
-  writeFile(namespace, `${name}-module`, 'js', out);
+  writeFile(namespace, `${name}-module`, 'ts', out);
 };

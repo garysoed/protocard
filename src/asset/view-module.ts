@@ -4,6 +4,7 @@ import GlobalModule from '../global/global-module';
 import HelperEditorModule from '../helper/helper-editor-module';
 import HelperModule from '../helper/helper-module';
 import ImageModule from '../image/image-module';
+import NavigateButtonModule from '../common/navigate-button-module';
 import NavigateServiceModule from '../common/navigate-service-module';
 import PartialEditorModule from '../partial/partial-editor-module';
 import PartialModule from '../partial/partial-module';
@@ -21,6 +22,7 @@ export default angular
       HelperEditorModule.name,
       HelperModule.name,
       ImageModule.name,
+      NavigateButtonModule.name,
       NavigateServiceModule.name,
       PartialModule.name,
       PartialEditorModule.name,
@@ -30,10 +32,11 @@ export default angular
     ])
     .config($routeProvider => {
       $routeProvider.when(
-          '/asset/:assetId/:section?/:subitemId?',
+          '/asset/:assetId',
           {
             controller: ViewCtrl,
             controllerAs: 'ctrl',
+            reloadOnSearch: false,
             templateUrl: 'asset/view.ng'
           });
     });

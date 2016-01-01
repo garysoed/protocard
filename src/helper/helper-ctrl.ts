@@ -66,7 +66,7 @@ export default class {
    * @param helperName Name of the helper that was edited.
    */
   onHelperItemEdited_(event: any, helperName: string) {
-    this.navigateService_.toAsset(this.asset_.id, 'helper-editor', helperName);
+    this.navigateService_.toAsset(this.asset_.id, 'helper.editor', helperName);
   }
 
   /**

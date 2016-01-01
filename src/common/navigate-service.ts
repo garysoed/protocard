@@ -5,6 +5,10 @@ export default class NavigateService {
     this.$location_ = $location;
   }
 
+  getSubview() {
+    return this.$location_.search()['subview'];
+  }
+
   /**
    * Navigates to the given asset's subview.
    *
@@ -12,10 +16,14 @@ export default class NavigateService {
    * @param [subview] Name of asset subview to navigate to. Defaults to empty string.
    * @param [subitemId] Name of the sub item associated with the asset.
    */
-  toAsset(assetId: string, subview = '', subitemId: string = null) {
-    let path = `/asset/${assetId}/${subview}`;
+  toAsset(assetId: string, subview = null, subitemId: string = null) {
+    let path = `/asset/${assetId}`
+
+    if (subview !== null) {
+      this.toSubview(subview);
+    }
     if (subitemId !== null) {
-      path += `/${subitemId}`;
+      this.$location_.search('subitem', subitemId);
     }
     this.$location_.path(path);
   }
@@ -24,6 +32,10 @@ export default class NavigateService {
    * Navigates to home.
    */
   toHome() {
-    this.$location_.path('/');
+    this.$location_.url('/');
+  }
+
+  toSubview(subview: string) {
+    this.$location_.search('subview', subview);
   }
 };

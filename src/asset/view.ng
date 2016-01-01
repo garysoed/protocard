@@ -1,4 +1,4 @@
-<div class="asset-view" layout="column" ng-init="ctrl.onInit()">
+<div class="asset-view" layout="column">
   <md-toolbar>
     <div class="md-toolbar-tools" layout="row">
       <md-button class="md-icon-button" ng-click="ctrl.onMenuClick()">
@@ -14,47 +14,45 @@
         md-component-id="left"
         md-is-open="ctrl.isSidebarOpen">
       <md-content layout="column">
-        <md-radio-group ng-model="ctrl.subview" ng-change="ctrl.onNavigateClick(ctrl.subview)">
+        <div>
           <div>
-            <div>
-              <h2 layout-padding>Resources</h2>
-            </div>
-            <div layout="column">
-              <md-radio-button value="global">Global values</md-radio-button>
-              <md-radio-button value="helper">Helper functions</md-radio-button>
-              <md-radio-button value="text">Text data</md-radio-button>
-              <md-radio-button value="image">Image data</md-radio-button>
-            </div>
+            <h2 layout-padding>Resources</h2>
           </div>
+          <div layout="column">
+            <pc-navigate-button subview="global" text="Global values"></pc-navigate-button>
+            <pc-navigate-button subview="helper" text="Helper functions"></pc-navigate-button>
+            <pc-navigate-button subview="text" text="Text data"></pc-navigate-button>
+            <pc-navigate-button subview="image" text="Images"></pc-navigate-button>
+          </div>
+        </div>
 
+        <div>
           <div>
-            <div>
-              <h2 layout-padding>Process</h2>
-            </div>
-            <div layout="column">
-              <md-radio-button value="data">Process Data</md-radio-button>
-            </div>
+            <h2 layout-padding>Process</h2>
           </div>
+          <div layout="column">
+            <pc-navigate-button subview="data" text="Process Data"></pc-navigate-button>
+          </div>
+        </div>
 
+        <div>
           <div>
-            <div>
-              <h2 layout-padding>Create</h2>
-            </div>
-            <div layout="column">
-              <md-radio-button value="partial">Partials</md-radio-button>
-              <md-radio-button value="template">Main Template</md-radio-button>
-            </div>
+            <h2 layout-padding>Create</h2>
           </div>
+          <div layout="column">
+            <pc-navigate-button subview="partial" text="Subtemplate"></pc-navigate-button>
+            <pc-navigate-button subview="template" text="Main Template"></pc-navigate-button>
+          </div>
+        </div>
 
+        <div>
           <div>
-            <div>
-              <h2 layout-padding>Render</h2>
-            </div>
-            <div layout="column">
-              <md-radio-button value="render">Render</md-radio-button>
-            </div>
+            <h2 layout-padding>Render</h2>
           </div>
-        </md-radio-group>
+          <div layout="column">
+            <pc-navigate-button subview="render" text="Render"></pc-navigate-button>
+          </div>
+        </div>
 
         <!-- TODO(gs): Disable the buttons with conditions -->
       </md-content>
@@ -72,13 +70,13 @@
       <!-- Sub views -->
       <pc-helper-editor
           flex
-          ng-switch-when="helper-editor"
+          ng-switch-when="helper.editor"
           asset="ctrl.asset"
           helper="ctrl.currentHelper"
           ng-if="!!ctrl.currentHelper"></pc-helper-editor>
       <pc-partial-editor
           flex
-          ng-switch-when="partial-editor"
+          ng-switch-when="partial.editor"
           asset="ctrl.asset"
           name="ctrl.currentPartialName"
           ng-if="!!ctrl.currentPartialName"></pc-partial-editor>

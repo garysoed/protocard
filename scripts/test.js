@@ -11,6 +11,7 @@ export default function(namespace, name) {
       .join('/');
   let out =
 `import TestBase from '${testbaseDir}/testbase';
+TestBase.init();
 
 import ${classname} from './${name}';
 
@@ -18,5 +19,5 @@ describe('${namespace}.${classname}', () => {
 
 });
 `;
-  writeFile(namespace, testname, 'js', out);
+  writeFile(namespace, testname, 'ts', out);
 };

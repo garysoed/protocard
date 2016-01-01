@@ -56,7 +56,7 @@ describe('helper.HelperCtrl', () => {
     expect(mock$scope.$on).toHaveBeenCalledWith(HelperItemEvents.EDITED, jasmine.any(Function));
     mock$scope.$on.calls.argsFor(2)[1]({}, name);
 
-    expect(mockNavigateService.toAsset).toHaveBeenCalledWith(id, 'helper-editor', name);
+    expect(mockNavigateService.toAsset).toHaveBeenCalledWith(id, 'helper.editor', name);
   });
 
   describe('onAddClick', () => {
