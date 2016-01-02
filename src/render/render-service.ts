@@ -56,11 +56,10 @@ export default class RenderService {
   }
 
   /**
-   * @method iframeElPromise
-   * @return {Promise} Promise that will be resolved with the iframe element when the iframe has
+   * @return Promise that will be resolved with the iframe element when the iframe has
    *    finished loading.
    */
-  get iframeElPromise() {
+  get iframeElPromise(): Promise<HTMLIFrameElement> {
     if (this.iframeElPromise_ === null) {
       this.iframeElPromise_ = new Promise((resolve, reject) => {
         let iframeEl = this.document_.createElement('iframe');
@@ -82,13 +81,12 @@ export default class RenderService {
    * Renders the given content and returns back a data URI. This will throw an exception if it has
    * an ongoing rendering process.
    *
-   * @method render
-   * @param {string} content HTML string of content to render.
-   * @param {number} width Width, in pixels, of the content to render.
-   * @param {number} height Height, in pixels, of the content to render.
-   * @return {Promise} Promise that will be resolved with the data URI when the rendering is done.
+   * @param content HTML string of content to render.
+   * @param width Width, in pixels, of the content to render.
+   * @param height Height, in pixels, of the content to render.
+   * @return Promise that will be resolved with the data URI when the rendering is done.
    */
-  render(content, width, height) {
+  render(content: string, width: number, height: number): Promise<string> {
     return this.requestPool_.queue({
       content: content,
       width: width,

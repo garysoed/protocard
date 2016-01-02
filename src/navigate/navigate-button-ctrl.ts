@@ -1,3 +1,4 @@
+import Cache from '../decorators/cache';
 import NavigateService from './navigate-service';
 
 export default class {
@@ -9,10 +10,17 @@ export default class {
     this.navigateService_ = NavigateService;
     this.subview_ = $scope['subview'];
     this.text_ = $scope['text'];
+
+    $scope.$on('$routeChangeSuccess', this.onRouteUpdate_.bind(this));
+    $scope.$on('$routeUpdate', this.onRouteUpdate_.bind(this));
   }
 
+  private onRouteUpdate_() {
+    Cache.clear(this);
+  }
+
+  @Cache
   get selectedCss(): string {
-    // TODO(gs): Cache
     let viewHierarchy = this.navigateService_.getSubview().split('.');
     let currentViewHierarchy = [];
     while (viewHierarchy.length > 0) {

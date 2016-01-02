@@ -71,6 +71,8 @@
         "src/data/data-ctrl_test.ts",
         "src/data/data-ctrl.ts",
         "src/data/data-module.ts",
+        "src/decorators/cache_test.ts",
+        "src/decorators/cache.ts",
         "src/editor/code-editor-ctrl_test.ts",
         "src/editor/code-editor-ctrl.ts",
         "src/editor/code-editor-module.ts",
