@@ -1,6 +1,7 @@
 import File from './file';
 import FunctionObject from './function-object';
 import ImageResource from './image-resource';
+import Serializer from './serializable';
 import Utils from '../utils';
 
 /**
@@ -118,7 +119,7 @@ export default class Asset {
       name: this.name,
       globals: this.globalsString,
       helpers: Utils.mapValue(this.helpers, helper => helper.toJSON()),
-      data: this.data ? this.data.toJSON() : null,
+      data: Serializer.toJSON(this.data),
       dataProcessor: this.dataProcessor_,
       images: Utils.mapValue(this.images_, image => image.toJSON()),
       partials: this.partials,
@@ -141,7 +142,7 @@ export default class Asset {
     asset.id_ = json['id'];
     asset.globalsString = json['globals'];
     asset.helpers_ = Utils.mapValue(json['helpers'], json => FunctionObject.fromJSON(json));
-    asset.data_ = File.fromJSON(json['data']);
+    asset.data_ = Serializer.fromJSON(json['data']);
     asset.templateString_ = json['templateString'];
     asset.dataProcessor_ = FunctionObject.fromJSON(json['dataProcessor']);
 

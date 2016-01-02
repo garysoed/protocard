@@ -49,6 +49,7 @@ export default class AssetService {
    *    value.
    */
   getAssets(): { [id: string]: Asset } {
+    // TODO(gs): Cache
     if (this.asset_ === null) {
       this.asset_ = {};
       this.getIndex_().forEach(id => {

@@ -1,4 +1,4 @@
-/// <reference path="../../declaration/es6.d.ts"/>
+import Serializer, { Serializable, Field } from './serializable';
 
 export enum FileTypes {
   UNKNOWN,
@@ -11,15 +11,16 @@ const FILE_TYPE_MAP: Map<FileTypes, string[]> = new Map<FileTypes, string[]>([
   [FileTypes.TSV, ['tsv']]
 ]);
 
+@Serializable('File')
 export default class File {
-  type_: FileTypes;
-  content_: string;
+  @Field('type') private type_: FileTypes;
+  @Field('content') private content_: string;
 
   /**
    * @param type Type of the file.
    * @param content Content of the file.
    */
-  constructor(type: FileTypes, content: string) {
+  constructor(type = FileTypes.UNKNOWN, content = '') {
     this.type_ = type;
     this.content_ = content;
   }
@@ -30,18 +31,6 @@ export default class File {
 
   get content(): string {
     return this.content_;
-  }
-
-  /**
-   * Converts the file to its JSON format.
-   *
-   * @return JSON representation of the file.
-   */
-  toJSON(): any {
-    return {
-      type: this.type,
-      content: this.content
-    };
   }
 
   /**
@@ -58,20 +47,6 @@ export default class File {
       }
     });
     return result;
-  }
-
-  /**
-   * Parses the given JSON to file.
-   *
-   * @param json The JSON to parse.
-   * @return The file object.
-   */
-  static fromJSON(json: any): File {
-    if (!json) {
-      return null;
-    }
-
-    return new this(json['type'], json['content']);
   }
 
   /**

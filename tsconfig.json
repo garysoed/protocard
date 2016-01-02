@@ -125,6 +125,8 @@
         "src/model/function-object.ts",
         "src/model/image-resource_test.ts",
         "src/model/image-resource.ts",
+        "src/model/serializable_test.ts",
+        "src/model/serializable.ts",
         "src/navigate/navigate-button-ctrl_test.ts",
         "src/navigate/navigate-button-ctrl.ts",
         "src/navigate/navigate-button-module.ts",
