@@ -1,7 +1,7 @@
 import Asset from '../model/asset';
 import AssetService from '../asset/asset-service';
 import CreateAssetDialogService from './create-asset-dialog-service';
-import NavigateService from '../common/navigate-service';
+import NavigateService from '../navigate/navigate-service';
 
 /**
  * Controller for the home view.

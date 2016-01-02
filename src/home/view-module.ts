@@ -1,6 +1,6 @@
 import AssetServiceModule from '../asset/asset-service-module';
 import CreateAssetDialogModule from './create-asset-dialog-module';
-import NavigateServiceModule from '../common/navigate-service-module';
+import NavigateServiceModule from '../navigate/navigate-service-module';
 import ViewCtrl from './view-ctrl';
 
 export default angular

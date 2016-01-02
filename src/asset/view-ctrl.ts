@@ -1,7 +1,7 @@
 import Asset from '../model/asset'
 import AssetService from './asset-service';
 import FunctionObject from '../model/function-object';
-import NavigateService from '../common/navigate-service';
+import NavigateService from '../navigate/navigate-service';
 
 /**
  * Controller for the create page view.

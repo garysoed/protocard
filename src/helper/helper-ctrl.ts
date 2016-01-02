@@ -2,7 +2,7 @@ import Asset from '../model/asset';
 import AssetService from '../asset/asset-service';
 import FunctionObject from '../model/function-object';
 import { Events as HelperItemEvents } from './helper-item-ctrl';
-import NavigateService from '../common/navigate-service';
+import NavigateService from '../navigate/navigate-service';
 import Utils from '../utils';
 
 /**

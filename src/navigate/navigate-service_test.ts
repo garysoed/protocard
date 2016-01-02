@@ -3,7 +3,7 @@ TestBase.init();
 
 import NavigateService from './navigate-service';
 
-describe('common.NavigateService', () => {
+describe('navigate.NavigateService', () => {
   let mock$location;
   let service;
 

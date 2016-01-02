@@ -4,7 +4,7 @@ TestBase.init();
 import FakeScope from '../testing/fake-scope';
 import NavigateButtonCtrl from './navigate-button-ctrl';
 
-describe('common.NavigateButtonCtrl', () => {
+describe('navigate.NavigateButtonCtrl', () => {
   const SUBVIEW = 'subview';
 
   let mock$scope;
