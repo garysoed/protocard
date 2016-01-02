@@ -1,13 +1,15 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import FunctionObject from './function-object';
+import Serializer from './serializable';
 
 describe('data.FunctionObject', () => {
   it('should be able to be converted to / from JSON', () => {
     let functionObject = new FunctionObject();
     functionObject.fnString = 'fnString';
 
-    let copy = FunctionObject.fromJSON(functionObject.toJSON());
+    let copy = Serializer.fromJSON(Serializer.toJSON(functionObject));
     expect(copy).toEqual(functionObject);
   });
 

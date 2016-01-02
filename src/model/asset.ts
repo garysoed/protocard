@@ -118,10 +118,12 @@ export default class Asset {
       id: this.id,
       name: this.name,
       globals: this.globalsString,
-      helpers: Utils.mapValue(this.helpers, helper => helper.toJSON()),
+      helpers: Utils.mapValue<FunctionObject, any>(
+          this.helpers,
+          helper => Serializer.toJSON(helper)),
       data: Serializer.toJSON(this.data),
       dataProcessor: this.dataProcessor_,
-      images: Utils.mapValue(this.images_, image => image.toJSON()),
+      images: Utils.mapValue<ImageResource, any>(this.images_, image => Serializer.toJSON(image)),
       partials: this.partials,
       templateString: this.templateString
     };
@@ -141,21 +143,21 @@ export default class Asset {
     let asset = new this(json['name']);
     asset.id_ = json['id'];
     asset.globalsString = json['globals'];
-    asset.helpers_ = Utils.mapValue(json['helpers'], json => FunctionObject.fromJSON(json));
+    asset.helpers_ = Utils.mapValue(json['helpers'], json => Serializer.fromJSON(json));
     asset.data_ = Serializer.fromJSON(json['data']);
     asset.templateString_ = json['templateString'];
-    asset.dataProcessor_ = FunctionObject.fromJSON(json['dataProcessor']);
+    asset.dataProcessor_ = Serializer.fromJSON(json['dataProcessor']);
 
     if (json['images']) {
       if (json['images'] instanceof Array) {
         let set = new Set(
-            <ImageResource[]>json['images'].map(json => ImageResource.fromJSON(json)));
+            <ImageResource[]>json['images'].map(json => Serializer.fromJSON(json)));
         asset.images_ = {};
         set.forEach(image => {
           asset.images_[image.alias] = image;
         });
       } else {
-        asset.images_ = Utils.mapValue(json['images'], json => ImageResource.fromJSON(json));
+        asset.images_ = Utils.mapValue(json['images'], json => Serializer.fromJSON(json));
       }
     }
 

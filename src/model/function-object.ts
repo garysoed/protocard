@@ -1,9 +1,12 @@
+import { Serializable, Field } from './serializable';
+
 /**
  * Represents a function.
  */
+@Serializable('FunctionObject')
 export default class FunctionObject {
 
-  private fnString_: string;
+  @Field('fnString') private fnString_: string;
 
   /**
    * @param [fnString] Initial value of the function string.
@@ -30,33 +33,6 @@ export default class FunctionObject {
     let fn = null;
     let result = eval(expr);
     return fn();
-  }
-
-  /**
-   * Converts the helper function to its JSON format.
-   *
-   * @return JSON representation of the Helper function.
-   */
-  toJSON(): any {
-    return {
-      fnString: this.fnString
-    };
-  }
-
-  /**
-   * Parses the given JSON to helper function.
-   *
-   * @param json The JSON object to be parsed.
-   * @return The parsed FunctionObject object.
-   */
-  static fromJSON(json: any): FunctionObject {
-    if (!json) {
-      return null;
-    }
-
-    let fn = new this();
-    fn.fnString = json['fnString'];
-    return fn;
   }
 
   /**

@@ -1,4 +1,4 @@
-import Serializer, { Serializable, Field } from './serializable';
+import { Serializable, Field } from './serializable';
 
 export enum FileTypes {
   UNKNOWN,

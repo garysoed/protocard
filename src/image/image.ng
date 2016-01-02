@@ -1,3 +1,4 @@
+<!-- TODO(gs): Sort by name, date added, URL -->
 <div class="pc-fill-parent" layout="column" layout-align="start end">
   <md-content class="pc-fill-parent" flex>
     <pc-image-select ng-model="ctrl.selectedImages" images="ctrl.images"></pc-image-select>

@@ -1,17 +1,20 @@
+import Serializer, { Serializable, Field } from './serializable';
+
 /**
  * Represents an image resource.
  */
+@Serializable('ImageResource')
 export default class ImageResource {
-  private alias_: string;
-  private url_: string;
-  private previewUrl_: string;
+  @Field('alias') private alias_: string;
+  @Field('url') private url_: string;
+  @Field('previewUrl') private previewUrl_: string;
 
   /**
    * @param alias Name of the image resource.
    * @param url URL of the image resource. This will be used for references in HTML / CSS.
    * @param [previewUrl] Preview URL of the image resource. Defaults to the actual URL.
    */
-  constructor(alias: string, url: string, previewUrl = url) {
+  constructor(alias = '', url: string = null, previewUrl = url) {
     this.alias_ = alias;
     this.url_ = url;
     this.previewUrl_ = previewUrl;
@@ -36,33 +39,6 @@ export default class ImageResource {
    */
   get previewUrl(): string {
     return this.previewUrl_;
-  }
-
-  /**
-   * Converts the image resource to its JSON format.
-   *
-   * @return The JSON representation of the image resource.
-   */
-  toJSON(): any {
-    return {
-      alias: this.alias,
-      url: this.url,
-      previewUrl: this.previewUrl
-    };
-  }
-
-  /**
-   * Parses the given JSON to image resource.
-   *
-   * @param json The JSON to parse.
-   * @return The image resource object.
-   */
-  static fromJSON(json: any): ImageResource {
-    if (!json) {
-      return null;
-    }
-
-    return new this(json['alias'], json['url'], json['previewUrl']);
   }
 
   /**
