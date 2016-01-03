@@ -1,3 +1,5 @@
+import Serializer from '../model/serializable';
+
 /**
  * Service to manage local storage.
  */
@@ -30,7 +32,7 @@ export default class StorageService<T> {
       return defaultValue;
     } else {
       let json = JSON.parse(value);
-      return (typeof ctor['fromJSON'] === 'function') ? ctor['fromJSON'](json) : json;
+      return Serializer.fromJSON(json);
     }
   }
 

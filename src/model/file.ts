@@ -1,4 +1,5 @@
-import { Serializable, Field } from './serializable';
+import { Comparable } from '../decorators/compare';
+import { Field, Serializable } from './serializable';
 
 export enum FileTypes {
   UNKNOWN,
@@ -25,10 +26,12 @@ export default class File {
     this.content_ = content;
   }
 
+  @Comparable
   get type(): FileTypes {
     return this.type_;
   }
 
+  @Comparable
   get content(): string {
     return this.content_;
   }
@@ -47,24 +50,5 @@ export default class File {
       }
     });
     return result;
-  }
-
-  /**
-   * Tests equality for File.
-   *
-   * @param a First object to compare.
-   * @param b Second object to compare.
-   * @return True if the two objects are equal. False if not, or undefined if one of the
-   *    objects is not an File.
-   */
-  static equals(a: any, b: any): boolean {
-    if (a === b) {
-      return true;
-    }
-
-    if (a instanceof this && b instanceof this) {
-      return a.type === b.type
-          && a.content === b.content;
-    }
   }
 }

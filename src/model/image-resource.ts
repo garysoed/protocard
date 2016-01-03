@@ -1,3 +1,4 @@
+import { Comparable } from '../decorators/compare';
 import Serializer, { Serializable, Field } from './serializable';
 
 /**
@@ -23,6 +24,7 @@ export default class ImageResource {
   /**
    * Name of the image resource.
    */
+  @Comparable
   get alias(): string {
     return this.alias_;
   }
@@ -30,6 +32,7 @@ export default class ImageResource {
   /**
    * URL of the image resource.
    */
+  @Comparable
   get url(): string {
     return this.url_;
   }
@@ -37,27 +40,8 @@ export default class ImageResource {
   /**
    * Preview URL of the image resource.
    */
+  @Comparable
   get previewUrl(): string {
     return this.previewUrl_;
-  }
-
-  /**
-   * Tests equality for ImageResource.
-   *
-   * @param a First object to compare.
-   * @param b Second object to compare.
-   * @return True if the two objects are equal. False if not, or undefined if one of the
-   *    objects is not an ImageResource.
-   */
-  static equals(a: any, b: any): boolean {
-    if (a === b) {
-      return true;
-    }
-
-    if (a instanceof this && b instanceof this) {
-      return a.alias === b.alias
-          && a.url === b.url
-          && a.previewUrl === b.previewUrl;
-    }
   }
 };

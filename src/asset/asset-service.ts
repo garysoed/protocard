@@ -66,6 +66,8 @@ export default class AssetService {
    */
   saveAsset(asset: Asset) {
     let index = this.getIndex_();
+
+    // TODO(gs): Detect duplicate.
     index.push(asset.id);
 
     this.storage_.setItem(KEY_INDEX, index);

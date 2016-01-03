@@ -1,7 +1,7 @@
 eval(`require('babel/polyfill')`);
 
 import Asset from './model/asset';
-import FunctionObject from './model/function-object';
+import Comparator from './decorators/compare';
 
 let called = false;
 
@@ -25,7 +25,7 @@ export default {
 
     beforeEach(() => {
       jasmine.addCustomEqualityTester(Asset.equals.bind(Asset));
-      jasmine.addCustomEqualityTester(FunctionObject.equals.bind(FunctionObject));
+      jasmine.addCustomEqualityTester(Comparator.equals.bind(Comparator));
       jasmine.clock().install();
     });
 

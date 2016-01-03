@@ -1,3 +1,4 @@
+import { Comparable } from '../decorators/compare';
 import { Serializable, Field } from './serializable';
 
 /**
@@ -18,6 +19,7 @@ export default class FunctionObject {
   /**
    * String representation of the function.
    */
+  @Comparable
   get fnString(): string {
     return this.fnString_;
   }
@@ -33,23 +35,5 @@ export default class FunctionObject {
     let fn = null;
     let result = eval(expr);
     return fn();
-  }
-
-  /**
-   * Tests equality for FunctionObject.
-   *
-   * @param a First object to compare.
-   * @param b Second object to compare.
-   * @return True if the two objects are equal. False if not, or undefined if one of the objects is
-   *    not a FunctionObject.
-   */
-  static equals(a: any, b: any): boolean {
-    if (a === b) {
-      return true;
-    }
-
-    if (a instanceof this && b instanceof this) {
-      return a.fnString === b.fnString;
-    }
   }
 };

@@ -1,3 +1,4 @@
+// TODO(gs): Move to decorators.
 const __fields = Symbol('fields');
 const __name = Symbol('name');
 

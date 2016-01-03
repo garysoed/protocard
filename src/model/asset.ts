@@ -1,3 +1,4 @@
+import Comparator from '../decorators/compare';
 import File from './file';
 import FunctionObject from './function-object';
 import ImageResource from './image-resource';
@@ -11,7 +12,6 @@ import Utils from '../utils';
  */
 @Serializable('Asset')
 export default class Asset {
-
 
   @Field('data') private data_: File;
   @Field('dataProcessor') private dataProcessor_: FunctionObject;
@@ -128,10 +128,10 @@ export default class Asset {
       return a.id === b.id
           && a.name === b.name
           && Utils.equals(a.globalsString, b.globalsString)
-          && Utils.equals(a.helpers, b.helpers, FunctionObject.equals.bind(FunctionObject))
-          && File.equals(a.data, b.data)
-          && FunctionObject.equals(a.dataProcessor, b.dataProcessor)
-          && Utils.equals(a.images_, b.images_, ImageResource.equals.bind(ImageResource))
+          && Utils.equals(a.helpers, b.helpers, Comparator.equals.bind(Comparator))
+          && Comparator.equals(a.data, b.data)
+          && Comparator.equals(a.dataProcessor, b.dataProcessor)
+          && Utils.equals(a.images_, b.images_, Comparator.equals.bind(Comparator))
           && Utils.equals(a.partials, b.partials)
           && a.templateString === b.templateString;
     }
