@@ -1,7 +1,7 @@
 import File from './file';
 import FunctionObject from './function-object';
 import ImageResource from './image-resource';
-import Serializer from './serializable';
+import Serializer, { Serializable, Field } from './serializable';
 import Utils from '../utils';
 
 /**
@@ -9,19 +9,20 @@ import Utils from '../utils';
  *
  * TODO(gs): make common value class.
  */
+@Serializable('Asset')
 export default class Asset {
 
-  private id_: string;
 
-  private data_: File;
-  private dataProcessor_: FunctionObject;
-  private globalsString_: string;
-  private helpers_: { [key: string]: FunctionObject };
-  private images_: { [key: string]: ImageResource };
-  private name_: string;
-  private partials_: { [key: string]: string };
+  @Field('data') private data_: File;
+  @Field('dataProcessor') private dataProcessor_: FunctionObject;
+  @Field('globals') private globalsString_: string;
+  @Field('helpers') private helpers_: { [key: string]: FunctionObject };
+  @Field('id') private id_: string;
+  @Field('images') private images_: { [key: string]: ImageResource };
+  @Field('name') private name_: string;
+  @Field('partials') private partials_: { [key: string]: string };
   private templateName_: string;
-  private templateString_: string;
+  @Field('templateString') private templateString_: string;
 
   /**
    * @param name Name of the asset.
@@ -106,63 +107,6 @@ export default class Asset {
   }
   set templateString(templateString: string) {
     this.templateString_ = templateString;
-  }
-
-  /**
-   * Converts the asset to its JSON format.
-   *
-   * @return JSON representation of the asset.
-   */
-  toJSON(): any {
-    return {
-      id: this.id,
-      name: this.name,
-      globals: this.globalsString,
-      helpers: Utils.mapValue<FunctionObject, any>(
-          this.helpers,
-          helper => Serializer.toJSON(helper)),
-      data: Serializer.toJSON(this.data),
-      dataProcessor: this.dataProcessor_,
-      images: Utils.mapValue<ImageResource, any>(this.images_, image => Serializer.toJSON(image)),
-      partials: this.partials,
-      templateString: this.templateString
-    };
-  }
-
-  /**
-   * Parses the given JSON to asset.
-   *
-   * @param json The JSON to parse.
-   * @return The asset object.
-   */
-  static fromJSON(json: any): Asset {
-    if (!json) {
-      return null;
-    }
-
-    let asset = new this(json['name']);
-    asset.id_ = json['id'];
-    asset.globalsString = json['globals'];
-    asset.helpers_ = Utils.mapValue(json['helpers'], json => Serializer.fromJSON(json));
-    asset.data_ = Serializer.fromJSON(json['data']);
-    asset.templateString_ = json['templateString'];
-    asset.dataProcessor_ = Serializer.fromJSON(json['dataProcessor']);
-
-    if (json['images']) {
-      if (json['images'] instanceof Array) {
-        let set = new Set(
-            <ImageResource[]>json['images'].map(json => Serializer.fromJSON(json)));
-        asset.images_ = {};
-        set.forEach(image => {
-          asset.images_[image.alias] = image;
-        });
-      } else {
-        asset.images_ = Utils.mapValue(json['images'], json => Serializer.fromJSON(json));
-      }
-    }
-
-    asset.partials_ = json['partials'];
-    return asset;
   }
 
   /**

@@ -4,6 +4,7 @@ import Asset from './asset';
 import File, { FileTypes } from './file';
 import FunctionObject from './function-object';
 import ImageResource from './image-resource';
+import Serializer from './serializable';
 
 describe('model.Asset', () => {
   it('should be able to be converted to / from JSON', () => {
@@ -24,7 +25,6 @@ describe('model.Asset', () => {
     asset.partials['partial2'] = 'partial2';
     asset.templateString = 'templateString';
 
-    let copy = Asset.fromJSON(asset.toJSON());
-    expect(copy).toEqual(asset);
+    expect(Serializer.fromJSON(Serializer.toJSON(asset))).toEqual(asset);
   });
 });

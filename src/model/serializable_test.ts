@@ -71,5 +71,43 @@ describe('model.Serializer', () => {
 
       expect(Serializer.fromJSON(serialized).a).toEqual(value);
     });
+
+    it('should handle arrays', () => {
+      let value = 'basicValue';
+      let basic = new BasicClass();
+      basic.a = value;
+
+      let composite = new CompositeClass();
+      composite.a = [0, basic];
+
+      let serialized = Serializer.toJSON(composite);
+      expect(serialized).toEqual(jasmine.objectContaining({
+        'fieldA': [0, jasmine.objectContaining({ 'fieldA': value })]
+      }));
+
+      let deserialized = Serializer.fromJSON(serialized);
+      expect(deserialized.a).toEqual([0, basic]);
+    });
+
+    it('should handle maps', () => {
+      let value = 'basicValue';
+      let basic = new BasicClass();
+      basic.a = value;
+
+      let composite = new CompositeClass();
+      composite.a = { 'basic': basic };
+
+      let serialized = Serializer.toJSON(composite);
+      expect(serialized).toEqual(jasmine.objectContaining({
+        'fieldA': {
+          'basic': jasmine.objectContaining({
+            'fieldA': value
+          })
+        }
+      }));
+
+      let deserialized = Serializer.fromJSON(serialized);
+      expect(deserialized.a).toEqual({ 'basic': basic });
+    });
   });
 });

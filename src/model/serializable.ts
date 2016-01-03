@@ -17,17 +17,25 @@ export default class Serializer {
     }
 
     let ctor = CTORS.get(json[TYPE_FIELD]);
-    if (!ctor) {
+    if (!!ctor) {
+      let defaultInstance = new ctor();
+
+      ctor.prototype[__fields].forEach((jsonKey, key) => {
+        defaultInstance[key] = this.fromJSON(json[jsonKey]);
+      })
+
+      return defaultInstance;
+    } else if (json instanceof Array) {
+      return json.map(value => this.fromJSON(value));
+    } else if (json instanceof Object) {
+      let obj = {};
+      for (let key in json) {
+        obj[key] = this.fromJSON(json[key]);
+      }
+      return obj;
+    } else {
       return json;
     }
-
-    let defaultInstance = new ctor();
-
-    ctor.prototype[__fields].forEach((jsonKey, key) => {
-      defaultInstance[key] = this.fromJSON(json[jsonKey]);
-    })
-
-    return defaultInstance;
   }
 
   static toJSON(obj: any): any {
@@ -36,15 +44,21 @@ export default class Serializer {
     }
 
     let ctor = obj.constructor;
-    if (!ctor.prototype[__name]) {
-      return obj;
+    if (!!ctor.prototype[__name]) {
+      let json = { [TYPE_FIELD]: ctor.prototype[__name] };
+      ctor.prototype[__fields].forEach((jsonKey, key) => {
+        json[jsonKey] = this.toJSON(obj[key]);
+      });
+      return json;
+    } else if (obj instanceof Array) {
+      return obj.map(value => this.toJSON(value));
+    } else {
+      let json = {};
+      for (let key in obj) {
+        json[key] = this.toJSON(obj[key]);
+      }
+      return json;
     }
-
-    let json = { [TYPE_FIELD]: ctor.prototype[__name] };
-    ctor.prototype[__fields].forEach((jsonKey, key) => {
-      json[jsonKey] = this.toJSON(obj[key]);
-    });
-    return json;
   }
 };
 
@@ -61,7 +75,6 @@ export function Serializable(name: string): ClassDecorator{
 export function Field(name: string): PropertyDecorator {
   // TODO(gs): Assert that the name does not start with _
   return function(target: Object, propertyKey: string | symbol) {
-    // TODO(gs): Assert that the object is serializable and has a field
     initField(target);
     target[__fields].set(propertyKey, name);
   };
