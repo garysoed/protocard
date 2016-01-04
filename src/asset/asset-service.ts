@@ -1,4 +1,5 @@
 import Asset from '../model/asset';
+import Cache from '../decorators/cache';
 import StorageService from '../common/storage-service';
 
 /**
@@ -11,14 +12,14 @@ export const KEY_INDEX: string = 'assets';
  */
 export default class AssetService {
 
-  private asset_: { [id: string]: Asset };
+  private assets_: { [id: string]: Asset };
   private storage_: StorageService<any>;
 
   /**
    * @param StorageService Provides access to storage.
    */
   constructor(StorageService: StorageService<any>) {
-    this.asset_ = null;
+    this.assets_ = null;
     this.storage_ = StorageService;
   }
 
@@ -49,14 +50,13 @@ export default class AssetService {
    *    value.
    */
   getAssets(): { [id: string]: Asset } {
-    // TODO(gs): Cache
-    if (this.asset_ === null) {
-      this.asset_ = {};
+    if (this.assets_ === null) {
+      this.assets_ = {};
       this.getIndex_().forEach(id => {
-        this.asset_[id] = this.storage_.getItem(id, Asset);
+        this.assets_[id] = this.storage_.getItem(id, Asset);
       });
     }
-    return this.asset_;
+    return this.assets_;
   }
 
   /**
@@ -67,13 +67,14 @@ export default class AssetService {
   saveAsset(asset: Asset) {
     let index = this.getIndex_();
 
-    // TODO(gs): Detect duplicate.
-    index.push(asset.id);
+    if (index.indexOf(asset.id) < 0) {
+      index.push(asset.id);
+    }
 
     this.storage_.setItem(KEY_INDEX, index);
     this.storage_.setItem(asset.id, asset);
 
     // invalidates the cache.
-    this.asset_ = null;
+    this.assets_ = null;
   }
 };

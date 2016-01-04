@@ -124,5 +124,13 @@ describe('data.AssetService', () => {
       mockStorageService.getItem();
       expect(mockStorageService.getItem).toHaveBeenCalled();
     });
+
+    it('should not add duplicated ID', () => {
+      mockStorageService.getItem.and.returnValue([asset.id]);
+
+      assetService.saveAsset(asset);
+
+      expect(mockStorageService.setItem).toHaveBeenCalledWith(KEY_INDEX, [asset.id]);
+    });
   });
 });
