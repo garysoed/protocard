@@ -1,7 +1,9 @@
+import Serializer, { Field, Serializable } from '../model/serializable';
 import StorageService from './storage-service';
 
+@Serializable('FakeClass')
 class FakeClass {
-  data: any;
+  @Field('data') data: any;
 
   constructor(data) {
     this.data = data;
@@ -61,7 +63,7 @@ describe('common.StorageService', () => {
       service.setItem('key', fakeClass);
 
       expect(mockStorage.setItem)
-          .toHaveBeenCalledWith(`${NAMESPACE}.key`, JSON.stringify(fakeClass));
+          .toHaveBeenCalledWith(`${NAMESPACE}.key`, JSON.stringify(Serializer.toJSON(fakeClass)));
     });
   });
 });
