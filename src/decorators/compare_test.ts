@@ -11,8 +11,8 @@ describe('decorators.Compare', () => {
       this.a_ = a;
     }
 
-    @Comparable
-    get a() { return this.a_; }
+    // TODO(gs): Make this generated
+    @Comparable get a() { return this.a_; }
   }
 
   class CompositeClass {
@@ -24,11 +24,8 @@ describe('decorators.Compare', () => {
       this.f_ = f;
     }
 
-    @Comparable
-    get basic() { return this.basic_; }
-
-    @Comparable
-    get f() { return this.f_; }
+    @Comparable get basic() { return this.basic_; }
+    @Comparable get f() { return this.f_; }
   }
 
   it('should handle basic classes', () => {
@@ -36,7 +33,7 @@ describe('decorators.Compare', () => {
     let same = new BasicClass('value');
     let different = new BasicClass('different');
 
-    // expect(Comparator.equals(basic, same)).toEqual(true);
+    expect(Comparator.equals(basic, same)).toEqual(true);
     expect(Comparator.equals(basic, different)).toEqual(false);
   });
 

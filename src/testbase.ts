@@ -24,7 +24,6 @@ export default {
     };
 
     beforeEach(() => {
-      jasmine.addCustomEqualityTester(Asset.equals.bind(Asset));
       jasmine.addCustomEqualityTester(Comparator.equals.bind(Comparator));
       jasmine.clock().install();
     });

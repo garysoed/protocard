@@ -1,4 +1,4 @@
-import Comparator from '../decorators/compare';
+import { Comparable } from '../decorators/compare';
 import File from './file';
 import FunctionObject from './function-object';
 import ImageResource from './image-resource';
@@ -40,10 +40,12 @@ export default class Asset {
     this.templateString_ = '';
   }
 
+  @Comparable
   get name(): string {
     return this.name_;
   }
 
+  @Comparable
   get id(): string {
     return this.id_;
   }
@@ -66,6 +68,7 @@ export default class Asset {
   /**
    * String representation of the globals object.
    */
+  @Comparable
   get globalsString(): string {
     return this.globalsString_;
   }
@@ -76,6 +79,7 @@ export default class Asset {
   /**
    * Data used to generate the asset.
    */
+  @Comparable
   get data(): File {
     return this.data_;
   }
@@ -83,18 +87,22 @@ export default class Asset {
     this.data_ = data;
   }
 
+  @Comparable
   get dataProcessor(): FunctionObject {
     return this.dataProcessor_;
   }
 
+  @Comparable
   get images(): { [key: string]: ImageResource } {
     return this.images_;
   }
 
+  @Comparable
   get partials(): { [key: string]: string } {
     return this.partials_;
   }
 
+  @Comparable
   get templateName(): string {
     return this.templateName_;
   }
@@ -102,38 +110,11 @@ export default class Asset {
     this.templateName_ = templateName;
   }
 
+  @Comparable
   get templateString(): string {
     return this.templateString_;
   }
   set templateString(templateString: string) {
     this.templateString_ = templateString;
-  }
-
-  /**
-   * Tests equality for Asset.
-   *
-   * @method equals
-   * @param {Any} a First object to compare.
-   * @param {Any} b Second object to compare.
-   * @return {Boolean} True if the two objects are equal. False if not, or undefined if one of the
-   *    objects is not an Asset.
-   * @static
-   */
-  static equals(a, b) {
-    if (a === b) {
-      return true;
-    }
-
-    if (a instanceof this && b instanceof this) {
-      return a.id === b.id
-          && a.name === b.name
-          && Utils.equals(a.globalsString, b.globalsString)
-          && Utils.equals(a.helpers, b.helpers, Comparator.equals.bind(Comparator))
-          && Comparator.equals(a.data, b.data)
-          && Comparator.equals(a.dataProcessor, b.dataProcessor)
-          && Utils.equals(a.images_, b.images_, Comparator.equals.bind(Comparator))
-          && Utils.equals(a.partials, b.partials)
-          && a.templateString === b.templateString;
-    }
   }
 };

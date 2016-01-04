@@ -20,9 +20,6 @@ export default {
       return isEqual;
     } else if (ctor === String) {
       return a === b;
-    // } else if (ctor === Set) {
-    //   // TODO(gs): Handle this.
-    //   return a === b;
     } else {
       // TODO(gs): Compare the keys.
       return undefined;
