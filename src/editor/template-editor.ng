@@ -1,7 +1,5 @@
-<div class="pc-fill-parent pc-template-editor" layout="row">
+<div class="pc-template-editor" layout="row" flex>
   <pc-code-editor ng-model="ctrl.templateString" language="html">
   </pc-code-editor>
-  <md-content flex>
-    <iframe></iframe>
-  </md-content>
+  <iframe flex></iframe>
 </div>

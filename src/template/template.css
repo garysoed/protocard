@@ -1,6 +1,13 @@
-.pc-template-search {
+pc-template {
+  display: flex;
+  flex-direction: column;
+}
+
+pc-template > .search {
   background-color: white;
   width: 40rem;
   position: absolute;
   right: 0;
+  top: 0;
+  z-index: 1;
 }
