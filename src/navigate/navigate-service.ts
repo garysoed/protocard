@@ -5,8 +5,8 @@ export default class NavigateService {
     this.$location_ = $location;
   }
 
-  getSubview() {
-    return this.$location_.search()['subview'];
+  getSubview(): string {
+    return this.$location_.search()['subview'] || null;
   }
 
   /**

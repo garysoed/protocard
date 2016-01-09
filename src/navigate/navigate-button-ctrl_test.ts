@@ -34,6 +34,11 @@ describe('navigate.NavigateButtonCtrl', () => {
       expect(ctrl.selectedCss).toEqual('selected');
     });
 
+    it(`should return '' if there are no subviews`, () => {
+      mockNavigateService.getSubview.and.returnValue(null);
+      expect(ctrl.selectedCss).toEqual('');
+    });
+
     it(`should return '' for no match`, () => {
       mockNavigateService.getSubview.and.returnValue('othersubview');
 

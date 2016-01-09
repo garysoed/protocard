@@ -21,7 +21,12 @@ export default class {
 
   @Cache
   get selectedCss(): string {
-    let viewHierarchy = this.navigateService_.getSubview().split('.');
+    let subview = this.navigateService_.getSubview();
+    if (!subview) {
+      return '';
+    }
+
+    let viewHierarchy = subview.split('.');
     let currentViewHierarchy = [];
     while (viewHierarchy.length > 0) {
       currentViewHierarchy.push(viewHierarchy.splice(0, 1));
