@@ -31,7 +31,7 @@ export default class Asset {
     this.id_ = `asset.${Date.now()}`;
     this.name_ = name;
     this.data_ = null;
-    this.dataProcessor_ = new FunctionObject('return function(lineData) {};');
+    this.dataProcessor_ = new FunctionObject('return function(lineData) { return lineData; };');
     this.globalsString_ = JSON.stringify({});
     this.helpers_ = {};
     this.images_ = {};

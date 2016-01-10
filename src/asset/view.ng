@@ -36,49 +36,85 @@
 
           <!-- Row 2 -->
           <foreignObject width="50" height="50" x="0" y="100">
-            <pc-navigate-button subview="data" icon="work" text="Process Data"></pc-navigate-button>
+            <pc-navigate-button
+                disabled="!ctrl.canProcessData"
+                icon="work"
+                subview="data"
+                text="Process Data"></pc-navigate-button>
           </foreignObject>
 
           <!-- Row 3 -->
           <foreignObject width="50" height="50" x="0" y="200">
-            <pc-navigate-button subview="name" icon="label" text="Label Data"></pc-navigate-button>
+            <pc-navigate-button
+                disabled="!ctrl.canSetLabel"
+                icon="label"
+                subview="name"
+                text="Label Data"></pc-navigate-button>
           </foreignObject>
 
           <!-- Row 5 -->
           <foreignObject width="50" height="50" x="112.5" y="350">
-            <pc-navigate-button subview="partial" icon="format_paint" text="Subtemplate"></pc-navigate-button>
+            <pc-navigate-button
+                disabled="!ctrl.canEditPartial"
+                icon="format_paint"
+                subview="partial"
+                text="Subtemplate"></pc-navigate-button>
           </foreignObject>
 
           <!-- Fifth Row -->
           <foreignObject width="50" height="50" x="112.5" y="450">
-            <pc-navigate-button subview="template" icon="mode_edit" text="Main Template"></pc-navigate-button>
+            <pc-navigate-button
+                disabled="!ctrl.canEditTemplate"
+                icon="mode_edit"
+                subview="template"
+                text="Main Template"></pc-navigate-button>
           </foreignObject>
 
           <!-- Sixth Row -->
           <foreignObject width="50" height="50" x="112.5" y="550">
-            <pc-navigate-button subview="render" icon="publish" text="Publish"></pc-navigate-button>
+            <pc-navigate-button
+                disabled="!ctrl.canPublish"
+                icon="publish"
+                subview="render"
+                text="Publish"></pc-navigate-button>
           </foreignObject>
 
           <!-- Connectors from Row 1 -->
-          <line x1="25" y1="50" x2="25" y2="100"></line>
+          <line
+              ng-class="{disabled: !ctrl.isDataReady}"
+              x1="25" y1="50" x2="25" y2="100"></line>
           <polyline points="100,50 100,300 137.5,300"></polyline>
           <polyline points="175,50 175,300 137.5,300"></polyline>
           <polyline points="250,50 250,300 175,300"></polyline>
 
           <!-- Connectors from Row 2 -->
-          <line x1="25" y1="150" x2="25" y2="200"></line>
+          <line
+              ng-class="{disabled: !ctrl.isProcessDataReady}"
+              x1="25" y1="150" x2="25" y2="200">
+          </line>
 
           <!-- Connectors from Row 3 -->
-          <polyline points="25,250 25,300 100,300"></polyline>
+          <polyline
+              ng-class="{disabled: !ctrl.isLabelReady}"
+              points="25,250 25,300 100,300">
+          </polyline>
 
           <!-- Connectors from Row 4 -->
-          <line x1="137.5" y1="300" x2="137.5" y2="350"></line>
+          <line
+              ng-class="{disabled: !ctrl.canEditPartial}"
+              x1="137.5" y1="300" x2="137.5" y2="350">
+          </line>
 
           <!-- Connectors from Row 5 -->
-          <line x1="137.5" y1="400" x2="137.5" y2="450"></line>
+          <line
+              ng-class="{disabled: !ctrl.isPartialReady}"
+              x1="137.5" y1="400" x2="137.5" y2="450">
+          </line>
 
           <!-- Connectors from Row 6 -->
-          <line x1="137.5" y1="500" x2="137.5" y2="550"></line>
+          <line
+              ng-class="{disabled: !ctrl.isTemplateReady}"
+              x1="137.5" y1="500" x2="137.5" y2="550"></line>
         </svg>
         <!-- TODO(gs): Disable the buttons with conditions -->
       </md-content>

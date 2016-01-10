@@ -29,7 +29,7 @@ export default class ViewCtrl {
     this.subview_ = null;
     this.currentHelper_ = null;
     this.currentPartialName_ = null;
-    this.isSidebarOpen_ = false;
+    this.isSidebarOpen_ = true;
 
     $scope.$on('$routeUpdate', this.onRouteUpdate_.bind(this));
     $scope.$on('$routeChangeSuccess', this.onRouteUpdate_.bind(this));
@@ -68,6 +68,26 @@ export default class ViewCtrl {
     return this.asset_ && this.asset_.name;
   }
 
+  get canEditPartial(): boolean {
+    return this.isLabelReady;
+  }
+
+  get canEditTemplate(): boolean {
+    return this.canEditPartial;
+  }
+
+  get canProcessData(): boolean {
+    return this.isDataReady;
+  }
+
+  get canPublish(): boolean {
+    return this.isTemplateReady;
+  }
+
+  get canSetLabel(): boolean {
+    return this.isProcessDataReady;
+  }
+
   /**
    * Current helper associated with the view, if any.
    */
@@ -86,14 +106,34 @@ export default class ViewCtrl {
     return this.navigateService_.getSubview() || null;
   }
 
-/**
- * True iff the sidebar should be opened.
- */
+  get isDataReady(): boolean {
+    return !!this.asset_.data;
+  }
+
+  get isPartialReady(): boolean {
+    return this.canEditPartial;
+  }
+
+  get isProcessDataReady(): boolean {
+    return this.canProcessData && !!this.asset_.dataProcessor;
+  }
+
+  get isLabelReady(): boolean {
+    return this.canSetLabel && !!this.asset_.templateName;
+  }
+
+  /**
+   * True iff the sidebar should be opened.
+   */
   get isSidebarOpen(): boolean {
     return this.isSidebarOpen_;
   }
   set isSidebarOpen(open: boolean) {
     this.isSidebarOpen_ = open;
+  }
+
+  get isTemplateReady(): boolean {
+    return this.canEditTemplate && !!this.asset_.templateString;
   }
 
   /**

@@ -14,6 +14,10 @@ pc-navigate-button > .selected > md-icon {
   color: rgb(103,58,183);
 }
 
+pc-navigate-button > .disabled > md-icon {
+  color: rgba(0,0,0,.25);
+}
+
 pc-navigate-button:hover {
   cursor: pointer;
 }

@@ -2,12 +2,14 @@ import Cache from '../decorators/cache';
 import NavigateService from './navigate-service';
 
 export default class {
+  private $scope_: angular.IScope;
   private icon_: string;
   private navigateService_: NavigateService;
   private subview_: string;
   private text_: string;
 
   constructor($scope: angular.IScope, NavigateService: NavigateService) {
+    this.$scope_ = $scope;
     this.icon_ = $scope['icon'];
     this.navigateService_ = NavigateService;
     this.subview_ = $scope['subview'];
@@ -19,6 +21,14 @@ export default class {
 
   private onRouteUpdate_() {
     Cache.clear(this);
+  }
+
+  get disabled(): boolean {
+    return this.$scope_['disabled'];
+  }
+
+  get icon(): string {
+    return this.icon_;
   }
 
   @Cache
@@ -40,15 +50,13 @@ export default class {
     return '';
   }
 
-  get icon(): string {
-    return this.icon_;
-  }
-
   get text(): string {
     return this.text_;
   }
 
   onClick() {
-    this.navigateService_.toSubview(this.subview_);
+    if (!this.disabled) {
+      this.navigateService_.toSubview(this.subview_);
+    }
   }
 }

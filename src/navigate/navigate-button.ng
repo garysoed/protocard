@@ -1,4 +1,6 @@
-<div ng-class="ctrl.selectedCss" ng-click="ctrl.onClick()" layout="row" layout-align="center center">
+<div ng-class="[ctrl.selectedCss, {disabled: ctrl.disabled}]" ng-click="ctrl.onClick()"
+    layout="row"
+    layout-align="center center">
   <md-icon>{{ctrl.icon}}</md-icon>
   <md-tooltip md-direction="right">{{ctrl.text}}</md-tooltip>
 </div>

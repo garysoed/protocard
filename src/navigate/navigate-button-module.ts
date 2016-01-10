@@ -8,6 +8,7 @@ export default angular
         controllerAs: 'ctrl',
         restrict: 'E',
         scope: {
+          'disabled': '=',
           'icon': '@',
           'subview': '@',
           'text': '@',
