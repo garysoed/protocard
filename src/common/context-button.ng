@@ -1,4 +1,5 @@
 <md-fab-speed-dial
+    class="md-scale"
     md-direction="up"
     md-open="ctrl.isOpen"
     ng-mouseenter="ctrl.onFabMouseEnter()"

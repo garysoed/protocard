@@ -5,6 +5,12 @@
     </md-list-item>
   </md-list>
 </md-content>
-<md-button ng-click="ctrl.onAddClick()" class="pc-context-button md-fab">
-  <md-icon>add</md-icon>
-</md-button>
+
+<pc-context-button>
+  <md-fab-trigger>
+    <md-button ng-click="ctrl.onAddClick()" class="md-fab">
+      <md-tooltip md-direction="left">Adds a new partial template</md-tooltip>
+      <md-icon>add</md-icon>
+    </md-button>
+  </md-fab-trigger>
+</pc-context-button>

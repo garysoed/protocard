@@ -4,23 +4,23 @@
     <pc-image-select ng-model="ctrl.selectedImages" images="ctrl.images"></pc-image-select>
   </md-content>
 
-  <md-fab-speed-dial class="pc-context-button" md-direction="up" ng-if="!ctrl.hasSelectedImages()">
+  <pc-context-button>
     <md-fab-trigger>
-      <md-button class="md-fab">
-        <md-icon>add<md-icon>
+      <md-button
+          class="md-fab"
+          ng-click="ctrl.onDriveClick($event)"
+          ng-if="!ctrl.hasSelectedImages()">
+        <md-tooltip md-direction="left">Adds more images from Google Drive</md-tooltip>
+        <md-icon>insert_drive_file<md-icon>
+      </md-button>
+
+      <md-button
+          class="md-fab"
+          ng-if="ctrl.hasSelectedImages()"
+          ng-click="ctrl.onDeleteClick()">
+        <md-tooltip md-direction="left">Removes selected images</md-tooltip>
+        <md-icon>delete</md-icon>
       </md-button>
     </md-fab-trigger>
-    <md-fab-actions>
-      <md-button class="md-fab md-raised md-mini" ng-click="ctrl.onDriveClick($event)">
-        <md-icon>insert_drive_file</md-icon>
-      </md-button>
-    </md-fab-actions>
-  </md-fab-speed-dial>
-
-  <md-button
-      class="pc-context-button md-fab"
-      ng-if="ctrl.hasSelectedImages()"
-      ng-click="ctrl.onDeleteClick()">
-    <md-icon>delete</md-icon>
-  </md-button>
+  </pc-context-button>
 </div>

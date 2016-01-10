@@ -11,17 +11,20 @@
 
   <pc-context-button>
     <md-fab-trigger>
-      <md-button class="md-fab" ng-if="!ctrl.hasData()">
-        <md-icon>add<md-icon>
-      </md-button>
-      <md-button class="md-fab" ng-if="ctrl.hasData()">
-        <md-icon>edit<md-icon>
-      </md-button>
+      <pc-file-upload
+          classes="md-fab"
+          extensions=".tsv"
+          ng-model="ctrl.data">
+        <div ng-if="!ctrl.hasData()">
+          <md-tooltip md-direction="left" ng-if="!ctrl.hasData()">Uploads new data</md-tooltip>
+          <md-icon>add</md-icon>
+        </div>
+
+        <div ng-if="ctrl.hasData()">
+          <md-tooltip md-direction="left">Replaces the data</md-tooltip>
+          <md-icon>edit</md-icon>
+        </div>
+      </pc-file-upload>
     </md-fab-trigger>
-    <md-fab-actions>
-      <pc-file-upload ng-model="ctrl.data"
-          classes="md-fab md-raised md-mini"
-          extensions=".tsv"></pc-file-upload>
-    </md-fab-actions>
   </pc-context-button>
 </div>

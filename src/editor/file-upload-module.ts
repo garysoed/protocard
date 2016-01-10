@@ -1,8 +1,12 @@
 import FileUploadCtrl from './file-upload-ctrl';
 
-function link(scope, element, attr, ctrls) {
+function link(scope, element, attr, ctrls, transclude) {
   let [fileUploadCtrl, ngModelCtrl] = ctrls;
   fileUploadCtrl.onLink(element[0].querySelector('input[type="file"]'), ngModelCtrl);
+
+  transclude(clone => {
+    element.find('ng-transclude').replaceWith(clone);
+  });
 }
 
 export default angular
@@ -18,6 +22,7 @@ export default angular
           'extensions': '@'
         },
         templateUrl: './editor/file-upload.ng',
+        transclude: true,
         link: link
       };
     });

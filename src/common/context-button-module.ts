@@ -6,7 +6,7 @@ function link(
     attrs: any,
     ctrl: any,
     transclude: angular.ITranscludeFunction) {
-  transclude(function(clone) {
+  transclude(clone => {
     element.find('ng-transclude').replaceWith(clone);
   });
 }

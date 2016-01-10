@@ -10,13 +10,11 @@
   <input ng-model="ctrl.query" ng-model-options="{ updateOn: 'blur' }">
 </md-input-container>
 
-<md-fab-speed-dial
-    class="pc-context-button"
-    md-direction="up"
-    md-open="ctrl.isFabOpen">
+<pc-context-button>
   <md-fab-trigger>
     <md-button class="md-fab" ng-click="ctrl.onRefreshClick()">
+      <md-tooltip md-direction="left">Picks a random data entry</md-tooltip>
       <md-icon>refresh</md-icon>
     </md-button>
   </md-fab-trigger>
-</md-fab-speed-dial>
+</pc-context-button>
