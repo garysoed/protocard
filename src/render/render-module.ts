@@ -1,3 +1,4 @@
+import ContextButtonModule from '../common/context-button-module';
 import DownloadServiceModule from '../common/download-service-module';
 import ErrorDisplayModule from '../common/error-display-module';
 import GeneratorServiceModule from '../generate/generator-service-module';
@@ -8,6 +9,7 @@ import RenderServiceModule from './render-service-module';
 
 export default angular
     .module('pc.render.RenderModule', [
+      ContextButtonModule.name,
       DownloadServiceModule.name,
       ErrorDisplayModule.name,
       JszipServiceModule.name,

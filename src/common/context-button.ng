@@ -1,0 +1,7 @@
+<md-fab-speed-dial
+    md-direction="up"
+    md-open="ctrl.isOpen"
+    ng-mouseenter="ctrl.onFabMouseEnter()"
+    ng-mouseleave="ctrl.onFabMouseLeave()">
+  <ng-transclude></ng-transclude>
+</md-fab-speed-dial>
