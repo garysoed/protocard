@@ -1,17 +1,17 @@
 import NavigateButtonCtrl from './navigate-button-ctrl';
 
 export default angular
-    .module('pc.common.NavigateButtonModule', [])
+    .module('pc.navigate.NavigateButtonModule', [])
     .directive('pcNavigateButton', () => {
       return {
         controller: NavigateButtonCtrl,
         controllerAs: 'ctrl',
         restrict: 'E',
         scope: {
+          'icon': '@',
           'subview': '@',
-          'selectedClass': '@',
           'text': '@',
         },
-        templateUrl: './common/navigate-button.ng'
+        templateUrl: './navigate/navigate-button.ng'
       };
     });

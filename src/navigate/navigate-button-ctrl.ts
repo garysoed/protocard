@@ -2,11 +2,13 @@ import Cache from '../decorators/cache';
 import NavigateService from './navigate-service';
 
 export default class {
+  private icon_: string;
   private navigateService_: NavigateService;
   private subview_: string;
   private text_: string;
 
   constructor($scope: angular.IScope, NavigateService: NavigateService) {
+    this.icon_ = $scope['icon'];
     this.navigateService_ = NavigateService;
     this.subview_ = $scope['subview'];
     this.text_ = $scope['text'];
@@ -36,6 +38,10 @@ export default class {
     }
 
     return '';
+  }
+
+  get icon(): string {
+    return this.icon_;
   }
 
   get text(): string {

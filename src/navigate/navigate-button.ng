@@ -1,3 +1,4 @@
-<div class="pc-navigate-button" ng-class="ctrl.selectedCss" ng-click="ctrl.onClick()">
-  {{ctrl.text}}
+<div ng-class="ctrl.selectedCss" ng-click="ctrl.onClick()" layout="row" layout-align="center center">
+  <md-icon>{{ctrl.icon}}</md-icon>
+  <md-tooltip md-direction="right">{{ctrl.text}}</md-tooltip>
 </div>

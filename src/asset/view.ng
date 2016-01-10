@@ -12,48 +12,74 @@
   <section flex layout="row">
     <md-sidenav class="md-sidenav-left md-whiteframe-z2"
         md-component-id="left"
-        md-is-open="ctrl.isSidebarOpen">
-      <md-content layout="column">
-        <div>
-          <div>
-            <h2 layout-padding>Resources</h2>
-          </div>
-          <div layout="column">
-            <pc-navigate-button subview="global" text="Global values"></pc-navigate-button>
-            <pc-navigate-button subview="helper" text="Helper functions"></pc-navigate-button>
-            <pc-navigate-button subview="text" text="Text data"></pc-navigate-button>
-            <pc-navigate-button subview="image" text="Images"></pc-navigate-button>
-          </div>
-        </div>
+        md-is-locked-open="ctrl.isSidebarOpen">
+      <md-content layout-padding>
+        <svg width="288" viewBox="-5 -5 285 610">
+          <!-- Row 1 -->
+          <foreignObject width="50" height="50" x="0" y="0">
+            <pc-navigate-button subview="text" icon="text_fields" text="Text data"></pc-navigate-button>
+          </foreignObject>
 
-        <div>
-          <div>
-            <h2 layout-padding>Process</h2>
-          </div>
-          <div layout="column">
-            <pc-navigate-button subview="data" text="Process Data"></pc-navigate-button>
-          </div>
-        </div>
+          <foreignObject width="50" height="50" x="75" y="0">
+            <pc-navigate-button subview="image" icon="insert_photo" text="Images"></pc-navigate-button>
+          </foreignObject>
 
-        <div>
-          <div>
-            <h2 layout-padding>Create</h2>
-          </div>
-          <div layout="column">
-            <pc-navigate-button subview="partial" text="Subtemplate"></pc-navigate-button>
-            <pc-navigate-button subview="template" text="Main Template"></pc-navigate-button>
-          </div>
-        </div>
+          <foreignObject width="50" height="50" x="150" y="0">
+            <pc-navigate-button subview="global" icon="code" text="Global values">
+            </pc-navigate-button>
+          </foreignObject>
 
-        <div>
-          <div>
-            <h2 layout-padding>Render</h2>
-          </div>
-          <div layout="column">
-            <pc-navigate-button subview="render" text="Render"></pc-navigate-button>
-          </div>
-        </div>
+          <foreignObject width="50" height="50" x="225" y="0">
+            <pc-navigate-button subview="helper" icon="functions" text="Helper functions">
+            </pc-navigate-button>
+          </foreignObject>
 
+          <!-- Row 2 -->
+          <foreignObject width="50" height="50" x="0" y="100">
+            <pc-navigate-button subview="data" icon="work" text="Process Data"></pc-navigate-button>
+          </foreignObject>
+
+          <!-- Row 3 -->
+          <foreignObject width="50" height="50" x="0" y="200">
+            <pc-navigate-button subview="name" icon="label" text="Label Data"></pc-navigate-button>
+          </foreignObject>
+
+          <!-- Row 5 -->
+          <foreignObject width="50" height="50" x="112.5" y="350">
+            <pc-navigate-button subview="partial" icon="format_paint" text="Subtemplate"></pc-navigate-button>
+          </foreignObject>
+
+          <!-- Fifth Row -->
+          <foreignObject width="50" height="50" x="112.5" y="450">
+            <pc-navigate-button subview="template" icon="mode_edit" text="Main Template"></pc-navigate-button>
+          </foreignObject>
+
+          <!-- Sixth Row -->
+          <foreignObject width="50" height="50" x="112.5" y="550">
+            <pc-navigate-button subview="render" icon="publish" text="Publish"></pc-navigate-button>
+          </foreignObject>
+
+          <!-- Connectors from Row 1 -->
+          <line x1="25" y1="50" x2="25" y2="100"></line>
+          <polyline points="100,50 100,300 137.5,300"></polyline>
+          <polyline points="175,50 175,300 137.5,300"></polyline>
+          <polyline points="250,50 250,300 175,300"></polyline>
+
+          <!-- Connectors from Row 2 -->
+          <line x1="25" y1="150" x2="25" y2="200"></line>
+
+          <!-- Connectors from Row 3 -->
+          <polyline points="25,250 25,300 100,300"></polyline>
+
+          <!-- Connectors from Row 4 -->
+          <line x1="137.5" y1="300" x2="137.5" y2="350"></line>
+
+          <!-- Connectors from Row 5 -->
+          <line x1="137.5" y1="400" x2="137.5" y2="450"></line>
+
+          <!-- Connectors from Row 6 -->
+          <line x1="137.5" y1="500" x2="137.5" y2="550"></line>
+        </svg>
         <!-- TODO(gs): Disable the buttons with conditions -->
       </md-content>
     </md-sidenav>
