@@ -1,15 +1,15 @@
 <div class="home-view">
   <md-whiteframe class="md-whiteframe-1dp" layout="column">
     <h1>Protoassets</h1>
-    <p>
+    <p class="md-body-1">
       Protoassets is a tool to help you generate assets. A typical generation involves 3 steps:
     </p>
-    <ol>
+    <ol class="md-body-1">
       <li>Grab and process the data
       <li>Create asset template
       <li>Generate assets
     </ol>
-    <section class="buttons" layout="column" layout-align="center center">
+    <section class="buttons md-body-1" layout="column" layout-align="center center">
       <md-button class="md-raised md-primary" ng-click="ctrl.onCreateClick($event)">
         Create New Asset
       </md-button>
@@ -24,3 +24,26 @@
     </section>
   </md-whiteframe>
 </div>
+
+<md-fab-speed-dial
+    class="pc-context-button"
+    md-direction="up"
+    md-open="ctrl.isFabOpen"
+    ng-mouseenter="ctrl.onFabMouseEnter()"
+    ng-mouseleave="ctrl.onFabMouseLeave()"
+    ng-if="ctrl.hasSelectedImages()">
+  <md-fab-trigger>
+    <md-button class="md-fab" ng-click="ctrl.onDownloadClick()">
+      <md-icon>file_download</md-icon>
+      <!-- TODO(gs): Add selected count -->
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <md-button class="md-fab md-raised md-mini" ng-click="ctrl.onSelectAllClick()">
+      <md-icon>select_all</md-icon>
+    </md-button>
+    <md-button class="md-fab md-raised md-mini" ng-click="ctrl.onUnselectAllClick()">
+      <md-icon>remove<md-icon>
+    </md-button>
+  </md-fab-actions>
+</md-fab-speed-dial>
