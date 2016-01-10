@@ -1,11 +1,18 @@
-<md-content class="pc-helper pc-fill-parent" layout="column" layout-align="start end">
-  <md-list>
+<md-content class="pc-helper" layout-fill layout="column">
+  <md-list layout-fill>
     <md-list-item ng-repeat="(name, helper) in ctrl.helpers">
-      <pc-helper-item helper="helper" name="name"></pc-helper-item>
+      <pc-helper-item layout-fill helper="helper" name="name"></pc-helper-item>
     </md-list-item>
   </md-list>
 </md-content>
-<md-button ng-click="ctrl.onAddClick()" class="pc-context-button md-fab">
-  <md-icon>add</md-icon>
-</md-button>
+
+<pc-context-button>
+  <md-fab-trigger>
+    <md-button ng-click="ctrl.onAddClick()" class="md-fab">
+      <md-tooltip md-direction="left">Creats a new helper function</md-tooltip>
+      <md-icon>add</md-icon>
+    </md-button>
+  </md-fab-trigger>
+</pc-context-button>
+
 <!-- TODO(gs): The fab button should be outside content -->

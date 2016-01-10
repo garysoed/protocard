@@ -5,12 +5,14 @@ import AssetService from './asset-service';
 import { KEY_INDEX } from './asset-service';
 
 describe('data.AssetService', () => {
+  let mock$mdToast;
   let assetService;
   let mockStorageService;
 
   beforeEach(() => {
+    mock$mdToast = jasmine.createSpyObj('$mdToast', ['show', 'simple']);
     mockStorageService = jasmine.createSpyObj('StorageService', ['getItem', 'setItem']);
-    assetService = new AssetService(mockStorageService);
+    assetService = new AssetService(mock$mdToast, mockStorageService);
   });
 
   describe('hasAssets', () => {
@@ -87,10 +89,14 @@ describe('data.AssetService', () => {
   });
 
   describe('saveAsset', () => {
+    let $mdToastBuilder;
     let asset;
 
     beforeEach(() => {
       asset = new Asset('test');
+
+      $mdToastBuilder = jasmine.createSpyBuilder('$mdToastBuilder', ['position', 'textContent']);
+      mock$mdToast.simple.and.returnValue($mdToastBuilder);
     });
 
     it('should update the storage', () => {
@@ -99,6 +105,7 @@ describe('data.AssetService', () => {
 
       expect(mockStorageService.setItem).toHaveBeenCalledWith(KEY_INDEX, [asset.id]);
       expect(mockStorageService.setItem).toHaveBeenCalledWith(asset.id, asset);
+      expect(mock$mdToast.show).toHaveBeenCalledWith($mdToastBuilder);
     });
 
     it('should invalidate the cache', () => {

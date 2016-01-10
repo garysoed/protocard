@@ -11,14 +11,15 @@ export const KEY_INDEX: string = 'assets';
  * Manages assets in the storage.
  */
 export default class AssetService {
-
+  private $mdToast_: angular.material.IToastService;
   private assets_: { [id: string]: Asset };
   private storage_: StorageService<any>;
 
   /**
    * @param StorageService Provides access to storage.
    */
-  constructor(StorageService: StorageService<any>) {
+  constructor($mdToast: angular.material.IToastService, StorageService: StorageService<any>) {
+    this.$mdToast_ = $mdToast;
     this.assets_ = null;
     this.storage_ = StorageService;
   }
@@ -73,6 +74,12 @@ export default class AssetService {
 
     this.storage_.setItem(KEY_INDEX, index);
     this.storage_.setItem(asset.id, asset);
+
+    let now = new Date();
+    this.$mdToast_.show(
+        this.$mdToast_.simple()
+            .textContent(`Asset ${asset.name} saved at ${now.toLocaleTimeString()}`)
+            .position('bottom left'));
 
     // invalidates the cache.
     this.assets_ = null;

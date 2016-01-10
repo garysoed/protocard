@@ -8,10 +8,6 @@ export default class HelperEditorCtrl {
   private helper_: FunctionObject;
   private helperString_: string;
 
-  /**
-   * @param $scope
-   * @param AssetService
-   */
   constructor($scope: angular.IScope, AssetService: AssetService) {
     this.assetService_ = AssetService;
     this.asset_ = $scope['asset'];
