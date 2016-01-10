@@ -10,9 +10,6 @@
       <li>Generate assets
     </ol>
     <section class="buttons md-body-1" layout="column" layout-align="center center">
-      <md-button class="md-raised md-primary" ng-click="ctrl.onCreateClick($event)">
-        Create New Asset
-      </md-button>
       <md-input-container ng-show="ctrl.hasAssets()">
         <label>Load Asset</label>
         <md-select ng-model="loadedAsset" md-on-close="ctrl.onSelectClosed(loadedAsset)">
@@ -23,4 +20,13 @@
       </md-input-container>
     </section>
   </md-whiteframe>
+
+  <pc-context-button>
+    <md-fab-trigger>
+      <md-button class="md-fab" ng-click="ctrl.onCreateClick($event)">
+        <md-tooltip md-direction="left">Creates a new asset</md-tooltip>
+        <md-icon>add</md-icon>
+      </md-button>
+    </md-fab-trigger>
+  </pc-context-button>
 </div>

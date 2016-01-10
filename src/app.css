@@ -2,7 +2,6 @@
 
 body {
   background-color: #efefef;
-  font-size: 10px;
 }
 
 [ng-view] {

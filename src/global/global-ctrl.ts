@@ -5,16 +5,16 @@ import AssetService from '../asset/asset-service';
  * @class asset.subview.GlobalCtrl
  */
 export default class {
+  private $mdToast_: angular.material.IToastService;
   private asset_: Asset;
   private assetService_: AssetService;
   private globalsString_: string;
 
-  /**
-   * @constructor
-   * @param {ng.$scope} $scope
-   * @param {data.AssetService} AssetService
-   */
-  constructor($scope: angular.IScope, AssetService: AssetService) {
+  constructor(
+      $mdToast: angular.material.IToastService,
+      $scope: angular.IScope,
+      AssetService: AssetService) {
+    this.$mdToast_ = $mdToast;
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
     this.globalsString_ = this.asset_.globalsString;
@@ -38,6 +38,11 @@ export default class {
     if (newValue !== null) {
       this.asset_.globalsString = newValue;
       this.assetService_.saveAsset(this.asset_);
+      let now = new Date();
+      this.$mdToast_.show(
+          this.$mdToast_.simple()
+              .textContent(`Asset ${this.asset_.name} saved at ${now.toLocaleTimeString()}`)
+              .position('bottom left'));
     }
   }
 }

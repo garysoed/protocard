@@ -15,6 +15,14 @@ export default {
       return { type: name };
     };
 
+    jasmine.createSpyBuilder = (name, methods) => {
+      let spy = jasmine.createSpyObj(name, methods);
+      for (let method of methods) {
+        spy[method].and.returnValue(spy);
+      }
+      return spy;
+    };
+
     jasmine.cast = <T>(params: { [name: string]: any }): T => {
       let obj = <T>{};
       for (let key in params) {
