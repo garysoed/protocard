@@ -9,6 +9,7 @@ import NavigateServiceModule from '../navigate/navigate-service-module';
 import PartialEditorModule from '../partial/partial-editor-module';
 import PartialModule from '../partial/partial-module';
 import RenderModule from '../render/render-module';
+import SettingsDialogModule from '../settings/settings-dialog-module';
 import TemplateModule from '../template/template-module';
 import TextModule from '../text/text-module';
 import ViewCtrl from './view-ctrl';
@@ -28,6 +29,7 @@ export default angular
       PartialModule.name,
       PartialEditorModule.name,
       RenderModule.name,
+      SettingsDialogModule.name,
       TemplateModule.name,
       TextModule.name,
     ])

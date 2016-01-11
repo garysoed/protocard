@@ -10,8 +10,7 @@ describe('home.ViewCtrl', () => {
   let ctrl;
 
   beforeEach(() => {
-    mockAssetService = jasmine.createSpyObj(
-        'AssetService', ['getAssets', 'hasAssets', 'saveAsset']);
+    mockAssetService = jasmine.createSpyObj('AssetService', ['hasAssets', 'saveAsset']);
     mockCreateAssetDialogService = jasmine.createSpyObj('CreateAssetDialogService', ['show']);
     mockNavigateService = jasmine.createSpyObj('NavigateService', ['toAsset']);
     ctrl = new ViewCtrl(mockAssetService, mockCreateAssetDialogService, mockNavigateService);
@@ -23,7 +22,7 @@ describe('home.ViewCtrl', () => {
         new Asset('asset1'),
         new Asset('asset2')
       ];
-      mockAssetService.getAssets.and.returnValue(assets);
+      mockAssetService.assets = assets;
 
       expect(ctrl.getAssets()).toEqual(assets);
     });
@@ -57,10 +56,10 @@ describe('home.ViewCtrl', () => {
     });
   });
 
-  describe('onSelectClosed', () => {
+  describe('set loadedAsset', () => {
     it('should navigate to the create page', () => {
       let assetId = 'assetId';
-      ctrl.onSelectClosed(assetId);
+      ctrl.loadedAsset = assetId;
       expect(mockNavigateService.toAsset).toHaveBeenCalledWith(assetId);
     });
   });

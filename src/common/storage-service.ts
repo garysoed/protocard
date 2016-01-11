@@ -45,4 +45,8 @@ export default class StorageService<T> {
   setItem(key: string, item: T) {
     this.storage_.setItem(`${this.namespace_}.${key}`, JSON.stringify(Serializer.toJSON(item)));
   }
+
+  removeItem(key: string) {
+    this.storage_.removeItem(`${this.namespace_}.${key}`);
+  }
 };

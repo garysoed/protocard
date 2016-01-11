@@ -11,8 +11,38 @@ describe('data.AssetService', () => {
 
   beforeEach(() => {
     mock$mdToast = jasmine.createSpyObj('$mdToast', ['show', 'simple']);
-    mockStorageService = jasmine.createSpyObj('StorageService', ['getItem', 'setItem']);
+    mockStorageService = jasmine.createSpyObj(
+        'StorageService',
+        ['getItem', 'removeItem', 'setItem']);
     assetService = new AssetService(mock$mdToast, mockStorageService);
+  });
+
+  describe('deleteAsset', () => {
+    const ASSET = { id: 'ID' };
+
+    beforeEach(() => {
+      let $mdToastBuilder =
+          jasmine.createSpyBuilder('$mdToastBuilder', ['position', 'textContent']);
+      mock$mdToast.simple.and.returnValue($mdToastBuilder);
+      mockStorageService.getItem.and.returnValue([]);
+      assetService.saveAsset(ASSET);
+
+      mockStorageService.setItem.calls.reset();
+    });
+
+    it('should update the storage with the new data and clear the cache', () => {
+      assetService.deleteAsset(ASSET);
+
+      expect(mockStorageService.setItem).toHaveBeenCalledWith(KEY_INDEX, []);
+      expect(mockStorageService.removeItem).toHaveBeenCalledWith(ASSET.id);
+      expect(assetService.assets).toEqual({});
+    });
+
+    it('should do nothing if the asset cannot be found', () => {
+      assetService.deleteAsset({ id: 'id' });
+
+      expect(mockStorageService.setItem).not.toHaveBeenCalled();
+    });
   });
 
   describe('hasAssets', () => {
@@ -27,7 +57,7 @@ describe('data.AssetService', () => {
     });
   });
 
-  describe('getAssets', () => {
+  describe('get assets', () => {
     let asset;
 
     beforeEach(() => {
@@ -43,7 +73,7 @@ describe('data.AssetService', () => {
         }
       });
 
-      expect(assetService.getAssets()).toEqual({ [asset.id]: asset });
+      expect(assetService.assets).toEqual({ [asset.id]: asset });
     });
 
     it('should cache the data', () => {
@@ -54,11 +84,11 @@ describe('data.AssetService', () => {
           return asset;
         }
       });
-      assetService.getAssets();
+      assetService.assets;
 
       // Now call again.
       mockStorageService.getItem.calls.reset();
-      expect(assetService.getAssets()).toEqual({ [asset.id]: asset });
+      expect(assetService.assets).toEqual({ [asset.id]: asset });
       expect(mockStorageService.getItem).not.toHaveBeenCalled();
     });
   });
@@ -116,7 +146,7 @@ describe('data.AssetService', () => {
           return asset;
         }
       });
-      assetService.getAssets();
+      assetService.assets;
 
       assetService.saveAsset(new Asset('test2'));
 
@@ -137,7 +167,7 @@ describe('data.AssetService', () => {
 
       assetService.saveAsset(asset);
 
-      expect(mockStorageService.setItem).toHaveBeenCalledWith(KEY_INDEX, [asset.id]);
+      expect(mockStorageService.setItem).not.toHaveBeenCalledWith(KEY_INDEX, jasmine.any(Array));
     });
   });
 });

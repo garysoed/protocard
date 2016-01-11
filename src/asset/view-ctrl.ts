@@ -2,6 +2,7 @@ import Asset from '../model/asset'
 import AssetService from './asset-service';
 import FunctionObject from '../model/function-object';
 import NavigateService from '../navigate/navigate-service';
+import SettingsDialogService from '../settings/settings-dialog-service';
 
 /**
  * Controller for the create page view.
@@ -14,6 +15,7 @@ export default class ViewCtrl {
   private currentPartialName_: string;
   private isSidebarOpen_: boolean;
   private navigateService_: NavigateService;
+  private settingsDialogService_: SettingsDialogService;
   private subview_: string;
 
   constructor(
@@ -21,16 +23,19 @@ export default class ViewCtrl {
       $scope: angular.IScope,
       $routeParams: any,
       AssetService: AssetService,
-      NavigateService: NavigateService) {
+      NavigateService: NavigateService,
+      SettingsDialogService: SettingsDialogService) {
     this.$location_ = $location;
     this.$scope_ = $scope;
     this.asset_ = AssetService.getAsset($routeParams['assetId']);
-    this.navigateService_ = NavigateService;
-    this.subview_ = null;
     this.currentHelper_ = null;
     this.currentPartialName_ = null;
     this.isSidebarOpen_ = true;
+    this.navigateService_ = NavigateService;
+    this.settingsDialogService_ = SettingsDialogService;
+    this.subview_ = null;
 
+    // TODO(gs): Disposables
     $scope.$on('$routeUpdate', this.onRouteUpdate_.bind(this));
     $scope.$on('$routeChangeSuccess', this.onRouteUpdate_.bind(this));
   }
@@ -148,5 +153,9 @@ export default class ViewCtrl {
    */
   onMenuClick() {
     this.isSidebarOpen_ = !this.isSidebarOpen_;
+  }
+
+  onSettingsClick(event: MouseEvent) {
+    this.settingsDialogService_.show(event, this.asset_);
   }
 };

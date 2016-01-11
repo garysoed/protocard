@@ -12,7 +12,7 @@
     <section class="buttons md-body-1" layout="column" layout-align="center center">
       <md-input-container ng-show="ctrl.hasAssets()">
         <label>Load Asset</label>
-        <md-select ng-model="loadedAsset" md-on-close="ctrl.onSelectClosed(loadedAsset)">
+        <md-select ng-model="ctrl.loadedAsset" ng-model-options="{ updateOn: 'default' }">
           <md-option ng-repeat="(id, asset) in ctrl.getAssets()" value="{{asset.id}}">
             {{asset.name}}
           </md-option>

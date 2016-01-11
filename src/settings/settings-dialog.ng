@@ -1,0 +1,29 @@
+<md-dialog class="pc-settings-dialog">
+  <form name="assetForm">
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <md-input-container>
+          <label>Name</label>
+          <input required ng-model="ctrl.assetName" type="text" name="name">
+          <div ng-messages="assetForm.name.$error">
+            <div ng-message="required">Name is required</div>
+          </div>
+        </md-input-container>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" layout-align="end center">
+      <md-button ng-click="ctrl.onDownloadClick()" class="md-icon-button">
+        <md-tooltip>Download this asset</md-tooltip>
+        <md-icon>file_download</md-icon>
+      </md-button>
+      <md-button ng-click="ctrl.onDeleteClick()" class="md-icon-button">
+        <md-tooltip>Delete this asset</md-tooltip>
+        <md-icon>delete<md-icon>
+      </md-button>
+      <span flex></span>
+      <md-button ng-click="ctrl.onOkClick()" class="md-primary md-raised">
+        OK
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

@@ -12,27 +12,14 @@ export function service(namespace, name) {
   let out =
 `import ${ctrlClassName} from './${ctrlName}';
 
-/**
- * @class ${namespace}.${serviceClassName}
- */
 export default class {
-  /**
-   * @constructor
-   * @param {ng.$mdDialog} $mdDialog
-   */
-  constructor($mdDialog) {
+  private $mdDialog_: angular.material.IDialogService;
+
+  constructor($mdDialog: angular.material.IDialogService) {
     this.$mdDialog_ = $mdDialog;
   }
 
-  /**
-   * Shows the dialog.
-
-   * @method show
-   * @param {ng.$event} $event The Angular event triggering the dialog.
-   * @return {Promise} Promise that will be resolved when the dialog is hidden, or rejected if the
-   *    dialog is cancelled.
-   */
-  show($event) {
+  show($event: MouseEvent) {
     this.$mdDialog_.show({
       controller: ${ctrlClassName},
       controllerAs: 'ctrl',
@@ -43,7 +30,7 @@ export default class {
 };
 `;
 
-  writeFile(namespace, serviceName, 'js', out);
+  writeFile(namespace, serviceName, 'ts', out);
   test(namespace, serviceName);
 };
 

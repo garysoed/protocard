@@ -21,7 +21,7 @@ export default class {
   }
 
   getAssets(): { [id: string]: Asset } {
-    return this.assetService_.getAssets();
+    return this.assetService_.assets;
   }
 
   /**
@@ -49,7 +49,7 @@ export default class {
    *
    * @param selectedAssetId ID of the selected asset.
    */
-  onSelectClosed(selectedAssetId: string) {
+  set loadedAsset(selectedAssetId: string) {
     if (selectedAssetId) {
       this.navigateService_.toAsset(selectedAssetId);
     }

@@ -1,3 +1,6 @@
+import TestBase from '../testbase';
+TestBase.init();
+
 import Serializer, { Field, Serializable } from '../model/serializable';
 import StorageService from './storage-service';
 
@@ -7,12 +10,6 @@ class FakeClass {
 
   constructor(data) {
     this.data = data;
-  }
-
-  toJSON() {
-    return {
-      data: this.data
-    };
   }
 
   static fromJSON(json) {
@@ -26,7 +23,7 @@ describe('common.StorageService', () => {
   let mockStorage;
 
   beforeEach(() => {
-    mockStorage = jasmine.createSpyObj('storage', ['getItem', 'setItem']);
+    mockStorage = jasmine.createSpyObj('storage', ['getItem', 'removeItem', 'setItem']);
     let mockWindow = <Window>{};
     mockWindow['localStorage'] = mockStorage;
     service = new StorageService(mockWindow, NAMESPACE);
@@ -60,10 +57,20 @@ describe('common.StorageService', () => {
   describe('setItem', () => {
     it('should set the item in the storage', () => {
       let fakeClass = new FakeClass('data');
+
       service.setItem('key', fakeClass);
 
       expect(mockStorage.setItem)
           .toHaveBeenCalledWith(`${NAMESPACE}.key`, JSON.stringify(Serializer.toJSON(fakeClass)));
+    });
+  });
+
+  describe('removeItem', () => {
+    it('should call the correct method', () => {
+      let key = 'key';
+      service.removeItem(key);
+
+      expect(mockStorage.removeItem).toHaveBeenCalledWith(`${NAMESPACE}.${key}`);
     });
   });
 });

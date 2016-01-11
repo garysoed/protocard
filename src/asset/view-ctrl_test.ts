@@ -1,4 +1,5 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import Asset from '../model/asset';
 import FakeScope from '../testing/fake-scope';
@@ -10,6 +11,7 @@ describe('asset.ViewCtrl', () => {
   let mock$location;
   let mockAssetService;
   let mockNavigateService;
+  let mockSettingsDialogService;
   let ctrl;
   let $scope;
 
@@ -21,6 +23,7 @@ describe('asset.ViewCtrl', () => {
     asset = new Asset('test');
     mock$location = jasmine.createSpyObj('$location', ['search']);
     mockNavigateService = jasmine.createSpyObj('NavigateService', ['getSubview', 'toHome']);
+    mockSettingsDialogService = jasmine.createSpyObj('SettingsDialogService', ['show']);
 
     mockAssetService = jasmine.createSpyObj('AssetService', ['getAsset']);
     mockAssetService.getAsset.and.returnValue(asset);
@@ -30,7 +33,8 @@ describe('asset.ViewCtrl', () => {
         $scope,
         routeParams,
         mockAssetService,
-        mockNavigateService);
+        mockNavigateService,
+        mockSettingsDialogService);
   });
 
   it('should load the correct asset', () => {
@@ -89,6 +93,15 @@ describe('asset.ViewCtrl', () => {
 
       ctrl.onMenuClick();
       expect(ctrl.isSidebarOpen).toEqual(false);
+    });
+  });
+
+  describe('onSettingsClick', () => {
+    it('should show the settings dialog', () => {
+      let event = jasmine.createObj('mouseEvent');
+      ctrl.onSettingsClick(event);
+
+      expect(mockSettingsDialogService.show).toHaveBeenCalledWith(event, asset);
     });
   });
 });

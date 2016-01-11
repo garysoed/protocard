@@ -44,6 +44,9 @@ export default class Asset {
   get name(): string {
     return this.name_;
   }
+  set name(name: string) {
+    this.name_ = name;
+  }
 
   @Comparable
   get id(): string {

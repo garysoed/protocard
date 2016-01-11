@@ -6,6 +6,11 @@
       </md-button>
       <h2 class="title" ng-click="ctrl.onBackClick()">Protocard</h2>
       <h2>{{ctrl.assetName}}</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="ctrl.onSettingsClick($event)">
+        <md-tooltip>Open asset settings</md-tooltip>
+        <md-icon>settings</md-icon>
+      </md-button>
     </div>
     <!-- TODO(gs): Back button for subview -->
   </md-toolbar>
@@ -52,6 +57,8 @@
                 text="Label Data"></pc-navigate-button>
           </foreignObject>
 
+          <!-- Row 4 is empty -->
+
           <!-- Row 5 -->
           <foreignObject width="50" height="50" x="112.5" y="350">
             <pc-navigate-button
@@ -61,7 +68,7 @@
                 text="Subtemplate"></pc-navigate-button>
           </foreignObject>
 
-          <!-- Fifth Row -->
+          <!-- Row 6 -->
           <foreignObject width="50" height="50" x="112.5" y="450">
             <pc-navigate-button
                 disabled="!ctrl.canEditTemplate"
@@ -70,7 +77,7 @@
                 text="Main Template"></pc-navigate-button>
           </foreignObject>
 
-          <!-- Sixth Row -->
+          <!-- Row 7 -->
           <foreignObject width="50" height="50" x="112.5" y="550">
             <pc-navigate-button
                 disabled="!ctrl.canPublish"
@@ -116,7 +123,6 @@
               ng-class="{disabled: !ctrl.isTemplateReady}"
               x1="137.5" y1="500" x2="137.5" y2="550"></line>
         </svg>
-        <!-- TODO(gs): Disable the buttons with conditions -->
       </md-content>
     </md-sidenav>
     <md-content ng-switch on="ctrl.subview" flex layout="column">
