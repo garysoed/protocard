@@ -1,6 +1,7 @@
 import TestBase from '../testbase';
 
 import Asset from '../model/asset';
+import Serializer from '../model/serializable';
 import ViewCtrl from './view-ctrl';
 
 describe('home.ViewCtrl', () => {
@@ -61,6 +62,30 @@ describe('home.ViewCtrl', () => {
       let assetId = 'assetId';
       ctrl.loadedAsset = assetId;
       expect(mockNavigateService.toAsset).toHaveBeenCalledWith(assetId);
+    });
+  });
+
+  describe('set newAsset', () => {
+    it('should create the asset, saves it and navigate to it', () => {
+      let assetId = 'assetId';
+      let asset = jasmine.createObj('asset');
+      asset.id = assetId;
+
+      spyOn(Serializer, 'fromJSON').and.returnValue(asset);
+
+      ctrl.newAsset = { content: JSON.stringify({}) };
+
+      expect(mockAssetService.saveAsset).toHaveBeenCalledWith(asset);
+      expect(mockNavigateService.toAsset).toHaveBeenCalledWith(assetId);
+    });
+
+    it('should do nothing if the format is wrong', () => {
+      spyOn(Serializer, 'fromJSON').and.returnValue(null);
+
+      ctrl.newAsset = { content: JSON.stringify({}) };
+
+      expect(mockAssetService.saveAsset).not.toHaveBeenCalled();
+      expect(mockNavigateService.toAsset).not.toHaveBeenCalled();
     });
   });
 });

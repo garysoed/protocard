@@ -28,5 +28,14 @@
         <md-icon>add</md-icon>
       </md-button>
     </md-fab-trigger>
+    <md-fab-actions>
+      <pc-file-upload
+          classes="md-fab md-raised md-mini"
+          extensions=".json"
+          ng-model="ctrl.newAsset">
+        <md-tooltip md-direction="left">Upload asset from disk</md-tooltip>
+        <md-icon>file_upload</md-icon>
+      </pc-file-upload>
+    </md-fab-actions>
   </pc-context-button>
 </div>

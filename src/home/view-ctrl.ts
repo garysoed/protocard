@@ -1,7 +1,9 @@
 import Asset from '../model/asset';
 import AssetService from '../asset/asset-service';
 import CreateAssetDialogService from './create-asset-dialog-service';
+import File from '../model/file';
 import NavigateService from '../navigate/navigate-service';
+import Serializer from '../model/serializable';
 
 /**
  * Controller for the home view.
@@ -52,6 +54,14 @@ export default class {
   set loadedAsset(selectedAssetId: string) {
     if (selectedAssetId) {
       this.navigateService_.toAsset(selectedAssetId);
+    }
+  }
+
+  set newAsset(file: File) {
+    let asset = Serializer.fromJSON(JSON.parse(file.content));
+    if (!!asset) {
+      this.assetService_.saveAsset(asset);
+      this.navigateService_.toAsset(asset.id);
     }
   }
 };
