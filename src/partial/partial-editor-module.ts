@@ -1,7 +1,10 @@
+import ContextButtonModule from '../common/context-button-module';
 import PartialEditorCtrl from './partial-editor-ctrl';
 
 export default angular
-    .module('pc.partial.PartialEditorModule', [])
+    .module('pc.partial.PartialEditorModule', [
+      ContextButtonModule.name
+    ])
     .directive('pcPartialEditor', () => {
       return {
         controller: PartialEditorCtrl,
