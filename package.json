@@ -37,10 +37,14 @@
     "gulp-webpack": "^1.5.0",
     "gulp-webpack-sourcemaps": "^0.3.0",
     "jasmine": "^2.3.2",
-    "karma": "^0.13.10",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.19",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-jasmine": "^0.3.6",
     "minimist": "^1.2.0",
     "tsd": "^0.6.5",
     "vinyl": "^1.0.0",
+    "vinyl-named": "^1.1.0",
     "webpack": "^1.12.2"
   }
 }

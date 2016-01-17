@@ -142,17 +142,21 @@ describe('render.RenderService', () => {
     });
 
     it('should ignore messages from other origin', done => {
-        mock$window.location.host = 'abs.url';
-        mock$window.location.protocol = 'http:';
-        mock$window.addEventListener.and.callFake((type, handler) => {
-          handler({ data: 'dataUri', origin: 'https://other.origin' });
-        });
+      jasmine.clock().install();
+      mock$window.location.host = 'abs.url';
+      mock$window.location.protocol = 'http:';
+      mock$window.addEventListener.and.callFake((type, handler) => {
+        handler({ data: 'dataUri', origin: 'https://other.origin' });
+      });
 
-        service
-            .onRequest_({ content: 'content', width: 123, height: 4456 })
-            .then(done.fail, done.fail);
-        setTimeout(done, 1);
-        jasmine.clock().tick(2);
+      service
+          .onRequest_({ content: 'content', width: 123, height: 4456 })
+          .then(done.fail, done.fail);
+      setTimeout(() => {
+        jasmine.clock().uninstall();
+        done();
+      }, 1);
+      jasmine.clock().tick(2);
     });
   });
 });

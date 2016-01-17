@@ -1,4 +1,4 @@
-eval(`require('babel/polyfill')`);
+// eval(`require('babel/polyfill')`);
 
 import Asset from './model/asset';
 import Comparator from './decorators/compare';
@@ -33,11 +33,9 @@ export default {
 
     beforeEach(() => {
       jasmine.addCustomEqualityTester(Comparator.equals.bind(Comparator));
-      jasmine.clock().install();
     });
 
     afterEach(() => {
-      jasmine.clock().uninstall();
     });
 
     called = true;

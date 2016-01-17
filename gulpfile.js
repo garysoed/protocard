@@ -4,7 +4,10 @@ var gulp       = require('gulp');
 var debug      = require('gulp-debug');
 var insert     = require('gulp-insert');
 var jasmine    = require('gulp-jasmine');
+var karma      = require('karma').Server;
 var myth       = require('gulp-myth');
+var named      = require('vinyl-named');
+var path       = require('path');
 var sourcemaps = require('gulp-sourcemaps');
 var typescript = require('gulp-typescript');
 var webpack    = require('gulp-webpack');
@@ -17,15 +20,41 @@ gulp.task('compile',
           .pipe(gulp.dest('out'));
     });
 
-gulp.task('test', gulp.series(
+gulp.task('compile-test', gulp.series(
     'compile',
-    function runTests_() {
+    function _packTests() {
       return gulp.src(['out/**/*_test.js'])
-          .pipe(jasmine({
-            includeStackTrace: true
-          }));
+          .pipe(named(function(file) {
+            var filepath = file.path;
+            return path.format({
+                dir: path.dirname(filepath),
+                base: path.basename(filepath, path.extname(filepath)) + '_pack',
+                ext: path.extname(filepath)
+            });
+          }))
+          .pipe(sourcemaps.init())
+          .pipe(webpack())
+          .pipe(sourcemaps.write('./', { includeContent: true }))
+          .pipe(gulp.dest('.'));
+    }
+))
+
+gulp.task('test', gulp.series(
+    'compile-test',
+    function runTests_(done) {
+      new karma({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true
+      }, done).start();
     }
 ));
+
+gulp.task('karma', function(done) {
+  new karma({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: false
+  }, done).start();
+});
 
 gulp.task('compile-ui', gulp.series(
     gulp.parallel(
@@ -88,7 +117,7 @@ gulp.task('watch', function () {
 });
 
 gulp.task('watch-test', function () {
-  gulp.watch(['src/**/*.ts'], gulp.series('test'));
+  gulp.watch(['src/**/*.ts'], gulp.series('compile-test'));
 });
 
 gulp.task('default', gulp.task('compile'));
