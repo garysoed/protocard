@@ -1,6 +1,7 @@
 import ctrl from './ctrl';
 import dialog from './dialog';
 import { directive } from './module';
+import service from './service';
 import test from './test';
 import ng from './ng';
 
@@ -20,6 +21,8 @@ switch(type) {
     ng(namespace, name);
     directive(namespace, name);
     break;
+  case 'service':
+    service(namespace, name);
   case 'test':
     test(namespace, name);
     break;
