@@ -26,11 +26,10 @@ gulp.task('compile-test', gulp.series(
       return gulp.src(['out/**/*_test.js'])
           .pipe(named(function(file) {
             var filepath = file.path;
-            return path.format({
-                dir: path.dirname(filepath),
-                base: path.basename(filepath, path.extname(filepath)) + '_pack',
-                ext: path.extname(filepath)
-            });
+            return path.join(
+                path.dirname(filepath),
+                path.basename(filepath, path.extname(filepath)) + '_pack'
+            );
           }))
           .pipe(sourcemaps.init())
           .pipe(webpack())

@@ -40,16 +40,22 @@ const cache: CacheFunc = <CacheFunc>function(
     target: Object,
     propertyKey: string,
     descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any> {
-  const original = descriptor.get;
 
-  if (!descriptor.get) {
-    throw Error(`Property ${propertyKey} at object ${target} needs to be a getter`);
+  if (descriptor.get) {
+    const original = descriptor.get;
+    descriptor.get = function(...args) {
+      let cache = Cache.get(this);
+      return cache.getValue(propertyKey, original.bind(this));
+    };
+  } else if (descriptor.value) {
+    const original = descriptor.value;
+    descriptor.value = function(...args) {
+      let cache = Cache.get(this);
+      return cache.getValue(propertyKey, original.bind(this));
+    }
+  } else {
+    throw Error(`Property ${propertyKey} has to be a getter or a function`);
   }
-
-  descriptor.get = function(...args) {
-    let cache = Cache.get(this);
-    return cache.getValue(propertyKey, original.bind(this));
-  };
 
   return descriptor;
 }

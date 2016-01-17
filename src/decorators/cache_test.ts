@@ -15,6 +15,11 @@ describe('decorators.Cache', () => {
     get property() {
       return this.spy_();
     }
+
+    @Cache
+    method() {
+      return this.spy_();
+    }
   }
 
   let test;
@@ -36,11 +41,22 @@ describe('decorators.Cache', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
+  it('should cache the method', () => {
+    let value = 'value';
+    spy.and.returnValue(value);
+
+    expect(test.method()).toEqual(value);
+
+    spy.calls.reset();
+    expect(test.method()).toEqual(value);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
   it('should throw error on non getter properties', () => {
     let descriptor = <TypedPropertyDescriptor<any>>{};
     expect(() => {
       Cache({}, 'property', descriptor);
-    }).toThrowError(/needs to be a getter/);
+    }).toThrowError(/has to be a getter or a function/);
   });
 
   describe('clear', () => {

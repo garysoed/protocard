@@ -4,7 +4,7 @@ TestBase.init();
 import FunctionObject from './function-object';
 import Serializer from './serializable';
 
-describe('data.FunctionObject', () => {
+describe('model.FunctionObject', () => {
   it('should be able to be converted to / from JSON', () => {
     let functionObject = new FunctionObject();
     functionObject.fnString = 'fnString';

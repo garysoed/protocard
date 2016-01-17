@@ -18,5 +18,5 @@ export function toFileName(namespace, name) {
 export function writeFile(namespace, name, ext, content) {
   let filename = toFileName(namespace, `${name}.${ext}`);
   fs.writeFileSync(filename, content, 'utf8');
-  console.log(chalk.blue(`Wrote: ${filename}`));
+  console.log(`${chalk.green('Generated')} ${filename}`);
 };

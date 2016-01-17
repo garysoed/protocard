@@ -147,6 +147,8 @@
         "src/partial/partial-item-ctrl.ts",
         "src/partial/partial-item-module.ts",
         "src/partial/partial-module.ts",
+        "src/pipeline/node_test.ts",
+        "src/pipeline/node.ts",
         "src/render/preview-app-ctrl_test.ts",
         "src/render/preview-app-ctrl.ts",
         "src/render/preview-app.ts",
