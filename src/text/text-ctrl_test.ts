@@ -21,7 +21,7 @@ describe('text.TextCtrl', () => {
 
     mockAssetPipelineService.getPipeline.and.returnValue({ textNode: mockTextNode });
 
-    let scope = <angular.IScope>(new FakeScope());
+    let scope = <any>(new FakeScope());
     scope['asset'] = mockAsset;
     ctrl = new TextCtrl(scope, mockAssetPipelineService, mockAssetService);
   });
