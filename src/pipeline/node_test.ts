@@ -12,7 +12,7 @@ class TestNode extends Node<string> {
     this.result_ = result;
   }
 
-  runHandler(dependencyResults: any[]): Promise<string> {
+  runHandler_(dependencyResults: any[]): Promise<string> {
     return this.result_.result;
   }
 }
@@ -87,12 +87,12 @@ describe('pipeline.Node', () => {
             node.refresh();
             expect(node.isDone).toEqual(false);
 
-            spyOn(node, 'runHandler').and.returnValue(Promise.resolve('value'));
+            spyOn(node, 'runHandler_').and.returnValue(Promise.resolve('value'));
 
             return node.result;
           }, done.fail)
           .then(() => {
-            expect(node.runHandler).toHaveBeenCalledWith([null]);
+            expect(node.runHandler_).toHaveBeenCalledWith([null]);
             done();
           }, done.fail);
     });
@@ -105,12 +105,12 @@ describe('pipeline.Node', () => {
 
       dependencyResult.result = dependencyValue;
 
-      spyOn(node, 'runHandler').and.returnValue(Promise.resolve(nodeValue));
+      spyOn(node, 'runHandler_').and.returnValue(Promise.resolve(nodeValue));
 
       node.result
           .then(value => {
             expect(value).toEqual(nodeValue);
-            expect(node.runHandler).toHaveBeenCalledWith([dependencyValue]);
+            expect(node.runHandler_).toHaveBeenCalledWith([dependencyValue]);
             expect(node.isDone).toEqual(true);
             done();
           });
@@ -121,16 +121,16 @@ describe('pipeline.Node', () => {
 
       dependencyResult.result = 'value';
 
-      spyOn(node, 'runHandler').and.returnValue(Promise.resolve(nodeValue));
+      spyOn(node, 'runHandler_').and.returnValue(Promise.resolve(nodeValue));
 
       node.result
           .then(() => {
-            node.runHandler.calls.reset();
+            node.runHandler_.calls.reset();
             return node.result;
           }, done.fail)
           .then(value => {
             expect(value).toEqual(nodeValue);
-            expect(node.runHandler).not.toHaveBeenCalled();
+            expect(node.runHandler_).not.toHaveBeenCalled();
             done();
           }, done.fail);
     });

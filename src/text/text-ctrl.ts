@@ -1,18 +1,27 @@
 import Asset from '../model/asset';
+import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService from '../asset/asset-service';
+import Cache from '../decorators/cache';
 import Extract from '../convert/extract';
 import File from '../model/file';
 import { FileTypes } from '../model/file';
+import Provider from '../common/provider';
+import TextNode from '../pipeline/text-node';
 
 export default class TextCtrl {
+  private $scope_: angular.IScope;
   private asset_: Asset;
   private assetService_: AssetService;
-  private parsedData_: string[][];
+  private textNode_: TextNode;
 
-  constructor($scope: angular.IScope, AssetService: AssetService) {
+  constructor(
+      $scope: angular.IScope,
+      AssetPipelineService: AssetPipelineService,
+      AssetService: AssetService) {
+    this.$scope_ = $scope;
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
-    this.parsedData_ = null;
+    this.textNode_ = AssetPipelineService.getPipeline($scope['asset'].id).textNode;
   }
 
   get data(): File {
@@ -20,18 +29,17 @@ export default class TextCtrl {
   }
   set data(newFile: File) {
     this.asset_.data = newFile;
+    Cache.clear(this);
     this.assetService_.saveAsset(this.asset_);
-    this.parsedData_ = null;
+    this.textNode_.refresh();
   }
 
-  get parsedData(): string[][] {
-    if (this.parsedData_ === null) {
-      // TODO(gs): Move to Extract.
-      this.parsedData_ = this.asset_.data.content
-          .split('\n')
-          .map(line => line.split('\t'));
-    }
-    return this.parsedData_;
+  @Cache
+  get parsedData(): Provider<string[][]> {
+    return new Provider<string[][]>(
+        this.$scope_,
+        this.textNode_.result,
+        []);
   }
 
   hasData(): boolean {

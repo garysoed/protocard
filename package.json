@@ -10,6 +10,9 @@
   },
   "author": "garysoed@gmail.com",
   "license": "MIT",
+  "bin": {
+    "gen": "./scripts/generate.js"
+  },
   "bugs": {
     "url": "https://github.com/garysoed/protocard/issues"
   },

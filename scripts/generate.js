@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import ctrl from './ctrl';
 import dialog from './dialog';
 import { directive } from './module';

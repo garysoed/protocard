@@ -1,20 +1,33 @@
 import TestBase from '../testbase';
 
+import FakeScope from '../testing/fake-scope';
 import File, { FileTypes } from '../model/file';
 import TextCtrl from './text-ctrl';
 
 describe('text.TextCtrl', () => {
+  const ASSET_ID = 'assetId';
+
   let mockAsset;
+  let mockAssetPipelineService;
   let mockAssetService;
+  let mockTextNode;
   let ctrl;
 
   beforeEach(() => {
-    mockAsset = {};
+    mockAsset = { id: ASSET_ID };
+    mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
+    mockTextNode = jasmine.createSpyObj('TextNode', ['refresh']);
 
-    let scope = <angular.IScope>{};
+    mockAssetPipelineService.getPipeline.and.returnValue({ textNode: mockTextNode });
+
+    let scope = <angular.IScope>(new FakeScope());
     scope['asset'] = mockAsset;
-    ctrl = new TextCtrl(scope, mockAssetService);
+    ctrl = new TextCtrl(scope, mockAssetPipelineService, mockAssetService);
+  });
+
+  it('should initialize with the correct text node', () => {
+    expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(ASSET_ID);
   });
 
   describe('set data', () => {
@@ -22,24 +35,20 @@ describe('text.TextCtrl', () => {
       let data = {};
       ctrl.data = data;
       expect(mockAssetService.saveAsset).toHaveBeenCalledWith(mockAsset);
-    });
-
-    it('should update the parsedData', () => {
-      let oldData = new File(FileTypes.TSV, 'old\ncontent');
-      let newData = new File(FileTypes.TSV, 'new\ncontent');
-      mockAsset.data = oldData;
-      expect(ctrl.parsedData).toEqual([['old'], ['content']]);
-
-      ctrl.data = newData;
-      expect(ctrl.parsedData).toEqual([['new'], ['content']]);
+      expect(mockTextNode.refresh).toHaveBeenCalledWith();
     });
   });
 
   describe('get parsedData', () => {
-    it('should return the correct data', () => {
-      let data = new File(FileTypes.TSV, 'a\nb');
-      mockAsset.data = data;
-      expect(ctrl.parsedData).toEqual([['a'], ['b']]);
+    it('should return the correct data', done => {
+      let textNodeResult = 'textNodeResult';
+      mockTextNode.result = Promise.resolve(textNodeResult);
+
+      ctrl.parsedData.promise
+          .then(result => {
+            expect(result).toEqual(textNodeResult);
+            done();
+          }, done.fail);
     });
   });
 

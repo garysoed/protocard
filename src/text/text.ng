@@ -1,7 +1,7 @@
 <div class="asset-text pc-fill-parent" layout="column">
   <md-content class="preview" ng-if="ctrl.hasData()" flex>
     <table>
-      <tr ng-repeat="row in ctrl.parsedData">
+      <tr ng-repeat="row in ctrl.parsedData.value">
         <td ng-repeat="entry in row track by $index" valign="top">
           {{entry}}
         </td>

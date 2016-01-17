@@ -1,14 +1,14 @@
-import Writer from './writer';
-
+/**
+ * @fileoverview Extracts spreadsheet data, from various formats to a string[][] object. The first
+ * dimension is the row, while the second dimension is the column.
+ */
 export default {
-  fromTsv(content: string, headerLineCount = 0): Writer<string[]> {
+  fromTsv(content: string): string[][] {
     let lines = content.split('\n');
-    lines.splice(0, headerLineCount);
-
     let lineData = lines.map(line => {
       return line.split('\t');
     });
 
-    return new Writer<string[]>(lineData);
+    return lineData;
   }
 };

@@ -15,7 +15,7 @@ export default angular
     .service('${serviceClassName}', ${serviceClassName});
 `;
 
-  writeFile(namespace, `${name}-module`, 'ts', out);
+  writeFile(namespace, `${serviceName}-module`, 'ts', out);
 };
 
 export function directive(namespace, name) {
