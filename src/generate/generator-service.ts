@@ -1,8 +1,9 @@
 import Asset from '../model/asset';
 import Extract from '../convert/extract';
-import Generator from './generator';
 import { FileTypes } from '../model/file';
+import Generator from './generator';
 import Utils from '../utils';
+import Writer from '../convert/writer';
 
 // TODO(gs): Move to external file?
 function imageUrlHelper(asset) {
@@ -38,17 +39,19 @@ export default class GeneratorService {
     this.handlebarsService_ = HandlebarsService;
   }
 
+  // TODO(gs): Delete this.
   localDataList(asset: Asset): any[] {
     let data = asset.data;
-    let writer;
+    let extracted;
     switch (data.type) {
       case FileTypes.TSV:
-        writer = Extract.fromTsv(data.content);
+        extracted = Extract.fromTsv(data.content);
         break;
       default:
         throw Error(`Unhandled file type: ${data.type}`);
     }
 
+    let writer = new Writer(extracted);
     return writer.write(asset.dataProcessor.asFunction());
   }
 

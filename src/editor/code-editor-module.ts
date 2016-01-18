@@ -19,7 +19,8 @@ export default angular
         require: ['pcCodeEditor', 'ngModel', '?ngChange'],
         restrict: 'E',
         scope: {
-          'language': '@'
+          'language': '@',
+          'readOnly': '@'
         },
         templateUrl: './editor/code-editor.ng',
         link: link

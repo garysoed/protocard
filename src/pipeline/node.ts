@@ -3,12 +3,12 @@ import Cache from '../decorators/cache';
 abstract class Node<T> {
   private dependencies_: Node<any>[];
   private isDone_: boolean;
-  private listeners_: Function[];
+  private listeners_: Set<Function>;
 
   constructor(dependencies: Node<any>[]) {
     this.dependencies_ = dependencies;
     this.isDone_ = false;
-    this.listeners_ = [];
+    this.listeners_ = new Set<Function>();
 
     dependencies.forEach(dependency => {
       dependency.addChangeListener(this.onChange_.bind(this));
@@ -45,8 +45,15 @@ abstract class Node<T> {
   /**
    * Adds a listener to listen to changes to this node.
    */
-  addChangeListener(listener: Function) {
-    this.listeners_.push(listener);
+  addChangeListener(listener: Function): Function {
+    this.listeners_.add(listener);
+    return () => {
+      this.listeners_.delete(listener);
+    };
+  }
+
+  get isDependenciesDone(): boolean {
+    return this.dependencies_.every(dependency => dependency.isDone);
   }
 
   get isDone(): boolean {

@@ -1,11 +1,14 @@
 import Asset from '../model/asset'
+import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService from './asset-service';
 import FunctionObject from '../model/function-object';
 import NavigateService from '../navigate/navigate-service';
+import ProcessNode from '../pipeline/process-node';
 import SettingsDialogService from '../settings/settings-dialog-service';
 
 /**
  * Controller for the create page view.
+ * TODO(gs): Move the nav bar stuff to its own class.
  */
 export default class ViewCtrl {
   private $location_: angular.ILocationService;
@@ -30,7 +33,7 @@ export default class ViewCtrl {
     this.asset_ = AssetService.getAsset($routeParams['assetId']);
     this.currentHelper_ = null;
     this.currentPartialName_ = null;
-    this.isSidebarOpen_ = true;
+    this.isSidebarOpen_ = false;
     this.navigateService_ = NavigateService;
     this.settingsDialogService_ = SettingsDialogService;
     this.subview_ = null;

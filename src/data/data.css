@@ -1,0 +1,21 @@
+pc-data {
+  display: flex;
+  flex-direction: column;
+}
+
+pc-data > div > pc-code-editor {
+  min-width: 40em;
+  position: relative;
+}
+
+pc-data > div > div > pc-code-editor {
+  position: relative;
+}
+
+pc-data > div > .preview {
+  background-color: #272822;
+}
+
+pc-data > div > .preview > h2 {
+  color: white;
+}

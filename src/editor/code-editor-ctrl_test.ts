@@ -16,6 +16,7 @@ describe('editor.CodeEditorCtrl', () => {
   });
 
   function createMockEditor() {
+    let mockRenderer;
     let mockSession;
     let mockSelection;
     let mockEditor;
@@ -24,12 +25,24 @@ describe('editor.CodeEditorCtrl', () => {
         createSpyObj('session', ['setTabSize', 'setMode', 'on', 'getAnnotations']);
     mockSession.getAnnotations.and.returnValue([]);
     mockSelection = jasmine.createSpyObj('selection', ['clearSelection']);
+    mockRenderer = jasmine.createSpyObj('Renderer', ['setShowGutter']);
     mockEditor = jasmine.createSpyObj(
-        'editor', ['setTheme', 'getSession', 'getValue', 'setValue', 'destroy']);
+        'editor',
+        [
+          'destroy',
+          'setReadOnly',
+          'getSession',
+          'setShowPrintMargin',
+          'setTheme',
+          'getValue',
+          'setValue'
+        ]);
     mockEditor.getSession.and.returnValue(mockSession);
+    mockEditor.renderer = mockRenderer;
     mockEditor.selection = mockSelection;
 
     return {
+      renderer: mockRenderer,
       session: mockSession,
       selection: mockSelection,
       editor: mockEditor
@@ -49,12 +62,14 @@ describe('editor.CodeEditorCtrl', () => {
   });
 
   describe('onLink', () => {
+    let mockRenderer;
     let mockSession;
     let mockSelection;
     let mockEditor;
 
     beforeEach(() => {
       let mocks = createMockEditor();
+      mockRenderer = mocks.renderer;
       mockSession = mocks.session;
       mockSelection = mocks.selection;
       mockEditor = mocks.editor;
@@ -69,8 +84,26 @@ describe('editor.CodeEditorCtrl', () => {
 
       ctrl.onLink(editorEl, language, {});
 
+      expect(mockEditor.setReadOnly).toHaveBeenCalledWith(false);
+      expect(mockEditor.setShowPrintMargin).toHaveBeenCalledWith(true);
       expect(mockSession.setMode).toHaveBeenCalledWith(`ace/mode/${language}`);
       expect(mockAceService.edit).toHaveBeenCalledWith(editorEl);
+      expect(mockRenderer.setShowGutter).toHaveBeenCalledWith(true);
+    });
+
+    it('should set the editor correctly for read only mode', () => {
+      let editorEl = {};
+      let language = 'language';
+
+      mock$scope['readOnly'] = true;
+      ctrl.onLink(editorEl, language, {});
+
+      expect(mockEditor.setReadOnly).toHaveBeenCalledWith(true);
+      expect(mockEditor.setShowPrintMargin).toHaveBeenCalledWith(false);
+      expect(mockSession.setMode).toHaveBeenCalledWith(`ace/mode/${language}`);
+      expect(mockAceService.edit).toHaveBeenCalledWith(editorEl);
+      expect(mockRenderer.setShowGutter).toHaveBeenCalledWith(false);
+
     });
 
     it('should override the ngModelCtrl render function to render to the editor', () => {

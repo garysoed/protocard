@@ -55,6 +55,44 @@ describe('pipeline.Node', () => {
             done();
           }, done.fail);
     });
+
+    it('should return a function that stops listening when called', done => {
+      let listener = jasmine.createSpy('listener');
+      let deregister = node.addChangeListener(listener);
+      deregister();
+
+      dependencyResult.result = Promise.resolve(null);
+      result.result = Promise.resolve(null);
+      node.result
+          .then(() => {
+            expect(listener).not.toHaveBeenCalled();
+            done();
+          }, done.fail);
+    });
+  });
+
+  describe('get isDependenciesDone', () => {
+    let dependency1;
+    let dependency2;
+    let node;
+
+    beforeEach(() => {
+      dependency1 = jasmine.createSpyObj('dependency1', ['addChangeListener']);
+      dependency2 = jasmine.createSpyObj('dependency2', ['addChangeListener']);
+      node = new TestNode([dependency1, dependency2], Promise.resolve(null));
+    });
+
+    it('should return true if all of the dependencies are done', () => {
+      dependency1.isDone = true;
+      dependency2.isDone = true;
+      expect(node.isDependenciesDone).toEqual(true);
+    });
+
+    it('should return false if one of the dependencies is not done', () => {
+      dependency1.isDone = false;
+      dependency2.isDone = true;
+      expect(node.isDependenciesDone).toEqual(false);
+    });
   });
 
   describe('isDone', () => {

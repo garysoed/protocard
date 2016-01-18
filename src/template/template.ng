@@ -13,7 +13,7 @@
 <pc-context-button>
   <md-fab-trigger>
     <md-button class="md-fab" ng-click="ctrl.onRefreshClick()">
-      <md-tooltip md-direction="left">Picks a random data entry</md-tooltip>
+      <md-tooltip md-direction="left">Pick a random data entry</md-tooltip>
       <md-icon>refresh</md-icon>
     </md-button>
   </md-fab-trigger>

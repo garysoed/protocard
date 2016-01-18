@@ -7,9 +7,11 @@ import TextCtrl from './text-ctrl';
 describe('text.TextCtrl', () => {
   const ASSET_ID = 'assetId';
 
+  let mock$scope;
   let mockAsset;
   let mockAssetPipelineService;
   let mockAssetService;
+  let mockDeregister;
   let mockTextNode;
   let ctrl;
 
@@ -17,17 +19,29 @@ describe('text.TextCtrl', () => {
     mockAsset = { id: ASSET_ID };
     mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
-    mockTextNode = jasmine.createSpyObj('TextNode', ['refresh']);
+    mockDeregister = jasmine.createSpy('deregister');
+    mockTextNode = jasmine.createSpyObj('TextNode', ['addChangeListener', 'refresh']);
+    mockTextNode.addChangeListener.and.returnValue(mockDeregister);
 
     mockAssetPipelineService.getPipeline.and.returnValue({ textNode: mockTextNode });
 
-    let scope = <any>(new FakeScope());
-    scope['asset'] = mockAsset;
-    ctrl = new TextCtrl(scope, mockAssetPipelineService, mockAssetService);
+    mock$scope = <any>(new FakeScope());
+    mock$scope['asset'] = mockAsset;
+    spyOn(mock$scope, '$on');
+
+    ctrl = new TextCtrl(mock$scope, mockAssetPipelineService, mockAssetService);
   });
 
   it('should initialize with the correct text node', () => {
     expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(ASSET_ID);
+  });
+
+  it('should call deregister when destroyed', () => {
+    expect(mock$scope.$on).toHaveBeenCalledWith('$destroy', jasmine.any(Function));
+
+    mock$scope.$on.calls.argsFor(0)[1]();
+
+    expect(mockDeregister).toHaveBeenCalledWith();
   });
 
   describe('set data', () => {

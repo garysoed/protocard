@@ -1,4 +1,5 @@
 export default class CodeEditorCtrl {
+  private $scope_: angular.IScope;
   private $timeout_: angular.ITimeoutService;
   private aceService_: AceAjax.Ace;
   private editor_: AceAjax.Editor;
@@ -9,6 +10,7 @@ export default class CodeEditorCtrl {
       $scope: angular.IScope,
       $timeout: angular.ITimeoutService,
       AceService: AceAjax.Ace) {
+    this.$scope_ = $scope;
     this.$timeout_ = $timeout;
     this.aceService_ = AceService;
     this.editor_ = null;
@@ -65,6 +67,11 @@ export default class CodeEditorCtrl {
   onLink(editorEl: HTMLElement, language: string, ngModelCtrl: angular.INgModelController) {
     this.editor_ = this.aceService_.edit(editorEl);
     this.editor_.setTheme('ace/theme/monokai');
+
+    let readonly = !!this.$scope_['readOnly'];
+    this.editor_.setReadOnly(readonly)
+    this.editor_.setShowPrintMargin(!readonly);
+    this.editor_.renderer.setShowGutter(!readonly);
 
     let session = this.editor_.getSession();
     session.setTabSize(2);

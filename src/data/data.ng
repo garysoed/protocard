@@ -1,5 +1,18 @@
-<div class="pc-fill-parent" layout="column" layout-align="start end">
-  <pc-code-editor flex ng-model="ctrl.processorString" language="javascript">
+<div layout="row" flex>
+  <pc-code-editor ng-model="ctrl.processorString" language="javascript">
   </pc-code-editor>
-  <!-- TODO(gs): Add preview -->
+  <div class="preview" flex layout="column">
+    <h2 class="md-headline">Preview</h2>
+    <pc-code-editor flex ng-model="ctrl.preview.value" language="json" read-only="true">
+    </pc-code-editor>
+  </div>
 </div>
+
+<pc-context-button>
+  <md-fab-trigger>
+    <md-button class="md-fab" ng-click="ctrl.onRefreshClick()">
+      <md-tooltip md-direction="left">Pick a random row</md-tooltip>
+      <md-icon>refresh</md-icon>
+    </md-button>
+  </md-fab-trigger>
+</pc-context-button>

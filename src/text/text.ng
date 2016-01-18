@@ -16,12 +16,12 @@
           extensions=".tsv"
           ng-model="ctrl.data">
         <div ng-if="!ctrl.hasData()">
-          <md-tooltip md-direction="left" ng-if="!ctrl.hasData()">Uploads new data</md-tooltip>
+          <md-tooltip md-direction="left" ng-if="!ctrl.hasData()">Upload new data</md-tooltip>
           <md-icon>add</md-icon>
         </div>
 
         <div ng-if="ctrl.hasData()">
-          <md-tooltip md-direction="left">Replaces the data</md-tooltip>
+          <md-tooltip md-direction="left">Replace the data</md-tooltip>
           <md-icon>edit</md-icon>
         </div>
       </pc-file-upload>

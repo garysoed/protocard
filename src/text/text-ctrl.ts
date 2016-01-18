@@ -12,6 +12,7 @@ export default class TextCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
   private assetService_: AssetService;
+  private changeListenerDeregister_: Function;
   private textNode_: TextNode;
 
   constructor(
@@ -22,6 +23,18 @@ export default class TextCtrl {
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
     this.textNode_ = AssetPipelineService.getPipeline($scope['asset'].id).textNode;
+    this.changeListenerDeregister_ =
+        this.textNode_.addChangeListener(this.onTextNodeChange_.bind(this));
+
+    $scope.$on('$destroy', this.onDestroy_.bind(this));
+  }
+
+  private onDestroy_() {
+    this.changeListenerDeregister_();
+  }
+
+  private onTextNodeChange_() {
+    this.$scope_.$apply(() => {});
   }
 
   get data(): File {

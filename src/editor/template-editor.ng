@@ -1,4 +1,5 @@
-<div class="pc-template-editor" layout="row" flex>
+<!-- TODO(gs): Make this an editor with preview -->
+<div layout="row" flex>
   <pc-code-editor ng-model="ctrl.templateString" language="html">
   </pc-code-editor>
   <iframe flex></iframe>
