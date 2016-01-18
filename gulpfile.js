@@ -43,6 +43,11 @@ gulp.task('test', gulp.series(
     function runTests_(done) {
       new karma({
         configFile: __dirname + '/karma.conf.js',
+        reporters: ['story'],
+        storyReporter: {
+          showSkipped:        true, // default: false
+          showSkippedSummary: true  // default: false
+        },
         singleRun: true
       }, done).start();
     }

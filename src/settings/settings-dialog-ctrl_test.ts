@@ -47,8 +47,8 @@ describe('settings.SettingsDialogCtrl', () => {
     });
   });
 
-  xdescribe('onDownloadClick', () => {
-    it('should create the asset JSON and downloads it', (done) => {
+  describe('onDownloadClick', () => {
+    it('should create the asset JSON and downloads it', done => {
       let name = 'name';
       mockAsset.name = name;
 
@@ -60,7 +60,7 @@ describe('settings.SettingsDialogCtrl', () => {
       let blob = mockDownloadService.download.calls.argsFor(0)[0];
       let fileReader = new FileReader();
       fileReader.addEventListener('loadend', () => {
-        expect(JSON.stringify(fileReader.result)).toEqual(mockAsset);
+        expect(JSON.parse(fileReader.result)).toEqual(mockAsset);
         done();
       });
       fileReader.readAsText(blob);

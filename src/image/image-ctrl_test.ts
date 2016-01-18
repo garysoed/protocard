@@ -65,7 +65,10 @@ describe('image.ImageCtrl', () => {
           }, done.fail);
     });
 
-    it('should cache the provider');
+    it('should cache the provider', () => {
+      mockImageNode.result = Promise.resolve(null);
+      expect(ctrl.images).toBe(ctrl.images);
+    });
   });
 
   describe('onDeleteClick', () => {

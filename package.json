@@ -44,6 +44,7 @@
     "karma": "^0.13.19",
     "karma-chrome-launcher": "^0.2.2",
     "karma-jasmine": "^0.3.6",
+    "karma-story-reporter": "^0.3.1",
     "minimist": "^1.2.0",
     "tsd": "^0.6.5",
     "vinyl": "^1.0.0",
