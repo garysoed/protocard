@@ -1,0 +1,14 @@
+pc-nav-graph > svg line,
+pc-nav-graph > svg polyline {
+  stroke: rgb(117,117,117);
+  stroke-width: 5px;
+}
+
+pc-nav-graph > svg line.disabled,
+pc-nav-graph > svg polyline.disabled {
+  stroke: rgb(192,192,192);
+}
+
+pc-nav-graph > svg polyline {
+  fill: none;
+}

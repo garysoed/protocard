@@ -76,26 +76,6 @@ export default class ViewCtrl {
     return this.asset_ && this.asset_.name;
   }
 
-  get canEditPartial(): boolean {
-    return this.isLabelReady;
-  }
-
-  get canEditTemplate(): boolean {
-    return this.canEditPartial;
-  }
-
-  get canProcessData(): boolean {
-    return this.isDataReady;
-  }
-
-  get canPublish(): boolean {
-    return this.isTemplateReady;
-  }
-
-  get canSetLabel(): boolean {
-    return this.isProcessDataReady;
-  }
-
   /**
    * Current helper associated with the view, if any.
    */
@@ -114,22 +94,6 @@ export default class ViewCtrl {
     return this.navigateService_.getSubview() || null;
   }
 
-  get isDataReady(): boolean {
-    return !!this.asset_.data;
-  }
-
-  get isPartialReady(): boolean {
-    return this.canEditPartial;
-  }
-
-  get isProcessDataReady(): boolean {
-    return this.canProcessData && !!this.asset_.dataProcessor;
-  }
-
-  get isLabelReady(): boolean {
-    return this.canSetLabel && !!this.asset_.templateName;
-  }
-
   /**
    * True iff the sidebar should be opened.
    */
@@ -138,10 +102,6 @@ export default class ViewCtrl {
   }
   set isSidebarOpen(open: boolean) {
     this.isSidebarOpen_ = open;
-  }
-
-  get isTemplateReady(): boolean {
-    return this.canEditTemplate && !!this.asset_.templateString;
   }
 
   /**
@@ -158,6 +118,9 @@ export default class ViewCtrl {
     this.isSidebarOpen_ = !this.isSidebarOpen_;
   }
 
+  /**
+   * Handler called when the settings button is clicked.
+   */
   onSettingsClick(event: MouseEvent) {
     this.settingsDialogService_.show(event, this.asset_);
   }

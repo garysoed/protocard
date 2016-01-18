@@ -52,7 +52,7 @@ export default class GeneratorService {
     }
 
     let writer = new Writer(extracted);
-    return writer.write(asset.dataProcessor.asFunction());
+    return writer.write(<any>(asset.dataProcessor.asFunction()));
   }
 
   newGenerator(asset: Asset): Generator {

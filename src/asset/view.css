@@ -15,18 +15,3 @@
 .asset-view .title:hover {
   cursor: pointer;
 }
-
-.asset-view > section > md-sidenav > md-content > svg line,
-.asset-view > section > md-sidenav > md-content > svg polyline {
-  stroke: rgb(117,117,117);
-  stroke-width: 5px;
-}
-
-.asset-view > section > md-sidenav > md-content > svg line.disabled,
-.asset-view > section > md-sidenav > md-content > svg polyline.disabled {
-  stroke: rgb(192,192,192);
-}
-
-.asset-view > section > md-sidenav > md-content > svg polyline {
-  fill: none;
-}

@@ -5,6 +5,7 @@ import HelperEditorModule from '../helper/helper-editor-module';
 import HelperModule from '../helper/helper-module';
 import ImageModule from '../image/image-module';
 import NavigateButtonModule from '../navigate/navigate-button-module';
+import NavGraphModule from './nav-graph-module';
 import NavigateServiceModule from '../navigate/navigate-service-module';
 import PartialEditorModule from '../partial/partial-editor-module';
 import PartialModule from '../partial/partial-module';
@@ -24,6 +25,7 @@ export default angular
       HelperEditorModule.name,
       HelperModule.name,
       ImageModule.name,
+      NavGraphModule.name,
       NavigateButtonModule.name,
       NavigateServiceModule.name,
       PartialModule.name,

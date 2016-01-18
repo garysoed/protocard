@@ -79,7 +79,7 @@ describe('pipeline.Node', () => {
     beforeEach(() => {
       dependency1 = jasmine.createSpyObj('dependency1', ['addChangeListener']);
       dependency2 = jasmine.createSpyObj('dependency2', ['addChangeListener']);
-      node = new TestNode([dependency1, dependency2], Promise.resolve(null));
+      node = new TestNode([dependency1, dependency2], { result: Promise.resolve(null) });
     });
 
     it('should return true if all of the dependencies are done', () => {
@@ -122,7 +122,10 @@ describe('pipeline.Node', () => {
 
       node.result
           .then(() => {
+            spyOn(node, 'run_').and.callThrough();
             node.refresh();
+
+            expect(node.run_).toHaveBeenCalledWith();
             expect(node.isDone).toEqual(false);
 
             spyOn(node, 'runHandler_').and.returnValue(Promise.resolve('value'));

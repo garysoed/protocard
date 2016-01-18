@@ -66,6 +66,7 @@ abstract class Node<T> {
   refresh() {
     Cache.clear(this);
     this.isDone_ = false;
+    this.run_();
   }
 
   get result(): Promise<T> {
