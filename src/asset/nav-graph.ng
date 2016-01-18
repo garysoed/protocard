@@ -1,21 +1,21 @@
-<svg width="288" viewBox="-5 -5 285 610">
+<svg width="288" viewBox="-5 -5 285 660">
   <!-- Row 1 -->
   <foreignObject width="50" height="50" x="0" y="0">
     <pc-navigate-button subview="text" icon="text_fields" text="Text data"></pc-navigate-button>
   </foreignObject>
 
   <foreignObject width="50" height="50" x="75" y="0">
-    <pc-navigate-button subview="image" icon="insert_photo" text="Images"></pc-navigate-button>
-  </foreignObject>
-
-  <foreignObject width="50" height="50" x="150" y="0">
     <pc-navigate-button subview="global" icon="code" text="Global values">
     </pc-navigate-button>
   </foreignObject>
 
-  <foreignObject width="50" height="50" x="225" y="0">
+  <foreignObject width="50" height="50" x="150" y="0">
     <pc-navigate-button subview="helper" icon="functions" text="Helper functions">
     </pc-navigate-button>
+  </foreignObject>
+
+  <foreignObject width="50" height="50" x="225" y="0">
+    <pc-navigate-button subview="image" icon="insert_photo" text="Images"></pc-navigate-button>
   </foreignObject>
 
   <!-- Row 2 -->
@@ -27,8 +27,10 @@
         text="Process Data"></pc-navigate-button>
   </foreignObject>
 
-  <!-- Row 3 -->
-  <foreignObject width="50" height="50" x="0" y="200">
+  <!-- Row 3 is empty -->
+
+  <!-- Row 4 -->
+  <foreignObject width="50" height="50" x="75" y="250">
     <pc-navigate-button
         disabled="!ctrl.canSetLabel"
         icon="label"
@@ -36,10 +38,10 @@
         text="Label Data"></pc-navigate-button>
   </foreignObject>
 
-  <!-- Row 4 is empty -->
+  <!-- Row 5 is empty -->
 
-  <!-- Row 5 -->
-  <foreignObject width="50" height="50" x="112.5" y="350">
+  <!-- Row 6 -->
+  <foreignObject width="50" height="50" x="150" y="400">
     <pc-navigate-button
         disabled="!ctrl.canEditPartial"
         icon="format_paint"
@@ -47,8 +49,8 @@
         text="Subtemplate"></pc-navigate-button>
   </foreignObject>
 
-  <!-- Row 6 -->
-  <foreignObject width="50" height="50" x="112.5" y="450">
+  <!-- Row 7 -->
+  <foreignObject width="50" height="50" x="150" y="500">
     <pc-navigate-button
         disabled="!ctrl.canEditTemplate"
         icon="mode_edit"
@@ -56,8 +58,8 @@
         text="Main Template"></pc-navigate-button>
   </foreignObject>
 
-  <!-- Row 7 -->
-  <foreignObject width="50" height="50" x="112.5" y="550">
+  <!-- Row 8 -->
+  <foreignObject width="50" height="50" x="150" y="600">
     <pc-navigate-button
         disabled="!ctrl.canPublish"
         icon="publish"
@@ -69,36 +71,40 @@
   <line
       ng-class="{disabled: !ctrl.isDataReady}"
       x1="25" y1="50" x2="25" y2="100"></line>
-  <polyline points="100,50 100,300 137.5,300"></polyline>
-  <polyline points="175,50 175,300 137.5,300"></polyline>
-  <polyline points="250,50 250,300 175,300"></polyline>
+  <polyline points="100,50 100,200"></polyline>
+  <polyline points="175,50 175,200 100,200"></polyline>
+  <polyline points="250,50 250,350 175,350"></polyline>
 
   <!-- Connectors from Row 2 -->
-  <line
+  <polyline
       ng-class="{disabled: !ctrl.isProcessDataReady}"
-      x1="25" y1="150" x2="25" y2="200">
-  </line>
+      points="25,150 25,200 100,200"></polyline>
 
   <!-- Connectors from Row 3 -->
   <polyline
-      ng-class="{disabled: !ctrl.isLabelReady}"
-      points="25,250 25,300 100,300">
-  </polyline>
+      ng-class="{disabled: !ctrl.canEditLabel}"
+      points="100,200 100,250"></polyline>
 
   <!-- Connectors from Row 4 -->
-  <line
-      ng-class="{disabled: !ctrl.canEditPartial}"
-      x1="137.5" y1="300" x2="137.5" y2="350">
-  </line>
+  <polyline
+      ng-class="{disabled: !ctrl.isLabelReady}"
+      points="100,300 100,350 175,350">
+  </polyline>
 
   <!-- Connectors from Row 5 -->
   <line
-      ng-class="{disabled: !ctrl.isPartialReady}"
-      x1="137.5" y1="400" x2="137.5" y2="450">
+      ng-class="{disabled: !ctrl.canEditPartial}"
+      x1="175" y1="350" x2="175" y2="400">
   </line>
 
   <!-- Connectors from Row 6 -->
   <line
+      ng-class="{disabled: !ctrl.isPartialReady}"
+      x1="175" y1="450" x2="175" y2="500">
+  </line>
+
+  <!-- Connectors from Row 7 -->
+  <line
       ng-class="{disabled: !ctrl.isTemplateReady}"
-      x1="137.5" y1="500" x2="137.5" y2="550"></line>
+      x1="175" y1="550" x2="175" y2="600"></line>
 </svg>
