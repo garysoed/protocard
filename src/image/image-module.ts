@@ -1,3 +1,4 @@
+import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
 import AssetServiceModule from '../asset/asset-service-module';
 import ContextButtonModule from '../common/context-button-module';
 import DriveDialogModule from '../editor/drive-dialog-module';
@@ -6,6 +7,7 @@ import ImageSelectModule from '../editor/image-select-module';
 
 export default angular
     .module('pc.image.ImageModule', [
+      AssetPipelineServiceModule.name,
       AssetServiceModule.name,
       DriveDialogModule.name,
       ImageSelectModule.name

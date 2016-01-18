@@ -53,10 +53,12 @@ abstract class Node<T> {
   }
 
   get isDependenciesDone(): boolean {
+    this.run_();
     return this.dependencies_.every(dependency => dependency.isDone);
   }
 
   get isDone(): boolean {
+    this.run_();
     return this.isDone_;
   }
 

@@ -1,18 +1,42 @@
 import TestBase from '../testbase';
+TestBase.init()
 
+import FakeScope from '../testing/fake-scope';
 import ImageCtrl from './image-ctrl';
 
-describe('asset.image.ImageCtrl', () => {
+describe('image.ImageCtrl', () => {
+  const ASSET_ID = 'assetId';
+
+  let mock$scope;
   let mockAsset;
+  let mockAssetPipelineService;
   let mockAssetService;
   let mockDriveDialogService;
+  let mockImageNode;
   let ctrl;
 
   beforeEach(() => {
-    mockAsset = {};
+    mockAsset = { id: ASSET_ID };
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
     mockDriveDialogService = jasmine.createSpyObj('DriveDialogService', ['show']);
-    ctrl = new ImageCtrl({ 'asset': mockAsset }, mockAssetService, mockDriveDialogService);
+    mockImageNode = jasmine.createSpyObj('ImageNode', ['refresh']);
+
+    mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
+    mockAssetPipelineService.getPipeline.and.returnValue({ imageNode: mockImageNode });
+
+    mock$scope = new FakeScope({
+      'asset': mockAsset
+    });
+
+    ctrl = new ImageCtrl(
+        mock$scope,
+        mockAssetPipelineService,
+        mockAssetService,
+        mockDriveDialogService);
+  });
+
+  it('should initialize correctly', () => {
+    expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(ASSET_ID);
   });
 
   describe('hasSelectedImages', () => {
@@ -27,13 +51,30 @@ describe('asset.image.ImageCtrl', () => {
     });
   });
 
+  describe('get images', () => {
+    it('should return provider which resolves with the correct image resources', done => {
+      let image1 = jasmine.createObj('image1');
+      let image2 = jasmine.createObj('image2');
+      let imageMap = { 'a': image1, 'b': image2 };
+      mockImageNode.result = Promise.resolve(imageMap);
+
+      ctrl.images.promise
+          .then(images => {
+            expect(images).toEqual([image1, image2]);
+            done();
+          }, done.fail);
+    });
+
+    it('should cache the provider');
+  });
+
   describe('onDeleteClick', () => {
     it('should delete the images from the asset and save it', () => {
       mockAsset.images = {'image1': 'image1', 'image2': 'image2'};
       ctrl.selectedImages = [{ alias: 'image2' }];
 
       ctrl.onDeleteClick();
-      expect(ctrl.images).toEqual(['image1']);
+      expect(mockAsset.images).toEqual({'image1': 'image1'});
       expect(mockAssetService.saveAsset).toHaveBeenCalledWith(mockAsset);
     });
   });

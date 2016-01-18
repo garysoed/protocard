@@ -2,26 +2,34 @@ import TestBase from '../testbase';
 
 import GlobalCtrl from './global-ctrl';
 
-describe('asset.subview.GlobalCtrl', () => {
-  let mockAssetService;
-  let mockAsset;
+describe('global.GlobalCtrl', () => {
+  const ASSET_ID = 'assetId';
   let mock$scope;
+  let mockAsset;
+  let mockAssetPipelineService
+  let mockAssetService;
+  let mockGlobalNode;
   let ctrl;
 
   beforeEach(() => {
-    mockAsset = {};
-    mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
+    mockAsset = { id: ASSET_ID };
     mock$scope = jasmine.createSpyObj('$scope', ['$on']);
     mock$scope['asset'] = mockAsset;
+    mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
+    mockGlobalNode = jasmine.createSpyObj('GlobalNode', ['refresh']);
 
-    ctrl = new GlobalCtrl(mock$scope, mockAssetService);
+    mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
+    mockAssetPipelineService.getPipeline.and.returnValue({ globalNode: mockGlobalNode });
+
+    ctrl = new GlobalCtrl(mock$scope, mockAssetPipelineService, mockAssetService);
   });
 
   it('should initialize globalsString to the value in the asset', () => {
     let globalsString = 'globalsString';
     mockAsset.globalsString = globalsString;
-    ctrl = new GlobalCtrl(mock$scope, mockAssetService);
+    ctrl = new GlobalCtrl(mock$scope, mockAssetPipelineService, mockAssetService);
     expect(ctrl.globalsString).toEqual(globalsString);
+    expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(ASSET_ID);
   });
 
   describe('isValid', () => {
@@ -45,6 +53,7 @@ describe('asset.subview.GlobalCtrl', () => {
       expect(ctrl.globalsString).toEqual(newValue);
       expect(mockAsset.globalsString).toEqual(newValue);
       expect(mockAssetService.saveAsset).toHaveBeenCalledWith(mockAsset);
+      expect(mockGlobalNode.refresh).toHaveBeenCalledWith();
     });
 
     it('should update the globalsString but not save it if null', () => {
@@ -56,6 +65,7 @@ describe('asset.subview.GlobalCtrl', () => {
       expect(ctrl.globalsString).toEqual(null);
       expect(mockAsset.globalsString).toEqual(oldValue);
       expect(mockAssetService.saveAsset).not.toHaveBeenCalled();
+      expect(mockGlobalNode.refresh).not.toHaveBeenCalled();
     });
   });
 });

@@ -16,7 +16,7 @@ export default class {
   constructor($scope: angular.IScope, AssetPipelineService: AssetPipelineService) {
     this.$scope_ = $scope;
     this.asset_ = $scope['asset'];
-    
+
     let assetPipeline = AssetPipelineService.getPipeline(this.asset_.id);
     this.processNode_ = assetPipeline.processNode;
     this.textNode_ = assetPipeline.textNode;

@@ -1,22 +1,34 @@
 import Asset from '../model/asset';
+import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService from '../asset/asset-service';
+import Cache from '../decorators/cache';
 import DriveDialogService from '../editor/drive-dialog-service';
+import ImageNode from '../pipeline/image-node';
 import ImageResource from '../model/image-resource';
+import Provider from '../common/provider';
 
 export default class ImageCtrl {
+  private $scope_: angular.IScope;
   private asset_: Asset;
   private assetService_: AssetService;
   private driveDialogService_: DriveDialogService;
+  private imageNode_: ImageNode;
   private imagesArray_: ImageResource[];
   private selectedImages_: ImageResource[];
 
   /**
    * @param {!editor.DriveDialogService} DriveDialogService
    */
-  constructor($scope, AssetService, DriveDialogService) {
+  constructor(
+      $scope: angular.IScope,
+      AssetPipelineService: AssetPipelineService,
+      AssetService: AssetService,
+      DriveDialogService: DriveDialogService) {
+    this.$scope_ = $scope;
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
     this.driveDialogService_ = DriveDialogService;
+    this.imageNode_ = AssetPipelineService.getPipeline($scope['asset'].id).imageNode;
     this.imagesArray_ = null;
     this.selectedImages_ = [];
   }
@@ -28,14 +40,19 @@ export default class ImageCtrl {
     this.selectedImages_ = images;
   }
 
-  get images(): ImageResource[] {
-    if (this.imagesArray_ === null) {
-      this.imagesArray_ = [];
-      for (let key in this.asset_.images) {
-        this.imagesArray_.push(this.asset_.images[key]);
-      }
-    }
-    return this.imagesArray_;
+  @Cache
+  get images(): Provider<ImageResource[]> {
+    return new Provider(
+        this.$scope_,
+        this.imageNode_.result
+            .then(imageMap => {
+              let array = [];
+              for (let key in imageMap) {
+                array.push(imageMap[key]);
+              }
+              return array;
+            }),
+        []);
   }
 
   /**
@@ -52,9 +69,8 @@ export default class ImageCtrl {
     for (let selected of this.selectedImages_) {
       delete this.asset_.images[selected.alias];
     }
-    this.imagesArray_ = null;
     this.selectedImages_ = [];
-    // TODO(gs): Override images by their URL.
+    Cache.clear(this);
     this.assetService_.saveAsset(this.asset_);
   }
 
@@ -70,8 +86,8 @@ export default class ImageCtrl {
           images.forEach(image => {
             this.asset_.images[image.alias] = image;
           });
-          this.imagesArray_ = null;
           this.assetService_.saveAsset(this.asset_);
+          Cache.clear(this);
         });
   }
 }

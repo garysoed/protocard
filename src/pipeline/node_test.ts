@@ -93,6 +93,13 @@ describe('pipeline.Node', () => {
       dependency2.isDone = true;
       expect(node.isDependenciesDone).toEqual(false);
     });
+
+    it('should run the handler when called', () => {
+      spyOn(node, 'run_').and.callThrough();
+
+      node.isDependenciesDone;
+      expect(node.run_).toHaveBeenCalledWith();
+    });
   });
 
   describe('isDone', () => {
@@ -112,6 +119,13 @@ describe('pipeline.Node', () => {
     it('should return false if the result has not finished running', () => {
       node.result;
       expect(node.isDone).toEqual(false);
+    });
+
+    it('should run the handler when called', () => {
+      spyOn(node, 'run_').and.callThrough();
+
+      node.isDone;
+      expect(node.run_).toHaveBeenCalledWith();
     });
   });
 

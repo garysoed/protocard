@@ -1,16 +1,22 @@
 import Asset from '../model/asset';
+import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService from '../asset/asset-service';
+import Cache from '../decorators/cache';
 import FunctionObject from '../model/function-object';
 import { Events as HelperItemEvents } from './helper-item-ctrl';
+import HelperNode from '../pipeline/helper-node';
 import NavigateService from '../navigate/navigate-service';
+import Provider from '../common/provider';
 import Utils from '../utils';
 
 /**
  * Controller for the helper subview.
  */
 export default class {
+  private $scope_: angular.IScope;
   private asset_: Asset;
   private assetService_: AssetService;
+  private helperNode_: HelperNode;
   private navigateService_: NavigateService;
 
   /**
@@ -19,10 +25,13 @@ export default class {
    */
   constructor(
       $scope: angular.IScope,
+      AssetPipelineService: AssetPipelineService,
       AssetService: AssetService,
       NavigateService: NavigateService) {
+    this.$scope_ = $scope;
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
+    this.helperNode_ = AssetPipelineService.getPipeline(this.asset_.id).helperNode;
     this.navigateService_ = NavigateService;
 
     $scope.$on(HelperItemEvents.CHANGED, this.onHelperItemChanged_.bind(this));
@@ -30,8 +39,12 @@ export default class {
     $scope.$on(HelperItemEvents.EDITED, this.onHelperItemEdited_.bind(this));
   }
 
-  get helpers(): { [key: string]: FunctionObject } {
-    return this.asset_.helpers;
+  @Cache
+  get helpers(): Provider<{ [key: string]: FunctionObject }> {
+    return new Provider(
+        this.$scope_,
+        this.helperNode_.result,
+        <{ [key: string]: FunctionObject }>{});
   }
 
   /**
@@ -45,6 +58,8 @@ export default class {
     let helper = this.asset_.helpers[oldName];
     delete this.asset_.helpers[oldName];
     this.asset_.helpers[newName] = helper;
+    Cache.clear(this);
+    this.helperNode_.refresh();
     this.assetService_.saveAsset(this.asset_);
   }
 
@@ -56,6 +71,8 @@ export default class {
    */
   private onHelperItemDeleted_(event: any, helperName: string) {
     delete this.asset_.helpers[helperName];
+    Cache.clear(this);
+    this.helperNode_.refresh();
     this.assetService_.saveAsset(this.asset_);
   }
 
@@ -76,6 +93,8 @@ export default class {
     let newName = Utils.generateKey(this.asset_.helpers, 'helper');
     let newHelper = new FunctionObject('return function() { }');
     this.asset_.helpers[newName] = newHelper;
+    Cache.clear(this);
+    this.helperNode_.refresh();
     this.assetService_.saveAsset(this.asset_);
   }
 }

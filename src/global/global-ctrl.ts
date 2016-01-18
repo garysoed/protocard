@@ -1,5 +1,7 @@
 import Asset from '../model/asset';
+import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService from '../asset/asset-service';
+import GlobalNode from '../pipeline/global-node';
 
 /**
  * @class asset.subview.GlobalCtrl
@@ -7,11 +9,16 @@ import AssetService from '../asset/asset-service';
 export default class {
   private asset_: Asset;
   private assetService_: AssetService;
+  private globalNode_: GlobalNode;
   private globalsString_: string;
 
-  constructor($scope: angular.IScope, AssetService: AssetService) {
+  constructor(
+      $scope: angular.IScope,
+      AssetPipelineService: AssetPipelineService,
+      AssetService: AssetService) {
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
+    this.globalNode_ = AssetPipelineService.getPipeline(this.asset_.id).globalNode;
     this.globalsString_ = this.asset_.globalsString;
   }
 
@@ -33,6 +40,7 @@ export default class {
     if (newValue !== null) {
       this.asset_.globalsString = newValue;
       this.assetService_.saveAsset(this.asset_);
+      this.globalNode_.refresh();
     }
   }
 }

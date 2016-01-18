@@ -23,7 +23,7 @@ describe('common.Provider', () => {
       let defaultValue = 'defaultValue';
 
       let provider = new Provider(
-          jasmine.createObj('$scope'),
+          jasmine.createSpyObj('$scope', ['$apply']),
           Promise.resolve('value'),
           defaultValue);
       expect(provider.value).toEqual(defaultValue);
