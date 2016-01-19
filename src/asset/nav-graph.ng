@@ -32,9 +32,9 @@
   <!-- Row 4 -->
   <foreignObject width="50" height="50" x="75" y="250">
     <pc-navigate-button
-        disabled="!ctrl.canSetLabel"
+        disabled="!ctrl.canEditLabel"
         icon="label"
-        subview="name"
+        subview="label"
         text="Label Data"></pc-navigate-button>
   </foreignObject>
 

@@ -21,7 +21,7 @@ export default class Asset {
   @Field('images') private images_: { [key: string]: ImageResource };
   @Field('name') private name_: string;
   @Field('partials') private partials_: { [key: string]: string };
-  private templateName_: string;
+  @Field('templateName') private templateName_: string;
   @Field('templateString') private templateString_: string;
 
   /**
@@ -36,7 +36,7 @@ export default class Asset {
     this.helpers_ = {};
     this.images_ = {};
     this.partials_ = {};
-    this.templateName_ = '{{_lowercase _.name}}';
+    this.templateName_ = '';
     this.templateString_ = '';
   }
 

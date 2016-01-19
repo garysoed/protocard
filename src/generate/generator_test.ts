@@ -176,7 +176,7 @@ describe('Generator', () => {
 
   describe('resolve', () => {
     it('should resolve the given template string', () => {
-      let globals = {};
+      let globals = { a: 1 };
       let templateString = 'templateString';
       let resolvedTemplate = 'resolvedTemplate';
       let fakeTemplate = jasmine.createSpy('template').and.returnValue(resolvedTemplate);
@@ -185,7 +185,7 @@ describe('Generator', () => {
       let generator = new Generator(fakeHandleBars, { globals: globals });
 
       expect(generator.resolve(templateString)).toEqual(resolvedTemplate);
-      expect(fakeTemplate).toHaveBeenCalledWith(globals);
+      expect(fakeTemplate).toHaveBeenCalledWith(jasmine.objectContaining(globals));
     });
   });
 });

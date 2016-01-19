@@ -6,6 +6,7 @@ import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import GlobalNode from '../pipeline/global-node';
 import HelperNode from '../pipeline/helper-node';
 import ImageNode from '../pipeline/image-node';
+import LabelNode from '../pipeline/label-node';
 import ProcessNode from '../pipeline/process-node';
 import TextNode from '../pipeline/text-node';
 
@@ -16,6 +17,7 @@ export default class {
   private globalNode_: GlobalNode;
   private helperNode_: HelperNode;
   private imageNode_: ImageNode;
+  private labelNode_: LabelNode;
   private processNode_: ProcessNode;
   private textNode_: TextNode;
 
@@ -27,6 +29,7 @@ export default class {
     this.globalNode_ = assetPipeline.globalNode;
     this.helperNode_ = assetPipeline.helperNode;
     this.imageNode_ = assetPipeline.imageNode;
+    this.labelNode_ = assetPipeline.labelNode;
     this.processNode_ = assetPipeline.processNode;
     this.textNode_ = assetPipeline.textNode;
 
@@ -34,6 +37,7 @@ export default class {
       this.globalNode_,
       this.helperNode_,
       this.imageNode_,
+      this.labelNode_,
       this.processNode_,
       this.textNode_
     ].map(node => node.addChangeListener(this.onPipelineNodeChange_.bind(this)));
@@ -50,7 +54,7 @@ export default class {
   }
 
   get canEditLabel(): boolean {
-    return this.isProcessDataReady && this.globalNode_.isDone && this.helperNode_.isDone;
+    return this.labelNode_.isDependenciesDone;
   }
 
   get canEditPartial(): boolean {
@@ -69,16 +73,12 @@ export default class {
     return this.isTemplateReady;
   }
 
-  get canSetLabel(): boolean {
-    return this.isProcessDataReady;
-  }
-
   get isDataReady(): boolean {
     return this.textNode_.isDone;
   }
 
   get isLabelReady(): boolean {
-    return this.canSetLabel && !!this.asset_.templateName;
+    return this.labelNode_.isDone;
   }
 
   get isPartialReady(): boolean {

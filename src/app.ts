@@ -16,6 +16,11 @@ angular
           .theme('default')
           .primaryPalette('deep-purple')
           .accentPalette('light-green');
+      $mdThemingProvider
+          .theme('editor')
+          .primaryPalette('deep-purple')
+          .accentPalette('light-green')
+          .dark();
       $routeProvider.otherwise('/');
       $sceProvider.enabled(false);
     });

@@ -10,6 +10,7 @@ describe('asset.NavGraphCtrl', () => {
   let mockGlobalNode;
   let mockHelperNode;
   let mockImageNode;
+  let mockLabelNode;
   let mockProcessNode;
   let mockTextNode;
   let ctrl;
@@ -29,6 +30,7 @@ describe('asset.NavGraphCtrl', () => {
     mockGlobalNode = createSpyNode('GlobalNode', mockDeregister);
     mockHelperNode = createSpyNode('HelperNode', mockDeregister);
     mockImageNode = createSpyNode('ImageNode', mockDeregister);
+    mockLabelNode = createSpyNode('LabelNode', mockDeregister);
     mockProcessNode = createSpyNode('ProcessNode', mockDeregister);
     mockTextNode = createSpyNode('TextNode', mockDeregister);
 
@@ -37,6 +39,7 @@ describe('asset.NavGraphCtrl', () => {
       globalNode: mockGlobalNode,
       helperNode: mockHelperNode,
       imageNode: mockImageNode,
+      labelNode: mockLabelNode,
       processNode: mockProcessNode,
       textNode: mockTextNode
     });
@@ -71,6 +74,15 @@ describe('asset.NavGraphCtrl', () => {
     expect(mock$scope.$apply).toHaveBeenCalledWith(jasmine.any(Function));
   });
 
+  it('should trigger digest when label node is changed', () => {
+    spyOn(mock$scope, '$apply');
+
+    expect(mockLabelNode.addChangeListener).toHaveBeenCalledWith(jasmine.any(Function));
+
+    mockLabelNode.addChangeListener.calls.argsFor(0)[0]();
+    expect(mock$scope.$apply).toHaveBeenCalledWith(jasmine.any(Function));
+  });
+
   it('should trigger digest when process node is changed', () => {
     spyOn(mock$scope, '$apply');
 
@@ -95,6 +107,6 @@ describe('asset.NavGraphCtrl', () => {
     mock$scope.$on.calls.argsFor(0)[1]();
 
     expect(mockDeregister).toHaveBeenCalledWith();
-    expect(mockDeregister.calls.count()).toEqual(5);
+    expect(mockDeregister.calls.count()).toEqual(6);
   });
 });

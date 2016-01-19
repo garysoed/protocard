@@ -24,7 +24,7 @@ export default class Generator {
     let helpers = config.helpers || {};
     let partials = config.partials || {};
 
-    this.globals_ = globals;
+    this.globals_ = {};
     var data = {
       _pc: {
         size: {
@@ -34,6 +34,7 @@ export default class Generator {
       }
     };
     Utils.mixin(data, this.globals_);
+    Utils.mixin(globals, this.globals_);
 
     this.handlebars_ = handlebars;
 

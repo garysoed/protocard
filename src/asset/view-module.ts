@@ -4,6 +4,7 @@ import GlobalModule from '../global/global-module';
 import HelperEditorModule from '../helper/helper-editor-module';
 import HelperModule from '../helper/helper-module';
 import ImageModule from '../image/image-module';
+import LabelModule from '../label/label-module';
 import NavigateButtonModule from '../navigate/navigate-button-module';
 import NavGraphModule from './nav-graph-module';
 import NavigateServiceModule from '../navigate/navigate-service-module';
@@ -25,6 +26,7 @@ export default angular
       HelperEditorModule.name,
       HelperModule.name,
       ImageModule.name,
+      LabelModule.name,
       NavGraphModule.name,
       NavigateButtonModule.name,
       NavigateServiceModule.name,

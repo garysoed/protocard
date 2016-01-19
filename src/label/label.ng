@@ -1,0 +1,21 @@
+<div layout="row" layout-fill md-theme="editor">
+  <div class="editor" flex layout-padding layout="row">
+    <md-input-container flex>
+      <label>Asset label</label>
+      <input ng-model="ctrl.assetLabel" ng-model-options="{updateOn: 'blur'}">
+    </md-input-container>
+  </div>
+  <div class="preview-panel" flex layout="column">
+    <h2 class="md-headline">Preview</h2>
+    <div class="preview" flex>{{ctrl.preview.value}}</div>
+  </div>
+</div>
+
+<pc-context-button>
+  <md-fab-trigger>
+    <md-button class="md-fab" ng-click="ctrl.onRefreshClick()">
+      <md-tooltip md-direction="left">Pick a random row</md-tooltip>
+      <md-icon>refresh</md-icon>
+    </md-button>
+  </md-fab-trigger>
+</pc-context-button>

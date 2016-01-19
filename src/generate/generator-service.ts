@@ -1,15 +1,17 @@
 import Asset from '../model/asset';
 import Extract from '../convert/extract';
 import { FileTypes } from '../model/file';
+import FunctionObject from '../model/function-object';
 import Generator from './generator';
+import ImageResource from '../model/image-resource';
 import Utils from '../utils';
 import Writer from '../convert/writer';
 
 // TODO(gs): Move to external file?
-function imageUrlHelper(asset) {
+function imageUrlHelper(images: { [key: string]: ImageResource }) {
   return function(name) {
     let url = null;
-    return asset.images[name] ? asset.images[name].url : null;
+    return images[name] ? images[name].url : null;
   };
 }
 
@@ -39,6 +41,29 @@ export default class GeneratorService {
     this.handlebarsService_ = HandlebarsService;
   }
 
+  // TODO(gs): Test this.
+  createGenerator(
+      globals: { [key: string]: any },
+      helpers: { [key: string]: FunctionObject },
+      images: { [key: string]: ImageResource },
+      partials: { [key: string]: string }) {
+
+    let helperFns = Utils.mapValue(helpers, helper => helper.asFunction());
+    helperFns['_ifeq'] = ifeq;
+    helperFns['_imgUrl'] = imageUrlHelper(images);
+    helperFns['_lowercase'] = lowercase;
+    let options = {
+      globals: globals,
+      helpers: <{ [index: string]: Function }>helperFns,
+      partials: partials
+    };
+
+    // TODO(gs): How to test this???
+    return new Generator(this.handlebarsService_, options);
+  }
+
+  // TODO(gs): Delete anything below this.
+
   // TODO(gs): Delete this.
   localDataList(asset: Asset): any[] {
     let data = asset.data;
@@ -56,18 +81,11 @@ export default class GeneratorService {
   }
 
   newGenerator(asset: Asset): Generator {
-    let helpers = Utils.mapValue(asset.helpers, helper => helper.asFunction());
-    helpers['_ifeq'] = ifeq;
-    helpers['_imgUrl'] = imageUrlHelper(asset);
-    helpers['_lowercase'] = lowercase;
-    let options = {
-      globals: asset.globals,
-      helpers: <{ [index: string]: Function }>helpers,
-      partials: asset.partials
-    };
-
-    // TODO(gs): How to test this???
-    return new Generator(this.handlebarsService_, options);
+    return this.createGenerator(
+        asset.globals,
+        asset.helpers,
+        asset.images,
+        asset.partials);
   }
 
   /**

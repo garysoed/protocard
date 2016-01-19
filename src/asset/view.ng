@@ -27,6 +27,7 @@
       <pc-global flex ng-switch-when="global" asset="ctrl.asset"></pc-global>
       <pc-helper flex ng-switch-when="helper" asset="ctrl.asset"></pc-helper>
       <pc-image flex ng-switch-when="image" asset="ctrl.asset"></pc-image>
+      <pc-label flex ng-switch-when="label" asset="ctrl.asset"></pc-label>
       <pc-partial flex ng-switch-when="partial" asset="ctrl.asset"></pc-partial>
       <pc-render flex ng-switch-when="render" asset="ctrl.asset"></pc-render>
       <pc-template flex ng-switch-when="template" asset="ctrl.asset"></pc-template>

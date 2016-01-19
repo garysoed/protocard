@@ -1,0 +1,12 @@
+pc-label > div > .editor > md-input-container > input,
+pc-label > div > .preview-panel > .preview {
+  font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+}
+
+pc-label > div > .preview-panel {
+  color: white;
+}
+
+pc-label {
+  background-color: #272822;
+}
