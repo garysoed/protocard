@@ -30,6 +30,5 @@ export default function(namespace, name, imports, content) {
   console.log(`${chalk.red('[BETA]')} class(${name})`);
   let out = genMain(imports, content);
   writeFile(namespace, name, 'ts', out);
-  console.log(`${chalk.red('[GEN]')} ${out}`);
   test(namespace, name);
 }

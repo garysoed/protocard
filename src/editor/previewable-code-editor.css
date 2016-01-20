@@ -1,0 +1,17 @@
+pc-previewable-code-editor {
+  display: flex;
+  flex-direction: column;
+}
+
+pc-previewable-code-editor > div > pc-code-editor {
+  min-width: 40em;
+  position: relative;
+}
+
+pc-previewable-code-editor > div > .preview {
+  background-color: #272822;
+}
+
+pc-previewable-code-editor > div > .preview > h2 {
+  color: white;
+}

@@ -1,12 +1,11 @@
-<div layout="row" flex>
-  <pc-code-editor ng-model="ctrl.processorString" language="javascript">
+<pc-previewable-code-editor ng-model="ctrl.processorString" language="javascript" flex>
+  <pc-code-editor class="preview"
+      flex
+      ng-model="ctrl.preview.value"
+      language="json"
+      read-only="true">
   </pc-code-editor>
-  <div class="preview" flex layout="column">
-    <h2 class="md-headline">Preview</h2>
-    <pc-code-editor flex ng-model="ctrl.preview.value" language="json" read-only="true">
-    </pc-code-editor>
-  </div>
-</div>
+</pc-previewable-code-editor>
 
 <pc-context-button>
   <md-fab-trigger>
