@@ -4,6 +4,7 @@
     <label>Search</label>
     <input ng-model="ctrl.query" ng-model-options="{debounce: 500}">
   </md-input-container>
+  <!-- TODO(gs): Different preview modes: Rendered -->
   <iframe class="preview" flex srcdoc="{{ctrl.preview.value}}"></iframe>
 </pc-previewable-code-editor>
 

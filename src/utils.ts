@@ -1,5 +1,8 @@
 export const IDS = {};
 
+// TODO(gs): Move to util folder.
+// TODO(gs): Split into different files.
+
 export default {
   /**
    * Generates a key that is not a key in the given object.
