@@ -5,11 +5,13 @@ import AssetPipelineService from './asset-pipeline-service';
 
 describe('pipeline.AssetPipelineService', () => {
   let mockAssetService;
+  let mockGeneratorService;
   let service;
 
   beforeEach(() => {
     mockAssetService = jasmine.createSpyObj('AssetService', ['getAsset']);
-    service = new AssetPipelineService(mockAssetService);
+    mockGeneratorService = jasmine.createObj('GeneratorService');
+    service = new AssetPipelineService(mockAssetService, mockGeneratorService);
   });
 
   describe('getPipeline', () => {
