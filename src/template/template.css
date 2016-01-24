@@ -11,3 +11,7 @@ pc-template > .search {
   top: 0;
   z-index: 1;
 }
+
+pc-template > pc-previewable-code-editor iframe.preview {
+  border: none;
+}

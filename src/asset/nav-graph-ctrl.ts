@@ -9,6 +9,7 @@ import ImageNode from '../pipeline/image-node';
 import LabelNode from '../pipeline/label-node';
 import PartialNode from '../pipeline/partial-node';
 import ProcessNode from '../pipeline/process-node';
+import TemplateNode from '../pipeline/template-node';
 import TextNode from '../pipeline/text-node';
 
 export default class {
@@ -21,6 +22,7 @@ export default class {
   private labelNode_: LabelNode;
   private partialNode_: PartialNode;
   private processNode_: ProcessNode;
+  private templateNode_: TemplateNode;
   private textNode_: TextNode;
 
   constructor($scope: angular.IScope, AssetPipelineService: AssetPipelineService) {
@@ -34,6 +36,7 @@ export default class {
     this.labelNode_ = assetPipeline.labelNode;
     this.partialNode_ = assetPipeline.partialNode;
     this.processNode_ = assetPipeline.processNode;
+    this.templateNode_ = assetPipeline.templateNode;
     this.textNode_ = assetPipeline.textNode;
 
     this.deregisterFns_ = [
@@ -43,6 +46,7 @@ export default class {
       this.labelNode_,
       this.partialNode_,
       this.processNode_,
+      this.templateNode_,
       this.textNode_
     ].map(node => node.addChangeListener(this.onPipelineNodeChange_.bind(this)));
 
@@ -62,11 +66,11 @@ export default class {
   }
 
   get canEditPartial(): boolean {
-    return this.partialNode_.isDependenciesDone;;
+    return this.partialNode_.isDependenciesDone;
   }
 
   get canEditTemplate(): boolean {
-    return this.canEditPartial;
+    return this.templateNode_.isDependenciesDone;
   }
 
   get canProcessData(): boolean {
@@ -94,6 +98,6 @@ export default class {
   }
 
   get isTemplateReady(): boolean {
-    return this.canEditTemplate && !!this.asset_.templateString;
+    return this.tempateNode_.isDone;
   }
 };

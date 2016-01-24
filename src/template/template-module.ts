@@ -1,3 +1,4 @@
+import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
 import AssetServiceModule from '../asset/asset-service-module';
 import ContextButtonModule from '../common/context-button-module';
 import TemplateEditorModule from '../editor/template-editor-module';
@@ -7,9 +8,10 @@ import TemplateCtrl from './template-ctrl';
 
 export default angular
     .module('pc.template.TemplateModule', [
-      TemplateEditorModule.name,
+      AssetPipelineServiceModule.name,
       GeneratorServiceModule.name,
-      RenderServiceModule.name
+      RenderServiceModule.name,
+      TemplateEditorModule.name
     ])
     .directive('pcTemplate', () => {
       return {

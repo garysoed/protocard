@@ -1,10 +1,11 @@
 <pc-previewable-code-editor ng-model="ctrl.templateString" language="html" flex>
   <md-input-container>
     <label>Data label</label>
-    <input ng-model="ctrl.selectedKey" ng-model-options="{updateOn: 'blur'}">
+    <input ng-model="ctrl.selectedKey" ng-model-options="{debounce: 500}">
   </md-input-container>
   <iframe class="preview" flex srcdoc="{{ctrl.preview.value}}"></iframe>
 </pc-previewable-code-editor>
+
 <pc-context-button>
   <md-fab-trigger>
     <md-button class="md-fab" ng-click="ctrl.onRefreshClick()">

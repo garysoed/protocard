@@ -14,5 +14,3 @@
     </md-button>
   </md-fab-trigger>
 </pc-context-button>
-
-<!-- TODO(gs): The fab button should be outside content -->

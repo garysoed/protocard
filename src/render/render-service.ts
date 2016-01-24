@@ -22,7 +22,7 @@ export default class RenderService {
   /**
    * Handler called when the request pool is executing a request.
    */
-  private onRequest_(params: Params): Promise<any> {
+  private onRequest_(params: Params): Promise<string> {
     let content = params.content;
     let width = params.width;
     let height = params.height;
