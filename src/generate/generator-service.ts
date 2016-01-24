@@ -102,9 +102,4 @@ export default class GeneratorService {
     return this.newGenerator(asset)
         .generate(templateString, templateName, localDataList);
   }
-
-  generateNames(asset: Asset): { [key: string]: any } {
-    return this.newGenerator(asset)
-        .generateNames(asset.templateName, this.localDataList(asset));
-  }
 };

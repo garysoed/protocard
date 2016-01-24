@@ -12,7 +12,6 @@ export default class TemplateCtrl {
   private asset_: Asset;
   private assetService_: AssetService;
   private labelNode_: LabelNode;
-  private localDataList_: { [key: string]: any };
   private query_: string;
   private templateNode_: TemplateNode;
   private templateString_: string;
@@ -26,7 +25,6 @@ export default class TemplateCtrl {
     this.$scope_ = $scope;
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
-    this.localDataList_ = GeneratorService.generateNames($scope['asset']);
     this.query_ = null;
     this.templateString_ = this.asset_.templateString;
 

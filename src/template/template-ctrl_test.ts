@@ -39,10 +39,6 @@ describe('template.TemplateCtrl', () => {
         mock$scope, mockAssetPipelineService, mockAssetService, mockGeneratorService);
   });
 
-  it('should generate the names based on the given asset', () => {
-    expect(mockGeneratorService.generateNames).toHaveBeenCalledWith(mockAsset);
-  });
-
   it('should get the correct asset pipeline', () => {
     expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(ASSET_ID);
   });

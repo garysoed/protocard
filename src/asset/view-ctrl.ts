@@ -8,7 +8,6 @@ import SettingsDialogService from '../settings/settings-dialog-service';
 
 /**
  * Controller for the create page view.
- * TODO(gs): Move the nav bar stuff to its own class.
  */
 export default class ViewCtrl {
   private $location_: angular.ILocationService;

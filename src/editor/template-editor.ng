@@ -1,6 +1,0 @@
-<!-- TODO(gs): Replace this with previewable-code-editor -->
-<div layout="row" flex>
-  <pc-code-editor ng-model="ctrl.templateString" language="html">
-  </pc-code-editor>
-  <iframe flex></iframe>
-</div>

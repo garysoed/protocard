@@ -41,7 +41,6 @@ export default class {
 
   onDownloadClick() {
     let jsonString = JSON.stringify(Serializer.toJSON(this.asset_));
-    // TODO(gs): Polyfill Blob for testing? Move to karma?
     let blob = new Blob(
         [JSON.stringify(Serializer.toJSON(this.asset_), null, 2)],
         { type: 'application/json' });

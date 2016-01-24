@@ -1,9 +1,0 @@
-pc-template-editor {
-  display: flex;
-  flex-direction: column;
-}
-
-pc-template-editor > div > pc-code-editor {
-  min-width: 40em;
-  position: relative;
-}

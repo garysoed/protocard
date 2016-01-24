@@ -7,8 +7,6 @@ import Utils from '../utils';
 
 /**
  * Represents an asset.
- *
- * TODO(gs): make common value class.
  */
 @Serializable('Asset')
 export default class Asset {

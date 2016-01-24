@@ -11,7 +11,6 @@ describe('decorators.Compare', () => {
       this.a_ = a;
     }
 
-    // TODO(gs): Make this generated
     @Comparable get a() { return this.a_; }
   }
 

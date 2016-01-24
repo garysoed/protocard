@@ -1,5 +1,5 @@
 /**
- * @fileoverview TODO(gs)
+ * @fileoverview Controller for the previewable code editor.
  */
 export default class {
   private language_: string;

@@ -16,7 +16,6 @@ import TemplateModule from '../template/template-module';
 import TextModule from '../text/text-module';
 import ViewCtrl from './view-ctrl';
 
-// TODO(gs): Download the asset.
 export default angular
     .module('asset.ViewModule', [
       'ngRoute',

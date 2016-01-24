@@ -98,6 +98,6 @@ export default class {
   }
 
   get isTemplateReady(): boolean {
-    return this.tempateNode_.isDone;
+    return this.templateNode_.isDone;
   }
 };

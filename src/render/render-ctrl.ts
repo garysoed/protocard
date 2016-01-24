@@ -135,7 +135,6 @@ export default class {
     this.lastError_ = null;
 
     try {
-      // TODO(gs): Add name to asset
       let generatedHtml = this.generatorService_.generate(
           this.asset_,
           this.generatorService_.localDataList(this.asset_),
