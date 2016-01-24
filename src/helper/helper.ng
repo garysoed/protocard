@@ -1,6 +1,6 @@
 <md-content class="pc-helper" layout-fill layout="column">
   <md-list layout-fill>
-    <md-list-item ng-repeat="(name, helper) in ctrl.helpers">
+    <md-list-item ng-repeat="(name, helper) in ctrl.helpers.value">
       <pc-helper-item layout-fill helper="helper" name="name"></pc-helper-item>
     </md-list-item>
   </md-list>
