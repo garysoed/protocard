@@ -1,6 +1,7 @@
-<div layout="row" flex>
-  <pc-code-editor ng-model="ctrl.codeString" language="{{ctrl.language}}"></pc-code-editor>
-  <div class="preview" flex layout="column">
+<div layout="row" md-theme="editor" flex>
+  <pc-code-editor ng-model="ctrl.codeString" language="{{ctrl.language}}">
+  </pc-code-editor>
+  <div class="preview" flex layout="column" layout-padding>
     <h2 class="md-headline">Preview</h2>
     <ng-transclude flex layout="column"></ng-transclude>
   </div>

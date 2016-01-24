@@ -1,9 +1,10 @@
-<pc-template-editor class="pc-fill-parent"
-    asset="ctrl.asset"
-    ng-model="ctrl.templateString"
-    sample-data="ctrl.previewData">
-</pc-template-editor>
-
+<pc-previewable-code-editor ng-model="ctrl.templateString" language="html" flex>
+  <md-input-container>
+    <label>Data label</label>
+    <input ng-model="ctrl.selectedKey" ng-model-options="{updateOn: 'blur'}">
+  </md-input-container>
+  <iframe class="preview" flex srcdoc="{{ctrl.preview.value}}"></iframe>
+</pc-previewable-code-editor>
 <pc-context-button>
   <md-fab-trigger>
     <md-button class="md-fab" ng-click="ctrl.onRefreshClick()">

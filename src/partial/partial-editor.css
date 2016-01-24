@@ -1,0 +1,8 @@
+pc-partial-editor {
+  display: flex;
+  flex-direction: column;
+}
+
+pc-partial-editor > pc-previewable-code-editor iframe.preview {
+  border: none;
+}

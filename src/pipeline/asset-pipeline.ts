@@ -5,6 +5,7 @@ import GlobalNode from './global-node';
 import HelperNode from './helper-node';
 import ImageNode from './image-node';
 import LabelNode from './label-node';
+import PartialNode from './partial-node';
 import ProcessNode from './process-node';
 import TextNode from './text-node';
 
@@ -39,6 +40,18 @@ export default class AssetPipeline {
         this.generatorService_,
         this.globalNode,
         this.helperNode,
+        this.processNode);
+  }
+
+  @Cache
+  get partialNode(): PartialNode {
+    return new PartialNode(
+        this.asset_,
+        this.generatorService_,
+        this.globalNode,
+        this.helperNode,
+        this.imageNode,
+        this.labelNode,
         this.processNode);
   }
 

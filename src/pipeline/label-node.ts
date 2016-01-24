@@ -7,7 +7,7 @@ import GlobalNode from './global-node';
 import HelperNode from './helper-node';
 import ProcessNode from './process-node';
 
-export default class LabelNode extends Node<{ [label: string]: any}> {
+export default class LabelNode extends Node<{ [label: string]: any }> {
   private asset_: Asset;
   private generatorService_: GeneratorService;
 

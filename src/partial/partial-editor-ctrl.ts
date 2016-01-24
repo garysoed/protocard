@@ -1,13 +1,19 @@
 import Asset from '../model/asset';
+import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService from '../asset/asset-service';
-import GeneratorService from '../generate/generator-service';
+import Cache from '../decorators/cache';
+import LabelNode from '../pipeline/label-node';
+import PartialNode from '../pipeline/partial-node';
+import Provider from '../common/provider';
 
 export default class {
+  private $scope_: angular.IScope;
   private asset_: Asset;
   private assetService_: AssetService;
-  private localDataList_: any[];
+  private labelNode_: LabelNode;
   private name_: string;
-  private previewData_: any;
+  private partialNode_: PartialNode;
+  private selectedKey_: string;
   private templateString_: string;
 
   /**
@@ -15,18 +21,56 @@ export default class {
    */
   constructor(
       $scope: angular.IScope,
-      AssetService: AssetService,
-      GeneratorService: GeneratorService) {
+      AssetPipelineService: AssetPipelineService,
+      AssetService: AssetService) {
+    this.$scope_ = $scope;
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
-    this.localDataList_ = GeneratorService.localDataList($scope['asset']);
     this.name_ = $scope['name'];
-    this.previewData_ = null;
+    this.labelNode_ = AssetPipelineService.getPipeline(this.asset_.id).labelNode;
+    this.partialNode_ = AssetPipelineService.getPipeline(this.asset_.id).partialNode;
+    this.selectedKey_ = null;
     this.templateString_ = this.asset_.partials[this.name_];
   }
 
-  get asset(): Asset {
-    return this.asset_;
+  private setSelectedKey_() {
+    return this.labelNode_.result
+        .then(labelsMap => {
+          let labels = Object.keys(labelsMap);
+          this.selectedKey_ = labels[Math.floor(Math.random() * labels.length)];
+          Cache.clear(this);
+          this.$scope_.$apply(() => {});
+        });;
+  }
+
+  @Cache
+  get preview(): Provider<string> {
+    return new Provider<string>(
+        this.$scope_,
+        this.partialNode_.result
+            .then(partialsMap => {
+              if (this.selectedKey === null) {
+                return '';
+              }
+
+              if (!partialsMap[this.name_]) {
+                return '';
+              }
+
+              return partialsMap[this.name_][this.selectedKey] || '';
+            }),
+        '');
+  }
+
+  get selectedKey(): string {
+    if (this.selectedKey_ === null) {
+      this.setSelectedKey_();
+    }
+    return this.selectedKey_;
+  }
+  set selectedKey(newKey: string) {
+    this.selectedKey_ = newKey;
+    Cache.clear(this);
   }
 
   get templateString(): string {
@@ -36,22 +80,17 @@ export default class {
     this.templateString_ = newString;
     if (newString !== null) {
       this.asset_.partials[this.name_] = newString;
+      this.partialNode_.refresh();
+      Cache.clear(this);
       this.assetService_.saveAsset(this.asset_);
     }
-  }
-
-  get previewData(): any {
-    if (this.previewData_ === null && this.localDataList_.length > 0) {
-      this.previewData_ =
-          this.localDataList_[Math.floor(Math.random() * this.localDataList_.length)];
-    }
-    return this.previewData_;
   }
 
   /**
    * Called when the refresh button is clicked.
    */
   onRefreshClick() {
-    this.previewData_ = null;
+    this.selectedKey_ = null;
+    Cache.clear(this);
   }
 }

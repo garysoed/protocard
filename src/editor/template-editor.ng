@@ -1,4 +1,4 @@
-<!-- TODO(gs): Make this an editor with preview -->
+<!-- TODO(gs): Replace this with previewable-code-editor -->
 <div layout="row" flex>
   <pc-code-editor ng-model="ctrl.templateString" language="html">
   </pc-code-editor>

@@ -7,6 +7,7 @@ import GlobalNode from '../pipeline/global-node';
 import HelperNode from '../pipeline/helper-node';
 import ImageNode from '../pipeline/image-node';
 import LabelNode from '../pipeline/label-node';
+import PartialNode from '../pipeline/partial-node';
 import ProcessNode from '../pipeline/process-node';
 import TextNode from '../pipeline/text-node';
 
@@ -18,6 +19,7 @@ export default class {
   private helperNode_: HelperNode;
   private imageNode_: ImageNode;
   private labelNode_: LabelNode;
+  private partialNode_: PartialNode;
   private processNode_: ProcessNode;
   private textNode_: TextNode;
 
@@ -30,6 +32,7 @@ export default class {
     this.helperNode_ = assetPipeline.helperNode;
     this.imageNode_ = assetPipeline.imageNode;
     this.labelNode_ = assetPipeline.labelNode;
+    this.partialNode_ = assetPipeline.partialNode;
     this.processNode_ = assetPipeline.processNode;
     this.textNode_ = assetPipeline.textNode;
 
@@ -38,6 +41,7 @@ export default class {
       this.helperNode_,
       this.imageNode_,
       this.labelNode_,
+      this.partialNode_,
       this.processNode_,
       this.textNode_
     ].map(node => node.addChangeListener(this.onPipelineNodeChange_.bind(this)));
@@ -58,7 +62,7 @@ export default class {
   }
 
   get canEditPartial(): boolean {
-    return this.isLabelReady;
+    return this.partialNode_.isDependenciesDone;;
   }
 
   get canEditTemplate(): boolean {
@@ -82,7 +86,7 @@ export default class {
   }
 
   get isPartialReady(): boolean {
-    return this.canEditPartial;
+    return this.partialNode_.isDone;
   }
 
   get isProcessDataReady() {

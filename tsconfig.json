@@ -172,6 +172,8 @@
         "src/pipeline/label-node.ts",
         "src/pipeline/node_test.ts",
         "src/pipeline/node.ts",
+        "src/pipeline/partial-node_test.ts",
+        "src/pipeline/partial-node.ts",
         "src/pipeline/process-node_test.ts",
         "src/pipeline/process-node.ts",
         "src/pipeline/text-node_test.ts",
