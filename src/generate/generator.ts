@@ -1,4 +1,4 @@
-import Utils from '../utils';
+import Utils from '../util/utils';
 
 interface Config {
   globals?: { [key: string]: any };

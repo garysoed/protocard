@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 
 import RequestPool from './request-pool';
 
-describe('common.RequestPool', () => {
+describe('util.RequestPool', () => {
   describe('queue', () => {
     it('should return a promise that resolves the value resolved by the callback function', done => {
       let value = 'value';

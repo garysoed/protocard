@@ -4,7 +4,7 @@ import { FileTypes } from '../model/file';
 import FunctionObject from '../model/function-object';
 import Generator from './generator';
 import ImageResource from '../model/image-resource';
-import Utils from '../utils';
+import Utils from '../util/utils';
 import Writer from '../convert/writer';
 
 // TODO(gs): Move to external file?

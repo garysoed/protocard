@@ -4,7 +4,7 @@ import AssetService from '../asset/asset-service';
 import Cache from '../decorators/cache'; // TODO(gs): decorators -> decorator
 import GeneratorService from '../generate/generator-service';
 import LabelNode from '../pipeline/label-node';
-import Provider from '../common/provider';
+import Provider from '../util/provider';
 import TemplateNode from '../pipeline/template-node';
 
 export default class TemplateCtrl {

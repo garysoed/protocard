@@ -3,7 +3,7 @@ TestBase.init();
 
 import Provider from './provider';
 
-describe('common.Provider', () => {
+describe('util.Provider', () => {
   describe('value', () => {
     it('should return the promise value when the digest cycle is triggered', done => {
       let value = 'value';

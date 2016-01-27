@@ -6,7 +6,7 @@ import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService from '../asset/asset-service';
 import Cache from '../decorators/cache';
 import LabelNode from '../pipeline/label-node';
-import Provider from '../common/provider';
+import Provider from '../util/provider';
 
 export default class {
   private $scope_: angular.IScope;

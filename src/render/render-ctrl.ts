@@ -5,7 +5,7 @@ import Generator from '../generate/generator';
 import GeneratorService from '../generate/generator-service';
 import ImageResource from '../model/image-resource';
 import RenderService from './render-service';
-import Utils from '../utils';
+import Utils from '../util/utils';
 
 /**
  * @class asset.render.RenderCtrl

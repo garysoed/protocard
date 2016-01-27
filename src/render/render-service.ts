@@ -1,4 +1,4 @@
-import RequestPool from '../common/request-pool';
+import RequestPool from '../util/request-pool';
 
 interface Params {
   content: string;

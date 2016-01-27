@@ -1,4 +1,4 @@
-import Utils from '../utils';
+import Utils from '../util/utils';
 
 export const Events = {
   CHANGED: Utils.getUniqueId('changed'),

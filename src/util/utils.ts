@@ -70,47 +70,5 @@ export default {
       out[key] = fn(object[key]);
     }
     return out;
-  },
-
-  /**
-   * Checks equality of the given objects using the given equality function.
-   *
-   * @param a First object to test.
-   * @param b Second object to test.
-   * @param [equalsFn] Function used to test equality. This function should accept two
-   *    arguments, which are the two objects to be checked. Defaults to a function checking equality
-   *    using `===`.
-   * @return True iff the two given objects are equal.
-   */
-  equals(a: any, b: any, equalsFn = (a, b) => a === b): boolean {
-    if (equalsFn(a, b)) {
-      return true;
-    }
-
-    if (a instanceof Set && b instanceof Set) {
-      let arrayA = Array.from(a);
-      let arrayB = Array.from(b);
-
-      if (arrayA.length !== arrayB.length) {
-        return false;
-      }
-
-      return arrayA.every(itemA => {
-        return arrayB.some(itemB => {
-          return equalsFn(itemA, itemB);
-        });
-      });
-    } else if (typeof a === 'object' && typeof b === 'object') {
-      for (let key in a) {
-        let aValue = a[key];
-        let bValue = b[key];
-        if (!this.equals(aValue, bValue, equalsFn)) {
-          return false;
-        }
-      }
-      return true;
-    } else {
-      return equalsFn(a, b);
-    }
   }
 };

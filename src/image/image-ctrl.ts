@@ -5,7 +5,7 @@ import Cache from '../decorators/cache';
 import DriveDialogService from '../editor/drive-dialog-service';
 import ImageNode from '../pipeline/image-node';
 import ImageResource from '../model/image-resource';
-import Provider from '../common/provider';
+import Provider from '../util/provider';
 
 export default class ImageCtrl {
   private $scope_: angular.IScope;

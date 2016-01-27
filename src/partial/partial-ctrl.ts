@@ -1,6 +1,6 @@
 import Asset from '../model/asset';
 import AssetService from '../asset/asset-service';
-import Utils from '../utils';
+import Utils from '../util/utils';
 
 export default class {
   private asset_: Asset;

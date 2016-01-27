@@ -3,7 +3,7 @@ import File from './file';
 import FunctionObject from './function-object';
 import ImageResource from './image-resource';
 import Serializer, { Serializable, Field } from './serializable';
-import Utils from '../utils';
+import Utils from '../util/utils';
 
 /**
  * Represents an asset.

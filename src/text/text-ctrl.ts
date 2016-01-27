@@ -5,7 +5,7 @@ import Cache from '../decorators/cache';
 import Extract from '../convert/extract';
 import File from '../model/file';
 import { FileTypes } from '../model/file';
-import Provider from '../common/provider';
+import Provider from '../util/provider';
 import TextNode from '../pipeline/text-node';
 
 export default class TextCtrl {

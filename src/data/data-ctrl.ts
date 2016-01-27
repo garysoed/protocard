@@ -3,7 +3,7 @@ import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService from '../asset/asset-service';
 import Cache from '../decorators/cache';
 import ProcessNode from '../pipeline/process-node';
-import Provider from '../common/provider';
+import Provider from '../util/provider';
 
 export default class DataCtrl {
   private $scope_: angular.IScope;

@@ -6,8 +6,8 @@ import FunctionObject from '../model/function-object';
 import { Events as HelperItemEvents } from './helper-item-ctrl';
 import HelperNode from '../pipeline/helper-node';
 import NavigateService from '../navigate/navigate-service';
-import Provider from '../common/provider';
-import Utils from '../utils';
+import Provider from '../util/provider';
+import Utils from '../util/utils';
 
 /**
  * Controller for the helper subview.

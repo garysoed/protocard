@@ -1,9 +1,9 @@
-import TestBase from './testbase';
+import TestBase from '../testbase';
 TestBase.init();
 
 import Utils, { IDS } from './utils';
 
-describe('Utils', () => {
+describe('util.Utils', () => {
   describe('generateKey', () => {
     it('should return the first number that is unique', () => {
       let obj = {
@@ -68,36 +68,6 @@ describe('Utils', () => {
       });
       let out = Utils.mapValue(obj, value => `${value}_`);
       expect(out).toEqual({ a: 'a_', b: 'b_' });
-    });
-  });
-
-  describe('equals', () => {
-    it('should check equality for primitives', () => {
-      expect(Utils.equals(1, 1)).toEqual(true);
-    });
-
-    it('should check equality for objects', () => {
-      expect(Utils.equals({ a: { b: 2 } }, { a: { b: 2 } })).toEqual(true);
-    });
-
-    it('should use the equalsFn to check for equality', () => {
-      expect(Utils.equals({ a: 1 }, 1, () => true)).toEqual(true);
-    });
-
-    it('should use the equalsFn to check for equality for objects', () => {
-      expect(Utils.equals({ a: 1 }, { a: 2 }, () => true)).toEqual(true);
-    });
-
-    it('should check equality for Set', () => {
-      Array.from = (set) => {
-        let output = [];
-        for (let entry of set) {
-          output.push(entry);
-        }
-        return output;
-      };
-
-      expect(Utils.equals(new Set([1, 2]), new Set([2, 1]))).toEqual(true);
     });
   });
 });
