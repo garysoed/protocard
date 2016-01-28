@@ -62,7 +62,7 @@ export default class {
     let entry = this.toRender_.pop();
     if (entry && !this.destroyed_) {
       // TODO(gs): Add size to asset.
-      return this.renderService_.render(entry.content, 825, 1125)
+      return this.renderService_.render(entry.content, 825, 1125).promise
           .then(dataUri => {
             this.rendered_.push(new ImageResource(entry.key, dataUri));
             this.$scope_.$apply(() => {});

@@ -1,5 +1,8 @@
-export default class RequestPool<P> {
-  private callbackFn_: (P) => Promise<any>;
+import RequestTicket from './request-ticket';
+import Runner from './runner';
+
+export default class RequestPool<P, R> {
+  private callbackFn_: (P) => R;
   private queue_: Promise<any>[];
 
   /**
@@ -7,7 +10,7 @@ export default class RequestPool<P> {
    * @param callbackFn Function to call for getting a request. The function takes in a
    *    parameter object and returns a promise that will be resolved when the request is complete.
    */
-  constructor(callbackFn: (params: P) => Promise<any>) {
+  constructor(callbackFn: (params: P) => R) {
     this.callbackFn_ = callbackFn;
     this.queue_ = [];
   }
@@ -17,10 +20,13 @@ export default class RequestPool<P> {
    * @param params Object to be passed to the callback function.
    * @return Promise that will be resolved when the request has been fulfilled.
    */
-  queue(params: P): Promise<any> {
+  queue(params: P): RequestTicket<R> {
+    let runner = new Runner<P, R>(this.callbackFn_);
+    let ticket = new RequestTicket<R>(runner);
     let promise;
     if (this.queue_.length === 0) {
-      promise = this.callbackFn_(params)
+      runner.run(params);
+      promise = ticket.promise
           .then(value => {
             this.queue_.shift();
             return value;
@@ -28,13 +34,16 @@ export default class RequestPool<P> {
     } else {
       let lastPromise = this.queue_[this.queue_.length - 1];
       promise = lastPromise
-          .then(() => this.callbackFn_(params))
+          .then(() => {
+            runner.run(params);
+            return ticket.promise;
+          })
           .then(value => {
             this.queue_.shift();
             return value;
           });
     }
     this.queue_.push(promise);
-    return promise;
+    return ticket;
   }
 };

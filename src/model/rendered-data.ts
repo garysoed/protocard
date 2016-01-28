@@ -1,14 +1,16 @@
+import RequestTicket from '../util/request-ticket';
+
 export default class RenderedData {
-  private dataUriPromise_: Promise<string>;
+  private dataUriTicket_: RequestTicket<string>;
   private htmlSource_: string;
 
-  constructor(dataUriPromise: Promise<string>, htmlSource: string) {
-    this.dataUriPromise_ = dataUriPromise;
+  constructor(dataUriTicket: RequestTicket<string>, htmlSource: string) {
+    this.dataUriTicket_ = dataUriTicket;
     this.htmlSource_ = htmlSource;
   }
 
-  get dataUriPromise(): Promise<string> {
-    return this.dataUriPromise_;
+  get dataUriTicket(): RequestTicket<string> {
+    return this.dataUriTicket_;
   }
 
   get htmlSource(): string {

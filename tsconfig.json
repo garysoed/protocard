@@ -208,6 +208,10 @@
         "src/util/provider.ts",
         "src/util/request-pool_test.ts",
         "src/util/request-pool.ts",
+        "src/util/request-ticket_test.ts",
+        "src/util/request-ticket.ts",
+        "src/util/runner_test.ts",
+        "src/util/runner.ts",
         "src/util/utils_test.ts",
         "src/util/utils.ts",
         "node_modules/gulp-typescript/node_modules/typescript/lib/lib.es6.d.ts"

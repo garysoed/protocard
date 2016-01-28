@@ -41,7 +41,7 @@ describe('render.RenderCtrl', () => {
 
       spyOn(mock$scope, '$apply');
 
-      mockRenderService.render.and.returnValue(Promise.resolve(dataUri));
+      mockRenderService.render.and.returnValue({ promise: Promise.resolve(dataUri) });
 
       ctrl.renderNext_()
           .then(() => {

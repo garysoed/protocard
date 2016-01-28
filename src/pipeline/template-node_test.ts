@@ -68,18 +68,6 @@ describe('pipeline.TemplateNode', () => {
                 .toHaveBeenCalledWith(globals, helpers, images, partials);
             expect(mockGenerator.generate)
                 .toHaveBeenCalledWith(templateString, templateName, processedData);
-            expect(mockRenderService.render).toHaveBeenCalledWith('htmlString1', 825, 1125);
-            expect(mockRenderService.render).toHaveBeenCalledWith('htmlString2', 825, 1125);
-
-            return Promise.all([
-              rendered1.dataUriPromise,
-              rendered2.dataUriPromise
-            ]);
-          }, done.fail)
-          .then(dataUris => {
-            let [dataUri1, dataUri2] = dataUris;
-            expect(dataUri1).toEqual('renderedhtmlString1');
-            expect(dataUri2).toEqual('renderedhtmlString2');
             done();
           }, done.fail);
     });

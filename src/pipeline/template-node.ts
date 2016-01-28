@@ -50,8 +50,9 @@ export default class TemplateNode extends Node<{ [label: string]: RenderedData }
         for (let label in htmlStringMap) {
           let htmlString = htmlStringMap[label];
           // TODO(gs): Read the size from the asset.
-          let dataUriPromise = this.renderService_.render(htmlString, 825, 1125);
-          result[label] = new RenderedData(dataUriPromise, htmlString);
+          // let dataUriTicket = this.renderService_.render(htmlString, 825, 1125);
+          let dataUriTicket = null;
+          result[label] = new RenderedData(dataUriTicket, htmlString);
         }
         resolve(result);
       } catch (e) {

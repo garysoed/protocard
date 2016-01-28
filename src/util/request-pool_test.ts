@@ -4,14 +4,14 @@ import RequestPool from './request-pool';
 
 describe('util.RequestPool', () => {
   describe('queue', () => {
-    it('should return a promise that resolves the value resolved by the callback function', done => {
+    it('should return a ticket that resolves the value resolved by the callback function', done => {
       let value = 'value';
       let callbackFn = jasmine.createSpy('callback');
       callbackFn.and.returnValue(Promise.resolve(value));
       let params = { a: 1, b: 2 };
       let pool = new RequestPool(callbackFn);
 
-      pool.queue(params)
+      pool.queue(params).promise
           .then(returnValue => {
             expect(callbackFn).toHaveBeenCalledWith(params);
             expect(returnValue).toEqual(value);
@@ -33,7 +33,7 @@ describe('util.RequestPool', () => {
 
       let pool = new RequestPool(callbackFn);
       pool.queue({ a: 1 });
-      pool.queue({ b: 2 })
+      pool.queue({ b: 2 }).promise
           .then(done, done.fail);
     });
   });
