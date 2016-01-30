@@ -35,8 +35,9 @@ export default class PreviewAppCtrl {
     let doc = parser.parseFromString(content, 'text/html');
     this.customStyleEl_.innerHTML = (<HTMLElement>(doc.querySelector('style'))).innerHTML;
     this.contentEl_.innerHTML = (<HTMLElement>(doc.querySelector('.root'))).outerHTML;
+    this.canvasEl_.width = width;
+    this.canvasEl_.height = height;
 
-    // TODO(gs): Wait until everything is rendered.
     this.$window_.setTimeout(() => {
       this.html2canvasService_(this.contentEl_, {
         'useCORS': true,

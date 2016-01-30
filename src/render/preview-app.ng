@@ -1,4 +1,4 @@
 <div>
   <div id="content"></div>
-  <canvas style="display: none;" width="825" height="1125"></canvas>
+  <canvas style="display: none;" width="0" height="0"></canvas>
 </div>

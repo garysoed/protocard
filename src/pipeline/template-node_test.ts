@@ -36,6 +36,11 @@ describe('pipeline.TemplateNode', () => {
       let templateName = 'templateName';
       let templateString = 'templateString';
 
+      let width = 123;
+      let height = 456;
+      mockAsset.width = width;
+      mockAsset.height = height;
+
       let htmlStringMap = {
         'label1': 'htmlString1',
         'label2': 'htmlString2'
@@ -67,6 +72,11 @@ describe('pipeline.TemplateNode', () => {
 
             let rendered2 = renderedMap['label2'];
             expect(rendered2.htmlSource).toEqual('htmlString2');
+
+            expect(mockRenderService.render)
+                .toHaveBeenCalledWith('htmlString1', width, height);
+            expect(mockRenderService.render)
+                .toHaveBeenCalledWith('htmlString2', width, height);
 
             expect(mockGeneratorService.createGenerator)
                 .toHaveBeenCalledWith(globals, helpers, images, partials);

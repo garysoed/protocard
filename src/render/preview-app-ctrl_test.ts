@@ -49,10 +49,12 @@ describe('render.PreviewAppCtrl', () => {
     });
 
     it('should render the content and send it back', () => {
+      let height = 123;
+      let width = 456;
       let data = {
         'content': 'content',
-        'height': 123,
-        'width': 456,
+        'height': height,
+        'width': width,
         'id': id
       };
       let mockParsedStyleEl = jasmine.cast<HTMLElement>({ innerHTML: 'style innerHTML' });
@@ -78,6 +80,8 @@ describe('render.PreviewAppCtrl', () => {
       // Trigger the timeout.
       expect(mock$window.setTimeout)
           .toHaveBeenCalledWith(jasmine.any(Function), jasmine.any(Number));
+      expect(mockCanvasEl.width).toEqual(width);
+      expect(mockCanvasEl.height).toEqual(height);
       mock$window.setTimeout.calls.argsFor(0)[0]();
 
       expect(mockDOMParser.parseFromString).toHaveBeenCalledWith(data['content'], 'text/html');
@@ -99,7 +103,7 @@ describe('render.PreviewAppCtrl', () => {
 
       expect(mockCanvasEl.getContext).toHaveBeenCalledWith('2d');
       expect(mockContext.drawImage)
-          .toHaveBeenCalledWith(canvas, 0, 0, data['width'], data['height']);
+          .toHaveBeenCalledWith(canvas, 0, 0, width, height);
       expect(mockCanvasEl.toDataURL).toHaveBeenCalledWith('image/png');
       expect(event.source.postMessage)
           .toHaveBeenCalledWith({ uri: dataUrl, id: id }, event.origin);

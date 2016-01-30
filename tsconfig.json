@@ -134,6 +134,7 @@
         "src/model/function-object.ts",
         "src/model/image-resource_test.ts",
         "src/model/image-resource.ts",
+        "src/model/preset.ts",
         "src/model/rendered-data.ts",
         "src/model/serializable_test.ts",
         "src/model/serializable.ts",

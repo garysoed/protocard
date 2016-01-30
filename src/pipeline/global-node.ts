@@ -13,6 +13,14 @@ export default class GlobalNode extends Node<{ [key: string]: any }> {
   }
 
   runHandler_(): Promise<{ [key: string]: any }> {
-    return Promise.resolve(JSON.parse(this.asset_.globalsString));
+    let globalsJson = JSON.parse(this.asset_.globalsString);
+    // TODO(gs): move to $size
+    globalsJson._pc = {
+      size: {
+        height: `${this.asset_.height}px`,
+        width: `${this.asset_.width}px`
+      }
+    };
+    return Promise.resolve(globalsJson);
   }
 };

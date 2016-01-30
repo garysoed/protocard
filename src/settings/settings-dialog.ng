@@ -9,6 +9,31 @@
             <div ng-message="required">Name is required</div>
           </div>
         </md-input-container>
+
+        <div>
+          <h3>Asset size</h3>
+          <md-select ng-model="ctrl.selectedPresetId">
+            <md-option ng-repeat="preset in ctrl.presets" value="{{$index}}">
+              {{preset}}
+            </md-option>
+          </md-select>
+          <div layout="row">
+            <md-input-container>
+              <label>Width (px)</label>
+              <input required ng-model="ctrl.assetWidth" type="number" name="width">
+              <div ng-messages="assetForm.width.$error">
+                <div ng-message="required">Width is required</div>
+              </div>
+            </md-input-container>
+            <md-input-container>
+              <label>Height (px)</label>
+              <input required ng-model="ctrl.assetHeight" type="number" name="height">
+              <div ng-messages="assetForm.height.$error">
+                <div ng-message="required">Height is required</div>
+              </div>
+            </md-input-container>
+          </div>
+        </div>
       </div>
     </md-dialog-content>
     <md-dialog-actions layout="row" layout-align="end center">

@@ -75,6 +75,8 @@ export default class AssetService {
   saveAsset(asset: Asset) {
     let index = this.index_;
 
+    // TODO(gs): Debounce a bit.
+
     if (index.indexOf(asset.id) < 0) {
       index.push(asset.id);
       this.storage_.setItem(KEY_INDEX, index);

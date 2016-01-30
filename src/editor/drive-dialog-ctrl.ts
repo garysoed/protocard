@@ -60,7 +60,6 @@ export default class DriveDialogCtrl {
           let webViewLink = folderResponse.result.webViewLink;
 
           this.resources_ = [];
-          // TODO(gs): Convert to use Promise.all.
           for (let responseKey in batchResponse.result) {
             let response = batchResponse.result[responseKey];
             let file = response.result;

@@ -24,6 +24,8 @@ describe('model.Asset', () => {
     asset.partials['partial1'] = 'partial1';
     asset.partials['partial2'] = 'partial2';
     asset.templateString = 'templateString';
+    asset.height = 123;
+    asset.width = 456;
 
     expect(Serializer.fromJSON(Serializer.toJSON(asset))).toEqual(asset);
   });

@@ -24,18 +24,7 @@ export default class Generator {
     let helpers = config.helpers || {};
     let partials = config.partials || {};
 
-    this.globals_ = {};
-    var data = {
-      _pc: {
-        size: {
-          height: '1125px',
-          width: '825px'
-        }
-      }
-    };
-    Utils.mixin(data, this.globals_);
-    Utils.mixin(globals, this.globals_);
-
+    this.globals_ = globals;
     this.handlebars_ = handlebars;
 
     // Register the helpers.

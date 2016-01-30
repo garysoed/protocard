@@ -14,11 +14,26 @@ describe('pipeline.GlobalNode', () => {
 
   describe('runHandler_', () => {
     it('should parse the globals string from the asset', done => {
+      let height = 123;
+      let width = 456;
       let globals = { 'a': 1, 'b': 2 };
+
       mockAsset.globalsString = JSON.stringify(globals);
+      mockAsset.height = height;
+      mockAsset.width = width;
+
       node.runHandler_()
           .then(result => {
-            expect(result).toEqual(globals);
+            expect(result).toEqual({
+              'a': 1,
+              'b': 2,
+              _pc: {
+                size: {
+                  height: `${height}px`,
+                  width: `${width}px`
+                }
+              }
+            });
             done();
           }, done.fail);
     });
