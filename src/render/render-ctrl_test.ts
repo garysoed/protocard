@@ -72,7 +72,7 @@ describe('render.RenderCtrl', () => {
       ctrl.renderAll_()
           .then(() => {
             expect(ctrl.lastError).toEqual(error);
-            expect(mock$scope.$apply).toHaveBeenCalledWith(jasmine.any(Function);
+            expect(mock$scope.$apply).toHaveBeenCalledWith(jasmine.any(Function));
             done();
           }, done.fail);
     });
@@ -88,7 +88,7 @@ describe('render.RenderCtrl', () => {
       ctrl.renderAll_()
           .then(() => {
             expect(ctrl.lastError).toEqual(error);
-            expect(mock$scope.$apply).toHaveBeenCalledWith(jasmine.any(Function);
+            expect(mock$scope.$apply).toHaveBeenCalledWith(jasmine.any(Function));
             done();
           }, done.fail);
     });
