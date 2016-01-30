@@ -2,14 +2,14 @@
   <div class="pc-fill-parent load-overlay"
       layout="column"
       layout-align="center center"
-      ng-if="ctrl.isRendering()">
+      ng-if="ctrl.isRendering">
     <div class="container">
       <md-progress-circular md-mode="determinate" md-diameter="100px" value="{{ctrl.percentDone}}">
       </md-progress-circular>
       <div class="md-body-2 text">{{ctrl.renderedCount}} / {{ctrl.totalCount}}</div>
     </div>
   </div>
-  <md-content ng-class="ctrl.isRendering() ? 'loading' : ''">
+  <md-content ng-class="ctrl.isRendering ? 'loading' : ''">
     <pc-error-display ng-if="ctrl.hasLastError()" error="ctrl.lastError"></pc-error-display>
     <pc-image-select
         ng-if="!ctrl.hasLastError()"

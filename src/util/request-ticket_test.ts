@@ -61,14 +61,14 @@ describe('util.RequestTicket', () => {
       expect(ticket.tryResolve_).toHaveBeenCalledWith(mockResolve, mockReject);
     });
 
-    it('should do nothing if the ticket is not active', () => {
+    it('should resolve with undefined if the ticket is not active', () => {
       spyOn(window, 'setTimeout');
 
-      ticket.active = false;
+      ticket.deactivate();
 
       ticket.tryResolve_(mockResolve, mockReject);
 
-      expect(mockResolve).not.toHaveBeenCalled();
+      expect(mockResolve).toHaveBeenCalledWith();
       expect(mockReject).not.toHaveBeenCalled();
       expect(window.setTimeout).not.toHaveBeenCalled();
     });

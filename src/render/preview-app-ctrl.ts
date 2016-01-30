@@ -29,6 +29,7 @@ export default class PreviewAppCtrl {
     let content = event.data['content'];
     let height = event.data['height'];
     let width = event.data['width'];
+    let id = event.data['id'];
 
     let parser = new this.domParserService_();
     let doc = parser.parseFromString(content, 'text/html');
@@ -43,7 +44,7 @@ export default class PreviewAppCtrl {
           var ctx = this.canvasEl_.getContext('2d');
           ctx.drawImage(canvas, 0, 0, width, height);
           var dataUri = this.canvasEl_.toDataURL('image/png');
-          event.source.postMessage(dataUri, event.origin);
+          event.source.postMessage({ uri: dataUri, id: id }, event.origin);
         }
       });
     }, 100);

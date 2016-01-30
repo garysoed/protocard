@@ -1,48 +1,46 @@
 import Asset from '../model/asset';
+import AssetPipelineService from '../pipeline/asset-pipeline-service';
+import Cache from '../decorators/cache';
 import DownloadService from '../common/download-service';
+import ExportNode from '../pipeline/export-node';
 import Extract from '../convert/extract';
 import Generator from '../generate/generator';
 import GeneratorService from '../generate/generator-service';
 import ImageResource from '../model/image-resource';
+import Provider from '../util/provider';
 import RenderService from './render-service';
 import Utils from '../util/utils';
 
-/**
- * @class asset.render.RenderCtrl
- */
-export default class {
+// TODO(gs): Rename to export
+export default class RenderCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
   private destroyed_: boolean;
   private downloadService_: DownloadService;
-  private generatorService_: GeneratorService;
+  private exportNode_: ExportNode;
   private isFabOpen_: boolean;
   private jszipService_: JSZip;
   private lastError_: string;
   private rendered_: ImageResource[];
-  private renderService_: RenderService;
   private selectedImages_: ImageResource[];
-  private toRender_: { key: string; content: string }[];
   private totalRender_: number;
 
   constructor(
       $scope: angular.IScope,
+      AssetPipelineService: AssetPipelineService,
       DownloadService: DownloadService,
-      GeneratorService: GeneratorService,
       JszipService: JSZip,
       RenderService: RenderService) {
     this.$scope_ = $scope;
     this.asset_ = $scope['asset'];
     this.destroyed_ = false;
     this.downloadService_ = DownloadService;
-    this.generatorService_ = GeneratorService;
+    this.exportNode_ = AssetPipelineService.getPipeline(this.asset_.id).exportNode;
     this.isFabOpen_ = false;
     this.jszipService_ = JszipService;
     this.lastError_ = null;
     this.rendered_ = [];
-    this.renderService_ = RenderService;
     this.selectedImages_ = [];
-    this.toRender_ = [];
     this.totalRender_ = 0;
   }
 
@@ -53,24 +51,27 @@ export default class {
     this.destroyed_ = true;
   }
 
-  /**
-   * Renders the next content.
-   *
-   * @return Promise that will be resolved when the next content has been rendered.
-   */
-  private renderNext_(): Promise<void> {
-    let entry = this.toRender_.pop();
-    if (entry && !this.destroyed_) {
-      // TODO(gs): Add size to asset.
-      return this.renderService_.render(entry.content, 825, 1125).promise
-          .then(dataUri => {
-            this.rendered_.push(new ImageResource(entry.key, dataUri));
-            this.$scope_.$apply(() => {});
-            return this.renderNext_();
-          });
-    } else {
-      return Promise.resolve();
-    }
+  private renderAll_(): Promise<any> {
+    return this.exportNode_.result
+        .then(imageResourcePromises => {
+          this.totalRender_ = imageResourcePromises.length;
+          return Promise.all(imageResourcePromises.map(promise => {
+            return promise
+                .then(imageResource => {
+                  this.rendered_.push(imageResource);
+                }, error => {
+                  this.lastError_ = error;
+                })
+                .then(() => {
+                  this.$scope_.$apply(() => {});
+                });
+          }))
+        }, error => {
+          this.lastError_ = error;
+        })
+        .then(() => {
+          this.$scope_.$apply(() => {});
+        });
   }
 
   /**
@@ -94,8 +95,8 @@ export default class {
   /**
    * @return True iff there are items to render.
    */
-  isRendering(): boolean {
-    return this.toRender_.length > 0;
+  get isRendering(): boolean {
+    return (this.totalRender_ - this.images.length) > 0;
   }
 
   /**
@@ -131,27 +132,7 @@ export default class {
    */
   onInit() {
     this.$scope_.$on('$destroy', this.onDestroy_.bind(this));
-
-    this.lastError_ = null;
-
-    try {
-      let generatedHtml = this.generatorService_.generate(
-          this.asset_,
-          this.generatorService_.localDataList(this.asset_),
-          this.asset_.templateString,
-          this.asset_.templateName);
-
-      this.rendered_ = [];
-      this.toRender_ = [];
-      for (let key in generatedHtml) {
-        this.toRender_.push({ key: key, content: generatedHtml[key] });
-      }
-      this.totalRender_ = this.toRender_.length;
-
-      this.renderNext_();
-    } catch (e) {
-      this.lastError_ = e;
-    }
+    this.renderAll_();
   }
 
   /**

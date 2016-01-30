@@ -1,5 +1,6 @@
 import Asset from '../model/asset';
 import Cache from '../decorators/cache';
+import ExportNode from './export-node';
 import GeneratorService from '../generate/generator-service';
 import GlobalNode from './global-node';
 import HelperNode from './helper-node';
@@ -20,6 +21,11 @@ export default class AssetPipeline {
     this.asset_ = asset;
     this.generatorService_ = generatorService;
     this.renderService_ = renderService;
+  }
+
+  @Cache
+  get exportNode(): ExportNode {
+    return new ExportNode(this.templateNode);
   }
 
   @Cache

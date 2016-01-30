@@ -3,6 +3,7 @@
  */
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
+import ExportNode from '../pipeline/export-node';
 import GlobalNode from '../pipeline/global-node';
 import HelperNode from '../pipeline/helper-node';
 import ImageNode from '../pipeline/image-node';
@@ -16,6 +17,7 @@ export default class {
   private $scope_: angular.IScope;
   private asset_: Asset;
   private deregisterFns_: Function[];
+  private exportNode_: ExportNode;
   private globalNode_: GlobalNode;
   private helperNode_: HelperNode;
   private imageNode_: ImageNode;
@@ -30,6 +32,7 @@ export default class {
     this.asset_ = $scope['asset'];
 
     let assetPipeline = AssetPipelineService.getPipeline(this.asset_.id);
+    this.exportNode_ = assetPipeline.exportNode;
     this.globalNode_ = assetPipeline.globalNode;
     this.helperNode_ = assetPipeline.helperNode;
     this.imageNode_ = assetPipeline.imageNode;
@@ -40,6 +43,7 @@ export default class {
     this.textNode_ = assetPipeline.textNode;
 
     this.deregisterFns_ = [
+      this.exportNode_,
       this.globalNode_,
       this.helperNode_,
       this.imageNode_,
@@ -78,7 +82,7 @@ export default class {
   }
 
   get canPublish(): boolean {
-    return this.isTemplateReady;
+    return this.exportNode_.isDependenciesDone;
   }
 
   get isDataReady(): boolean {

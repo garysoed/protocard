@@ -13,15 +13,9 @@ export default class RequestTicket<R> {
     });
   }
 
-  get active(): boolean {
-    return this.active_;
-  }
-  set active(active: boolean) {
-    this.active_ = active;
-  }
-
   private tryResolve_(resolve, reject) {
     if (!this.active) {
+      resolve();
       return;
     }
 
@@ -36,6 +30,14 @@ export default class RequestTicket<R> {
         this.tryResolve_(resolve, reject);
       }, 0);
     }
+  }
+
+  get active(): boolean {
+    return this.active_;
+  }
+
+  deactivate() {
+    this.active_ = false;
   }
 
   get promise(): Promise<R> {

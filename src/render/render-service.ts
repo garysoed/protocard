@@ -34,22 +34,31 @@ export default class RenderService {
           let location = this.$window_.location;
           let origin = `${location.protocol}//${location.host}`;
           return new Promise((resolve, reject) => {
+            let id = Math.random();
             let messageHandler = event => {
               if (event.origin !== origin) {
                 return;
               }
+
+              if (event.data.id !== id) {
+                return;
+              }
               this.$window_.removeEventListener('message', messageHandler);
-              resolve(event.data);
+              resolve(event.data.uri);
             };
             this.$window_.addEventListener('message', messageHandler);
 
             iframeEl.style.width = `${width}px`;
             iframeEl.style.height = `${height}px`;
+
+            let index = content.indexOf('class="name"');
+            let printedContent = content.substring(index);
             iframeEl.contentWindow.postMessage(
                 {
                   'content': content,
                   'height': height,
-                  'width': width
+                  'width': width,
+                  'id': id
                 },
                 origin);
           });
@@ -88,11 +97,10 @@ export default class RenderService {
    * @return Promise that will be resolved with the data URI when the rendering is done.
    */
   render(content: string, width: number, height: number): RequestTicket<string> {
-    let ticket = this.requestPool_.queue({
+    return this.requestPool_.queue({
       content: content,
       width: width,
       height: height
     });
-    return ticket;
   }
 };

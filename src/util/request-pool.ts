@@ -35,7 +35,9 @@ export default class RequestPool<P, R> {
       let lastPromise = this.queue_[this.queue_.length - 1];
       promise = lastPromise
           .then(() => {
-            runner.run(params);
+            if (ticket.active) {
+              runner.run(params);
+            }
             return ticket.promise;
           })
           .then(value => {

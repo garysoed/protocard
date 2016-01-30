@@ -9,6 +9,7 @@ import LabelNode from './label-node';
 import Node from './node';
 import PartialNode from './partial-node';
 import ProcessNode from './process-node';
+import RequestTicket from '../util/request-ticket';
 import RenderService from '../render/render-service';
 import RenderedData from '../model/rendered-data';
 
@@ -16,6 +17,7 @@ export default class TemplateNode extends Node<{ [label: string]: RenderedData }
   private asset_: Asset;
   private generatorService_: GeneratorService;
   private renderService_: RenderService;
+  private tickets_: RequestTicket<any>[];
 
   constructor(
       asset: Asset,
@@ -31,6 +33,7 @@ export default class TemplateNode extends Node<{ [label: string]: RenderedData }
     this.asset_ = asset;
     this.generatorService_ = generatorService;
     this.renderService_ = renderService;
+    this.tickets_ = [];
   }
 
   runHandler_(dependencies): Promise<{ [label: string]: RenderedData }> {
@@ -41,6 +44,12 @@ export default class TemplateNode extends Node<{ [label: string]: RenderedData }
       let labelledData = <{ [key: string]: any }>dependencies[3];
       let processedData = <any[]>dependencies[4];
 
+      // Deactivate all tickets.
+      this.tickets_.forEach(ticket => {
+        ticket.deactivate();
+      });
+      this.tickets_ = [];
+
       try {
         let htmlStringMap = this.generatorService_
             .createGenerator(globals, helpers, images, this.asset_.partials)
@@ -50,8 +59,8 @@ export default class TemplateNode extends Node<{ [label: string]: RenderedData }
         for (let label in htmlStringMap) {
           let htmlString = htmlStringMap[label];
           // TODO(gs): Read the size from the asset.
-          // let dataUriTicket = this.renderService_.render(htmlString, 825, 1125);
-          let dataUriTicket = null;
+          let dataUriTicket = this.renderService_.render(htmlString, 825, 1125);
+          this.tickets_.push(dataUriTicket);
           result[label] = new RenderedData(dataUriTicket, htmlString);
         }
         resolve(result);

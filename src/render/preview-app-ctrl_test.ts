@@ -42,6 +42,7 @@ describe('render.PreviewAppCtrl', () => {
 
   describe('onMessage_', () => {
     let onMessage_;
+    let id = 'id';
 
     beforeEach(() => {
       onMessage_ = mock$window.addEventListener.calls.argsFor(0)[1];
@@ -51,7 +52,8 @@ describe('render.PreviewAppCtrl', () => {
       let data = {
         'content': 'content',
         'height': 123,
-        'width': 456
+        'width': 456,
+        'id': id
       };
       let mockParsedStyleEl = jasmine.cast<HTMLElement>({ innerHTML: 'style innerHTML' });
       let mockParsedRootEl = jasmine.cast<HTMLElement>({ outerHTML: 'root outerHTML' });
@@ -99,7 +101,8 @@ describe('render.PreviewAppCtrl', () => {
       expect(mockContext.drawImage)
           .toHaveBeenCalledWith(canvas, 0, 0, data['width'], data['height']);
       expect(mockCanvasEl.toDataURL).toHaveBeenCalledWith('image/png');
-      expect(event.source.postMessage).toHaveBeenCalledWith(dataUrl, event.origin);
+      expect(event.source.postMessage)
+          .toHaveBeenCalledWith({ uri: dataUrl, id: id }, event.origin);
     });
   });
 });

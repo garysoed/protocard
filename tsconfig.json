@@ -156,6 +156,8 @@
         "src/pipeline/asset-pipeline-service-module.ts",
         "src/pipeline/asset-pipeline-service.ts",
         "src/pipeline/asset-pipeline.ts",
+        "src/pipeline/export-node_test.ts",
+        "src/pipeline/export-node.ts",
         "src/pipeline/global-node_test.ts",
         "src/pipeline/global-node.ts",
         "src/pipeline/helper-node_test.ts",

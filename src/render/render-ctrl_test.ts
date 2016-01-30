@@ -6,71 +6,89 @@ import FunctionObject from '../model/function-object';
 import RenderCtrl from './render-ctrl';
 
 describe('render.RenderCtrl', () => {
+  const ASSET_ID = 'assetId';
+
   let mock$scope;
   let mockAsset;
+  let mockAssetPipelineService;
   let mockDownloadService;
-  let mockGeneratorService;
+  let mockExportNode;
   let mockJszipService;
   let mockRenderService;
   let ctrl;
 
   beforeEach(() => {
-    mockAsset = {};
+    mockAsset = { id: ASSET_ID };
     mock$scope = new FakeScope();
     mock$scope['asset'] = mockAsset;
+    mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
     mockDownloadService = jasmine.createSpyObj('DownloadService', ['download']);
-    mockGeneratorService = jasmine.createSpyObj('GeneratorService', ['generate', 'localDataList']);
+    mockExportNode = jasmine.createObj('ExportNode');
     mockJszipService = jasmine.createSpy('JszipService');
     mockRenderService = jasmine.createSpyObj('RenderService', ['render']);
+
+    mockAssetPipelineService.getPipeline.and.returnValue({ exportNode: mockExportNode });
+
     ctrl = new RenderCtrl(
         mock$scope,
+        mockAssetPipelineService,
         mockDownloadService,
-        mockGeneratorService,
         mockJszipService,
         mockRenderService);
   });
 
-  describe('renderNext_', () => {
-    it('should render the next entry to load', done => {
-      let dataUri = 'dataUri';
-      let toRender = {
-        content: 'content',
-        key: 'key'
-      };
-      ctrl.toRender_ = [toRender];
+  it('should get the correct asset pipeline', () => {
+    expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(ASSET_ID);
+  });
+
+  describe('renderAll_', () => {
+    it('should add all the rendered images', done => {
+      let imageResource1 = jasmine.createObj('imageResource1');
+      let imageResource2 = jasmine.createObj('imageResource2');
+      let results = [Promise.resolve(imageResource1), Promise.resolve(imageResource2)];
+
+      mockExportNode.result = Promise.resolve(results);
 
       spyOn(mock$scope, '$apply');
 
-      mockRenderService.render.and.returnValue({ promise: Promise.resolve(dataUri) });
-
-      ctrl.renderNext_()
+      ctrl.renderAll_()
           .then(() => {
-            expect(ctrl.images.length).toEqual(1);
-
-            let newImage = ctrl.images[0];
-            expect(newImage.alias).toEqual(toRender.key);
-            expect(newImage.url).toEqual(dataUri);
-
-            expect(mockRenderService.render)
-                .toHaveBeenCalledWith(toRender.content, jasmine.any(Number), jasmine.any(Number));
+            expect(ctrl.images).toEqual([imageResource1, imageResource2]);
             expect(mock$scope.$apply).toHaveBeenCalledWith(jasmine.any(Function));
+            expect(mock$scope.$apply.calls.count()).toBeGreaterThan(2);
+
+            expect(ctrl.totalRender_).toEqual(2);
             done();
           }, done.fail);
     });
 
-    it('should do nothing if there are no entries to load', done => {
-      ctrl.renderNext_()
+    it('should set the last error if the export node throws error', done => {
+      let error = jasmine.createObj('error');
+
+      mockExportNode.result = Promise.reject(error);
+
+      spyOn(mock$scope, '$apply');
+
+      ctrl.renderAll_()
           .then(() => {
-            expect(mockRenderService.render).not.toHaveBeenCalled();
+            expect(ctrl.lastError).toEqual(error);
+            expect(mock$scope.$apply).toHaveBeenCalledWith(jasmine.any(Function);
             done();
           }, done.fail);
     });
 
-    it('should do nothing if the controller is destroyed', done => {
-      ctrl.onDestroy_();
-      ctrl.renderNext_()
+    it('should set the last error if one of the image resource promises throws error', done => {
+      let error = jasmine.createObj('error');
+      let results = [Promise.reject(error)];
+
+      mockExportNode.result = Promise.resolve(results);
+
+      spyOn(mock$scope, '$apply');
+
+      ctrl.renderAll_()
           .then(() => {
-            expect(mockRenderService.render).not.toHaveBeenCalled();
+            expect(ctrl.lastError).toEqual(error);
+            expect(mock$scope.$apply).toHaveBeenCalledWith(jasmine.any(Function);
             done();
           }, done.fail);
     });
@@ -88,15 +106,17 @@ describe('render.RenderCtrl', () => {
     });
   });
 
-  describe('isRendering', () => {
+  describe('get isRendering', () => {
     it('should return true if there are items to render', () => {
-      ctrl.toRender_ = [{ content: 'content', key: 'key' }];
-      expect(ctrl.isRendering()).toEqual(true);
+      ctrl.totalRender_ = 2;
+      ctrl.rendered_ = ['2'];
+      expect(ctrl.isRendering).toEqual(true);
     });
 
     it('should return false if there are no items to render', () => {
-      ctrl.toRender_ = [];
-      expect(ctrl.isRendering()).toEqual(false);
+      ctrl.totalRender_ = 2;
+      ctrl.rendered_ = ['1', '2'];
+      expect(ctrl.isRendering).toEqual(false);
     });
   });
 
@@ -125,41 +145,13 @@ describe('render.RenderCtrl', () => {
   });
 
   describe('onInit', () => {
-    beforeEach(() => {
-      mockAsset.data = new File(FileTypes.TSV, 'a\tb\tc');
-      mockAsset.dataProcessor =
-          new FunctionObject('return function(data) { return { name: data[0] }; }');
-      mockAsset.helpers = {};
-      mockAsset.globals = {};
-      mockAsset.templateString = '{{_.name}}';
-    });
-
     it('should initialize correctly', () => {
-      let templateString = 'templateString';
-      let templateName = 'templateName';
-      mockAsset.templateString = templateString;
-      mockAsset.templateName = templateName;
-
-      spyOn(ctrl, 'renderNext_').and.returnValue(undefined);
-
-      let generatedHtml = { 'html1': 'content' };
-      mockGeneratorService.generate.and.returnValue(generatedHtml);
-
-      let localDataList = ['localData'];
-      mockGeneratorService.localDataList.and.returnValue(localDataList);
-
-      ctrl.onInit();
-      expect(ctrl.toRender_).toEqual([{ key: 'html1', content: 'content' }]);
-      expect(ctrl.totalCount).toEqual(1);
-      expect(mockGeneratorService.generate).toHaveBeenCalledWith(
-          mockAsset, localDataList, templateString, templateName);
-      expect(mockGeneratorService.localDataList).toHaveBeenCalledWith(mockAsset);
-    });
-
-    it('should mark itself as destroyed when getting $destroy event', () => {
       spyOn(mock$scope, '$on');
+      spyOn(ctrl, 'renderAll_');
 
       ctrl.onInit();
+
+      expect(ctrl.renderAll_).toHaveBeenCalledWith();
       expect(mock$scope.$on).toHaveBeenCalledWith('$destroy', jasmine.any(Function));
       mock$scope.$on.calls.argsFor(0)[1]();
       expect(ctrl.destroyed_).toEqual(true);

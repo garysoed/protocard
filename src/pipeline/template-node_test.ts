@@ -46,8 +46,12 @@ describe('pipeline.TemplateNode', () => {
 
       mockGeneratorService.createGenerator.and.returnValue(mockGenerator);
 
+      let mockTickets = {
+        'htmlString1': jasmine.createSpyObj('Ticket', ['deactivate']),
+        'htmlString2': jasmine.createSpyObj('Ticket', ['deactivate'])
+      };
       mockRenderService.render.and.callFake(htmlString => {
-        return `rendered${htmlString}`;
+        return mockTickets[htmlString];
       });
 
       mockAsset.partials = partials;
@@ -68,6 +72,13 @@ describe('pipeline.TemplateNode', () => {
                 .toHaveBeenCalledWith(globals, helpers, images, partials);
             expect(mockGenerator.generate)
                 .toHaveBeenCalledWith(templateString, templateName, processedData);
+
+            // Call runHandler_ again.
+            return node.runHandler_([globals, helpers, images, labelledData, processedData]);
+          }, done.fail)
+          .then(() => {
+            expect(mockTickets['htmlString1'].deactivate).toHaveBeenCalledWith();
+            expect(mockTickets['htmlString2'].deactivate).toHaveBeenCalledWith();
             done();
           }, done.fail);
     });

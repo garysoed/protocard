@@ -36,5 +36,22 @@ describe('util.RequestPool', () => {
       pool.queue({ b: 2 }).promise
           .then(done, done.fail);
     });
+
+    it('should not call the runner if the ticket is not active', done => {
+      let isExecuting = false;
+      let callbackFn = jasmine.createSpy('callback');
+      callbackFn.and.returnValue(Promise.resolve('called'));
+
+      let pool = new RequestPool(callbackFn);
+      pool.queue({ a: 1 });
+      let ticket = pool.queue({ b: 2 });
+      ticket.deactivate();
+      ticket.promise
+          .then(result => {
+            expect(result).toBe(undefined);
+            expect(callbackFn.calls.count()).toEqual(1);
+            done();
+          }, done.fail);
+    });
   });
 });

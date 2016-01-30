@@ -110,17 +110,21 @@ describe('render.RenderService', () => {
       let host = 'abs.url:8080';
       let protocol = 'http:';
       let origin = `${protocol}//${host}`;
+      let id = 12;
+      let dataUri = 'dataUri';
       mock$window.location.host = host;
       mock$window.location.protocol = protocol;
 
-      let event = { data: 'dataUri', origin: origin };
+      let event = { data: { id: id, uri: dataUri }, origin: origin };
       mock$window.addEventListener.and.callFake((type, handler) => {
         handler(event);
       });
 
+      spyOn(Math, 'random').and.returnValue(id);
+
       service
           .onRequest_({ content: content, width: width, height: height })
-          .then(dataUri => {
+          .then(actualDataUri => {
             expect(mock$window.addEventListener)
                 .toHaveBeenCalledWith('message', jasmine.any(Function));
             let handler = mock$window.addEventListener.calls.argsFor(0)[1];
@@ -136,7 +140,7 @@ describe('render.RenderService', () => {
                       'width': width
                     }),
                     origin);
-            expect(dataUri).toEqual(event.data);
+            expect(actualDataUri).toEqual(dataUri);
             done();
           }, done.fail);
     });
@@ -148,6 +152,26 @@ describe('render.RenderService', () => {
       mock$window.addEventListener.and.callFake((type, handler) => {
         handler({ data: 'dataUri', origin: 'https://other.origin' });
       });
+
+      service
+          .onRequest_({ content: 'content', width: 123, height: 4456 })
+          .then(done.fail, done.fail);
+      setTimeout(() => {
+        jasmine.clock().uninstall();
+        done();
+      }, 1);
+      jasmine.clock().tick(2);
+    });
+
+    it('should ignore messages with a different ID', done => {
+      jasmine.clock().install();
+      mock$window.location.host = 'abs.url';
+      mock$window.location.protocol = 'http:';
+      mock$window.addEventListener.and.callFake((type, handler) => {
+        handler({ data: { uri: 'dataUri', id: 'otherId' }, origin: 'https://other.origin' });
+      });
+
+      spyOn(Math, 'random').and.returnValue('expectedId');
 
       service
           .onRequest_({ content: 'content', width: 123, height: 4456 })
