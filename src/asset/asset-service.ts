@@ -1,5 +1,6 @@
 import Asset from '../model/asset';
 import Cache from '../decorators/cache';
+import Debounce from '../decorators/debounce';
 import StorageService from '../common/storage-service';
 
 /**
@@ -74,8 +75,6 @@ export default class AssetService {
    */
   saveAsset(asset: Asset) {
     let index = this.index_;
-
-    // TODO(gs): Debounce a bit.
 
     if (index.indexOf(asset.id) < 0) {
       index.push(asset.id);

@@ -52,7 +52,7 @@ const cache: CacheFunc = <CacheFunc>function(
     descriptor.value = function(...args) {
       let cache = Cache.get(this);
       return cache.getValue(propertyKey, original.bind(this));
-    }
+    };
   } else {
     throw Error(`Property ${propertyKey} has to be a getter or a function`);
   }
