@@ -7,12 +7,17 @@ import LabelNode from '../pipeline/label-node';
 import Provider from '../util/provider';
 import TemplateNode from '../pipeline/template-node';
 
+const SEARCH_TIMEOUT = 3000;
+
 export default class TemplateCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
   private assetService_: AssetService;
+  private isSearchFocused_: boolean;
+  private isSearchVisible_: boolean;
   private labelNode_: LabelNode;
   private query_: string;
+  private searchVisibleTimeoutId_: number;
   private templateNode_: TemplateNode;
   private templateString_: string;
 
@@ -25,12 +30,17 @@ export default class TemplateCtrl {
     this.$scope_ = $scope;
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
+    this.isSearchFocused_ = false;
+    this.isSearchVisible_ = false;
     this.query_ = null;
+    this.searchVisibleTimeoutId_ = null;
     this.templateString_ = this.asset_.templateString;
 
     let assetPipeline = AssetPipelineService.getPipeline(this.asset_.id);
     this.labelNode_ = assetPipeline.labelNode;
     this.templateNode_ = assetPipeline.templateNode;
+
+    this.showSearch_();
   }
 
   private setQuery_() {
@@ -43,8 +53,30 @@ export default class TemplateCtrl {
         })
   }
 
+  private showSearch_() {
+    this.isSearchVisible_ = true;
+
+    if (this.searchVisibleTimeoutId_ !== null) {
+      window.clearTimeout(this.searchVisibleTimeoutId_);
+    }
+
+    this.searchVisibleTimeoutId_ = window.setTimeout(
+        () => {
+          if (!this.isSearchFocused_) {
+            this.isSearchVisible_ = false;
+            this.searchVisibleTimeoutId_ = null;
+            this.$scope_.$apply(() => {});
+          }
+        },
+        SEARCH_TIMEOUT);
+  }
+
   get asset(): Asset {
     return this.asset_;
+  }
+
+  get isSearchVisible(): boolean {
+    return this.isSearchVisible_;
   }
 
   @Cache
@@ -89,6 +121,19 @@ export default class TemplateCtrl {
       Cache.clear(this);
       this.assetService_.saveAsset(this.asset_);
     }
+  }
+
+  onSearchBlur() {
+    this.isSearchFocused_ = false;
+    this.showSearch_();
+  }
+
+  onSearchFocus() {
+    this.isSearchFocused_ = true;
+  }
+
+  onSearchMouseOver() {
+    this.showSearch_();
   }
 
   /**

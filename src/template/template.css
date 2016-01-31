@@ -3,13 +3,24 @@ pc-template {
   flex-direction: column;
 }
 
-pc-template > .search {
-  background-color: white;
-  width: 40rem;
+pc-template > pc-previewable-code-editor div.search {
+  background-color: #272822;
   position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 1;
+  width: 100%;
+}
+
+pc-template > pc-previewable-code-editor div.search:not(:focus) {
+  opacity: 0;
+  transition: opacity 2s;
+}
+
+pc-template > pc-previewable-code-editor div.search.visible {
+  opacity: 1;
+  transition: opacity 0s;
+}
+
+pc-template > pc-previewable-code-editor .preview-container {
+  position: relative;
 }
 
 pc-template > pc-previewable-code-editor iframe.preview {

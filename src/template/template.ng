@@ -1,11 +1,21 @@
 <pc-previewable-code-editor ng-model="ctrl.templateString" language="html" flex>
-  <!-- TODO(gs): Make this hideable -->
-  <md-input-container class="search">
-    <label>Search</label>
-    <input ng-model="ctrl.query" ng-model-options="{debounce: 500}">
-  </md-input-container>
-  <!-- TODO(gs): Different preview modes: Rendered -->
-  <iframe class="preview" flex srcdoc="{{ctrl.preview.value}}"></iframe>
+  <div flex layout="column" class="preview-container">
+    <!-- TODO(gs): Make this hideable -->
+    <div class="search"
+        layout="row"
+        ng-class="{ 'visible': ctrl.isSearchVisible }"
+        ng-mouseover="ctrl.onSearchMouseOver()">
+      <md-input-container flex>
+        <label>Search</label>
+        <input
+            ng-blur="ctrl.onSearchBlur()"
+            ng-focus="ctrl.onSearchFocus()"
+            ng-model="ctrl.query" ng-model-options="{debounce: 500}">
+      </md-input-container>
+    </div>
+    <!-- TODO(gs): Different preview modes: Rendered -->
+    <iframe class="preview" flex srcdoc="{{ctrl.preview.value}}"></iframe>
+  </div>
 </pc-previewable-code-editor>
 
 <pc-context-button>

@@ -43,6 +43,56 @@ describe('template.TemplateCtrl', () => {
     expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(ASSET_ID);
   });
 
+  describe('showSearch_', () => {
+    it('should start the timeout that sets the search to be visible', () => {
+      let setTimeoutSpy = spyOn(window, 'setTimeout');
+      setTimeoutSpy.and.returnValue(3);
+      spyOn(mock$scope, '$apply');
+
+      ctrl.showSearch_();
+
+      expect(window.setTimeout).toHaveBeenCalledWith(jasmine.any(Function), jasmine.any(Number));
+
+      setTimeoutSpy.calls.argsFor(0)[0]();
+      expect(ctrl.isSearchVisible_).toEqual(false);
+      expect(ctrl.searchVisibleTimeoutId_).toEqual(null);
+      expect(mock$scope.$apply).toHaveBeenCalledWith(jasmine.any(Function));
+    });
+
+    it('should not set the search to be invisible if the search is focused', () => {
+      let timeoutId = 123;
+      let setTimeoutSpy = spyOn(window, 'setTimeout');
+      setTimeoutSpy.and.returnValue(timeoutId);
+      spyOn(mock$scope, '$apply');
+
+      ctrl.isSearchVisible_ = true;
+
+      ctrl.onSearchFocus();
+      ctrl.showSearch_();
+
+      expect(window.setTimeout).toHaveBeenCalledWith(jasmine.any(Function), jasmine.any(Number));
+
+      setTimeoutSpy.calls.argsFor(0)[0]();
+      expect(ctrl.isSearchVisible_).toEqual(true);
+      expect(ctrl.searchVisibleTimeoutId_).toEqual(timeoutId);
+      expect(mock$scope.$apply).not.toHaveBeenCalled();
+    });
+
+    it('should clear the timeout of the previous setTimeout', () => {
+      let timeoutId = 123;
+      let setTimeoutSpy = spyOn(window, 'setTimeout');
+      setTimeoutSpy.and.returnValue(timeoutId);
+      spyOn(mock$scope, '$apply');
+
+      ctrl.showSearch_();
+
+      spyOn(window, 'clearTimeout');
+
+      ctrl.showSearch_();
+      expect(window.clearTimeout).toHaveBeenCalledWith(timeoutId);
+    });
+  });
+
   describe('setQuery_', () => {
     it('should randomly select a query', done => {
       let labels = { 'label1': 'data', 'label2': 'data' };
@@ -177,6 +227,28 @@ describe('template.TemplateCtrl', () => {
       ctrl.onRefreshClick();
 
       expect(Cache.clear).toHaveBeenCalledWith(ctrl);
+    });
+  });
+
+  describe('onSearchBlur', () => {
+    it('should call show search and set the search as focused', () => {
+      spyOn(ctrl, 'showSearch_');
+      ctrl.isSearchFocused_ = true;
+
+      ctrl.onSearchBlur();
+
+      expect(ctrl.isSearchFocused_).toEqual(false);
+      expect(ctrl.showSearch_).toHaveBeenCalledWith();
+    });
+  });
+
+  describe('onSearchMouseOvr', () => {
+    it('should call show search', () => {
+      spyOn(ctrl, 'showSearch_');
+
+      ctrl.onSearchMouseOver();
+
+      expect(ctrl.showSearch_).toHaveBeenCalledWith();
     });
   });
 });
