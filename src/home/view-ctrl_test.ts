@@ -71,11 +71,12 @@ describe('home.ViewCtrl', () => {
       let asset = jasmine.createObj('asset');
       asset.id = assetId;
 
-      spyOn(Serializer, 'fromJSON').and.returnValue(asset);
+      let fromJSONSpy = spyOn(Serializer, 'fromJSON');
+      fromJSONSpy.and.returnValue(asset);
 
       ctrl.newAsset = { content: JSON.stringify({}) };
 
-      expect(Serializer.fromJSON.calls.argsFor(0)[0].id).toEqual(undefined);
+      expect(fromJSONSpy.calls.argsFor(0)[0].id).toEqual(undefined);
       expect(mockAssetService.saveAsset).toHaveBeenCalledWith(asset);
       expect(mockNavigateService.toAsset).toHaveBeenCalledWith(assetId);
     });
