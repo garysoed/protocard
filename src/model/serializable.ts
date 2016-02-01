@@ -66,7 +66,6 @@ export default class Serializer {
 export function Serializable(name: string): ClassDecorator{
   // TODO(gs): Check uniqueness.
   return function<F extends Function>(ctor: F) {
-    // TODO(gs): Maybe store the ctor
     CTORS.set(name, ctor);
     initField(ctor.prototype);
     ctor.prototype[__name] = name;

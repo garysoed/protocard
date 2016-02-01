@@ -112,6 +112,40 @@ describe('template.TemplateCtrl', () => {
     });
   });
 
+  describe('get isPreviewLoading', () => {
+    it('should return true until it is loaded', done => {
+      let query = 'query';
+      mockTemplateNode.result = Promise.resolve({
+        [query]: {
+          dataUriTicket: {
+            promise: Promise.resolve('dataUri')
+          }
+        }
+      });
+
+      ctrl.query = query;
+
+      let provider = ctrl.isPreviewLoading;
+      expect(ctrl.isPreviewLoading.value).toEqual(true);
+
+      provider.promise
+          .then(() => {
+            expect(ctrl.isPreviewLoading.value).toEqual(false);
+            done();
+          }, done.fail);
+    });
+
+    it('should return false if there are no rendered data', done => {
+      mockTemplateNode.result = Promise.resolve({ });
+
+      ctrl.isPreviewLoading.promise
+          .then(() => {
+            expect(ctrl.isPreviewLoading.value).toEqual(false);
+            done();
+          }, done.fail);
+    });
+  });
+
   describe('get preview', () => {
     it('should return a provider that resolves with the selected preview data', done => {
       let htmlSource = 'htmlSource';
@@ -162,6 +196,41 @@ describe('template.TemplateCtrl', () => {
       mockTemplateNode.result = Promise.resolve({});
 
       expect(ctrl.preview).toBe(ctrl.preview);
+    });
+  });
+
+  describe('get previewDataUri', () => {
+    it('should empty string until the data uri is loaded', done => {
+      let query = 'query';
+      let dataUri = 'dataUri';
+      mockTemplateNode.result = Promise.resolve({
+        [query]: {
+          dataUriTicket: {
+            promise: Promise.resolve(dataUri)
+          }
+        }
+      });
+
+      ctrl.query = query;
+
+      let provider = ctrl.previewDataUri;
+      expect(ctrl.previewDataUri.value).toEqual('');
+
+      provider.promise
+          .then(() => {
+            expect(ctrl.previewDataUri.value).toEqual(dataUri);
+            done();
+          }, done.fail);
+    });
+
+    it('should return empty string if there are no rendered data', done => {
+      mockTemplateNode.result = Promise.resolve({ });
+
+      ctrl.previewDataUri.promise
+          .then(() => {
+            expect(ctrl.previewDataUri.value).toEqual('');
+            done();
+          }, done.fail);
     });
   });
 

@@ -1,6 +1,5 @@
 export const IDS = {};
 
-// TODO(gs): Move to util folder.
 // TODO(gs): Split into different files.
 
 export default {

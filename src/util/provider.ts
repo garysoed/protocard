@@ -1,6 +1,5 @@
 /**
  * @fileoverview Wraps a promise to provide its value.
- * TODO(gs): Move to util folder.
  */
 import Cache from '../decorators/cache';
 

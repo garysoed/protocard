@@ -1,6 +1,5 @@
 <pc-previewable-code-editor ng-model="ctrl.templateString" language="html" flex>
   <div flex layout="column" class="preview-container">
-    <!-- TODO(gs): Make this hideable -->
     <div class="search"
         layout="row"
         ng-class="{ 'visible': ctrl.isSearchVisible }"
@@ -12,9 +11,31 @@
             ng-focus="ctrl.onSearchFocus()"
             ng-model="ctrl.query" ng-model-options="{debounce: 500}">
       </md-input-container>
+      <md-switch class="render-mode" ng-model="ctrl.isRenderMode">
+        Render mode
+      </md-switch>
     </div>
     <!-- TODO(gs): Different preview modes: Rendered -->
-    <iframe class="preview" flex srcdoc="{{ctrl.preview.value}}"></iframe>
+    <iframe class="preview"
+        flex
+        srcdoc="{{ctrl.preview.value}}"
+        ng-if="!ctrl.isRenderMode"></iframe>
+
+    <div ng-if="ctrl.isRenderMode && ctrl.isPreviewLoading.value"
+        flex
+        layout="row"
+        layout-align="center center">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+      <div>Rendering</div>
+    </div>
+
+    <div class="render-container"
+        flex
+        ng-if="ctrl.isRenderMode && !ctrl.isPreviewLoading.value">
+      <div class="image-container">
+        <img ng-src="{{ctrl.previewDataUri.value}}"></img>
+      </div>
+    </div>
   </div>
 </pc-previewable-code-editor>
 

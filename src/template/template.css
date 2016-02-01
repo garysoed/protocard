@@ -7,6 +7,7 @@ pc-template > pc-previewable-code-editor div.search {
   background-color: #272822;
   position: absolute;
   width: 100%;
+  z-index: 999;
 }
 
 pc-template > pc-previewable-code-editor div.search:not(:focus) {
@@ -19,8 +20,26 @@ pc-template > pc-previewable-code-editor div.search.visible {
   transition: opacity 0s;
 }
 
+pc-template > pc-previewable-code-editor div.search > md-switch {
+  margin-left: 1rem;
+}
+
 pc-template > pc-previewable-code-editor .preview-container {
+  color: white;
   position: relative;
+}
+
+pc-template > pc-previewable-code-editor .preview-container > .render-container {
+  position: relative;
+}
+
+pc-template > pc-previewable-code-editor .preview-container > .render-container > .image-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: scroll;
 }
 
 pc-template > pc-previewable-code-editor iframe.preview {

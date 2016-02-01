@@ -6,6 +6,7 @@ import GeneratorService from '../generate/generator-service';
 import LabelNode from '../pipeline/label-node';
 import Provider from '../util/provider';
 import TemplateNode from '../pipeline/template-node';
+import RenderedData from '../model/rendered-data';
 
 const SEARCH_TIMEOUT = 3000;
 
@@ -13,6 +14,7 @@ export default class TemplateCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
   private assetService_: AssetService;
+  private isRenderMode_: boolean;
   private isSearchFocused_: boolean;
   private isSearchVisible_: boolean;
   private labelNode_: LabelNode;
@@ -30,6 +32,7 @@ export default class TemplateCtrl {
     this.$scope_ = $scope;
     this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
+    this.isRenderMode_ = false;
     this.isSearchFocused_ = false;
     this.isSearchVisible_ = false;
     this.query_ = null;
@@ -41,6 +44,18 @@ export default class TemplateCtrl {
     this.templateNode_ = assetPipeline.templateNode;
 
     this.showSearch_();
+  }
+
+  @Cache
+  private get renderResult_(): Promise<RenderedData> {
+    return this.templateNode_.result
+        .then(results => {
+          if (this.query_ === null) {
+            return null;
+          }
+
+          return results[this.query_] || null;
+        });
   }
 
   private setQuery_() {
@@ -75,6 +90,27 @@ export default class TemplateCtrl {
     return this.asset_;
   }
 
+  @Cache
+  get isPreviewLoading(): Provider<boolean> {
+    return new Provider(
+        this.$scope_,
+        this.renderResult_
+            .then(result => {
+              return result === null ? Promise.resolve(false) : result.dataUriTicket.promise;
+            })
+            .then(() => {
+              return false;
+            }),
+        true);
+  }
+
+  get isRenderMode(): boolean {
+    return this.isRenderMode_;
+  }
+  set isRenderMode(isRenderMode: boolean) {
+    this.isRenderMode_ = isRenderMode;
+  }
+
   get isSearchVisible(): boolean {
     return this.isSearchVisible_;
   }
@@ -83,17 +119,20 @@ export default class TemplateCtrl {
   get preview(): Provider<string> {
     return new Provider(
         this.$scope_,
-        this.templateNode_.result
-            .then(results => {
-              if (this.query_ === null) {
-                return '';
-              }
+        this.renderResult_
+            .then(result => {
+              return result === null ? '' : result.htmlSource;
+            }),
+        '');
+  }
 
-              if (!results[this.query_]) {
-                return '';
-              }
-
-              return results[this.query_].htmlSource;
+  @Cache
+  get previewDataUri(): Provider<string> {
+    return new Provider(
+        this.$scope_,
+        this.renderResult_
+            .then(result => {
+              return result === null ? '' : result.dataUriTicket.promise
             }),
         '');
   }
