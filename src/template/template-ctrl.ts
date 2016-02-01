@@ -8,7 +8,7 @@ import Provider from '../util/provider';
 import TemplateNode from '../pipeline/template-node';
 import RenderedData from '../model/rendered-data';
 
-const SEARCH_TIMEOUT = 3000;
+const SEARCH_TIMEOUT = 1000;
 
 export default class TemplateCtrl {
   private $scope_: angular.IScope;
