@@ -58,7 +58,9 @@ export default class {
   }
 
   set newAsset(file: File) {
-    let asset = Serializer.fromJSON(JSON.parse(file.content));
+    let assetJson = JSON.parse(file.content);
+    delete assetJson['id'];
+    let asset = Serializer.fromJSON(assetJson);
     if (!!asset) {
       this.assetService_.saveAsset(asset);
       this.navigateService_.toAsset(asset.id);

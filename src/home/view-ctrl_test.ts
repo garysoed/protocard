@@ -75,6 +75,7 @@ describe('home.ViewCtrl', () => {
 
       ctrl.newAsset = { content: JSON.stringify({}) };
 
+      expect(Serializer.fromJSON.calls.argsFor(0)[0].id).toEqual(undefined);
       expect(mockAssetService.saveAsset).toHaveBeenCalledWith(asset);
       expect(mockNavigateService.toAsset).toHaveBeenCalledWith(assetId);
     });

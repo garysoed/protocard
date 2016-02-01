@@ -27,7 +27,7 @@ export default class Asset {
   /**
    * @param name Name of the asset.
    */
-  constructor(name) {
+  constructor(name: string) {
     this.id_ = `asset.${Date.now()}`;
     this.name_ = name;
     this.data_ = null;

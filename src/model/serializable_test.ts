@@ -16,6 +16,15 @@ describe('model.Serializer', () => {
     @Field('basic') basic: BasicClass;
   }
 
+  @Serializable('default')
+  class DefaultValueClass {
+    @Field('fieldA') a: any;
+
+    constructor() {
+      this.a = 'value';
+    }
+  }
+
   describe('toJSON, fromJSON', () => {
     it('should handle basic class', () => {
       let value = 'value';
@@ -108,6 +117,17 @@ describe('model.Serializer', () => {
 
       let deserialized = Serializer.fromJSON(serialized);
       expect(deserialized.a).toEqual({ 'basic': basic });
+    });
+
+    it('should ignore non existent fields', () => {
+      let defaultValue = new DefaultValueClass();
+      let value = defaultValue.a;
+      let json = Serializer.toJSON(defaultValue);
+
+      delete json['fieldA'];
+
+      let deserialized = Serializer.fromJSON(json);
+      expect(deserialized.a).toEqual(value);
     });
   });
 });

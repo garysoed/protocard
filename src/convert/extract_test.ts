@@ -7,7 +7,7 @@ describe('extract', () => {
       ['2-1', '2-2']
     ];
 
-    let content = lines.map(line => line.join('\t')).join('\n');
+    let content = lines.map(line => line.join('\t')).join('\r\n');
     expect(Extract.fromTsv(content)).toEqual(lines);
   });
 });

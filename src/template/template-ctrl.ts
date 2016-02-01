@@ -96,10 +96,9 @@ export default class TemplateCtrl {
         this.$scope_,
         this.renderResult_
             .then(result => {
-              return result === null ? Promise.resolve(false) : result.dataUriTicket.promise;
-            })
-            .then(() => {
-              return false;
+              return result === null ?
+                  Promise.resolve(false) :
+                  result.dataUriTicket.promise.then(() => false);
             }),
         true);
   }

@@ -22,7 +22,10 @@ export default class Serializer {
       let defaultInstance = new ctor();
 
       ctor.prototype[__fields].forEach((jsonKey, key) => {
-        defaultInstance[key] = this.fromJSON(json[jsonKey]);
+        let jsonValue = json[jsonKey];
+        if (jsonValue !== undefined) {
+          defaultInstance[key] = this.fromJSON(jsonValue);
+        }
       })
 
       return defaultInstance;

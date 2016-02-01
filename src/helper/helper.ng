@@ -6,6 +6,7 @@
   </md-list>
 </md-content>
 
+<!-- This blocks the edit button -->
 <pc-context-button>
   <md-fab-trigger>
     <md-button ng-click="ctrl.onAddClick()" class="md-fab">

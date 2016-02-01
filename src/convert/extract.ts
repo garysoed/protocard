@@ -6,7 +6,7 @@ export default {
   fromTsv(content: string): string[][] {
     let lines = content.split('\n');
     let lineData = lines.map(line => {
-      return line.split('\t');
+      return line.replace(/\r/g, '').split('\t');
     });
 
     return lineData;
