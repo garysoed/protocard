@@ -1,5 +1,5 @@
 import Asset from '../model/asset';
-import Cache from '../decorators/cache';
+import Cache from '../decorator/cache';
 import StorageService from '../common/storage-service';
 
 /**

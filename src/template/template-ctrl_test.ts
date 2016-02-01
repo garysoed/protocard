@@ -1,6 +1,6 @@
 import TestBase from '../testbase';
 
-import Cache from '../decorators/cache';
+import Cache from '../decorator/cache';
 import FakeScope from '../testing/fake-scope';
 import TemplateCtrl from './template-ctrl';
 

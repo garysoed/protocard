@@ -1,7 +1,7 @@
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService from '../asset/asset-service';
-import Cache from '../decorators/cache';
+import Cache from '../decorator/cache';
 import Extract from '../convert/extract';
 import File from '../model/file';
 import { FileTypes } from '../model/file';

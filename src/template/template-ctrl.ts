@@ -1,7 +1,7 @@
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService from '../asset/asset-service';
-import Cache from '../decorators/cache'; // TODO(gs): decorators -> decorator
+import Cache from '../decorator/cache';
 import GeneratorService from '../generate/generator-service';
 import LabelNode from '../pipeline/label-node';
 import Provider from '../util/provider';

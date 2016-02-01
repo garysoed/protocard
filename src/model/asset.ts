@@ -1,4 +1,4 @@
-import { Comparable } from '../decorators/compare';
+import { Comparable } from '../decorator/compare';
 import File from './file';
 import FunctionObject from './function-object';
 import ImageResource from './image-resource';

@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import Cache from '../decorators/cache';
+import Cache from '../decorator/cache';
 import FakeScope from '../testing/fake-scope';
 import LabelCtrl from './label-ctrl';
 

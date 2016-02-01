@@ -15,7 +15,6 @@
         Render mode
       </md-switch>
     </div>
-    <!-- TODO(gs): Different preview modes: Rendered -->
     <iframe class="preview"
         flex
         srcdoc="{{ctrl.preview.value}}"

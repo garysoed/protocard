@@ -1,4 +1,4 @@
-import { Comparable } from '../decorators/compare';
+import { Comparable } from '../decorator/compare';
 import { Serializable, Field } from './serializable';
 
 /**

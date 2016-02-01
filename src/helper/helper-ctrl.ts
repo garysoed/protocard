@@ -1,7 +1,7 @@
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService from '../asset/asset-service';
-import Cache from '../decorators/cache';
+import Cache from '../decorator/cache';
 import FunctionObject from '../model/function-object';
 import { Events as HelperItemEvents } from './helper-item-ctrl';
 import HelperNode from '../pipeline/helper-node';

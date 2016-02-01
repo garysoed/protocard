@@ -1,4 +1,4 @@
-import Cache from '../decorators/cache';
+import Cache from '../decorator/cache';
 import NavigateService from './navigate-service';
 
 export default class {

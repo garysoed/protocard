@@ -1,7 +1,7 @@
 // eval(`require('babel/polyfill')`);
 
 import Asset from './model/asset';
-import Comparator from './decorators/compare';
+import Comparator from './decorator/compare';
 
 let called = false;
 

@@ -1,4 +1,4 @@
-import Cache from '../decorators/cache';
+import Cache from '../decorator/cache';
 
 abstract class Node<T> {
   private dependencies_: Node<any>[];

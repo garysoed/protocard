@@ -1,6 +1,6 @@
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
-import Cache from '../decorators/cache';
+import Cache from '../decorator/cache';
 import DownloadService from '../common/download-service';
 import ExportNode from '../pipeline/export-node';
 import Extract from '../convert/extract';

@@ -1,7 +1,7 @@
 /**
  * @fileoverview Wraps a promise to provide its value.
  */
-import Cache from '../decorators/cache';
+import Cache from '../decorator/cache';
 
 export default class Provider<T> {
   private promise_: Promise<T>;

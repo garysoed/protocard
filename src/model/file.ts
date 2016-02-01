@@ -1,4 +1,4 @@
-import { Comparable } from '../decorators/compare';
+import { Comparable } from '../decorator/compare';
 import { Field, Serializable } from './serializable';
 
 export enum FileTypes {

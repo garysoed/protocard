@@ -1,5 +1,5 @@
 import Asset from '../model/asset';
-import Cache from '../decorators/cache';
+import Cache from '../decorator/cache';
 import ExportNode from './export-node';
 import GeneratorService from '../generate/generator-service';
 import GlobalNode from './global-node';
