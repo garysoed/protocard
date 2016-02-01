@@ -1,7 +1,6 @@
 import AceServiceModule from '../thirdparty/ace-service-module';
 import CodeEditorCtrl from './code-editor-ctrl';
 
-// TODO(gs): Test this.
 export function link(scope, element, attr, ctrls) {
   let [codeEditorCtrl, ngModelCtrl] = ctrls;
   codeEditorCtrl.onLink(element[0].querySelector('.editor'), scope['language'], ngModelCtrl);

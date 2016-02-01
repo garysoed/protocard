@@ -101,7 +101,6 @@ export default class Generator {
     return outContent;
   }
 
-  // TODO(gs): Generic the local data type.
   generateNames(templateName: string, localDataList: any[]): { [key: string]: any } {
     // TODO(gs): Combine with generate
     // TODO(gs): Expose this

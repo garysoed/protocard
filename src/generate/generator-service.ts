@@ -56,8 +56,6 @@ export default class GeneratorService {
       helpers: <{ [index: string]: Function }>helperFns,
       partials: partials
     };
-
-    // TODO(gs): How to test this???
     return new Generator(this.handlebarsService_, options);
   }
 };
