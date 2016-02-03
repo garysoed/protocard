@@ -8,3 +8,4 @@
 /// <reference path="handlebars/handlebars.d.ts" />
 /// <reference path="jszip/jszip.d.ts" />
 /// <reference path="html2canvas/html2canvas.d.ts" />
+/// <reference path="fuse/fuse.d.ts" />

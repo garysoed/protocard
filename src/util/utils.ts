@@ -45,7 +45,6 @@ export default {
       let value = fromObj[key];
       if (toObj[key] !== undefined) {
         if (typeof toObj[key] !== 'object') {
-          // TODO(gs): Trace the object.
           throw Error('Conflict at key ' + key);
         }
         this.mixin(value, toObj[key]);

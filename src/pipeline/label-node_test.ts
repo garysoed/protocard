@@ -5,14 +5,17 @@ import LabelNode from './label-node';
 
 describe('pipeline.LabelNode', () => {
   let mockAsset;
+  let mockFuseService;
   let mockGeneratorService;
   let node;
 
   beforeEach(() => {
     mockAsset = jasmine.createObj('Asset');
+    mockFuseService = jasmine.createSpy('FuseService');
     mockGeneratorService = jasmine.createSpyObj('GeneratorService', ['createGenerator']);
     node = new LabelNode(
         mockAsset,
+        mockFuseService,
         mockGeneratorService,
         jasmine.createSpyObj('GlobalNode', ['addChangeListener']),
         jasmine.createSpyObj('HelperNode', ['addChangeListener']),
@@ -25,20 +28,24 @@ describe('pipeline.LabelNode', () => {
       let helpers = jasmine.createObj('helpers');
       let processedData = jasmine.createObj('processedData');
       let templateName = 'templateName';
-      let renderedLabel = 'renderedLabel';
+      let renderedLabels = { 'labelA': 'renderA', 'labelB': 'renderB' };
+      let index = jasmine.createObj('index');
 
       let mockGenerator = jasmine.createSpyObj('Generator', ['generateNames']);
-      mockGenerator.generateNames.and.returnValue(renderedLabel);
+      mockGenerator.generateNames.and.returnValue(renderedLabels);
       mockGeneratorService.createGenerator.and.returnValue(mockGenerator);
+
+      mockFuseService.and.returnValue(index);
 
       mockAsset.templateName = templateName;
 
       node.runHandler_([globals, helpers, processedData])
           .then(result => {
-            expect(result).toEqual(renderedLabel);
+            expect(result).toEqual({ data: renderedLabels, index: index });
             expect(mockGeneratorService.createGenerator)
                 .toHaveBeenCalledWith(globals, helpers, {}, {});
             expect(mockGenerator.generateNames).toHaveBeenCalledWith(templateName, processedData);
+            expect(mockFuseService).toHaveBeenCalledWith(['labelA', 'labelB']);
             done();
           }, done.fail);
     });

@@ -35,7 +35,7 @@ export default class PartialNode extends Node<IPartialMap> {
       let globals = <{ [key: string]: any }>dependencies[0];
       let helpers = <{ [key: string]: FunctionObject }>dependencies[1];
       let images = <{ [name: string]: ImageResource }>dependencies[2];
-      let labelledData = <{ [key: string]: any }>dependencies[3];
+      let labelledData = <{ data: { [label: string]: any }, index: Fuse }>dependencies[3];
       let processedData = <any[]>dependencies[4];
 
       try {

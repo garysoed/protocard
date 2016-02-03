@@ -52,7 +52,7 @@ describe('partial.PartialEditorCtrl', () => {
       spyOn(Cache, 'clear');
       spyOn(Math, 'random').and.returnValue(0.5);
 
-      mockLabelNode.result = Promise.resolve(labelsMap);
+      mockLabelNode.result = Promise.resolve({ data: labelsMap });
 
       ctrl.setSelectedKey_()
           .then(() => {

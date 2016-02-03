@@ -14,11 +14,17 @@ import TextNode from './text-node';
 
 export default class AssetPipeline {
   private asset_: Asset;
+  private fuseService_: FuseCtor;
   private generatorService_: GeneratorService;
   private renderService_: RenderService;
 
-  constructor(asset: Asset, generatorService: GeneratorService, renderService: RenderService) {
+  constructor(
+      asset: Asset,
+      fuseService: FuseCtor,
+      generatorService: GeneratorService,
+      renderService: RenderService) {
     this.asset_ = asset;
+    this.fuseService_ = fuseService;
     this.generatorService_ = generatorService;
     this.renderService_ = renderService;
   }
@@ -47,6 +53,7 @@ export default class AssetPipeline {
   get labelNode(): LabelNode {
     return new LabelNode(
         this.asset_,
+        this.fuseService_,
         this.generatorService_,
         this.globalNode,
         this.helperNode,

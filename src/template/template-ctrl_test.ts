@@ -96,7 +96,7 @@ describe('template.TemplateCtrl', () => {
   describe('setQuery_', () => {
     it('should randomly select a query', done => {
       let labels = { 'label1': 'data', 'label2': 'data' };
-      mockLabelNode.result = Promise.resolve(labels);
+      mockLabelNode.result = Promise.resolve({ data: labels });
 
       spyOn(Math, 'random').and.returnValue(0.5);
       spyOn(Cache, 'clear');

@@ -60,8 +60,8 @@ export default class TemplateCtrl {
 
   private setQuery_() {
     return this.labelNode_.result
-        .then(labelsMap => {
-          let labels = Object.keys(labelsMap);
+        .then(result => {
+          let labels = Object.keys(result.data);
           this.query_ = labels[Math.floor(Math.random() * labels.length)];
           Cache.clear(this);
           this.$scope_.$apply(() => {});
