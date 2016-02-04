@@ -1,0 +1,15 @@
+<md-autocomplete
+    md-selected-item="ctrl.selectedKey"
+    md-search-text="ctrl.searchText"
+    md-items="item in ctrl.searchResults"
+    md-item-text="item"
+    md-min-length="0"
+    placeholder="Search for asset name"
+    md-floating-label="Label name">
+  <md-item-template>
+    <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item}}</span>
+  </md-item-template>
+  <md-not-found>
+    No assets matching "{{ctrl.searchText}}" were found.
+  </md-not-found>
+</md-autocomplete>

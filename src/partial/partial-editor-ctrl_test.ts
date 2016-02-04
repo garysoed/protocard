@@ -30,13 +30,15 @@ describe('partial.PartialEditorCtrl', () => {
     mockAssetPipelineService.getPipeline.and
         .returnValue({ labelNode: mockLabelNode, partialNode: mockPartialNode });
 
+    mockLabelNode.result = Promise.resolve();
+
     ctrl = new PartialEditorCtrl(
         mock$scope,
         mockAssetPipelineService,
         mockAssetService);
   });
 
-  it('should get the correct pipeline', () => {
+  it('should initialize correctly', () => {
     expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(ASSET_ID);
   });
 
@@ -141,13 +143,6 @@ describe('partial.PartialEditorCtrl', () => {
       ctrl.selectedKey = selectedKey;
 
       expect(ctrl.selectedKey).toEqual(selectedKey);
-    });
-
-    it('should call setSelectedKey_ if no key was set', () => {
-      spyOn(ctrl, 'setSelectedKey_');
-
-      expect(ctrl.selectedKey).toEqual(null);
-      expect(ctrl.setSelectedKey_).toHaveBeenCalledWith();
     });
 
     it('should clear the cache when setting the key', () => {

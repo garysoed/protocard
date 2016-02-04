@@ -45,7 +45,9 @@ describe('pipeline.LabelNode', () => {
             expect(mockGeneratorService.createGenerator)
                 .toHaveBeenCalledWith(globals, helpers, {}, {});
             expect(mockGenerator.generateNames).toHaveBeenCalledWith(templateName, processedData);
-            expect(mockFuseService).toHaveBeenCalledWith(['labelA', 'labelB']);
+            expect(mockFuseService).toHaveBeenCalledWith(
+                [{ 'label': 'labelA' }, { 'label': 'labelB' }],
+                { keys: ['label'] });
             done();
           }, done.fail);
     });

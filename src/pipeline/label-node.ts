@@ -35,15 +35,15 @@ export default class LabelNode extends Node<{ data: { [label: string]: any }, in
         let data = this.generatorService_
             .createGenerator(globals, helpers, {} /* images */, {} /* partials */)
             .generateNames(this.asset_.templateName, processedData);
+
         let labels = [];
         for (let label in data) {
-          labels.push(label);
+          labels.push({ 'label': label });
         }
 
-        // let f;
         resolve({
           data: data,
-          index: new (this.fuseService_)(labels)
+          index: new (this.fuseService_)(labels, { keys: ['label'] })
         });
       } catch (e) {
         reject(e);

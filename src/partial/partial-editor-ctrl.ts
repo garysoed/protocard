@@ -31,9 +31,11 @@ export default class {
     this.partialNode_ = AssetPipelineService.getPipeline(this.asset_.id).partialNode;
     this.selectedKey_ = null;
     this.templateString_ = this.asset_.partials[this.name_];
+
+    this.setSelectedKey_();
   }
 
-  private setSelectedKey_() {
+  private setSelectedKey_(): Promise<any> {
     return this.labelNode_.result
         .then(result => {
           let labels = Object.keys(result.data);
@@ -41,6 +43,10 @@ export default class {
           Cache.clear(this);
           this.$scope_.$apply(() => {});
         });;
+  }
+
+  get asset(): Asset {
+    return this.asset_;
   }
 
   @Cache
@@ -63,9 +69,6 @@ export default class {
   }
 
   get selectedKey(): string {
-    if (this.selectedKey_ === null) {
-      this.setSelectedKey_();
-    }
     return this.selectedKey_;
   }
   set selectedKey(newKey: string) {
