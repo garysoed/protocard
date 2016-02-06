@@ -1,8 +1,8 @@
 <div class="home-view">
   <md-whiteframe class="md-whiteframe-1dp" layout="column">
-    <h1>Protoassets</h1>
+    <h1>Protoasset</h1>
     <p class="md-body-1">
-      Protoassets is a tool to help you generate assets. A typical generation involves 3 steps:
+      Protoasset is a tool to help you generate assets. A typical generation involves 3 steps:
     </p>
     <ol class="md-body-1">
       <li>Grab and process the data

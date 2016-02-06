@@ -151,7 +151,6 @@ export default class TemplateCtrl {
     return this.templateString_;
   }
   set templateString(templateString: string) {
-    // TODO(gs): Use imprecise match, fuse.js
     this.templateString_ = templateString;
     if (templateString !== null) {
       this.asset_.templateString = templateString;
