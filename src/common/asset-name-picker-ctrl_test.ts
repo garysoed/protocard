@@ -9,6 +9,8 @@ describe('common.AssetNamePickerCtrl', () => {
 
   let mockAssetPipelineService;
   let mockLabelNode;
+  let mockOnBlur;
+  let mockOnFocus;
   let ctrl;
 
   beforeEach(() => {
@@ -18,12 +20,60 @@ describe('common.AssetNamePickerCtrl', () => {
     mockAssetPipelineService.getPipeline.and.returnValue({ labelNode: mockLabelNode });
 
     let mockAsset = { id: ASSET_ID };
-    let $scope = <any>(new FakeScope({ 'asset': mockAsset }));
+    mockOnBlur = jasmine.createSpy('onBlur');
+    mockOnFocus = jasmine.createSpy('onFocus');
+    let $scope = <any>(new FakeScope({
+      'asset': mockAsset,
+      'onBlur': mockOnBlur,
+      'onFocus': mockOnFocus
+    }));
     ctrl = new AssetNamePickerCtrl($scope, mockAssetPipelineService);
   });
 
   it('should get the correct asset pipeline', () => {
     expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(ASSET_ID);
+  });
+
+  describe('onLink', () => {
+    it('should listen to focus and blur events', () => {
+      let mockInputEl = jasmine.createSpyObj('InputEl', ['addEventListener']);
+      let mockElement = jasmine.createSpyObj('Element', ['querySelector']);
+      mockElement.querySelector.and.returnValue(mockInputEl);
+
+      let setTimeoutSpy = spyOn(window, 'setTimeout');
+
+      ctrl.onLink(mockElement, jasmine.createObj('NgModelCtrl'));
+
+      expect(window.setTimeout).toHaveBeenCalledWith(jasmine.any(Function), 0);
+
+      setTimeoutSpy.calls.argsFor(0)[0]();
+
+      expect(mockElement.querySelector).toHaveBeenCalledWith('input');
+      expect(mockInputEl.addEventListener).toHaveBeenCalledWith('focus', jasmine.any(Function));
+      expect(mockInputEl.addEventListener).toHaveBeenCalledWith('blur', jasmine.any(Function));
+
+      mockInputEl.addEventListener.calls.argsFor(0)[1]();
+      expect(mockOnFocus).toHaveBeenCalledWith();
+
+      mockInputEl.addEventListener.calls.argsFor(1)[1]();
+      expect(mockOnBlur).toHaveBeenCalledWith();
+    });
+
+    it('should not crash when onFocus and onBlur are not specified', () => {
+      let mockInputEl = jasmine.createSpyObj('InputEl', ['addEventListener']);
+      let mockElement = jasmine.createSpyObj('Element', ['querySelector']);
+      mockElement.querySelector.and.returnValue(mockInputEl);
+
+      let setTimeoutSpy = spyOn(window, 'setTimeout');
+
+      let $scope = <any>(new FakeScope({ 'asset': jasmine.createObj('asset') }));
+      ctrl = new AssetNamePickerCtrl($scope, mockAssetPipelineService);
+      ctrl.onLink(mockElement, jasmine.createObj('NgModelCtrl'));
+
+      setTimeoutSpy.calls.argsFor(0)[0]();
+      mockInputEl.addEventListener.calls.argsFor(0)[1]();
+      mockInputEl.addEventListener.calls.argsFor(1)[1]();
+    });
   });
 
   describe('get searchResults', () => {
@@ -50,10 +100,14 @@ describe('common.AssetNamePickerCtrl', () => {
   });
 
   describe('get selectedKey', () => {
+    beforeEach(() => {
+      spyOn(window, 'setTimeout');
+    });
+
     it('should return the value in ngModelCtrl', () => {
       let selectedKey = 'selectedKey';
       let ngModelCtrl = { $viewValue: selectedKey };
-      ctrl.onLink(ngModelCtrl);
+      ctrl.onLink(jasmine.createObj('Element'), ngModelCtrl);
 
       expect(ctrl.selectedKey).toEqual(selectedKey);
     });
@@ -64,11 +118,15 @@ describe('common.AssetNamePickerCtrl', () => {
   });
 
   describe('set selectedKey', () => {
+    beforeEach(() => {
+      spyOn(window, 'setTimeout');
+    });
+
     it('should set the view value on ngModelCtrl', () => {
       let key = 'key';
 
       let mockNgModelCtrl = jasmine.createSpyObj('NgModelCtrl', ['$setViewValue']);
-      ctrl.onLink(mockNgModelCtrl);
+      ctrl.onLink(jasmine.createObj('Element'), mockNgModelCtrl);
       ctrl.selectedKey = key;
 
       expect(mockNgModelCtrl.$setViewValue).toHaveBeenCalledWith(key);

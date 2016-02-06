@@ -3,7 +3,7 @@ import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-modul
 
 function link(scope, element, attr, ctrls) {
   let [assetNamePickerCtrl, ngModelCtrl] = ctrls;
-  assetNamePickerCtrl.onLink(ngModelCtrl);
+  assetNamePickerCtrl.onLink(element[0], ngModelCtrl);
 }
 
 export default angular
@@ -17,7 +17,9 @@ export default angular
         require: ['pcAssetNamePicker', 'ngModel'],
         restrict: 'E',
         scope: {
-          'asset': '='
+          'asset': '=',
+          'onFocus': '&',
+          'onBlur': '&'
         },
         templateUrl: './common/asset-name-picker.ng',
         link: link

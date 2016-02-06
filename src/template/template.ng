@@ -4,13 +4,13 @@
         layout="row"
         ng-class="{ 'visible': ctrl.isSearchVisible }"
         ng-mouseover="ctrl.onSearchMouseOver()">
-      <md-input-container flex>
-        <label>Search</label>
-        <input
-            ng-blur="ctrl.onSearchBlur()"
-            ng-focus="ctrl.onSearchFocus()"
-            ng-model="ctrl.query" ng-model-options="{debounce: 500}">
-      </md-input-container>
+      <pc-asset-name-picker
+          flex
+          asset="ctrl.asset"
+          ng-model="ctrl.query"
+          on-blur="ctrl.onSearchBlur()"
+          on-focus="ctrl.onSearchFocus()">
+      </pc-asset-name-picker>
       <md-switch class="render-mode" ng-model="ctrl.isRenderMode">
         Render mode
       </md-switch>
