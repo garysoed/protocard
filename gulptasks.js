@@ -1,9 +1,10 @@
-var karma      = require('karma').Server;
-var named      = require('vinyl-named');
-var path       = require('path');
+var gulp = require('gulp');
+var karma = require('karma').Server;
+var named = require('vinyl-named');
+var path = require('path');
 var sourcemaps = require('gulp-sourcemaps');
 var typescript = require('gulp-typescript');
-var webpack    = require('gulp-webpack');
+var webpack = require('gulp-webpack');
 
 var tasks = {};
 tasks.compileTest = function(gt, outdir) {
@@ -52,8 +53,15 @@ tasks.karma = function(gt, outdir) {
   };
 };
 
+gulp.task('compile_', function() {
+  var tsProject = typescript.createProject('tsconfig.json');
+  return tsProject.src()
+      .pipe(typescript(tsProject))
+      .pipe(gulp.dest('out'));
+});
+
 tasks.allTests = function(gt, outdir) {
-  gt.task('compile-test', tasks.compileTest(gt, outdir));
+  gt.task('compile-test', gt.series('compile_', tasks.compileTest(gt, outdir)));
   gt.task('test', gt.series('.:compile-test', tasks.test(gt, outdir)));
   gt.task('karma', gt.series('.:compile-test', tasks.karma(gt, outdir)));
 };

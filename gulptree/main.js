@@ -21,7 +21,7 @@ function getUniqueTaskName_(name) {
   var taskName = parts[1];
 
   if (parts.length < 2) {
-    throw Error('Invalid target: ' + name);
+    return null;
   }
 
   var pathToLoad = package + '/gulpfile';
@@ -38,7 +38,10 @@ function normalizeArgs_(dirname, args) {
   for (var i = 0; i < args.length; i++) {
     var arg = args[i];
     if (typeof arg === 'string') {
-      arg = getUniqueTaskName_(path.join(dirname, arg));
+      var uniqueName = getUniqueTaskName_(path.join(dirname, arg));
+      if (!!uniqueName) {
+        arg = uniqueName;
+      }
     }
     normalizedArgs.push(arg);
   }
