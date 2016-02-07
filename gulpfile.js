@@ -16,12 +16,32 @@ var gt = require('./gulptree/main')(__dirname);
 var tests = require('./gulptasks');
 
 gt.task('compile-test', gt.parallel(
+    './src/asset:compile-test',
+    './src/common:compile-test',
+    './src/convert:compile-test',
+    './src/data:compile-test',
+    './src/decorator:compile-test',
+    './src/editor:compile-test',
+    './src/generate:compile-test',
+    './src/global:compile-test',
+    './src/helper:compile-test',
+    './src/home:compile-test',
+    './src/image:compile-test',
+    './src/label:compile-test',
+    './src/model:compile-test',
+    './src/navigate:compile-test',
+    './src/partial:compile-test',
+    './src/pipeline:compile-test',
+    './src/render:compile-test',
+    './src/settings:compile-test',
+    './src/template:compile-test',
+    './src/text:compile-test',
+    './src/thirdparty:compile-test',
     './src/util:compile-test'
 ));
 
 gt.task('test', gt.series('.:compile-test', tests.test(gt, 'out/**')));
 gt.task('karma', gt.series('.:compile-test', tests.karma(gt, 'out/**')));
-
 
 gt.task('compile',
     function ts_() {
