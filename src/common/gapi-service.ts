@@ -10,6 +10,7 @@ export default class {
    */
   constructor($window: Window) {
     this.gapi_ = $window['gapi'];
+    // TODO(gs): Move to server.
     this.clientId_ = $window['CLIENT_ID'];
     this.gapi_.client.setApiKey($window['API_KEY']);
   }
