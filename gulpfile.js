@@ -15,35 +15,36 @@ var webpack    = require('gulp-webpack');
 var gt = require('./gulptree/main')(__dirname);
 var tasks = require('./gulptasks');
 
-gt.task('compile-test', gt.parallel(
-    './src/asset:compile-test',
-    './src/common:compile-test',
-    './src/convert:compile-test',
-    './src/data:compile-test',
-    './src/decorator:compile-test',
-    './src/editor:compile-test',
-    './src/generate:compile-test',
-    './src/global:compile-test',
-    './src/helper:compile-test',
-    './src/home:compile-test',
-    './src/image:compile-test',
-    './src/label:compile-test',
-    './src/model:compile-test',
-    './src/navigate:compile-test',
-    './src/partial:compile-test',
-    './src/pipeline:compile-test',
-    './src/render:compile-test',
-    './src/settings:compile-test',
-    './src/template:compile-test',
-    './src/text:compile-test',
-    './src/thirdparty:compile-test',
-    './src/util:compile-test'
-));
+gt.exec('compile-test', gt.series(
+    '_compile',
+    gt.parallel(
+        './src/asset:_compile-test',
+        './src/common:_compile-test',
+        './src/convert:_compile-test',
+        './src/data:_compile-test',
+        './src/decorator:_compile-test',
+        './src/editor:_compile-test',
+        './src/generate:_compile-test',
+        './src/global:_compile-test',
+        './src/helper:_compile-test',
+        './src/home:_compile-test',
+        './src/image:_compile-test',
+        './src/label:_compile-test',
+        './src/model:_compile-test',
+        './src/navigate:_compile-test',
+        './src/partial:_compile-test',
+        './src/pipeline:_compile-test',
+        './src/render:_compile-test',
+        './src/settings:_compile-test',
+        './src/template:_compile-test',
+        './src/text:_compile-test',
+        './src/thirdparty:_compile-test',
+        './src/util:_compile-test'
+    )));
 
-gt.task('test', gt.series('.:compile-test', tasks.test(gt, 'out/**')));
-gt.task('karma', gt.series('.:compile-test', tasks.karma(gt, 'out/**')));
-
-gt.task('compile', tasks.compile());
+gt.exec('test', gt.series('.:compile-test', tasks.test(gt, 'out/**')));
+gt.exec('karma', gt.series('.:compile-test', tasks.karma(gt, 'out/**')));
+gt.exec('compile', gt.series('_compile'));
 
 // gulp.task('compile-test', gulp.series(
 //     'compile',
@@ -85,9 +86,9 @@ gt.task('compile', tasks.compile());
 //   }, done).start();
 // });
 
-gt.task('compile-ui', gt.series(
+gt.exec('compile-ui', gt.series(
     gt.parallel(
-        '.:compile',
+        '_compile',
         function css_() {
           return gt.src(['src/**/*.css'])
               .pipe(myth())
@@ -131,22 +132,13 @@ gt.task('compile-ui', gt.series(
     }
 ));
 
-gt.task('compile-scripts', function() {
-  return gt.src(['scripts/**/*.js'])
-      .pipe(babel({
-        presets: ['es2015']
-      }))
-      .pipe(gt.dest('out/scripts'));
-});
 
-gt.task('ui', gt.parallel('.:compile-ui'));
-
-gt.task('watch', function () {
+gt.exec('watch', function () {
   gt.watch(['src/**/*'], gt.series('.:compile-ui'));
 });
 
-gt.task('watch-test', function () {
+gt.exec('watch-test', function () {
   gt.watch(['src/**/*.ts'], gt.series('.:compile-test'));
 });
 
-gt.task('default', gt.task('compile'));
+gt.exec('default', gt.exec('compile-ui'));

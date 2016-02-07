@@ -63,11 +63,14 @@ tasks.karma = function(gt, outdir) {
 };
 
 tasks.allTests = function(gt, outdir) {
-  gt.task('compile-test', gt.series('compile_', tasks.compileTest(gt, outdir)));
-  gt.task('test', gt.series('.:compile-test', tasks.test(gt, outdir)));
-  gt.task('karma', gt.series('.:compile-test', tasks.karma(gt, outdir)));
+  gt.task('_compile-test', tasks.compileTest(gt, outdir));
+
+  gt.exec('compile-test', gt.series('_compile', '.:_compile-test'));
+  gt.exec('test', gt.series('_compile', '.:_compile-test', tasks.test(gt, outdir)));
+  gt.exec('karma', gt.series('_compile', '.:_compile-test', tasks.karma(gt, outdir)));
 };
 
-gulp.task('compile_', tasks.compile());
+// TODO(gs): global tasks.
+gulp.task('_compile', tasks.compile());
 
 module.exports = tasks;

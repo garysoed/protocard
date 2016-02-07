@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var path = require('path');
 
 var LOADED_PATHS = {};
+var TASK_SUFFIXES = {};
 
 // TODO(gs): Move this to its own package.
 
@@ -13,7 +14,7 @@ function prefixTaskName_(prefix, taskName) {
   }
 }
 
-function getUniqueTaskName_(name) {
+function resolveTaskName_(name) {
   var parts = name.split(':');
   var package = parts[0];
   var fullpackage = path.resolve(package);
@@ -30,15 +31,17 @@ function getUniqueTaskName_(name) {
     LOADED_PATHS[pathToLoad] = true;
   }
 
-  return prefixTaskName_(prefix, taskName);
+  var uniqueTaskName = prefixTaskName_(prefix, taskName);
+  var suffix = TASK_SUFFIXES[uniqueTaskName];
+  return !!suffix ? uniqueTaskName + '#' + suffix : uniqueTaskName;
 }
 
-function normalizeArgs_(dirname, args) {
+function normalizeDependencies_(dirname, args) {
   var normalizedArgs = [];
   for (var i = 0; i < args.length; i++) {
     var arg = args[i];
     if (typeof arg === 'string') {
-      var uniqueName = getUniqueTaskName_(path.join(dirname, arg));
+      var uniqueName = resolveTaskName_(path.join(dirname, arg));
       if (!!uniqueName) {
         arg = uniqueName;
       }
@@ -50,18 +53,26 @@ function normalizeArgs_(dirname, args) {
 
 gulptree = function(dirname) {
   this.dirname_ = dirname;
+  this.taskSuffixes_ = {};
 };
 
 gulptree.prototype.dest = function() {
   return gulp.dest.apply(gulp, arguments);
 };
 
+gulptree.prototype.exec = function(name, dependencies) {
+  var prefix = path.relative(path.resolve(path.dirname()), this.dirname_);
+  var uniqueName = prefixTaskName_(prefix, name);
+  var task = gulp.task(uniqueName, dependencies);
+  return task;
+};
+
 gulptree.prototype.parallel = function() {
-  return gulp.parallel.apply(gulp, normalizeArgs_(this.dirname_, arguments));
+  return gulp.parallel.apply(gulp, normalizeDependencies_(this.dirname_, arguments));
 };
 
 gulptree.prototype.series = function() {
-  return gulp.series.apply(gulp, normalizeArgs_(this.dirname_, arguments));
+  return gulp.series.apply(gulp, normalizeDependencies_(this.dirname_, arguments));
 };
 
 gulptree.prototype.src = function() {
@@ -71,8 +82,11 @@ gulptree.prototype.src = function() {
 gulptree.prototype.task = function(name, dependencies) {
   var prefix = path.relative(path.resolve(path.dirname()), this.dirname_);
   var uniqueName = prefixTaskName_(prefix, name);
-  var task = gulp.task(uniqueName, dependencies);
-  return task;
+
+  var suffix = Math.random();
+  TASK_SUFFIXES[uniqueName] = suffix;
+
+  return gulp.task(uniqueName + '#' + suffix, dependencies);
 };
 
 gulptree.prototype.watch = function(watchexpr, fn) {
