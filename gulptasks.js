@@ -7,6 +7,15 @@ var typescript = require('gulp-typescript');
 var webpack = require('gulp-webpack');
 
 var tasks = {};
+tasks.compile = function() {
+  return function() {
+    var tsProject = typescript.createProject('tsconfig.json');
+    return tsProject.src()
+        .pipe(typescript(tsProject))
+        .pipe(gulp.dest('out'));
+  };
+};
+
 tasks.compileTest = function(gt, outdir) {
   return function compileTest_() {
     return gt.src([path.join(outdir, '*_test.js')])
@@ -53,17 +62,12 @@ tasks.karma = function(gt, outdir) {
   };
 };
 
-gulp.task('compile_', function() {
-  var tsProject = typescript.createProject('tsconfig.json');
-  return tsProject.src()
-      .pipe(typescript(tsProject))
-      .pipe(gulp.dest('out'));
-});
-
 tasks.allTests = function(gt, outdir) {
   gt.task('compile-test', gt.series('compile_', tasks.compileTest(gt, outdir)));
   gt.task('test', gt.series('.:compile-test', tasks.test(gt, outdir)));
   gt.task('karma', gt.series('.:compile-test', tasks.karma(gt, outdir)));
 };
+
+gulp.task('compile_', tasks.compile());
 
 module.exports = tasks;

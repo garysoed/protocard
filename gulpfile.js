@@ -13,7 +13,7 @@ var typescript = require('gulp-typescript');
 var webpack    = require('gulp-webpack');
 
 var gt = require('./gulptree/main')(__dirname);
-var tests = require('./gulptasks');
+var tasks = require('./gulptasks');
 
 gt.task('compile-test', gt.parallel(
     './src/asset:compile-test',
@@ -40,16 +40,10 @@ gt.task('compile-test', gt.parallel(
     './src/util:compile-test'
 ));
 
-gt.task('test', gt.series('.:compile-test', tests.test(gt, 'out/**')));
-gt.task('karma', gt.series('.:compile-test', tests.karma(gt, 'out/**')));
+gt.task('test', gt.series('.:compile-test', tasks.test(gt, 'out/**')));
+gt.task('karma', gt.series('.:compile-test', tasks.karma(gt, 'out/**')));
 
-gt.task('compile',
-    function ts_() {
-      var tsProject = typescript.createProject('tsconfig.json');
-      return tsProject.src()
-          .pipe(typescript(tsProject))
-          .pipe(gt.dest('out'));
-    });
+gt.task('compile', tasks.compile());
 
 // gulp.task('compile-test', gulp.series(
 //     'compile',
