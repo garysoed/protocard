@@ -213,6 +213,8 @@
         "src/thirdparty/jszip-service-module.ts",
         "src/thirdparty/thirdparty-provider_test.ts",
         "src/thirdparty/thirdparty-provider.ts",
+        "src/util/disposable_test.ts",
+        "src/util/disposable.ts",
         "src/util/provider_test.ts",
         "src/util/provider.ts",
         "src/util/request-pool_test.ts",

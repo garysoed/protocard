@@ -46,6 +46,14 @@ gt.exec('test', gt.series('.:compile-test', tasks.test(gt, 'out/**')));
 gt.exec('karma', gt.series('.:compile-test', tasks.karma(gt, 'out/**')));
 gt.exec('compile', gt.series('_compile'));
 
+gt.exec('compile-scripts', function() {
+  return gt.src(['scripts/**/*.js'])
+      .pipe(babel({
+        presets: ['es2015']
+      }))
+      .pipe(gulp.dest('out/scripts'));
+  });
+
 gt.exec('compile-ui', gt.series(
     gt.parallel(
         '_compile',

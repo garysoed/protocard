@@ -2,12 +2,15 @@
  * @fileoverview Wraps a promise to provide its value.
  */
 import Cache from '../decorator/cache';
+import Disposable from '../util/disposable';
 
-export default class Provider<T> {
+
+export default class Provider<T> extends Disposable {
   private promise_: Promise<T>;
   private value_: T;
 
   constructor($scope: angular.IScope, promise: Promise<T>, defaultValue: T) {
+    super();
     this.value_ = defaultValue;
     this.promise_ = promise
         .then(result => {
