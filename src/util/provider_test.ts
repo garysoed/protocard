@@ -17,7 +17,6 @@ describe('util.Provider', () => {
       });
 
       provider = new Provider(mockScope, promise, null);
-      jasmine.addDisposable(provider);
     });
 
     it('should return the defaultValue if the digest cycle has not been triggered', () => {
@@ -27,7 +26,6 @@ describe('util.Provider', () => {
           jasmine.createSpyObj('$scope', ['$apply']),
           Promise.resolve('value'),
           defaultValue);
-      jasmine.addDisposable(provider);
       expect(provider.value).toEqual(defaultValue);
     });
   });
