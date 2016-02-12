@@ -46,46 +46,6 @@ gt.exec('test', gt.series('.:compile-test', tasks.test(gt, 'out/**')));
 gt.exec('karma', gt.series('.:compile-test', tasks.karma(gt, 'out/**')));
 gt.exec('compile', gt.series('_compile'));
 
-// gulp.task('compile-test', gulp.series(
-//     'compile',
-//     function _packTests() {
-//       return gulp.src(['out/**/*_test.js'])
-//           .pipe(named(function(file) {
-//             var filepath = file.path;
-//             return path.join(
-//                 path.dirname(filepath),
-//                 path.basename(filepath, path.extname(filepath)) + '_pack'
-//             );
-//           }))
-//           .pipe(sourcemaps.init())
-//           .pipe(webpack())
-//           .pipe(sourcemaps.write('./', { includeContent: true }))
-//           .pipe(gulp.dest('.'));
-//     }
-// ))
-//
-// gulp.task('test', gulp.series(
-//     'compile-test',
-//     function runTests_(done) {
-//       new karma({
-//         configFile: __dirname + '/karma.conf.js',
-//         reporters: ['story'],
-//         storyReporter: {
-//           showSkipped:        true, // default: false
-//           showSkippedSummary: true  // default: false
-//         },
-//         singleRun: true
-//       }, done).start();
-//     }
-// ));
-//
-// gulp.task('karma', function(done) {
-//   new karma({
-//     configFile: __dirname + '/karma.conf.js',
-//     singleRun: false
-//   }, done).start();
-// });
-
 gt.exec('compile-ui', gt.series(
     gt.parallel(
         '_compile',
@@ -133,11 +93,11 @@ gt.exec('compile-ui', gt.series(
 ));
 
 
-gt.exec('watch', function () {
+gt.exec('watch', function() {
   gt.watch(['src/**/*'], gt.series('.:compile-ui'));
 });
 
-gt.exec('watch-test', function () {
+gt.exec('watch-test', function() {
   gt.watch(['src/**/*.ts'], gt.series('.:compile-test'));
 });
 

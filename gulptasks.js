@@ -62,12 +62,15 @@ tasks.karma = function(gt, outdir) {
   };
 };
 
-tasks.allTests = function(gt, outdir) {
+tasks.allTests = function(gt, outdir, watchdir) {
   gt.task('_compile-test', tasks.compileTest(gt, outdir));
 
   gt.exec('compile-test', gt.series('_compile', '.:_compile-test'));
   gt.exec('test', gt.series('_compile', '.:_compile-test', tasks.test(gt, outdir)));
   gt.exec('karma', gt.series('_compile', '.:_compile-test', tasks.karma(gt, outdir)));
+  gt.exec('watch-test', function() {
+    gt.watch([path.join(watchdir, '*.ts')], gt.series('_compile', '.:_compile-test'));
+  })
 };
 
 // TODO(gs): global tasks.

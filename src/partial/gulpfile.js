@@ -1,4 +1,4 @@
 var gt = require('../../gulptree/main.js')(__dirname);
 var tasks = require('../../gulptasks');
 
-tasks.allTests(gt, 'out/partial');
+tasks.allTests(gt, 'out/partial', 'src/partial');
