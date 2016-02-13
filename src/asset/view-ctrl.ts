@@ -2,6 +2,7 @@ import Asset from '../model/asset'
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService, { EventType as AssetServiceEventType } from './asset-service';
 import Disposable from '../util/disposable';
+import DisposableFunction from '../util/disposable-function';
 import FunctionObject from '../model/function-object';
 import NavigateService from '../navigate/navigate-service';
 import ProcessNode from '../pipeline/process-node';
@@ -42,11 +43,12 @@ export default class ViewCtrl extends Disposable {
     this.settingsDialogService_ = SettingsDialogService;
     this.subview_ = null;
 
-    // TODO(gs): Disposables
-    $scope.$on('$routeUpdate', this.onRouteUpdate_.bind(this));
-    $scope.$on('$routeChangeSuccess', this.onRouteUpdate_.bind(this));
-
-    this.addDisposable(AssetService.on(AssetServiceEventType.SAVED, this.onAssetSaved_.bind(this)));
+    this.addDisposable(
+        new DisposableFunction(
+            $scope.$on('$routeUpdate', this.onRouteUpdate_.bind(this))),
+        new DisposableFunction(
+            $scope.$on('$routeChangeSuccess', this.onRouteUpdate_.bind(this))),
+        AssetService.on(AssetServiceEventType.SAVED, this.onAssetSaved_.bind(this)));
   }
 
   private onAssetSaved_() {

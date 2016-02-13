@@ -5,9 +5,9 @@ import Disposable from './disposable';
 
 
 export default class DisposableFunction extends Disposable {
-  private fn_: () => void;
+  private fn_: Function;
 
-  constructor(fn: () => void) {
+  constructor(fn: Function) {
     super();
     this.fn_ = fn;
   }

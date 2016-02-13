@@ -20,7 +20,7 @@ describe('asset.ViewCtrl', () => {
 
   beforeEach(() => {
     $scope = new FakeScope();
-    spyOn($scope, '$on');
+    spyOn($scope, '$on').and.callThrough();
 
     routeParams = { 'assetId': 'assetId' };
     asset = new Asset('test');

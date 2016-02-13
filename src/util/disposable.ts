@@ -13,8 +13,10 @@ export default class Disposable {
     }
   }
 
-  addDisposable(disposable: Disposable) {
-    this.disposables_.push(disposable);
+  addDisposable(...disposables: Disposable[]) {
+    disposables.forEach(disposable => {
+      this.disposables_.push(disposable);
+    });
   }
 
   disposeInternal() { }

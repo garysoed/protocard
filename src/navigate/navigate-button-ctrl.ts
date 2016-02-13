@@ -1,7 +1,11 @@
 import Cache from '../decorator/cache';
+import Disposable from '../util/disposable';
+import DisposableFunction from '../util/disposable-function';
 import NavigateService from './navigate-service';
 
-export default class {
+
+// TODO(gs): Base ctrl.
+export default class NavigateButtonCtrl extends Disposable {
   private $scope_: angular.IScope;
   private icon_: string;
   private navigateService_: NavigateService;
@@ -9,14 +13,18 @@ export default class {
   private text_: string;
 
   constructor($scope: angular.IScope, NavigateService: NavigateService) {
+    super();
     this.$scope_ = $scope;
     this.icon_ = $scope['icon'];
     this.navigateService_ = NavigateService;
     this.subview_ = $scope['subview'];
     this.text_ = $scope['text'];
 
-    $scope.$on('$routeChangeSuccess', this.onRouteUpdate_.bind(this));
-    $scope.$on('$routeUpdate', this.onRouteUpdate_.bind(this));
+    this.addDisposable(
+        new DisposableFunction(
+            $scope.$on('$routeChangeSuccess', this.onRouteUpdate_.bind(this))),
+        new DisposableFunction(
+            $scope.$on('$routeUpdate', this.onRouteUpdate_.bind(this))));
   }
 
   private onRouteUpdate_() {

@@ -19,6 +19,7 @@ describe('navigate.NavigateButtonCtrl', () => {
     mockNavigateService = jasmine.createSpyObj('NavigateService', ['getSubview', 'toSubview']);
 
     ctrl = new NavigateButtonCtrl(mock$scope, mockNavigateService);
+    jasmine.addDisposable(ctrl);
   });
 
   describe('selectedCss', () => {

@@ -1,3 +1,5 @@
+import DisposableFunction from '../util/disposable-function';
+
 export default class FakeScope {
   constructor(values: { [key: string]: any } = {}) {
     for (let key in values) {
@@ -7,5 +9,10 @@ export default class FakeScope {
 
   $apply() {}
   $emit() {}
-  $on() {}
+  $on() {
+    let disposableFunction = new DisposableFunction(() => {});
+    return () => {
+      disposableFunction.dispose();
+    };
+  }
 };

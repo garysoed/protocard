@@ -73,7 +73,6 @@ tasks.allTests = function(gt, outdir) {
   })
 };
 
-// TODO(gs): global tasks.
 gulp.task('_compile', tasks.compile());
 
 module.exports = tasks;
