@@ -7,7 +7,7 @@ pc-template > pc-previewable-code-editor div.search {
   background-color: #272822;
   position: absolute;
   width: 100%;
-  z-index: 999;
+  z-index: 79;
 }
 
 pc-template > pc-previewable-code-editor div.search:not(:focus) {

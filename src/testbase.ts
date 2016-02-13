@@ -46,8 +46,9 @@ export default {
     });
 
     afterEach(() => {
-      DisposableFlags.enableTracking = false;
       DISPOSABLES.forEach(disposable => disposable.dispose());
+      DisposableFlags.enableTracking = false;
+
       expect(TRACKED_DISPOSABLES).toEqual([]);
 
       TRACKED_DISPOSABLES.splice(0, TRACKED_DISPOSABLES.length);

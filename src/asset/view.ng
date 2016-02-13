@@ -7,6 +7,10 @@
       <h2 class="title" ng-click="ctrl.onBackClick()">Protoasset</h2>
       <h2>{{ctrl.assetName}}</h2>
       <span flex></span>
+      <div class="asset-saved" ng-if="ctrl.isAssetSaved">
+        <md-tooltip>Asset saved at {{ctrl.lastAssetSaveTime}}</md-tooltip>
+        <md-icon>saved</md-icon>
+      </div>
       <md-button class="md-icon-button" ng-click="ctrl.onSettingsClick($event)">
         <md-tooltip>Open asset settings</md-tooltip>
         <md-icon>settings</md-icon>

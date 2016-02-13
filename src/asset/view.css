@@ -2,16 +2,29 @@
   height: 100%;
 }
 
-.asset-view .actions {
-  width: 500px;
-}
-
-.asset-view .title {
+.asset-view > md-toolbar > div.md-toolbar-tools > .title {
   padding-right: 10px;
   margin-right: 10px;
   border-right: 1px solid rgba(255, 255, 255, 0.870588);
 }
 
-.asset-view .title:hover {
+.asset-view > md-toolbar > div.md-toolbar-tools > .title:hover {
   cursor: pointer;
+}
+
+.asset-view > md-toolbar > div.md-toolbar-tools > .asset-saved {
+  cursor: pointer;
+}
+
+.asset-view > md-toolbar > div.md-toolbar-tools > .asset-saved.ng-enter {
+  opacity: 1;
+}
+
+.asset-view > md-toolbar > div.md-toolbar-tools > .asset-saved.ng-leave {
+  opacity: 1;
+  transition: 3s linear opacity;
+}
+
+.asset-view > md-toolbar > div.md-toolbar-tools > .asset-saved.ng-leave.ng-leave-active {
+  opacity: 0;
 }

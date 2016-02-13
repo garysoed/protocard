@@ -1,20 +1,20 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import Asset from '../model/asset';
-import AssetService from './asset-service';
+import AssetService, { EventType as AssetServiceEventType } from './asset-service';
 import { KEY_INDEX } from './asset-service';
 
 describe('data.AssetService', () => {
-  let mock$mdToast;
   let assetService;
   let mockStorageService;
 
   beforeEach(() => {
-    mock$mdToast = jasmine.createSpyObj('$mdToast', ['show', 'simple']);
     mockStorageService = jasmine.createSpyObj(
         'StorageService',
         ['getItem', 'removeItem', 'setItem']);
-    assetService = new AssetService(mock$mdToast, mockStorageService);
+    assetService = new AssetService(mockStorageService);
+    jasmine.addDisposable(assetService);
   });
 
   describe('deleteAsset', () => {
@@ -23,7 +23,6 @@ describe('data.AssetService', () => {
     beforeEach(() => {
       let $mdToastBuilder =
           jasmine.createSpyBuilder('$mdToastBuilder', ['position', 'textContent']);
-      mock$mdToast.simple.and.returnValue($mdToastBuilder);
       mockStorageService.getItem.and.returnValue([]);
       assetService.saveAsset(ASSET);
 
@@ -126,16 +125,17 @@ describe('data.AssetService', () => {
       asset = new Asset('test');
 
       $mdToastBuilder = jasmine.createSpyBuilder('$mdToastBuilder', ['position', 'textContent']);
-      mock$mdToast.simple.and.returnValue($mdToastBuilder);
     });
 
     it('should update the storage', () => {
       mockStorageService.getItem.and.returnValue([]);
+
+      spyOn(assetService, 'dispatch');
       assetService.saveAsset(asset);
 
       expect(mockStorageService.setItem).toHaveBeenCalledWith(KEY_INDEX, [asset.id]);
       expect(mockStorageService.setItem).toHaveBeenCalledWith(asset.id, asset);
-      expect(mock$mdToast.show).toHaveBeenCalledWith($mdToastBuilder);
+      expect(assetService.dispatch).toHaveBeenCalledWith(AssetServiceEventType.SAVED, asset);
     });
 
     it('should invalidate the cache', () => {

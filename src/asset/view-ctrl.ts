@@ -1,6 +1,7 @@
 import Asset from '../model/asset'
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
-import AssetService from './asset-service';
+import AssetService, { EventType as AssetServiceEventType } from './asset-service';
+import Disposable from '../util/disposable';
 import FunctionObject from '../model/function-object';
 import NavigateService from '../navigate/navigate-service';
 import ProcessNode from '../pipeline/process-node';
@@ -9,13 +10,15 @@ import SettingsDialogService from '../settings/settings-dialog-service';
 /**
  * Controller for the create page view.
  */
-export default class ViewCtrl {
+export default class ViewCtrl extends Disposable {
   private $location_: angular.ILocationService;
   private $scope_: angular.IScope;
   private asset_: Asset;
   private currentHelper_: FunctionObject;
   private currentPartialName_: string;
+  private isAssetSaved_: boolean;
   private isSidebarOpen_: boolean;
+  private lastAssetSaveTime_: string;
   private navigateService_: NavigateService;
   private settingsDialogService_: SettingsDialogService;
   private subview_: string;
@@ -27,11 +30,13 @@ export default class ViewCtrl {
       AssetService: AssetService,
       NavigateService: NavigateService,
       SettingsDialogService: SettingsDialogService) {
+    super();
     this.$location_ = $location;
     this.$scope_ = $scope;
     this.asset_ = AssetService.getAsset($routeParams['assetId']);
     this.currentHelper_ = null;
     this.currentPartialName_ = null;
+    this.isAssetSaved_ = false;
     this.isSidebarOpen_ = false;
     this.navigateService_ = NavigateService;
     this.settingsDialogService_ = SettingsDialogService;
@@ -40,6 +45,17 @@ export default class ViewCtrl {
     // TODO(gs): Disposables
     $scope.$on('$routeUpdate', this.onRouteUpdate_.bind(this));
     $scope.$on('$routeChangeSuccess', this.onRouteUpdate_.bind(this));
+
+    this.addDisposable(AssetService.on(AssetServiceEventType.SAVED, this.onAssetSaved_.bind(this)));
+  }
+
+  private onAssetSaved_() {
+    this.isAssetSaved_ = true;
+    this.lastAssetSaveTime_ = (new Date()).toLocaleTimeString();
+    window.setTimeout(() => {
+      this.isAssetSaved_ = false;
+      this.$scope_.$apply(() => {});
+    }, 3000);
   }
 
   private onRouteUpdate_() {
@@ -93,6 +109,10 @@ export default class ViewCtrl {
     return this.navigateService_.getSubview() || null;
   }
 
+  get isAssetSaved(): boolean {
+    return this.isAssetSaved_;
+  }
+
   /**
    * True iff the sidebar should be opened.
    */
@@ -101,6 +121,10 @@ export default class ViewCtrl {
   }
   set isSidebarOpen(open: boolean) {
     this.isSidebarOpen_ = open;
+  }
+
+  get lastAssetSaveTime(): string {
+    return this.lastAssetSaveTime_;
   }
 
   /**

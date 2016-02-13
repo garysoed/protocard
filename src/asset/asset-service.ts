@@ -1,6 +1,11 @@
 import Asset from '../model/asset';
 import Cache from '../decorator/cache';
+import Listenable from '../util/listenable';
 import StorageService from '../common/storage-service';
+
+export enum EventType {
+  SAVED
+};
 
 /**
  * Index for the asset index.
@@ -10,15 +15,14 @@ export const KEY_INDEX: string = 'assets';
 /**
  * Manages assets in the storage.
  */
-export default class AssetService {
-  private $mdToast_: angular.material.IToastService;
+export default class AssetService extends Listenable<EventType> {
   private storage_: StorageService<any>;
 
   /**
    * @param StorageService Provides access to storage.
    */
-  constructor($mdToast: angular.material.IToastService, StorageService: StorageService<any>) {
-    this.$mdToast_ = $mdToast;
+  constructor(StorageService: StorageService<any>) {
+    super();
     this.storage_ = StorageService;
   }
 
@@ -82,11 +86,6 @@ export default class AssetService {
     }
 
     this.storage_.setItem(asset.id, asset);
-
-    let now = new Date();
-    this.$mdToast_.show(
-        this.$mdToast_.simple()
-            .textContent(`Asset ${asset.name} saved at ${now.toLocaleTimeString()}`)
-            .position('bottom left'));
+    this.dispatch(EventType.SAVED, asset);
   }
 };
