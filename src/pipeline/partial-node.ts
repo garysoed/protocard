@@ -9,7 +9,7 @@ import LabelNode from './label-node';
 import Node from './node';
 
 interface IPartialMap {
-  [partialName: string]: { [label: string]: string }
+  [partialName: string]: { [label: string]: string };
 };
 
 export default class PartialNode extends Node<IPartialMap> {

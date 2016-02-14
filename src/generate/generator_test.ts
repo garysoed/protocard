@@ -16,12 +16,8 @@ describe('Generator', () => {
   describe('generate', () => {
     it('should return all the cards', () => {
       let localDataList = [
-        {
-          a: 1
-        },
-        {
-          b: 2
-        }
+        { a: 1 },
+        { b: 2 }
       ];
       let outName1 = 'outName1';
       let outName2 = 'outName2';
@@ -69,7 +65,7 @@ describe('Generator', () => {
       new Generator(fakeHandleBars, { partials: partials });
       expect(fakeHandleBars.registerPartial).toHaveBeenCalledWith('partial1', partials['partial1']);
       expect(fakeHandleBars.registerPartial).toHaveBeenCalledWith('partial2', partials['partial2']);
-    })
+    });
 
     it('should mixin the globals in the data', () => {
       let localDataList = [{ a: 1 }];

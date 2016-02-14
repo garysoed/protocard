@@ -11,7 +11,7 @@ describe('editor.PreviewableCodeEditorCtrl', () => {
   beforeEach(() => {
     mock$scope = new FakeScope({});
     ctrl = new PreviewableCodeEditorCtrl(mock$scope);
-  })
+  });
 
   describe('set codeString', () => {
     let mockNgModelCtrl;

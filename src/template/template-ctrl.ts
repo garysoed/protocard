@@ -65,7 +65,7 @@ export default class TemplateCtrl {
           this.query_ = labels[Math.floor(Math.random() * labels.length)];
           Cache.clear(this);
           this.$scope_.$apply(() => {});
-        })
+        });
   }
 
   private showSearch_() {
@@ -131,7 +131,7 @@ export default class TemplateCtrl {
         this.$scope_,
         this.renderResult_
             .then(result => {
-              return result === null ? '' : result.dataUriTicket.promise
+              return result === null ? '' : result.dataUriTicket.promise;
             }),
         '');
   }

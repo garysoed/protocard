@@ -26,7 +26,7 @@ export default class Serializer {
         if (jsonValue !== undefined) {
           defaultInstance[key] = this.fromJSON(jsonValue);
         }
-      })
+      });
 
       return defaultInstance;
     } else if (json instanceof Array) {
@@ -72,7 +72,7 @@ export function Serializable(name: string): ClassDecorator{
     CTORS.set(name, ctor);
     initField(ctor.prototype);
     ctor.prototype[__name] = name;
-  }
+  };
 };
 
 export function Field(name: string): PropertyDecorator {

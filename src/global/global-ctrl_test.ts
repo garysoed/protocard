@@ -6,7 +6,7 @@ describe('global.GlobalCtrl', () => {
   const ASSET_ID = 'assetId';
   let mock$scope;
   let mockAsset;
-  let mockAssetPipelineService
+  let mockAssetPipelineService;
   let mockAssetService;
   let mockGlobalNode;
   let ctrl;

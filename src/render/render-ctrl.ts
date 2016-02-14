@@ -65,7 +65,7 @@ export default class RenderCtrl {
                 .then(() => {
                   this.$scope_.$apply(() => {});
                 });
-          }))
+          }));
         }, error => {
           this.lastError_ = error;
         })

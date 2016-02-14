@@ -69,7 +69,7 @@ export default class CodeEditorCtrl {
     this.editor_.setTheme('ace/theme/monokai');
 
     let readonly = !!this.$scope_['readOnly'];
-    this.editor_.setReadOnly(readonly)
+    this.editor_.setReadOnly(readonly);
     this.editor_.setShowPrintMargin(!readonly);
     this.editor_.renderer.setShowGutter(!readonly);
 

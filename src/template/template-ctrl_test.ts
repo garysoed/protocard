@@ -1,4 +1,5 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import Cache from '../decorator/cache';
 import FakeScope from '../testing/fake-scope';
@@ -174,7 +175,7 @@ describe('template.TemplateCtrl', () => {
           .then(previewSource => {
             expect(previewSource).toEqual('');
             done();
-          }, done.fail)
+          }, done.fail);
     });
 
     it('should resolve with empty string if the query is invalid', done => {

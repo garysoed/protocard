@@ -1,8 +1,10 @@
 var gulp = require('gulp');
+var debug = require('gulp-debug');
 var karma = require('karma').Server;
 var named = require('vinyl-named');
 var path = require('path');
 var sourcemaps = require('gulp-sourcemaps');
+var tslint = require('gulp-tslint');
 var typescript = require('gulp-typescript');
 var webpack = require('gulp-webpack');
 
@@ -62,10 +64,21 @@ tasks.karma = function(gt, outdir) {
   };
 };
 
-tasks.allTests = function(gt, outdir) {
+tasks.lint = function(gt, srcdir) {
+  return function lint_() {
+    return gt.src([path.join(srcdir, '*.ts')])
+        .pipe(tslint())
+        .pipe(tslint.report('verbose'));
+  };
+};
+
+tasks.allTests = function(gt, dir) {
+  var outdir = path.join('out', dir);
+  var srcdir = path.join('src', dir);
   gt.task('_compile-test', tasks.compileTest(gt, outdir));
 
   gt.exec('compile-test', gt.series('_compile', '.:_compile-test'));
+  gt.exec('lint', tasks.lint(gt, srcdir));
   gt.exec('test', gt.series('_compile', '.:_compile-test', tasks.test(gt, outdir)));
   gt.exec('karma', gt.series('_compile', '.:_compile-test', tasks.karma(gt, outdir)));
   gt.exec('watch-test', function() {

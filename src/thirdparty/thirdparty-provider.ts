@@ -10,7 +10,7 @@ export default function(referenceName: string): any {
     }
 
     return $window[referenceName];
-  }
+  };
 
   return Provider;
 };

@@ -31,7 +31,7 @@ export default class FunctionObject {
    * @return The helper function has an executable function object.
    */
   asFunction(): Function {
-    let expr = `fn = function() { ${this.fnString} };`
+    let expr = `fn = function() { ${this.fnString} };`;
     let fn = null;
     let result = eval(expr);
     return fn();

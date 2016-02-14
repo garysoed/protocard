@@ -1,4 +1,4 @@
-import Asset from '../model/asset'
+import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService, { EventType as AssetServiceEventType } from './asset-service';
 import Disposable from '../util/disposable';

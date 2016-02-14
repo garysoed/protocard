@@ -42,6 +42,30 @@ gt.exec('compile-test', gt.series(
         './src/util:_compile-test'
     )));
 
+gt.exec('lint', gt.parallel(
+    './src/asset:lint',
+    './src/common:lint',
+    './src/convert:lint',
+    './src/data:lint',
+    './src/decorator:lint',
+    './src/editor:lint',
+    './src/generate:lint',
+    './src/global:lint',
+    './src/helper:lint',
+    './src/home:lint',
+    './src/image:lint',
+    './src/label:lint',
+    './src/model:lint',
+    './src/navigate:lint',
+    './src/partial:lint',
+    './src/pipeline:lint',
+    './src/render:lint',
+    './src/settings:lint',
+    './src/template:lint',
+    './src/text:lint',
+    './src/thirdparty:lint',
+    './src/util:lint'
+));
 gt.exec('test', gt.series('.:compile-test', tasks.test(gt, 'out/**')));
 gt.exec('karma', gt.series('.:compile-test', tasks.karma(gt, 'out/**')));
 gt.exec('compile', gt.series('_compile'));

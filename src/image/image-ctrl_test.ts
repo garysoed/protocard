@@ -1,5 +1,5 @@
 import TestBase from '../testbase';
-TestBase.init()
+TestBase.init();
 
 import FakeScope from '../testing/fake-scope';
 import ImageCtrl from './image-ctrl';

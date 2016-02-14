@@ -28,7 +28,7 @@ class Cache {
   }
 }
 
-interface CacheFunc {
+interface ICacheFunc {
   (target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any>;
   clear: (obj: any) => void;
 }
@@ -36,7 +36,7 @@ interface CacheFunc {
 /**
  * Annotates getters to cache the return value.
  */
-const cache: CacheFunc = <CacheFunc>function(
+const cache: ICacheFunc = <ICacheFunc>function(
     target: Object,
     propertyKey: string,
     descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any> {
@@ -58,7 +58,7 @@ const cache: CacheFunc = <CacheFunc>function(
   }
 
   return descriptor;
-}
+};
 
 /**
  * Clears all cache in the given object.

@@ -17,7 +17,7 @@ export default class NavigateService {
    * @param [subitemId] Name of the sub item associated with the asset.
    */
   toAsset(assetId: string, subview = null, subitemId: string = null) {
-    let path = `/asset/${assetId}`
+    let path = `/asset/${assetId}`;
 
     if (subview !== null) {
       this.toSubview(subview);

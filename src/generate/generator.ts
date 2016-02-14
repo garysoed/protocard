@@ -1,6 +1,6 @@
 import Utils from '../util/utils';
 
-interface Config {
+interface IConfig {
   globals?: { [key: string]: any };
   helpers?: { [key: string]: Function };
   partials?: { [key: string]: string };
@@ -21,7 +21,7 @@ export default class Generator {
    * @param handlebars Reference to Handlebars
    * @param [config] Configuration object. Defaults to {}.
    */
-  constructor(handlebars: IHandlebars, config: Config = {}) {
+  constructor(handlebars: IHandlebars, config: IConfig = {}) {
     let globals = config.globals || {};
     let helpers = config.helpers || {};
     let partials = config.partials || {};

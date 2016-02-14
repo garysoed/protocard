@@ -106,7 +106,7 @@ describe('pipeline.Node', () => {
     beforeEach(() => {
       dependencyResult.result = Promise.resolve(null);
       result.result = Promise.resolve(null);
-    })
+    });
 
     it('should return true if the result has finished running', done => {
       node.result

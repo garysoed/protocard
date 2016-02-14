@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "class-name": true,
+    "comment-format": [
+      true,
+      "check-space",
+      "check-uppercase"
+    ],
+    "curly": true,
+    "eofline": true,
+    "indent": "spaces",
+    "interface-name": true,
+    "quotemark": [true, "single"],
+    "semicolon": true
+  }
+}
