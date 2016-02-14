@@ -41,7 +41,7 @@ export default class TemplateNode extends Node<{ [label: string]: RenderedData }
       let globals = <{ [key: string]: any }>dependencies[0];
       let helpers = <{ [key: string]: FunctionObject }>dependencies[1];
       let images = <{ [name: string]: ImageResource }>dependencies[2];
-      let labelledData = <{ data: { [label: string]: any }, index: Fuse }>dependencies[3];
+      // TODO(gs): Use labelledData instead of processed data
       let processedData = <any[]>dependencies[4];
 
       // Deactivate all tickets.

@@ -1,4 +1,5 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import DriveDialogCtrl from './drive-dialog-ctrl';
 import FakeScope from '../testing/fake-scope';
@@ -39,10 +40,10 @@ describe('editor.DriveDialogCtrl', () => {
       let batchResponse = {
         result: {
           '1': {
-            result: { title: 'title1', thumbnailLink: 'thumbnailLink1' }
+            result: { thumbnailLink: 'thumbnailLink1', title: 'title1' }
           },
           '2': {
-            result: { title: 'title2', thumbnailLink: 'thumbnailLink2' }
+            result: { thumbnailLink: 'thumbnailLink2', title: 'title2' }
           }
         }
       };

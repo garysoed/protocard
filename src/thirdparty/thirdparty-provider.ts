@@ -3,7 +3,7 @@
  * @return Provider Class that provides the specified global object.
  */
 export default function(referenceName: string): any {
-  let Provider = function() { };
+  let Provider = function() { /* noop */ };
   Provider.prototype.$get = function($window) {
     if (!$window[referenceName]) {
       throw Error(`${referenceName} not loaded`);

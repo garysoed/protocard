@@ -1,4 +1,5 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import RequestPool from './request-pool';
 
@@ -38,7 +39,6 @@ describe('util.RequestPool', () => {
     });
 
     it('should not call the runner if the ticket is not active', done => {
-      let isExecuting = false;
       let callbackFn = jasmine.createSpy('callback');
       callbackFn.and.returnValue(Promise.resolve('called'));
 

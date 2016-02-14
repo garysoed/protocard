@@ -1,15 +1,9 @@
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
-import Cache from '../decorator/cache';
 import DownloadService from '../common/download-service';
 import ExportNode from '../pipeline/export-node';
-import Extract from '../convert/extract';
-import Generator from '../generate/generator';
-import GeneratorService from '../generate/generator-service';
 import ImageResource from '../model/image-resource';
-import Provider from '../util/provider';
 import RenderService from './render-service';
-import Utils from '../util/utils';
 
 // TODO(gs): Rename to export
 export default class RenderCtrl {
@@ -63,14 +57,14 @@ export default class RenderCtrl {
                   this.lastError_ = error;
                 })
                 .then(() => {
-                  this.$scope_.$apply(() => {});
+                  this.$scope_.$apply(() => undefined);
                 });
           }));
         }, error => {
           this.lastError_ = error;
         })
         .then(() => {
-          this.$scope_.$apply(() => {});
+          this.$scope_.$apply(() => undefined);
         });
   }
 

@@ -1,16 +1,11 @@
-import Asset from '../model/asset';
-import Extract from '../convert/extract';
-import { FileTypes } from '../model/file';
 import FunctionObject from '../model/function-object';
 import Generator from './generator';
 import ImageResource from '../model/image-resource';
 import Utils from '../util/utils';
-import Writer from '../convert/writer';
 
 // TODO(gs): Move to external file?
 function imageUrlHelper(images: { [key: string]: ImageResource }) {
   return function(name) {
-    let url = null;
     return images[name] ? images[name].url : null;
   };
 }

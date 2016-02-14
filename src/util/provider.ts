@@ -14,7 +14,7 @@ export default class Provider<T> {
         .then(result => {
           this.value_ = result;
           Cache.clear(this);
-          $scope.$apply(() => {});
+          $scope.$apply(() => undefined);
           return result;
         });
   }

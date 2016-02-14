@@ -68,7 +68,7 @@ export default class DriveDialogCtrl {
                 `${webViewLink}${file.title}`,
                 file.thumbnailLink));
           }
-          this.$scope_.$apply(() => {});
+          this.$scope_.$apply(() => undefined);
         });
   }
 

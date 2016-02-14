@@ -1,4 +1,5 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import PartialItemCtrl from './partial-item-ctrl';
 

@@ -1,4 +1,5 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import Asset from '../model/asset';
 import CreateAssetDialogCtrl from './create-asset-dialog-ctrl';

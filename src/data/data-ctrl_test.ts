@@ -1,4 +1,5 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import DataCtrl from './data-ctrl';
 import FakeScope from '../testing/fake-scope';

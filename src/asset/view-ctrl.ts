@@ -1,11 +1,9 @@
 import Asset from '../model/asset';
-import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService, { EventType as AssetServiceEventType } from './asset-service';
 import Disposable from '../util/disposable';
 import DisposableFunction from '../util/disposable-function';
 import FunctionObject from '../model/function-object';
 import NavigateService from '../navigate/navigate-service';
-import ProcessNode from '../pipeline/process-node';
 import SettingsDialogService from '../settings/settings-dialog-service';
 
 /**
@@ -56,7 +54,7 @@ export default class ViewCtrl extends Disposable {
     this.lastAssetSaveTime_ = (new Date()).toLocaleTimeString();
     window.setTimeout(() => {
       this.isAssetSaved_ = false;
-      this.$scope_.$apply(() => {});
+      this.$scope_.$apply(() => undefined);
     }, 3000);
   }
 

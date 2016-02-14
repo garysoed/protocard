@@ -2,7 +2,6 @@ import ContextButtonModule from '../common/context-button-module';
 import DownloadServiceModule from '../common/download-service-module';
 import ErrorDisplayModule from '../common/error-display-module';
 import GeneratorServiceModule from '../generate/generator-service-module';
-import ImageSelectModule from '../editor/image-select-module';
 import JszipServiceModule from '../thirdparty/jszip-service-module';
 import RenderCtrl from './render-ctrl';
 import RenderServiceModule from './render-service-module';

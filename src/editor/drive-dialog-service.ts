@@ -10,7 +10,6 @@ export default class {
 
   /**
    * Shows the dialog.
-
    * @param $event The Angular event triggering the dialog.
    * @return {Promise} Promise that will be resolved when the dialog is hidden, or rejected if the
    *    dialog is cancelled.

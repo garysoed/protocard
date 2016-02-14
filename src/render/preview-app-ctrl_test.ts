@@ -106,7 +106,7 @@ describe('render.PreviewAppCtrl', () => {
           .toHaveBeenCalledWith(canvas, 0, 0, width, height);
       expect(mockCanvasEl.toDataURL).toHaveBeenCalledWith('image/png');
       expect(event.source.postMessage)
-          .toHaveBeenCalledWith({ uri: dataUrl, id: id }, event.origin);
+          .toHaveBeenCalledWith({ id: id, uri: dataUrl }, event.origin);
     });
   });
 });

@@ -1,4 +1,5 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import CreateAssetDialogService from './create-asset-dialog-service';
 

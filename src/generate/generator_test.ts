@@ -49,8 +49,8 @@ describe('Generator', () => {
 
     it('should register all the given helpers', () => {
       let helpers = <{ [index: string]: Function }>{};
-      helpers['helper1'] = () => {};
-      helpers['helper2'] = () => {};
+      helpers['helper1'] = () => undefined;
+      helpers['helper2'] = () => undefined;
 
       new Generator(fakeHandleBars, { helpers: helpers });
       expect(fakeHandleBars.registerHelper).toHaveBeenCalledWith('helper1', helpers['helper1']);

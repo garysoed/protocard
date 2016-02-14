@@ -1,8 +1,7 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import FakeScope from '../testing/fake-scope';
-import File, { FileTypes } from '../model/file';
-import FunctionObject from '../model/function-object';
 import RenderCtrl from './render-ctrl';
 
 describe('render.RenderCtrl', () => {

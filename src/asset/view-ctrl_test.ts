@@ -30,7 +30,7 @@ describe('asset.ViewCtrl', () => {
 
     mockAssetService = jasmine.createSpyObj('AssetService', ['getAsset', 'on']);
     mockAssetService.getAsset.and.returnValue(asset);
-    mockAssetService.on.and.returnValue(new DisposableFunction(() => {}));
+    mockAssetService.on.and.returnValue(new DisposableFunction(() => undefined));
 
     ctrl = new ViewCtrl(
         mock$location,

@@ -14,6 +14,7 @@ export default angular
       return {
         controller: AssetNamePickerCtrl,
         controllerAs: 'ctrl',
+        link: link,
         require: ['pcAssetNamePicker', 'ngModel'],
         restrict: 'E',
         scope: {
@@ -22,6 +23,5 @@ export default angular
           'onBlur': '&'
         },
         templateUrl: './common/asset-name-picker.ng',
-        link: link
       };
     });

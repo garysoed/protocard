@@ -1,4 +1,5 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import File, { FileTypes } from './file';
 import Serializable from './serializable';

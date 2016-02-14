@@ -41,8 +41,8 @@ export default class {
           let labels = Object.keys(result.data);
           this.selectedKey_ = labels[Math.floor(Math.random() * labels.length)];
           Cache.clear(this);
-          this.$scope_.$apply(() => {});
-        });;
+          this.$scope_.$apply(() => undefined);
+        });
   }
 
   get asset(): Asset {

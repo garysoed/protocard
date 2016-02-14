@@ -50,9 +50,6 @@ export default class RenderService {
 
             iframeEl.style.width = `${width}px`;
             iframeEl.style.height = `${height}px`;
-
-            let index = content.indexOf('class="name"');
-            let printedContent = content.substring(index);
             iframeEl.contentWindow.postMessage(
                 {
                   'content': content,
@@ -99,8 +96,8 @@ export default class RenderService {
   render(content: string, width: number, height: number): RequestTicket<string> {
     return this.requestPool_.queue({
       content: content,
-      width: width,
-      height: height
+      height: height,
+      width: width
     });
   }
 };

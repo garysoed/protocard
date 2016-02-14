@@ -25,7 +25,6 @@ describe('pipeline.AssetPipelineService', () => {
   describe('getPipeline', () => {
     it('should cache the pipeline', () => {
       let assetId = 'assetId';
-      let mockAsset = jasmine.createObj('Asset');
 
       let pipeline = service.getPipeline(assetId);
 

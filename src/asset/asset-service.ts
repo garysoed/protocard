@@ -57,7 +57,7 @@ export default class AssetService extends Listenable<EventType> {
    */
   @Cache
   get assets(): { [id: string]: Asset } {
-    var assets = <{ [id: string]: Asset }>{};
+    let assets = <{ [id: string]: Asset }>{};
     this.index_.forEach(id => {
       assets[id] = this.storage_.getItem(id, Asset);
     });

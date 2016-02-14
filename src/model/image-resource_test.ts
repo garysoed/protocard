@@ -1,4 +1,5 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import ImageResource from './image-resource';
 import Serializer from './serializable';

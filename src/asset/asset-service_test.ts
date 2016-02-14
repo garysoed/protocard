@@ -21,8 +21,6 @@ describe('data.AssetService', () => {
     const ASSET = { id: 'ID' };
 
     beforeEach(() => {
-      let $mdToastBuilder =
-          jasmine.createSpyBuilder('$mdToastBuilder', ['position', 'textContent']);
       mockStorageService.getItem.and.returnValue([]);
       assetService.saveAsset(ASSET);
 
@@ -83,11 +81,11 @@ describe('data.AssetService', () => {
           return asset;
         }
       });
-      assetService.assets;
+      let assets = assetService.assets;
 
       // Now call again.
       mockStorageService.getItem.calls.reset();
-      expect(assetService.assets).toEqual({ [asset.id]: asset });
+      expect(assetService.assets).toEqual(assets);
       expect(mockStorageService.getItem).not.toHaveBeenCalled();
     });
   });
@@ -146,19 +144,21 @@ describe('data.AssetService', () => {
           return asset;
         }
       });
-      assetService.assets;
+      let assets = assetService.assets;
 
-      assetService.saveAsset(new Asset('test2'));
+      let newAsset = new Asset('test2');
+      assetService.saveAsset(newAsset);
 
       mockStorageService.getItem.calls.reset();
       mockStorageService.getItem.and.callFake(id => {
         if (id === KEY_INDEX) {
-          return [asset.id];
-        } else if (id === asset.id) {
-          return asset;
+          return <any>([newAsset.id]);
+        } else if (id === newAsset.id) {
+          return newAsset;
         }
       });
       mockStorageService.getItem();
+      expect(assetService.assets).not.toEqual(assets);
       expect(mockStorageService.getItem).toHaveBeenCalled();
     });
 

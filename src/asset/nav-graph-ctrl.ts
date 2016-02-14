@@ -62,7 +62,7 @@ export default class {
   }
 
   private onPipelineNodeChange_() {
-    this.$scope_.$apply(() => {});
+    this.$scope_.$apply(() => undefined);
   }
 
   get canEditLabel(): boolean {

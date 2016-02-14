@@ -1,5 +1,5 @@
 import { Comparable } from '../decorator/compare';
-import Serializer, { Serializable, Field } from './serializable';
+import { Serializable, Field } from './serializable';
 
 /**
  * Represents an image resource.

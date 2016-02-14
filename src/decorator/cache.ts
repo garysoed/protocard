@@ -29,7 +29,8 @@ class Cache {
 }
 
 interface ICacheFunc {
-  (target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any>;
+  (target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<any>):
+      TypedPropertyDescriptor<any>;
   clear: (obj: any) => void;
 }
 
@@ -40,18 +41,15 @@ const cache: ICacheFunc = <ICacheFunc>function(
     target: Object,
     propertyKey: string,
     descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any> {
-
   if (descriptor.get) {
     const original = descriptor.get;
     descriptor.get = function(...args) {
-      let cache = Cache.get(this);
-      return cache.getValue(propertyKey, original.bind(this));
+      return Cache.get(this).getValue(propertyKey, original.bind(this));
     };
   } else if (descriptor.value) {
     const original = descriptor.value;
     descriptor.value = function(...args) {
-      let cache = Cache.get(this);
-      return cache.getValue(propertyKey, original.bind(this));
+      return Cache.get(this).getValue(propertyKey, original.bind(this));
     };
   } else {
     throw Error(`Property ${propertyKey} has to be a getter or a function`);

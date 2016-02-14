@@ -1,4 +1,5 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import Asset from './asset';
 import File, { FileTypes } from './file';

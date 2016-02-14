@@ -1,4 +1,5 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import FakeScope from '../testing/fake-scope';
 import File, { FileTypes } from '../model/file';

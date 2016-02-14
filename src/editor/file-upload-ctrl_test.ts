@@ -1,4 +1,5 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import { FileTypes } from '../model/file';
 import FileUploadCtrl from './file-upload-ctrl';

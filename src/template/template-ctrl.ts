@@ -64,7 +64,7 @@ export default class TemplateCtrl {
           let labels = Object.keys(result.data);
           this.query_ = labels[Math.floor(Math.random() * labels.length)];
           Cache.clear(this);
-          this.$scope_.$apply(() => {});
+          this.$scope_.$apply(() => undefined);
         });
   }
 
@@ -80,7 +80,7 @@ export default class TemplateCtrl {
           if (!this.isSearchFocused_) {
             this.isSearchVisible_ = false;
             this.searchVisibleTimeoutId_ = null;
-            this.$scope_.$apply(() => {});
+            this.$scope_.$apply(() => undefined);
           }
         },
         SEARCH_TIMEOUT);

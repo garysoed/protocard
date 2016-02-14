@@ -84,8 +84,8 @@ describe('render.RenderService', () => {
       expect(service.render(content, width, height)).toEqual(promise);
       expect(spyRequestPoolQueue).toHaveBeenCalledWith({
         content: content,
-        width: width,
-        height: height
+        height: height,
+        width: width
       });
     });
   });
@@ -123,7 +123,7 @@ describe('render.RenderService', () => {
       spyOn(Math, 'random').and.returnValue(id);
 
       service
-          .onRequest_({ content: content, width: width, height: height })
+          .onRequest_({ content: content, height: height, width: width })
           .then(actualDataUri => {
             expect(mock$window.addEventListener)
                 .toHaveBeenCalledWith('message', jasmine.any(Function));
@@ -154,7 +154,7 @@ describe('render.RenderService', () => {
       });
 
       service
-          .onRequest_({ content: 'content', width: 123, height: 4456 })
+          .onRequest_({ content: 'content', height: 4456, width: 123, })
           .then(done.fail, done.fail);
       setTimeout(() => {
         jasmine.clock().uninstall();
@@ -168,13 +168,13 @@ describe('render.RenderService', () => {
       mock$window.location.host = 'abs.url';
       mock$window.location.protocol = 'http:';
       mock$window.addEventListener.and.callFake((type, handler) => {
-        handler({ data: { uri: 'dataUri', id: 'otherId' }, origin: 'https://other.origin' });
+        handler({ data: { id: 'otherId', uri: 'dataUri' }, origin: 'https://other.origin' });
       });
 
       spyOn(Math, 'random').and.returnValue('expectedId');
 
       service
-          .onRequest_({ content: 'content', width: 123, height: 4456 })
+          .onRequest_({ content: 'content', height: 4456, width: 123 })
           .then(done.fail, done.fail);
       setTimeout(() => {
         jasmine.clock().uninstall();

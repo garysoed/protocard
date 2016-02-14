@@ -1,4 +1,3 @@
-import Extract from '../convert/extract';
 import File from '../model/file';
 
 export default class FileUploadCtrl {

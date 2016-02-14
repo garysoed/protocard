@@ -1,4 +1,5 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import GapiService from './gapi-service';
 
@@ -44,8 +45,8 @@ describe('common.GapiService', () => {
             expect(mockGapiAuth.authorize).toHaveBeenCalledWith(
                 jasmine.objectContaining({
                   client_id: CLIENT_ID,
-                  scope: expectedScopes,
-                  immediate: true
+                  immediate: true,
+                  scope: expectedScopes
                 }),
                 jasmine.any(Function));
             expect(result).toEqual(actualResult);
@@ -71,15 +72,15 @@ describe('common.GapiService', () => {
             expect(mockGapiAuth.authorize).toHaveBeenCalledWith(
                 jasmine.objectContaining({
                   client_id: CLIENT_ID,
-                  scope: expectedScopes,
-                  immediate: true
+                  immediate: true,
+                  scope: expectedScopes
                 }),
                 jasmine.any(Function));
             expect(mockGapiAuth.authorize).toHaveBeenCalledWith(
                 jasmine.objectContaining({
                   client_id: CLIENT_ID,
-                  scope: expectedScopes,
-                  immediate: false
+                  immediate: false,
+                  scope: expectedScopes
                 }),
                 jasmine.any(Function));
             expect(result).toEqual(actualResult);
@@ -89,7 +90,6 @@ describe('common.GapiService', () => {
 
     it('should reject the promise if the oauth prompt fails', done => {
       let scopes = ['a', 'b'];
-      let expectedScopes = `${SCOPE_PREFIX}${scopes[0]} ${SCOPE_PREFIX}${scopes[1]}`;
 
       mockGapiAuth.authorize.and.callFake((payload, callback) => {
         callback();

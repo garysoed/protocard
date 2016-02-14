@@ -1,4 +1,5 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import ImageSelectCtrl from './image-select-ctrl';
 

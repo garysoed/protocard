@@ -31,8 +31,8 @@ export default class {
           .join(' ');
       let payload = {
         client_id: this.clientId_,
-        scope: normalizedScopes,
-        immediate: immediate
+        immediate: immediate,
+        scope: normalizedScopes
       };
 
       this.gapi_.auth.authorize(payload, result => {

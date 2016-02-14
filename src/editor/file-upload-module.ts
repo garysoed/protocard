@@ -15,6 +15,7 @@ export default angular
       return {
         controller: FileUploadCtrl,
         controllerAs: 'ctrl',
+        link: link,
         require: ['pcFileUpload', 'ngModel'],
         restrict: 'E',
         scope: {
@@ -22,7 +23,6 @@ export default angular
           'extensions': '@'
         },
         templateUrl: './editor/file-upload.ng',
-        transclude: true,
-        link: link
+        transclude: true
       };
     });

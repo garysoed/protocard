@@ -1,4 +1,5 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import DriveDialogCtrl from './drive-dialog-ctrl';
 import DriveDialogService from './drive-dialog-service';

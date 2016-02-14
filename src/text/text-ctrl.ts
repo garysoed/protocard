@@ -2,9 +2,7 @@ import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService from '../asset/asset-service';
 import Cache from '../decorator/cache';
-import Extract from '../convert/extract';
 import File from '../model/file';
-import { FileTypes } from '../model/file';
 import Provider from '../util/provider';
 import TextNode from '../pipeline/text-node';
 
@@ -34,7 +32,7 @@ export default class TextCtrl {
   }
 
   private onTextNodeChange_() {
-    this.$scope_.$apply(() => {});
+    this.$scope_.$apply(() => undefined);
   }
 
   get data(): File {

@@ -19,7 +19,7 @@ export default class Disposable {
     });
   }
 
-  disposeInternal() { }
+  disposeInternal() { /* noop */ }
 
   dispose() {
     this.disposeInternal();

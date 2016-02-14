@@ -1,4 +1,5 @@
 import TestBase from '../testbase';
+TestBase.init();
 
 import CodeEditorCtrl from './code-editor-ctrl';
 
@@ -42,10 +43,10 @@ describe('editor.CodeEditorCtrl', () => {
     mockEditor.selection = mockSelection;
 
     return {
+      editor: mockEditor,
       renderer: mockRenderer,
-      session: mockSession,
       selection: mockSelection,
-      editor: mockEditor
+      session: mockSession
     };
   }
 
@@ -119,7 +120,8 @@ describe('editor.CodeEditorCtrl', () => {
       expect(mockEditor.selection.clearSelection).toHaveBeenCalledWith();
     });
 
-    it('should override the ngModelCtrl render function to render empty string when there are no view values', () => {
+    it('should override the ngModelCtrl render function to render empty string when there are no' +
+        'view values', () => {
       let ngModelCtrl = {};
 
       ctrl.onLink({}, 'language', ngModelCtrl);

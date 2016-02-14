@@ -2,8 +2,7 @@ import { Comparable } from '../decorator/compare';
 import File from './file';
 import FunctionObject from './function-object';
 import ImageResource from './image-resource';
-import Serializer, { Serializable, Field } from './serializable';
-import Utils from '../util/utils';
+import { Serializable, Field } from './serializable';
 
 /**
  * Represents an asset.

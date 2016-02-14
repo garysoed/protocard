@@ -11,12 +11,12 @@ export default angular
       return {
         controller: ImageSelectCtrl,
         controllerAs: 'ctrl',
+        link: link,
         require: ['pcImageSelect', 'ngModel'],
         restrict: 'E',
         scope: {
           'images': '='
         },
-        templateUrl: './editor/image-select.ng',
-        link: link
+        templateUrl: './editor/image-select.ng'
       };
     });

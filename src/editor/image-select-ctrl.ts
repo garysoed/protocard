@@ -26,7 +26,6 @@ export default class {
 
   /**
    * Selects / unselects the given image.
-
    * @param image The Image to be selected / unselected. If it is selected, the image will be
    *    unselected, and vice versa.
    */

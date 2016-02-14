@@ -33,7 +33,9 @@ export default class FunctionObject {
   asFunction(): Function {
     let expr = `fn = function() { ${this.fnString} };`;
     let fn = null;
-    let result = eval(expr);
+    /* tslint:disable:no-eval */
+    eval(expr);
+    /* tslint:enable:no-eval */
     return fn();
   }
 };

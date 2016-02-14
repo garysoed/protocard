@@ -15,13 +15,13 @@ export default angular
       return {
         controller: PreviewableCodeEditorCtrl,
         controllerAs: 'ctrl',
+        link: link,
         require: ['pcPreviewableCodeEditor', 'ngModel'],
         restrict: 'E',
         scope: {
           'language': '@'
         },
         templateUrl: './editor/previewable-code-editor.ng',
-        transclude: true,
-        link: link
+        transclude: true
       };
     });

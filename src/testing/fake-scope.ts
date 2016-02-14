@@ -10,7 +10,7 @@ export default class FakeScope {
   $apply() {}
   $emit() {}
   $on() {
-    let disposableFunction = new DisposableFunction(() => {});
+    let disposableFunction = new DisposableFunction(() => undefined);
     return () => {
       disposableFunction.dispose();
     };

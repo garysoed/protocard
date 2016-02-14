@@ -15,13 +15,13 @@ export default angular
       return {
         controller: CodeEditorCtrl,
         controllerAs: 'ctrl',
+        link: link,
         require: ['pcCodeEditor', 'ngModel', '?ngChange'],
         restrict: 'E',
         scope: {
           'language': '@',
           'readOnly': '@'
         },
-        templateUrl: './editor/code-editor.ng',
-        link: link
+        templateUrl: './editor/code-editor.ng'
       };
     });

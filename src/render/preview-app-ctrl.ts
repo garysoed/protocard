@@ -42,10 +42,10 @@ export default class PreviewAppCtrl {
       this.html2canvasService_(this.contentEl_, {
         'useCORS': true,
         'onrendered': (canvas) => {
-          var ctx = this.canvasEl_.getContext('2d');
+          let ctx = this.canvasEl_.getContext('2d');
           ctx.drawImage(canvas, 0, 0, width, height);
-          var dataUri = this.canvasEl_.toDataURL('image/png');
-          event.source.postMessage({ uri: dataUri, id: id }, event.origin);
+          let dataUri = this.canvasEl_.toDataURL('image/png');
+          event.source.postMessage({ id: id, uri: dataUri }, event.origin);
         }
       });
     }, 100);
