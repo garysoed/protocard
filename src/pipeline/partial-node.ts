@@ -6,7 +6,6 @@ import HelperNode from './helper-node';
 import ImageNode from './image-node';
 import ImageResource from '../model/image-resource';
 import LabelNode from './label-node';
-import ProcessNode from './process-node';
 import Node from './node';
 
 interface IPartialMap {
@@ -23,9 +22,8 @@ export default class PartialNode extends Node<IPartialMap> {
       globalNode: GlobalNode,
       helperNode: HelperNode,
       imageNode: ImageNode,
-      labelNode: LabelNode,
-      processNode: ProcessNode) {
-    super([globalNode, helperNode, imageNode, labelNode, processNode]);
+      labelNode: LabelNode) {
+    super([globalNode, helperNode, imageNode, labelNode]);
     this.asset_ = asset;
     this.generatorService_ = generatorService;
   }
@@ -36,7 +34,6 @@ export default class PartialNode extends Node<IPartialMap> {
       let helpers = <{ [key: string]: FunctionObject }>dependencies[1];
       let images = <{ [name: string]: ImageResource }>dependencies[2];
       let labelledData = <{ data: { [label: string]: any }, index: Fuse }>dependencies[3];
-      let processedData = <any[]>dependencies[4];
 
       try {
         let results = {};
@@ -44,10 +41,11 @@ export default class PartialNode extends Node<IPartialMap> {
             .createGenerator(globals, helpers, images, {} /* partials */);
         for (let partialName in this.asset_.partials) {
           let partialString = this.asset_.partials[partialName];
-          // TODO(gs): Generator should be able to take in a rendered data instead of a map of them.
-          let renderResult = generator.generate(
-              partialString, this.asset_.templateName, processedData);
-          results[partialName] = renderResult;
+          results[partialName] = {};
+          for (let label in labelledData.data) {
+            results[partialName][label] =
+                generator.generateSingle(partialString, labelledData.data[label]);
+          }
         }
 
         resolve(results);

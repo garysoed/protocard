@@ -17,8 +17,7 @@ describe('pipeline.PartialNode', () => {
         jasmine.createSpyObj('GlobalNode', ['addChangeListener']),
         jasmine.createSpyObj('HelperNode', ['addChangeListener']),
         jasmine.createSpyObj('ImageNode', ['addChangeListener']),
-        jasmine.createSpyObj('LabelNode', ['addChangeListener']),
-        jasmine.createSpyObj('ProcessNode', ['addChangeListener']));
+        jasmine.createSpyObj('LabelNode', ['addChangeListener']));
   });
 
   describe('runHandler_', () => {
@@ -26,7 +25,12 @@ describe('pipeline.PartialNode', () => {
       let globals = jasmine.createObj('globals');
       let helpers = jasmine.createObj('helpers');
       let images = jasmine.createObj('images');
-      let processedData = jasmine.createObj('processedData');
+      let labelledData = {
+        data: {
+          'label1': 'label1Data',
+          'label2': 'label2Data'
+        }
+      };
 
       let templateName = 'templateName';
 
@@ -36,26 +40,36 @@ describe('pipeline.PartialNode', () => {
       };
       mockAsset.templateName = templateName;
 
-      let mockGenerator = jasmine.createSpyObj('Generator', ['generate']);
-      mockGenerator.generate.and.callFake(partialString => {
-        return `${partialString}Rendered`;
+      let mockGenerator = jasmine.createSpyObj('Generator', ['generateSingle']);
+      mockGenerator.generateSingle.and.callFake((partialString, labelledData) => {
+        return `${partialString}${labelledData}`;
       });
 
       mockGeneratorService.createGenerator.and.returnValue(mockGenerator);
 
-      node.runHandler_([globals, helpers, images, {}, processedData])
+      node.runHandler_([globals, helpers, images, labelledData])
           .then(results => {
             expect(results).toEqual({
-              'partial1': 'partial1StringRendered',
-              'partial2': 'partial2StringRendered'
+              'partial1': {
+                'label1': 'partial1Stringlabel1Data',
+                'label2': 'partial1Stringlabel2Data'
+              },
+              'partial2': {
+                'label1': 'partial2Stringlabel1Data',
+                'label2': 'partial2Stringlabel2Data'
+              }
             });
             expect(mockGeneratorService.createGenerator)
                 .toHaveBeenCalledWith(globals, helpers, images, {});
 
-            expect(mockGenerator.generate)
-                .toHaveBeenCalledWith('partial1String', templateName, processedData);
-            expect(mockGenerator.generate)
-                .toHaveBeenCalledWith('partial2String', templateName, processedData);
+            expect(mockGenerator.generateSingle)
+                .toHaveBeenCalledWith('partial1String', 'label1Data');
+            expect(mockGenerator.generateSingle)
+                .toHaveBeenCalledWith('partial1String', 'label2Data');
+            expect(mockGenerator.generateSingle)
+                .toHaveBeenCalledWith('partial2String', 'label1Data');
+            expect(mockGenerator.generateSingle)
+                .toHaveBeenCalledWith('partial2String', 'label2Data');
             done();
           }, done.fail);
     });

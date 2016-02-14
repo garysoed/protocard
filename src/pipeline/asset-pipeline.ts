@@ -68,8 +68,7 @@ export default class AssetPipeline {
         this.globalNode,
         this.helperNode,
         this.imageNode,
-        this.labelNode,
-        this.processNode);
+        this.labelNode);
   }
 
   @Cache

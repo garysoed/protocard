@@ -101,6 +101,19 @@ export default class Generator {
     return outContent;
   }
 
+  generateSingle(templateBody: string, localData: { [key: string]: any }): string {
+    // TODO(gs): Expose this
+    let options = {
+      noEscape: true
+    };
+
+    let template = this.handlebars_.compile(templateBody, options);
+    let evalLocalData = this.resolve_(localData, this.globals_, options);
+    let data = JSON.parse(JSON.stringify(this.globals_));
+    Utils.mixin({ _: evalLocalData }, data);
+    return template(data);
+  }
+
   generateNames(templateName: string, localDataList: any[]): { [key: string]: any } {
     // TODO(gs): Combine with generate
     // TODO(gs): Expose this
@@ -109,7 +122,6 @@ export default class Generator {
     };
 
     let outNameTemplate = this.handlebars_.compile(templateName, options);
-
     let outContent = {};
 
     // Generates all the local data.

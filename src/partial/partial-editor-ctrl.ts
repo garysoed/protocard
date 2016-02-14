@@ -93,7 +93,7 @@ export default class {
    * Called when the refresh button is clicked.
    */
   onRefreshClick() {
-    this.selectedKey_ = null;
+    this.setSelectedKey_();
     Cache.clear(this);
   }
 }
