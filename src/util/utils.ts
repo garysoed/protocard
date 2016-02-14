@@ -44,10 +44,9 @@ export default {
     for (let key in fromObj) {
       let value = fromObj[key];
       if (toObj[key] !== undefined) {
-        if (typeof toObj[key] !== 'object') {
-          throw Error('Conflict at key ' + key);
+        if (typeof toObj[key] === 'object') {
+          this.mixin(value, toObj[key]);
         }
-        this.mixin(value, toObj[key]);
       } else {
         toObj[key] = JSON.parse(JSON.stringify(value));
       }

@@ -53,10 +53,11 @@ describe('util.Utils', () => {
       });
     });
 
-    it('should throw error if keys conflict for non objects', () => {
-      let dest = { a: 1 };
+    it('should ignore if keys conflict for non objects', () => {
+      let dest = { a: 2 };
       let source = { a: 1 };
-      expect(() => { Utils.mixin(source, dest); }).toThrowError(/Conflict at key/);
+      Utils.mixin(source, dest);
+      expect(dest.a).toEqual(2);
     });
   });
 

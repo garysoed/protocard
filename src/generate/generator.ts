@@ -4,6 +4,7 @@ interface Config {
   globals?: { [key: string]: any };
   helpers?: { [key: string]: Function };
   partials?: { [key: string]: string };
+  options?: { [key: string]: any };
 }
 
 /**
@@ -13,6 +14,7 @@ export default class Generator {
 
   private globals_: { [key: string]: string };
   private handlebars_: IHandlebars;
+  private options_: { [key: string]: any };
 
   /**
    * @constructor
@@ -23,9 +25,13 @@ export default class Generator {
     let globals = config.globals || {};
     let helpers = config.helpers || {};
     let partials = config.partials || {};
+    let options = config.options || {};
 
     this.globals_ = globals;
     this.handlebars_ = handlebars;
+    this.options_ = options;
+
+    Utils.mixin({ noEscape: true }, this.options_);
 
     // Register the helpers.
     for (let key in helpers) {
@@ -70,20 +76,15 @@ export default class Generator {
       templateBody: string,
       templateName: string,
       localDataList: any[]): { [name: string]: string } {
-    // TODO(gs): Expose this
-    let options = {
-      noEscape: true
-    };
-
-    let template = this.handlebars_.compile(templateBody, options);
-    let outNameTemplate = this.handlebars_.compile(templateName, options);
+    let template = this.handlebars_.compile(templateBody, this.options_);
+    let outNameTemplate = this.handlebars_.compile(templateName, this.options_);
 
     let outContent = <{ [name: string]: string }>{};
 
     // Generates all the local data.
     localDataList.forEach(localData => {
       try {
-        let evalLocalData = this.resolve_(localData, this.globals_, options);
+        let evalLocalData = this.resolve_(localData, this.globals_, this.options_);
         let data = JSON.parse(JSON.stringify(this.globals_));
         Utils.mixin({ _: evalLocalData }, data);
         let rendered = template(data);
@@ -102,13 +103,8 @@ export default class Generator {
   }
 
   generateSingle(templateBody: string, localData: { [key: string]: any }): string {
-    // TODO(gs): Expose this
-    let options = {
-      noEscape: true
-    };
-
-    let template = this.handlebars_.compile(templateBody, options);
-    let evalLocalData = this.resolve_(localData, this.globals_, options);
+    let template = this.handlebars_.compile(templateBody, this.options_);
+    let evalLocalData = this.resolve_(localData, this.globals_, this.options_);
     let data = JSON.parse(JSON.stringify(this.globals_));
     Utils.mixin({ _: evalLocalData }, data);
     return template(data);
@@ -116,18 +112,13 @@ export default class Generator {
 
   generateNames(templateName: string, localDataList: any[]): { [key: string]: any } {
     // TODO(gs): Combine with generate
-    // TODO(gs): Expose this
-    let options = {
-      noEscape: true
-    };
-
-    let outNameTemplate = this.handlebars_.compile(templateName, options);
+    let outNameTemplate = this.handlebars_.compile(templateName, this.options_);
     let outContent = {};
 
     // Generates all the local data.
     localDataList.forEach(localData => {
       try {
-        let evalLocalData = this.resolve_(localData, this.globals_, options);
+        let evalLocalData = this.resolve_(localData, this.globals_, this.options_);
         let data = JSON.parse(JSON.stringify(this.globals_));
         Utils.mixin({ _: evalLocalData }, data);
         let outName = outNameTemplate(data);
