@@ -67,8 +67,8 @@ gn.exec('lint', gn.parallel(
     './src/thirdparty:lint',
     './src/util:lint'
 ));
-gn.exec('test', gn.series('.:compile-test', karmaTasks.once(gn, 'out/**')));
-gn.exec('karma', gn.series('.:compile-test', karmaTasks.watch(gn, 'out/**')));
+gn.exec('test', gn.series('.:compile-test', karmaTasks.once(gn, '**')));
+gn.exec('karma', gn.series('.:compile-test', karmaTasks.watch(gn, '**')));
 gn.exec('compile', gn.series('_compile'));
 
 gn.exec('compile-scripts', function() {
