@@ -24,7 +24,7 @@ describe('common.StorageService', () => {
 
   beforeEach(() => {
     mockStorage = jasmine.createSpyObj('storage', ['getItem', 'removeItem', 'setItem']);
-    let mockWindow = <Window>{};
+    let mockWindow = <Window> {};
     mockWindow['localStorage'] = mockStorage;
     service = new StorageService(mockWindow, NAMESPACE);
   });

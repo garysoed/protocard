@@ -37,7 +37,7 @@ interface ICacheFunc {
 /**
  * Annotates getters to cache the return value.
  */
-const cache: ICacheFunc = <ICacheFunc>function(
+const cache: ICacheFunc = <ICacheFunc> function(
     target: Object,
     propertyKey: string,
     descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any> {

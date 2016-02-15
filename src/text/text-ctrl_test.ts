@@ -26,7 +26,7 @@ describe('text.TextCtrl', () => {
 
     mockAssetPipelineService.getPipeline.and.returnValue({ textNode: mockTextNode });
 
-    mock$scope = <any>(new FakeScope());
+    mock$scope = <any> (new FakeScope());
     mock$scope['asset'] = mockAsset;
     spyOn(mock$scope, '$on');
 

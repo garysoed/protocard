@@ -13,8 +13,9 @@ export default class ProcessNode extends Node<any[]> {
   }
 
   runHandler_(results: any[]): Promise<any[]> {
-    let writer = new Writer(<string[][]>results[0]);
-    let mapFunction = <(data: string[], line: number) => any>this.asset_.dataProcessor.asFunction();
+    let writer = new Writer(<string[][]> results[0]);
+    let mapFunction = <(data: string[], line: number) => any>
+        this.asset_.dataProcessor.asFunction();
     return Promise.resolve(writer.write(mapFunction));
   }
 }

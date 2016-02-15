@@ -23,7 +23,7 @@ describe('data.DataCtrl', () => {
     mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
     mockAssetPipelineService.getPipeline.and.returnValue({ processNode: mockProcessNode });
 
-    let scope = <any>(new FakeScope());
+    let scope = <any> (new FakeScope());
     scope['asset'] = asset;
     ctrl = new DataCtrl(scope, mockAssetPipelineService, mockAssetService);
   });

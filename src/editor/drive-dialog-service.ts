@@ -15,7 +15,7 @@ export default class {
    *    dialog is cancelled.
    */
   show($event: MouseEvent): angular.IPromise<any> {
-    let options = <angular.material.IDialogOptions>{};
+    let options = <angular.material.IDialogOptions> {};
     options['controller'] = DriveDialogCtrl;
     options['controllerAs'] = 'ctrl';
     options['targetEvent'] = $event;

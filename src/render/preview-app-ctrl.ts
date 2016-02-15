@@ -13,9 +13,9 @@ export default class PreviewAppCtrl {
       DOMParserService: DOMParser,
       Html2canvasService: Html2CanvasStatic) {
     this.$window_ = $window;
-    this.canvasEl_ = <HTMLCanvasElement>($document[0].querySelector('canvas'));
-    this.contentEl_ = <HTMLElement>($document[0].querySelector('#content'));
-    this.customStyleEl_ = <HTMLElement>($document[0].querySelector('style#custom'));
+    this.canvasEl_ = <HTMLCanvasElement> ($document[0].querySelector('canvas'));
+    this.contentEl_ = <HTMLElement> ($document[0].querySelector('#content'));
+    this.customStyleEl_ = <HTMLElement> ($document[0].querySelector('style#custom'));
     this.domParserService_ = DOMParserService;
     this.html2canvasService_ = Html2canvasService;
 
@@ -33,8 +33,8 @@ export default class PreviewAppCtrl {
 
     let parser = new this.domParserService_();
     let doc = parser.parseFromString(content, 'text/html');
-    this.customStyleEl_.innerHTML = (<HTMLElement>(doc.querySelector('style'))).innerHTML;
-    this.contentEl_.innerHTML = (<HTMLElement>(doc.querySelector('.root'))).outerHTML;
+    this.customStyleEl_.innerHTML = (<HTMLElement> (doc.querySelector('style'))).innerHTML;
+    this.contentEl_.innerHTML = (<HTMLElement> (doc.querySelector('.root'))).outerHTML;
     this.canvasEl_.width = width;
     this.canvasEl_.height = height;
 

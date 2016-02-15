@@ -48,7 +48,7 @@ describe('Generator', () => {
     });
 
     it('should register all the given helpers', () => {
-      let helpers = <{ [index: string]: Function }>{};
+      let helpers = <{ [index: string]: Function }> {};
       helpers['helper1'] = () => undefined;
       helpers['helper2'] = () => undefined;
 
@@ -58,7 +58,7 @@ describe('Generator', () => {
     });
 
     it('should register all the given partials', () => {
-      let partials = <{ [index: string]: string }>{};
+      let partials = <{ [index: string]: string }> {};
       partials['partial1'] = 'partial1';
       partials['partial2'] = 'partial2';
 
@@ -97,7 +97,7 @@ describe('Generator', () => {
       let nameTemplate = jasmine.createSpy('nameTemplate').and.returnValue(outName);
 
       fakeHandleBars.compile.and.callFake((name: string) => {
-        switch(name) {
+        switch (name) {
           case TEMPLATE_TEXT:
             return fileTemplate;
           case localDataList[0].a:
@@ -153,7 +153,7 @@ describe('Generator', () => {
       let nameTemplate = jasmine.createSpy('nameTemplate').and.returnValue(outName);
 
       fakeHandleBars.compile.and.callFake((name: string) => {
-        switch(name) {
+        switch (name) {
           case TEMPLATE_TEXT:
             return fileTemplate;
           case localDataList[0].a.b:

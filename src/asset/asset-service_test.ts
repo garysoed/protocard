@@ -152,7 +152,7 @@ describe('asset.AssetService', () => {
       mockStorageService.getItem.calls.reset();
       mockStorageService.getItem.and.callFake((id: string) => {
         if (id === KEY_INDEX) {
-          return <any>([newAsset.id]);
+          return <any> ([newAsset.id]);
         } else if (id === newAsset.id) {
           return newAsset;
         }

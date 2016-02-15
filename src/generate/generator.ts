@@ -48,7 +48,7 @@ export default class Generator {
       data: { [key: string]: any },
       deps: any,
       options: any): { [key: string]: any } {
-    let resolvedData = <{ [key: string]: any }>{};
+    let resolvedData = <{ [key: string]: any }> {};
     for (let key in data) {
       let value = data[key];
       if (typeof value === 'object') {
@@ -79,7 +79,7 @@ export default class Generator {
     let template = this.handlebars_.compile(templateBody, this.options_);
     let outNameTemplate = this.handlebars_.compile(templateName, this.options_);
 
-    let outContent = <{ [name: string]: string }>{};
+    let outContent = <{ [name: string]: string }> {};
 
     // Generates all the local data.
     localDataList.forEach((localData: any) => {

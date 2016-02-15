@@ -32,7 +32,7 @@ export default {
     };
 
     jasmine.cast = <T>(params: { [name: string]: any }): T => {
-      let obj = <T>{};
+      let obj = <T> {};
       for (let key in params) {
         obj[key] = params[key];
       }

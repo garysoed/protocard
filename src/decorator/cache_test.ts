@@ -53,7 +53,7 @@ describe('decorators.Cache', () => {
   });
 
   it('should throw error on non getter properties', () => {
-    let descriptor = <TypedPropertyDescriptor<any>>{};
+    let descriptor = <TypedPropertyDescriptor<any>> {};
     expect(() => {
       Cache({}, 'property', descriptor);
     }).toThrowError(/has to be a getter or a function/);

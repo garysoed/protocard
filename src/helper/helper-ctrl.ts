@@ -44,7 +44,7 @@ export default class {
     return new Provider(
         this.$scope_,
         this.helperNode_.result,
-        <{ [key: string]: FunctionObject }>{});
+        <{ [key: string]: FunctionObject }> {});
   }
 
   /**

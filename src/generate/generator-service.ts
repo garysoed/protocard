@@ -47,7 +47,7 @@ export default class GeneratorService {
     helperFns['_lowercase'] = lowercase;
     let options = {
       globals: globals,
-      helpers: <{ [index: string]: Function }>helperFns,
+      helpers: <{ [index: string]: Function }> helperFns,
       partials: partials,
     };
     return new Generator(this.handlebarsService_, options);

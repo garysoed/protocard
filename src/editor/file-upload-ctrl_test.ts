@@ -15,11 +15,11 @@ describe('editor.FileUploadCtrl', () => {
     mockNgModelCtrl = jasmine.createSpyObj('NgModelCtrl', ['$setViewValue']);
     mockFileReaderCtor = jasmine.createSpy('FileReader');
 
-    let scope = <angular.IScope>{};
+    let scope = <angular.IScope> {};
     scope['classes'] = 'classes';
     scope['extensions'] = 'extensionse';
 
-    let window = <Window>{};
+    let window = <Window> {};
     window['FileReader'] = mockFileReaderCtor;
     ctrl = new FileUploadCtrl(scope, window);
     ctrl.onLink(mockInputEl, mockNgModelCtrl);

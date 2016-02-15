@@ -14,7 +14,7 @@ describe('common.GapiService', () => {
     mockGapiAuth = jasmine.createSpyObj('GapiAuth', ['authorize']);
     mockGapiClient = jasmine.createSpyObj('GapiClient', ['load', 'newBatch', 'setApiKey']);
 
-    let mock$window = <Window>{};
+    let mock$window = <Window> {};
     mock$window['gapi'] = {
       auth: mockGapiAuth,
       client: mockGapiClient,

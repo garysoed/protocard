@@ -22,7 +22,7 @@ describe('common.AssetNamePickerCtrl', () => {
     let mockAsset = { id: ASSET_ID };
     mockOnBlur = jasmine.createSpy('onBlur');
     mockOnFocus = jasmine.createSpy('onFocus');
-    let $scope = <any>(new FakeScope({
+    let $scope = <any> (new FakeScope({
       'asset': mockAsset,
       'onBlur': mockOnBlur,
       'onFocus': mockOnFocus,
@@ -66,7 +66,7 @@ describe('common.AssetNamePickerCtrl', () => {
 
       let setTimeoutSpy = spyOn(window, 'setTimeout');
 
-      let $scope = <any>(new FakeScope({ 'asset': jasmine.createObj('asset') }));
+      let $scope = <any> (new FakeScope({ 'asset': jasmine.createObj('asset') }));
       ctrl = new AssetNamePickerCtrl($scope, mockAssetPipelineService);
       ctrl.onLink(mockElement, jasmine.createObj('NgModelCtrl'));
 

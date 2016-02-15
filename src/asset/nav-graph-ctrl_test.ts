@@ -25,7 +25,7 @@ describe('asset.NavGraphCtrl', () => {
   }
 
   beforeEach(() => {
-    mock$scope = <any>(new FakeScope());
+    mock$scope = <any> (new FakeScope());
     mock$scope['asset'] = { id: 'assetId' };
     spyOn(mock$scope, '$on');
 
