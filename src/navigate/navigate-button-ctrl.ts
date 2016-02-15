@@ -27,7 +27,7 @@ export default class NavigateButtonCtrl extends Disposable {
             $scope.$on('$routeUpdate', this.onRouteUpdate_.bind(this))));
   }
 
-  private onRouteUpdate_() {
+  private onRouteUpdate_(): void {
     Cache.clear(this);
   }
 
@@ -62,7 +62,7 @@ export default class NavigateButtonCtrl extends Disposable {
     return this.text_;
   }
 
-  onClick() {
+  onClick(): void {
     if (!this.disabled) {
       this.navigateService_.toSubview(this.subview_);
     }

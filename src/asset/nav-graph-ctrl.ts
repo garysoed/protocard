@@ -8,6 +8,7 @@ import GlobalNode from '../pipeline/global-node';
 import HelperNode from '../pipeline/helper-node';
 import ImageNode from '../pipeline/image-node';
 import LabelNode from '../pipeline/label-node';
+import Node from '../pipeline/node';
 import PartialNode from '../pipeline/partial-node';
 import ProcessNode from '../pipeline/process-node';
 import TemplateNode from '../pipeline/template-node';
@@ -51,17 +52,17 @@ export default class {
       this.partialNode_,
       this.processNode_,
       this.templateNode_,
-      this.textNode_
-    ].map(node => node.addChangeListener(this.onPipelineNodeChange_.bind(this)));
+      this.textNode_,
+    ].map((node: Node<any>) => node.addChangeListener(this.onPipelineNodeChange_.bind(this)));
 
     $scope.$on('$destroy', this.onScopeDestroy_.bind(this));
   }
 
-  private onScopeDestroy_() {
-    this.deregisterFns_.forEach(fn => fn());
+  private onScopeDestroy_(): void {
+    this.deregisterFns_.forEach((fn: Function) => fn());
   }
 
-  private onPipelineNodeChange_() {
+  private onPipelineNodeChange_(): void {
     this.$scope_.$apply(() => undefined);
   }
 
@@ -97,7 +98,7 @@ export default class {
     return this.partialNode_.isDone;
   }
 
-  get isProcessDataReady() {
+  get isProcessDataReady(): boolean {
     return this.processNode_.isDone;
   }
 

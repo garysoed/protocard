@@ -11,7 +11,7 @@ describe('decorators.Compare', () => {
       this.a_ = a;
     }
 
-    @Comparable get a() { return this.a_; }
+    @Comparable get a(): any { return this.a_; }
   }
 
   class CompositeClass {
@@ -23,8 +23,8 @@ describe('decorators.Compare', () => {
       this.f_ = f;
     }
 
-    @Comparable get basic() { return this.basic_; }
-    @Comparable get f() { return this.f_; }
+    @Comparable get basic(): BasicClass { return this.basic_; }
+    @Comparable get f(): any { return this.f_; }
   }
 
   it('should handle basic classes', () => {

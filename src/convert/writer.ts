@@ -20,6 +20,6 @@ export default class Writer {
    *    it will be removed from the array.
    */
   write<V>(writerFn: (data: string[], line: number) => V): V[] {
-    return this.lineData_.map(writerFn).filter(item => !!item);
+    return this.lineData_.map(writerFn).filter((item: V) => !!item);
   }
 }

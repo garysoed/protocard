@@ -13,7 +13,7 @@ describe('pipeline.GlobalNode', () => {
   });
 
   describe('runHandler_', () => {
-    it('should parse the globals string from the asset', done => {
+    it('should parse the globals string from the asset', (done: jasmine.IDoneFn) => {
       let height = 123;
       let width = 456;
       let globals = { 'a': 1, 'b': 2 };
@@ -23,16 +23,16 @@ describe('pipeline.GlobalNode', () => {
       mockAsset.width = width;
 
       node.runHandler_()
-          .then(result => {
+          .then((result: any) => {
             expect(result).toEqual({
               'a': 1,
               'b': 2,
               _pc: {
                 size: {
                   height: `${height}px`,
-                  width: `${width}px`
-                }
-              }
+                  width: `${width}px`,
+                },
+              },
             });
             done();
           }, done.fail);

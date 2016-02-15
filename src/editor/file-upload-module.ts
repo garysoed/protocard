@@ -1,10 +1,15 @@
 import FileUploadCtrl from './file-upload-ctrl';
 
-function link(scope, element, attr, ctrls, transclude) {
+function link(
+    scope: angular.IScope,
+    element: angular.IAugmentedJQuery,
+    attr: angular.IAttributes,
+    ctrls: any[],
+    transclude: angular.ITranscludeFunction): void {
   let [fileUploadCtrl, ngModelCtrl] = ctrls;
   fileUploadCtrl.onLink(element[0].querySelector('input[type="file"]'), ngModelCtrl);
 
-  transclude(clone => {
+  transclude((clone: JQuery) => {
     element.find('ng-transclude').replaceWith(clone);
   });
 }
@@ -20,9 +25,9 @@ export default angular
         restrict: 'E',
         scope: {
           'classes': '@',
-          'extensions': '@'
+          'extensions': '@',
         },
         templateUrl: './editor/file-upload.ng',
-        transclude: true
+        transclude: true,
       };
     });

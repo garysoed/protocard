@@ -24,7 +24,7 @@ describe('render.PreviewAppCtrl', () => {
     let fake$document = new FakeDocument({
       'canvas': mockCanvasEl,
       '#content': mockContentEl,
-      'style#custom': mockCustomStyleEl
+      'style#custom': mockCustomStyleEl,
     });
 
     let jqliteDoc = jasmine.cast<JQLite<Document>>([fake$document]);
@@ -55,14 +55,14 @@ describe('render.PreviewAppCtrl', () => {
         'content': 'content',
         'height': height,
         'width': width,
-        'id': id
+        'id': id,
       };
       let mockParsedStyleEl = jasmine.cast<HTMLElement>({ innerHTML: 'style innerHTML' });
       let mockParsedRootEl = jasmine.cast<HTMLElement>({ outerHTML: 'root outerHTML' });
 
       let fakeParsedDocument = new FakeDocument({
         'style': mockParsedStyleEl,
-        '.root': mockParsedRootEl
+        '.root': mockParsedRootEl,
       });
       let mockDOMParser = jasmine.createSpyObj('DOMParser', ['parseFromString']);
       mockDOMParser.parseFromString.and.returnValue(fakeParsedDocument);
@@ -73,7 +73,7 @@ describe('render.PreviewAppCtrl', () => {
         origin: 'origin',
         source: {
           postMessage: jasmine.createSpy('postMessage')
-        }
+        },
       };
       onMessage_(event);
 

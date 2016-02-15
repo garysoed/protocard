@@ -5,7 +5,7 @@ import HelperEditorCtrl from './helper-editor-ctrl';
 export default angular
     .module('pc.helper.HelperEditorModule', [
       AssetServiceModule.name,
-      CodeEditorModule.name
+      CodeEditorModule.name,
     ])
     .directive('pcHelperEditor', () => {
       return {
@@ -14,8 +14,8 @@ export default angular
         restrict: 'E',
         scope: {
           asset: '=',
-          helper: '='
+          helper: '=',
         },
-        templateUrl: './helper/helper-editor.ng'
+        templateUrl: './helper/helper-editor.ng',
       };
     });

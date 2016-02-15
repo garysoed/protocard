@@ -5,8 +5,8 @@ function link(
     element: JQuery,
     attrs: any,
     ctrl: any,
-    transclude: angular.ITranscludeFunction) {
-  transclude(clone => {
+    transclude: angular.ITranscludeFunction): void {
+  transclude((clone: JQuery) => {
     element.find('ng-transclude').replaceWith(clone);
   });
 }
@@ -23,6 +23,6 @@ export default angular
         scope: {
         },
         templateUrl: './common/context-button.ng',
-        transclude: true
+        transclude: true,
       };
     });

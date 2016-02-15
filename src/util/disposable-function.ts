@@ -15,11 +15,11 @@ export default class DisposableFunction extends Disposable {
   /**
    * @override
    */
-  disposeInternal() {
+  disposeInternal(): void {
     this.run();
   }
 
-  run() {
+  run(): void {
     this.fn_();
   }
 }

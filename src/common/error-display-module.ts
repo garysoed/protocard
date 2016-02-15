@@ -10,6 +10,6 @@ export default angular
         scope: {
           'error': '='
         },
-        templateUrl: './common/error-display.ng'
+        templateUrl: './common/error-display.ng',
       };
     });

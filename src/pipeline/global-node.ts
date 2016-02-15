@@ -18,8 +18,8 @@ export default class GlobalNode extends Node<{ [key: string]: any }> {
     globalsJson._pc = {
       size: {
         height: `${this.asset_.height}px`,
-        width: `${this.asset_.width}px`
-      }
+        width: `${this.asset_.width}px`,
+      },
     };
     return Promise.resolve(globalsJson);
   }

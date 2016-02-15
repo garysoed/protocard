@@ -38,9 +38,10 @@ export default class {
    *
    * @param $event Angular event object that triggered this.
    */
-  onCreateClick($event: MouseEvent) {
-    return this.createAssetDialogService_.show($event)
-        .then(asset => {
+  onCreateClick($event: MouseEvent): angular.IPromise<void> {
+    return this.createAssetDialogService_
+        .show($event)
+        .then((asset: Asset) => {
           this.assetService_.saveAsset(asset);
           this.navigateService_.toAsset(asset.id);
         });

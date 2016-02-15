@@ -8,7 +8,7 @@ export default class {
     this.$mdDialog_ = $mdDialog;
   }
 
-  show($event: MouseEvent, asset: Asset) {
+  show($event: MouseEvent, asset: Asset): void {
     this.$mdDialog_.show({
       controller: SettingsDialogCtrl,
       controllerAs: 'ctrl',
@@ -16,7 +16,7 @@ export default class {
         'asset': asset
       },
       targetEvent: $event,
-      templateUrl: 'settings/settings-dialog.ng'
+      templateUrl: 'settings/settings-dialog.ng',
     });
   }
 };

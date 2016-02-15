@@ -13,11 +13,11 @@ describe('pipeline.ImageNode', () => {
   });
 
   describe('runHandler_', () => {
-    it('should return the images object from the asset', done => {
+    it('should return the images object from the asset', (done: jasmine.IDoneFn) => {
       let images = jasmine.createObj('images');
       mockAsset.images = images;
       node.runHandler_()
-          .then(result => {
+          .then((result: any) => {
             expect(result).toEqual(images);
             done();
           }, done.fail);

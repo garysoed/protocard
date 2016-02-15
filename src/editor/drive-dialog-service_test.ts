@@ -19,7 +19,7 @@ describe('editor.DriveDialogService', () => {
       service.show($event);
       expect(mock$mdDialog.show).toHaveBeenCalledWith(jasmine.objectContaining({
         controller: DriveDialogCtrl,
-        targetEvent: $event
+        targetEvent: $event,
       }));
     });
   });

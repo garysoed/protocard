@@ -97,7 +97,7 @@ describe('settings.SettingsDialogCtrl', () => {
   });
 
   describe('onDownloadClick', () => {
-    it('should create the asset JSON and downloads it', done => {
+    it('should create the asset JSON and downloads it', (done: jasmine.IDoneFn) => {
       let name = 'name';
       mockAsset.name = name;
 

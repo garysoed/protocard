@@ -25,7 +25,7 @@ describe('common.AssetNamePickerCtrl', () => {
     let $scope = <any>(new FakeScope({
       'asset': mockAsset,
       'onBlur': mockOnBlur,
-      'onFocus': mockOnFocus
+      'onFocus': mockOnFocus,
     }));
     ctrl = new AssetNamePickerCtrl($scope, mockAssetPipelineService);
   });
@@ -77,21 +77,21 @@ describe('common.AssetNamePickerCtrl', () => {
   });
 
   describe('get searchResults', () => {
-    it('should return promise that resoles with the correct results', done => {
+    it('should return promise that resoles with the correct results', (done: jasmine.IDoneFn) => {
       let result1 = 'result1';
       let result2 = 'result2';
       let searchText = 'searchText';
       let mockFuse = jasmine.createSpyObj('Fuse', ['search']);
       mockFuse.search.and.returnValue([
         { 'label': result1 },
-        { 'label': result2 }
+        { 'label': result2 },
       ]);
 
       mockLabelNode.result = Promise.resolve({ index: mockFuse });
 
       ctrl.searchText = searchText;
       ctrl.searchResults
-          .then(results => {
+          .then((results: any) => {
             expect(results).toEqual([result1, result2]);
             expect(mockFuse.search).toHaveBeenCalledWith(searchText);
             done();

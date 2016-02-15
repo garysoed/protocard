@@ -21,12 +21,12 @@ export default class {
   /**
    * Called when the delete button is clicked.
    */
-  onDeleteClick() {
+  onDeleteClick(): void {
     delete this.asset_.partials[this.name_];
     this.assetService_.saveAsset(this.asset_);
   }
 
-  onEditClick() {
+  onEditClick(): void {
     this.navigateService_.toAsset(this.asset_.id, 'partial.editor', this.name_);
   }
 

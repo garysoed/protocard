@@ -18,7 +18,7 @@ describe('asset.NavGraphCtrl', () => {
   let mockTextNode;
   let ctrl;
 
-  function createSpyNode(name: string, deregister: Function) {
+  function createSpyNode(name: string, deregister: Function): any {
     let mock = jasmine.createSpyObj(name, ['addChangeListener']);
     mock.addChangeListener.and.returnValue(deregister);
     return mock;
@@ -50,7 +50,7 @@ describe('asset.NavGraphCtrl', () => {
       partialNode: mockPartialNode,
       processNode: mockProcessNode,
       templateNode: mockTemplateNode,
-      textNode: mockTextNode
+      textNode: mockTextNode,
     });
 
     ctrl = new NavGraphCtrl(mock$scope, mockAssetPipelineService);

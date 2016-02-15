@@ -11,7 +11,7 @@ import Serializer from '../model/serializable';
 const CUSTOM_PRESET = new Preset(Origin.CUSTOM, '', 0, 0);
 export const PRESETS = [
   new Preset(Origin.GAME_CRAFTER, 'Poker Deck', 825, 1125),
-  CUSTOM_PRESET
+  CUSTOM_PRESET,
 ];
 
 export default class {
@@ -81,24 +81,24 @@ export default class {
 
   @Cache
   get presets(): string[] {
-    return PRESETS.map(preset => preset.fullDescription);
+    return PRESETS.map((preset: Preset) => preset.fullDescription);
   }
 
-  onDeleteClick() {
+  onDeleteClick(): void {
     // TODO(gs): Confirmation dialog
     this.assetService_.deleteAsset(this.asset_);
     this.$mdDialog_.hide();
     this.navigateService_.toHome();
   }
 
-  onDownloadClick() {
+  onDownloadClick(): void {
     let blob = new Blob(
         [JSON.stringify(Serializer.toJSON(this.asset_), null, 2)],
         { type: 'application/json' });
     this.downloadService_.download(blob, `${this.asset_.name}.json`);
   }
 
-  onOkClick() {
+  onOkClick(): void {
     this.$mdDialog_.hide();
   }
 }

@@ -17,7 +17,7 @@ describe('Generator', () => {
     it('should return all the cards', () => {
       let localDataList = [
         { a: 1 },
-        { b: 2 }
+        { b: 2 },
       ];
       let outName1 = 'outName1';
       let outName2 = 'outName2';
@@ -25,16 +25,16 @@ describe('Generator', () => {
       let rendered2 = 'rendered2';
 
       let fileTemplate = jasmine.createSpy('fileTemplate').and
-          .callFake(data => (data._.a === 1) ? rendered1 : rendered2);
+          .callFake((data: any) => (data._.a === 1) ? rendered1 : rendered2);
       let nameTemplate = jasmine.createSpy('nameTemplate').and
-          .callFake(data => (data._.a === 1) ? outName1 : outName2);
+          .callFake((data: any) => (data._.a === 1) ? outName1 : outName2);
 
       fakeHandleBars.compile.and
-          .callFake(name => (name === TEMPLATE_TEXT) ? fileTemplate : nameTemplate);
+          .callFake((name: string) => (name === TEMPLATE_TEXT) ? fileTemplate : nameTemplate);
 
       expect(generator.generate(TEMPLATE_TEXT, OUT_NAME, localDataList)).toEqual({
         [outName1]: rendered1,
-        [outName2]: rendered2
+        [outName2]: rendered2,
       });
 
       expect(fileTemplate)
@@ -77,7 +77,7 @@ describe('Generator', () => {
       let nameTemplate = jasmine.createSpy('nameTemplate').and.returnValue(outName);
 
       fakeHandleBars.compile.and
-          .callFake(name => (name === TEMPLATE_TEXT) ? fileTemplate : nameTemplate);
+          .callFake((name: string) => (name === TEMPLATE_TEXT) ? fileTemplate : nameTemplate);
 
       let generator = new Generator(fakeHandleBars, { globals: globals });
       generator.generate(TEMPLATE_TEXT, OUT_NAME, localDataList);
@@ -96,7 +96,7 @@ describe('Generator', () => {
       let localTemplate = jasmine.createSpy('localTemplate').and.returnValue(globals.a);
       let nameTemplate = jasmine.createSpy('nameTemplate').and.returnValue(outName);
 
-      fakeHandleBars.compile.and.callFake(name => {
+      fakeHandleBars.compile.and.callFake((name: string) => {
         switch(name) {
           case TEMPLATE_TEXT:
             return fileTemplate;
@@ -126,7 +126,7 @@ describe('Generator', () => {
       let nameTemplate = jasmine.createSpy('nameTemplate').and.returnValue(outName);
 
       fakeHandleBars.compile.and
-          .callFake(name => (name === TEMPLATE_TEXT) ? fileTemplate : nameTemplate);
+          .callFake((name: string) => (name === TEMPLATE_TEXT) ? fileTemplate : nameTemplate);
 
       let generator = new Generator(fakeHandleBars, { globals: globals });
       generator.generate(TEMPLATE_TEXT, OUT_NAME, localDataList);
@@ -137,11 +137,13 @@ describe('Generator', () => {
     });
 
     it('should resolve local data with object value', () => {
-      let localDataList = [{
-        a: {
-          b: '{{a}}'
-        }
-      }];
+      let localDataList = [
+        {
+          a: {
+            b: '{{a}}'
+          },
+        },
+      ];
       let globals = { a: 1 };
       let outName = 'outName';
       let rendered = 'rendered';
@@ -150,7 +152,7 @@ describe('Generator', () => {
       let localTemplate = jasmine.createSpy('localTemplate').and.returnValue(globals.a);
       let nameTemplate = jasmine.createSpy('nameTemplate').and.returnValue(outName);
 
-      fakeHandleBars.compile.and.callFake(name => {
+      fakeHandleBars.compile.and.callFake((name: string) => {
         switch(name) {
           case TEMPLATE_TEXT:
             return fileTemplate;

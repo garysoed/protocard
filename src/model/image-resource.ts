@@ -15,7 +15,7 @@ export default class ImageResource {
    * @param url URL of the image resource. This will be used for references in HTML / CSS.
    * @param [previewUrl] Preview URL of the image resource. Defaults to the actual URL.
    */
-  constructor(alias = '', url: string = null, previewUrl = url) {
+  constructor(alias: string = '', url: string = null, previewUrl: string = url) {
     this.alias_ = alias;
     this.url_ = url;
     this.previewUrl_ = previewUrl;

@@ -52,14 +52,15 @@ describe('image.ImageCtrl', () => {
   });
 
   describe('get images', () => {
-    it('should return provider which resolves with the correct image resources', done => {
+    it('should return provider which resolves with the correct image resources',
+        (done: jasmine.IDoneFn) => {
       let image1 = jasmine.createObj('image1');
       let image2 = jasmine.createObj('image2');
       let imageMap = { 'a': image1, 'b': image2 };
       mockImageNode.result = Promise.resolve(imageMap);
 
       ctrl.images.promise
-          .then(images => {
+          .then((images: any) => {
             expect(images).toEqual([image1, image2]);
             done();
           }, done.fail);
@@ -83,7 +84,7 @@ describe('image.ImageCtrl', () => {
   });
 
   describe('onDriveClick', () => {
-    it('should return a Promise that updates the asset', done => {
+    it('should return a Promise that updates the asset', (done: jasmine.IDoneFn) => {
       let $event = {};
       let images = [{ alias: 'image1' }, { alias: 'image2' }];
       mockAsset.images = {};

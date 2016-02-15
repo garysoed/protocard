@@ -41,28 +41,32 @@ export default class RenderCtrl {
   /**
    * Called when the controller is destroyed.
    */
-  private onDestroy_() {
+  private onDestroy_(): void {
     this.destroyed_ = true;
   }
 
   private renderAll_(): Promise<any> {
     return this.exportNode_.result
-        .then(imageResourcePromises => {
-          this.totalRender_ = imageResourcePromises.length;
-          return Promise.all(imageResourcePromises.map(promise => {
-            return promise
-                .then(imageResource => {
-                  this.rendered_.push(imageResource);
-                }, error => {
-                  this.lastError_ = error;
-                })
-                .then(() => {
-                  this.$scope_.$apply(() => undefined);
-                });
-          }));
-        }, error => {
-          this.lastError_ = error;
-        })
+        .then(
+            (imageResourcePromises: Promise<ImageResource>[]) => {
+              this.totalRender_ = imageResourcePromises.length;
+              return Promise.all(imageResourcePromises.map((promise: Promise<ImageResource>) => {
+                return promise
+                    .then(
+                        (imageResource: ImageResource) => {
+                          this.rendered_.push(imageResource);
+                        },
+                        (error: string) => {
+                          this.lastError_ = error;
+                        })
+                    .then(() => {
+                      this.$scope_.$apply(() => undefined);
+                    });
+              }));
+            },
+            (error: string) => {
+              this.lastError_ = error;
+            })
         .then(() => {
           this.$scope_.$apply(() => undefined);
         });
@@ -71,7 +75,7 @@ export default class RenderCtrl {
   /**
    * Unselects all images.
    */
-  private unselectAll_() {
+  private unselectAll_(): void {
     this.selectedImages_.splice(0, this.selectedImages_.length);
   }
 
@@ -96,9 +100,9 @@ export default class RenderCtrl {
   /**
    * Handler called when the download button is clicked.
    */
-  onDownloadClick() {
+  onDownloadClick(): void {
     let zip = this.jszipService_();
-    this.selectedImages_.forEach(image => {
+    this.selectedImages_.forEach((image: ImageResource) => {
       let imageData = image.url.substring(image.url.indexOf(',') + 1);
       zip.file(`${image.alias}.png`, imageData, { base64: true });
     });
@@ -110,21 +114,21 @@ export default class RenderCtrl {
   /**
    * Handler called when the mouse enters the fab button.
    */
-  onFabMouseEnter() {
+  onFabMouseEnter(): void {
     this.isFabOpen_ = true;
   }
 
   /**
    * Handler called when the mouse leaves the fab button.
    */
-  onFabMouseLeave() {
+  onFabMouseLeave(): void {
     this.isFabOpen_ = false;
   }
 
   /**
    * Called when the directive is initialized.
    */
-  onInit() {
+  onInit(): void {
     this.$scope_.$on('$destroy', this.onDestroy_.bind(this));
     this.renderAll_();
   }
@@ -132,9 +136,9 @@ export default class RenderCtrl {
   /**
    * Handler called when the select all button is clicked.
    */
-  onSelectAllClick() {
+  onSelectAllClick(): void {
     this.unselectAll_();
-    this.images.forEach(image => {
+    this.images.forEach((image: ImageResource) => {
       this.selectedImages_.push(image);
     });
   }
@@ -142,7 +146,7 @@ export default class RenderCtrl {
   /**
    * Handler called when the unselect all button is clicked.
    */
-  onUnselectAllClick() {
+  onUnselectAllClick(): void {
     this.unselectAll_();
   }
 

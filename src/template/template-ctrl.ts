@@ -49,7 +49,7 @@ export default class TemplateCtrl {
   @Cache
   private get renderResult_(): Promise<RenderedData> {
     return this.templateNode_.result
-        .then(results => {
+        .then((results: { [key: string]: RenderedData }) => {
           if (this.query_ === null) {
             return null;
           }
@@ -58,9 +58,9 @@ export default class TemplateCtrl {
         });
   }
 
-  private setQuery_() {
+  private setQuery_(): Promise<any> {
     return this.labelNode_.result
-        .then(result => {
+        .then((result: { data: { [key: string]: any } }) => {
           let labels = Object.keys(result.data);
           this.query_ = labels[Math.floor(Math.random() * labels.length)];
           Cache.clear(this);
@@ -68,7 +68,7 @@ export default class TemplateCtrl {
         });
   }
 
-  private showSearch_() {
+  private showSearch_(): void {
     this.isSearchVisible_ = true;
 
     if (this.searchVisibleTimeoutId_ !== null) {
@@ -95,7 +95,7 @@ export default class TemplateCtrl {
     return new Provider(
         this.$scope_,
         this.renderResult_
-            .then(result => {
+            .then((result: RenderedData) => {
               return result === null ?
                   Promise.resolve(false) :
                   result.dataUriTicket.promise.then(() => false);
@@ -119,7 +119,7 @@ export default class TemplateCtrl {
     return new Provider(
         this.$scope_,
         this.renderResult_
-            .then(result => {
+            .then((result: RenderedData) => {
               return result === null ? '' : result.htmlSource;
             }),
         '');
@@ -130,7 +130,7 @@ export default class TemplateCtrl {
     return new Provider(
         this.$scope_,
         this.renderResult_
-            .then(result => {
+            .then((result: RenderedData) => {
               return result === null ? '' : result.dataUriTicket.promise;
             }),
         '');
@@ -160,23 +160,23 @@ export default class TemplateCtrl {
     }
   }
 
-  onSearchBlur() {
+  onSearchBlur(): void {
     this.isSearchFocused_ = false;
     this.showSearch_();
   }
 
-  onSearchFocus() {
+  onSearchFocus(): void {
     this.isSearchFocused_ = true;
   }
 
-  onSearchMouseOver() {
+  onSearchMouseOver(): void {
     this.showSearch_();
   }
 
   /**
    * Called when the refresh button is clicked.
    */
-  onRefreshClick() {
+  onRefreshClick(): void {
     this.query_ = null;
     Cache.clear(this);
   }

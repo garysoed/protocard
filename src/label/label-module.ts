@@ -7,7 +7,7 @@ export default angular
     .module('pc.label.LabelModule', [
       AssetPipelineServiceModule.name,
       AssetServiceModule.name,
-      ContextButtonModule.name
+      ContextButtonModule.name,
     ])
     .directive('pcLabel', () => {
       return {
@@ -17,6 +17,6 @@ export default angular
         scope: {
           'asset': '='
         },
-        templateUrl: './label/label.ng'
+        templateUrl: './label/label.ng',
       };
     });

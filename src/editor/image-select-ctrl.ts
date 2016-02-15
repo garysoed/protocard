@@ -29,7 +29,7 @@ export default class {
    * @param image The Image to be selected / unselected. If it is selected, the image will be
    *    unselected, and vice versa.
    */
-  select(image: ImageResource) {
+  select(image: ImageResource): void {
     if (this.isSelected(image)) {
       let index = this.ngModelCtrl_.$viewValue.indexOf(image);
       this.ngModelCtrl_.$viewValue.splice(index, 1);
@@ -51,7 +51,7 @@ export default class {
    *
    * @param ngModelCtrl
    */
-  onLink(ngModelCtrl: angular.INgModelController) {
+  onLink(ngModelCtrl: angular.INgModelController): void {
     this.ngModelCtrl_ = ngModelCtrl;
   }
 }

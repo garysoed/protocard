@@ -13,11 +13,11 @@ export default class {
     this.isOpen_ = open;
   }
 
-  onFabMouseEnter() {
+  onFabMouseEnter(): void {
     this.isOpen_ = true;
   }
 
-  onFabMouseLeave() {
+  onFabMouseLeave(): void {
     this.isOpen_ = false;
   }
 }

@@ -47,23 +47,24 @@ describe('label.LabelCtrl', () => {
   });
 
   describe('preview', () => {
-    it('should return a provider which resolves with the correct value', done => {
+    it('should return a provider which resolves with the correct value',
+        (done: jasmine.IDoneFn) => {
       mockLabelNode.result = Promise.resolve({ 'label1': 'obj', 'label2': 'obj' });
 
       spyOn(Math, 'random').and.returnValue(0.5);
 
       ctrl.preview.promise
-          .then(result => {
+          .then((result: any) => {
             expect(result).toEqual('label2');
             done();
           }, done.fail);
     });
 
-    it('should return empty string if there are no labels', done => {
+    it('should return empty string if there are no labels', (done: jasmine.IDoneFn) => {
       mockLabelNode.result = Promise.resolve({});
 
       ctrl.preview.promise
-          .then(result => {
+          .then((result: any) => {
             expect(result).toEqual('');
             done();
           }, done.fail);

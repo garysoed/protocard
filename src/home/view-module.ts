@@ -12,14 +12,14 @@ export default angular
       ContextButtonModule.name,
       CreateAssetDialogModule.name,
       FileUploadModule.name,
-      NavigateServiceModule.name
+      NavigateServiceModule.name,
     ])
-    .config($routeProvider => {
+    .config(($routeProvider: angular.ui.IUrlRouterProvider) => {
       $routeProvider.when(
           '/',
           {
             controller: ViewCtrl,
             controllerAs: 'ctrl',
-            templateUrl: 'home/view.ng'
+            templateUrl: 'home/view.ng',
           });
     });

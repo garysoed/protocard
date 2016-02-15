@@ -10,7 +10,7 @@ abstract class Node<T> {
     this.isDone_ = false;
     this.listeners_ = new Set<Function>();
 
-    dependencies.forEach(dependency => {
+    dependencies.forEach((dependency: Node<any>) => {
       dependency.addChangeListener(this.onChange_.bind(this));
     });
   }
@@ -20,7 +20,7 @@ abstract class Node<T> {
   /**
    * Called when any of the dependencies has changed.
    */
-  private onChange_() {
+  private onChange_(): void {
     this.refresh();
   }
 
@@ -29,16 +29,16 @@ abstract class Node<T> {
    */
   @Cache
   private run_(): Promise<T> {
-    return Promise.all(this.dependencies_.map(dependency => dependency.result))
-        .then(results => this.runHandler_(results))
+    return Promise.all(this.dependencies_.map((dependency: Node<any>) => dependency.result))
+        .then((results: any) => this.runHandler_(results))
         .then(
-            result => {
+            (result: T) => {
               this.isDone_ = true;
-              this.listeners_.forEach(listener => listener());
+              this.listeners_.forEach((listener: Function) => listener());
               return result;
             },
-            error => {
-              this.listeners_.forEach(listener => listener());
+            (error: any) => {
+              this.listeners_.forEach((listener: Function) => listener());
             });
   }
 
@@ -54,7 +54,7 @@ abstract class Node<T> {
 
   get isDependenciesDone(): boolean {
     this.run_();
-    return this.dependencies_.every(dependency => dependency.isDone);
+    return this.dependencies_.every((dependency: Node<any>) => dependency.isDone);
   }
 
   get isDone(): boolean {
@@ -65,7 +65,7 @@ abstract class Node<T> {
   /**
    * Clears all the cache and prepares the node to be ran again.
    */
-  refresh() {
+  refresh(): void {
     Cache.clear(this);
     this.isDone_ = false;
     this.run_();

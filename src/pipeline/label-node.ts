@@ -26,7 +26,7 @@ export default class LabelNode extends Node<{ data: { [label: string]: any }, in
   }
 
   runHandler_(dependencies: any[]): Promise<{ data: { [label: string]: any }, index: Fuse }> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve: (data: any) => void, reject: (data: any) => void) => {
       let globals = <{ [key: string]: any }>dependencies[0];
       let helpers = <{ [key: string]: FunctionObject }>dependencies[1];
       let processedData = <any[]>dependencies[2];
@@ -38,12 +38,12 @@ export default class LabelNode extends Node<{ data: { [label: string]: any }, in
 
         let labels = [];
         for (let label in data) {
-          labels.push({ 'label': label });
+          labels.push({ label: label });
         }
 
         resolve({
           data: data,
-          index: new (this.fuseService_)(labels, { keys: ['label'] })
+          index: new (this.fuseService_)(labels, { keys: ['label'] }),
         });
       } catch (e) {
         reject(e);

@@ -27,11 +27,11 @@ export default class TextCtrl {
     $scope.$on('$destroy', this.onDestroy_.bind(this));
   }
 
-  private onDestroy_() {
+  private onDestroy_(): void {
     this.changeListenerDeregister_();
   }
 
-  private onTextNodeChange_() {
+  private onTextNodeChange_(): void {
     this.$scope_.$apply(() => undefined);
   }
 

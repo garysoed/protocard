@@ -7,7 +7,7 @@ export default angular
     .module('pc.partial.PartialModule', [
       AssetServiceModule.name,
       ContextButtonModule.name,
-      PartialItemModule.name
+      PartialItemModule.name,
     ])
     .directive('pcPartial', () => {
       return {
@@ -17,6 +17,6 @@ export default angular
         scope: {
           asset: '='
         },
-        templateUrl: './partial/partial.ng'
+        templateUrl: './partial/partial.ng',
       };
     });

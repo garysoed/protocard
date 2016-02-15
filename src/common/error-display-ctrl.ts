@@ -5,7 +5,7 @@ export default class ErrorDisplayCtrl {
     this.$scope_ = $scope;
   }
 
-  get lastError() {
+  get lastError(): any {
     return this.$scope_['error'].message;
   }
 }

@@ -24,14 +24,14 @@ export default class {
   /**
    * Handles event when the create button is clicked.
    */
-  onCreateClick() {
+  onCreateClick(): void {
     this.$mdDialog_.hide(new Asset(this.$scope_['name']));
   }
 
   /**
    * Handles event when the cancel button is clicked.
    */
-  onCancelClick() {
+  onCancelClick(): void {
     this.$mdDialog_.cancel();
   }
 };

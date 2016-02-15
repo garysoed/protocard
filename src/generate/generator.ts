@@ -82,7 +82,7 @@ export default class Generator {
     let outContent = <{ [name: string]: string }>{};
 
     // Generates all the local data.
-    localDataList.forEach(localData => {
+    localDataList.forEach((localData: any) => {
       try {
         let evalLocalData = this.resolve_(localData, this.globals_, this.options_);
         let data = JSON.parse(JSON.stringify(this.globals_));
@@ -93,9 +93,10 @@ export default class Generator {
       } catch (e) {
         // TODO(gs): Clarify the causal chain.
         throw Error([
-            'Error while trying to generate local data:',
-            JSON.stringify(localData, null, 2),
-            e].join('\n'));
+          'Error while trying to generate local data:',
+          JSON.stringify(localData, null, 2),
+          e,
+        ].join('\n'));
       }
     });
 
@@ -116,7 +117,7 @@ export default class Generator {
     let outContent = {};
 
     // Generates all the local data.
-    localDataList.forEach(localData => {
+    localDataList.forEach((localData: any) => {
       try {
         let evalLocalData = this.resolve_(localData, this.globals_, this.options_);
         let data = JSON.parse(JSON.stringify(this.globals_));
@@ -126,9 +127,10 @@ export default class Generator {
       } catch (e) {
         // TODO(gs): Clarify the causal chain.
         throw Error([
-            'Error while trying to generate local data:',
-            JSON.stringify(localData, null, 2),
-            e].join('\n'));
+          'Error while trying to generate local data:',
+          JSON.stringify(localData, null, 2),
+          e,
+        ].join('\n'));
       }
     });
 
@@ -139,10 +141,8 @@ export default class Generator {
    * Resolves the given template string using global data.
    *
    * @method resolve
-   * @param {string} templateString Template string to be resolved.
-   * @return {string} String based on the resolved template string.
    */
-  resolve(templateString) {
+  resolve(templateString: string): string {
     return this.handlebars_.compile(templateString)(this.globals_);
   }
 };

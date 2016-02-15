@@ -55,12 +55,12 @@ describe('text.TextCtrl', () => {
   });
 
   describe('get parsedData', () => {
-    it('should return the correct data', done => {
+    it('should return the correct data', (done: jasmine.IDoneFn) => {
       let textNodeResult = 'textNodeResult';
       mockTextNode.result = Promise.resolve(textNodeResult);
 
       ctrl.parsedData.promise
-          .then(result => {
+          .then((result: any) => {
             expect(result).toEqual(textNodeResult);
             done();
           }, done.fail);

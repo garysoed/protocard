@@ -14,7 +14,7 @@ export default {
     let fields: Set<string> = ctor.prototype[__fields];
     if (fields) {
       let isEqual = true;
-      fields.forEach(field => {
+      fields.forEach((field: string) => {
         isEqual = isEqual && this.equals(a[field], b[field]);
       });
       return isEqual;
@@ -24,7 +24,7 @@ export default {
       // TODO(gs): Compare the keys.
       return undefined;
     }
-  }
+  },
 };
 
 export function Comparable(

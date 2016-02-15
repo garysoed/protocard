@@ -13,6 +13,6 @@ export default angular
           'subview': '@',
           'text': '@',
         },
-        templateUrl: './navigate/navigate-button.ng'
+        templateUrl: './navigate/navigate-button.ng',
       };
     });

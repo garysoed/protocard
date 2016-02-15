@@ -5,10 +5,10 @@
 export default {
   fromTsv(content: string): string[][] {
     let lines = content.split('\n');
-    let lineData = lines.map(line => {
+    let lineData = lines.map((line: string) => {
       return line.replace(/\r/g, '').split('\t');
     });
 
     return lineData;
-  }
+  },
 };

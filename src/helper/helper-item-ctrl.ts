@@ -3,7 +3,7 @@ import Utils from '../util/utils';
 export const Events = {
   CHANGED: Utils.getUniqueId('changed'),
   DELETED: Utils.getUniqueId('deleted'),
-  EDITED: Utils.getUniqueId('edited')
+  EDITED: Utils.getUniqueId('edited'),
 };
 
 /**
@@ -33,14 +33,14 @@ export default class HelperItemCtrl {
   /**
    * Handler called when the delete button is clicked.
    */
-  onDeleteClick() {
+  onDeleteClick(): void {
     this.$scope_.$emit(Events.DELETED, this.name_);
   }
 
   /**
    * Handler called when the edit button is clicked.
    */
-  onEditClick() {
+  onEditClick(): void {
     this.$scope_.$emit(Events.EDITED, this.name_);
   }
 }

@@ -1,7 +1,11 @@
 import CodeEditorModule from './code-editor-module';
 import PreviewableCodeEditorCtrl from './previewable-code-editor-ctrl';
 
-export function link(scope, element, attr, ctrls) {
+export function link(
+    scope: angular.IScope,
+    element: angular.IAugmentedJQuery,
+    attr: angular.IAttributes,
+    ctrls: any[]): void {
   let previewableCodeEditorCtrl: PreviewableCodeEditorCtrl = ctrls[0];
   let ngModelCtrl: angular.INgModelController = ctrls[1];
   previewableCodeEditorCtrl.onLink(ngModelCtrl);
@@ -22,6 +26,6 @@ export default angular
           'language': '@'
         },
         templateUrl: './editor/previewable-code-editor.ng',
-        transclude: true
+        transclude: true,
       };
     });

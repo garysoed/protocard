@@ -36,8 +36,8 @@ export default class TemplateNode extends Node<{ [label: string]: RenderedData }
     this.tickets_ = [];
   }
 
-  runHandler_(dependencies): Promise<{ [label: string]: RenderedData }> {
-    return new Promise((resolve, reject) => {
+  runHandler_(dependencies: any[]): Promise<{ [label: string]: RenderedData }> {
+    return new Promise((resolve: (data: any) => void, reject: (data: any) => void) => {
       let globals = <{ [key: string]: any }>dependencies[0];
       let helpers = <{ [key: string]: FunctionObject }>dependencies[1];
       let images = <{ [name: string]: ImageResource }>dependencies[2];
@@ -45,7 +45,7 @@ export default class TemplateNode extends Node<{ [label: string]: RenderedData }
       let processedData = <any[]>dependencies[4];
 
       // Deactivate all tickets.
-      this.tickets_.forEach(ticket => {
+      this.tickets_.forEach((ticket: RequestTicket<any>) => {
         ticket.deactivate();
       });
       this.tickets_ = [];

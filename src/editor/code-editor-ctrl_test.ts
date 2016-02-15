@@ -16,7 +16,7 @@ describe('editor.CodeEditorCtrl', () => {
     ctrl = new CodeEditorCtrl(mock$scope, mock$timeout, mockAceService);
   });
 
-  function createMockEditor() {
+  function createMockEditor(): { editor: any, renderer: any, selection: any, session: any } {
     let mockRenderer;
     let mockSession;
     let mockSelection;
@@ -36,7 +36,7 @@ describe('editor.CodeEditorCtrl', () => {
           'setShowPrintMargin',
           'setTheme',
           'getValue',
-          'setValue'
+          'setValue',
         ]);
     mockEditor.getSession.and.returnValue(mockSession);
     mockEditor.renderer = mockRenderer;
@@ -46,7 +46,7 @@ describe('editor.CodeEditorCtrl', () => {
       editor: mockEditor,
       renderer: mockRenderer,
       selection: mockSelection,
-      session: mockSession
+      session: mockSession,
     };
   }
 

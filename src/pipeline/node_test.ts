@@ -43,7 +43,7 @@ describe('pipeline.Node', () => {
   });
 
   describe('addChangeListener', () => {
-    it('should call the listener when it is ran', done => {
+    it('should call the listener when it is ran', (done: jasmine.IDoneFn) => {
       let listener = jasmine.createSpy('listener');
       node.addChangeListener(listener);
 
@@ -56,7 +56,7 @@ describe('pipeline.Node', () => {
           }, done.fail);
     });
 
-    it('should return a function that stops listening when called', done => {
+    it('should return a function that stops listening when called', (done: jasmine.IDoneFn) => {
       let listener = jasmine.createSpy('listener');
       let deregister = node.addChangeListener(listener);
       deregister();
@@ -108,7 +108,7 @@ describe('pipeline.Node', () => {
       result.result = Promise.resolve(null);
     });
 
-    it('should return true if the result has finished running', done => {
+    it('should return true if the result has finished running', (done: jasmine.IDoneFn) => {
       node.result
           .then(() => {
             expect(node.isDone).toEqual(true);
@@ -130,7 +130,7 @@ describe('pipeline.Node', () => {
   });
 
   describe('refresh', () => {
-    it('should clear the cache and set to undone', done => {
+    it('should clear the cache and set to undone', (done: jasmine.IDoneFn) => {
       dependencyResult.result = Promise.resolve(null);
       result.result = Promise.resolve(null);
 
@@ -154,7 +154,7 @@ describe('pipeline.Node', () => {
   });
 
   describe('result', () => {
-    it('should return the correct promise', done => {
+    it('should return the correct promise', (done: jasmine.IDoneFn) => {
       let dependencyValue = 'dependencyValue';
       let nodeValue = 'nodeValue';
 
@@ -163,7 +163,7 @@ describe('pipeline.Node', () => {
       spyOn(node, 'runHandler_').and.returnValue(Promise.resolve(nodeValue));
 
       node.result
-          .then(value => {
+          .then((value: any) => {
             expect(value).toEqual(nodeValue);
             expect(node.runHandler_).toHaveBeenCalledWith([dependencyValue]);
             expect(node.isDone).toEqual(true);
@@ -171,7 +171,7 @@ describe('pipeline.Node', () => {
           });
     });
 
-    it('should cache the data', done => {
+    it('should cache the data', (done: jasmine.IDoneFn) => {
       let nodeValue = 'nodeValue';
 
       dependencyResult.result = 'value';
@@ -183,7 +183,7 @@ describe('pipeline.Node', () => {
             node.runHandler_.calls.reset();
             return node.result;
           }, done.fail)
-          .then(value => {
+          .then((value: any) => {
             expect(value).toEqual(nodeValue);
             expect(node.runHandler_).not.toHaveBeenCalled();
             done();

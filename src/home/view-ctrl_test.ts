@@ -22,7 +22,7 @@ describe('home.ViewCtrl', () => {
     it('should return the stored assets', () => {
       let assets = [
         new Asset('asset1'),
-        new Asset('asset2')
+        new Asset('asset2'),
       ];
       mockAssetService.assets = assets;
 
@@ -43,7 +43,8 @@ describe('home.ViewCtrl', () => {
   });
 
   describe('onCreateClick', () => {
-    it('should open the create dialog service and save the newly created asset', done => {
+    it('should open the create dialog service and save the newly created asset',
+        (done: jasmine.IDoneFn) => {
       let $event = {};
       let asset = new Asset('newAsset');
 

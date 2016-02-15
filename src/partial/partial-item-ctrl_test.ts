@@ -15,7 +15,7 @@ describe('partial.PartialItemCtrl', () => {
     mockAsset = {
       partials: {
         [NAME]: EDITED_PARTIAL
-      }
+      },
     };
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
     mockNavigateService = jasmine.createSpyObj('NavigateService', ['toAsset']);

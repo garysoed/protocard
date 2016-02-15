@@ -15,9 +15,10 @@ describe('pipeline.ProcessNode', () => {
   });
 
   describe('runHandler_', () => {
-    it('should return promise which resolves to the mapped writer value', done => {
+    it('should return promise which resolves to the mapped writer value',
+        (done: jasmine.IDoneFn) => {
       let mockFunction = jasmine.createSpy('Function');
-      mockFunction.and.callFake(input => input[1]);
+      mockFunction.and.callFake((input: any) => input[1]);
 
       let mockDataProcessor = jasmine.createSpyObj('DataProcessor', ['asFunction']);
       mockDataProcessor.asFunction.and.returnValue(mockFunction);
@@ -26,10 +27,10 @@ describe('pipeline.ProcessNode', () => {
 
       let lineData = [
         ['line', 'one'],
-        ['line', 'two']
+        ['line', 'two'],
       ];
       node.runHandler_([lineData])
-          .then(result => {
+          .then((result: any) => {
             expect(result).toEqual(['one', 'two']);
             expect(mockFunction).toHaveBeenCalledWith(lineData[0], 0, lineData);
             expect(mockFunction).toHaveBeenCalledWith(lineData[1], 1, lineData);

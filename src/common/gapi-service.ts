@@ -25,21 +25,21 @@ export default class {
    *    authentication failed.
    */
   private authenticate_(scopes: string[], immediate: boolean): Promise<any> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve: (data: any) => void, reject: (data: any) => void) => {
       let normalizedScopes = scopes
-          .map(scope => `https://www.googleapis.com/auth/${scope}`)
+          .map((scope: string) => `https://www.googleapis.com/auth/${scope}`)
           .join(' ');
       let payload = {
         client_id: this.clientId_,
         immediate: immediate,
-        scope: normalizedScopes
+        scope: normalizedScopes,
       };
 
-      this.gapi_.auth.authorize(payload, result => {
+      this.gapi_.auth.authorize(payload, (result: any) => {
         if (!!result && !result.error) {
           resolve(result);
         } else {
-          reject();
+          reject('Error authorizing GAPI');
         }
       });
     });

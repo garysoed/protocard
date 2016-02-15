@@ -11,7 +11,7 @@ export default class Provider<T> {
   constructor($scope: angular.IScope, promise: Promise<T>, defaultValue: T) {
     this.value_ = defaultValue;
     this.promise_ = promise
-        .then(result => {
+        .then((result: T) => {
           this.value_ = result;
           Cache.clear(this);
           $scope.$apply(() => undefined);

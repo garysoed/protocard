@@ -23,7 +23,7 @@ export default class DownloadService {
    * @param blob The blob to download.
    * @param filename The filename to download the blob as.
    */
-  download(blob: Blob, filename: string) {
+  download(blob: Blob, filename: string): void {
     let url = this.$window_.URL.createObjectURL(blob);
     this.linkEl.download = filename;
     this.linkEl.href = url;

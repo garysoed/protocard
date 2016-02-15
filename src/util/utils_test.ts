@@ -8,7 +8,7 @@ describe('util.Utils', () => {
     it('should return the first number that is unique', () => {
       let obj = {
         'a': 1,
-        'a_0': 2
+        'a_0': 2,
       };
       expect(Utils.generateKey(obj, 'a')).toEqual('a_1');
     });
@@ -48,8 +48,8 @@ describe('util.Utils', () => {
       expect(dest).toEqual({
         a: {
           ab: 1,
-          cd: 2
-        }
+          cd: 2,
+        },
       });
     });
 
@@ -65,9 +65,9 @@ describe('util.Utils', () => {
     it('should map the values of the given array', () => {
       let obj = jasmine.cast<{ [index: string]: string }>({
         a: 'a',
-        b: 'b'
+        b: 'b',
       });
-      let out = Utils.mapValue(obj, value => `${value}_`);
+      let out = Utils.mapValue(obj, (value: string) => `${value}_`);
       expect(out).toEqual({ a: 'a_', b: 'b_' });
     });
   });

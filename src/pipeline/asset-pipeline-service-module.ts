@@ -7,6 +7,6 @@ export default angular
     .module('pc.pipeline.AssetPipelineModule', [
       FuseServiceModule.name,
       GeneratorServiceModule.name,
-      RenderServiceModule.name
+      RenderServiceModule.name,
     ])
     .service('AssetPipelineService', AssetPipelineService);

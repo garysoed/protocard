@@ -7,7 +7,7 @@ export default angular
     .module('pc.helper.HelperModule', [
       AssetPipelineServiceModule.name,
       AssetServiceModule.name,
-      HelperItemModule.name
+      HelperItemModule.name,
     ])
     .directive('pcHelper', () => {
       return {
@@ -17,6 +17,6 @@ export default angular
         scope: {
           'asset': '='
         },
-        templateUrl: './helper/helper.ng'
+        templateUrl: './helper/helper.ng',
       };
     });

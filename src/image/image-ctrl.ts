@@ -45,7 +45,7 @@ export default class ImageCtrl {
     return new Provider(
         this.$scope_,
         this.imageNode_.result
-            .then(imageMap => {
+            .then((imageMap: { [key: string]: ImageResource }) => {
               let array = [];
               for (let key in imageMap) {
                 array.push(imageMap[key]);
@@ -65,7 +65,7 @@ export default class ImageCtrl {
   /**
    * Handler called when the delete button is clicked.
    */
-  onDeleteClick() {
+  onDeleteClick(): void {
     for (let selected of this.selectedImages_) {
       delete this.asset_.images[selected.alias];
     }
@@ -82,8 +82,8 @@ export default class ImageCtrl {
   onDriveClick($event: MouseEvent): angular.IPromise<void> {
     return this.driveDialogService_
         .show($event)
-        .then(images => {
-          images.forEach(image => {
+        .then((images: ImageResource[]) => {
+          images.forEach((image: ImageResource) => {
             this.asset_.images[image.alias] = image;
           });
           this.assetService_.saveAsset(this.asset_);

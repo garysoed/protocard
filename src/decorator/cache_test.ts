@@ -12,12 +12,12 @@ describe('decorators.Cache', () => {
     }
 
     @Cache
-    get property() {
+    get property(): any {
       return this.spy_();
     }
 
     @Cache
-    method() {
+    method(): void {
       return this.spy_();
     }
   }

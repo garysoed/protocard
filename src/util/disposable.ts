@@ -13,17 +13,17 @@ export default class Disposable {
     }
   }
 
-  addDisposable(...disposables: Disposable[]) {
-    disposables.forEach(disposable => {
+  addDisposable(...disposables: Disposable[]): void {
+    disposables.forEach((disposable: Disposable) => {
       this.disposables_.push(disposable);
     });
   }
 
-  disposeInternal() { /* noop */ }
+  disposeInternal(): void { /* noop */ }
 
-  dispose() {
+  dispose(): void {
     this.disposeInternal();
-    this.disposables_.forEach(disposable => disposable.dispose());
+    this.disposables_.forEach((disposable: Disposable) => disposable.dispose());
 
     if (Flags.enableTracking) {
       let index = TRACKED_DISPOSABLES.indexOf(this);

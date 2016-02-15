@@ -12,7 +12,7 @@ describe('model.Asset', () => {
     let asset = new Asset('name');
     asset.globalsString = JSON.stringify({
       'field1': '1',
-      'field2': '2'
+      'field2': '2',
     });
     asset.helpers['functionObject1'] = new FunctionObject('function f1() {}');
     asset.helpers['functionObject2'] = new FunctionObject('function f2() {}');

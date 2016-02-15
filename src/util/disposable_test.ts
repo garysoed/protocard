@@ -11,7 +11,7 @@ class DisposableClass extends Disposable {
     this.callback_ = callback;
   }
 
-  disposeInternal() {
+  disposeInternal(): void {
     this.callback_();
   }
 }

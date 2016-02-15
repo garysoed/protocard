@@ -16,7 +16,7 @@ class Cache {
     return this.data_.get(methodName);
   }
 
-  clearAll() {
+  clearAll(): void {
     this.data_.clear();
   }
 
@@ -43,12 +43,12 @@ const cache: ICacheFunc = <ICacheFunc>function(
     descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any> {
   if (descriptor.get) {
     const original = descriptor.get;
-    descriptor.get = function(...args) {
+    descriptor.get = function(...args: any[]): any {
       return Cache.get(this).getValue(propertyKey, original.bind(this));
     };
   } else if (descriptor.value) {
     const original = descriptor.value;
-    descriptor.value = function(...args) {
+    descriptor.value = function(...args: any[]): any {
       return Cache.get(this).getValue(propertyKey, original.bind(this));
     };
   } else {
@@ -61,7 +61,7 @@ const cache: ICacheFunc = <ICacheFunc>function(
 /**
  * Clears all cache in the given object.
  */
-cache.clear = function(obj: any) {
+cache.clear = function(obj: any): void {
   Cache.get(obj).clearAll();
 };
 

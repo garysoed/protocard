@@ -9,7 +9,7 @@ export default angular
       AssetPipelineServiceModule.name,
       ContextButtonModule.name,
       GeneratorServiceModule.name,
-      RenderServiceModule.name
+      RenderServiceModule.name,
     ])
     .directive('pcTemplate', () => {
       return {
@@ -19,6 +19,6 @@ export default angular
         scope: {
           'asset': '='
         },
-        templateUrl: './template/template.ng'
+        templateUrl: './template/template.ng',
       };
     });

@@ -23,18 +23,19 @@ export default class CodeEditorCtrl {
   /**
    * Handler called when the ctrl is destroy.
    */
-  private on$destroy_() {
+  private on$destroy_(): void {
     this.editor_.destroy();
   }
 
   /**
    * Handler called when the editor's annotation list has changed.
    */
-  private onEditorChangeAnnotation_() {
+  private onEditorChangeAnnotation_(): void {
     this.$timeout_(() => {
-      this.valid_ = !this.editor_.getSession().getAnnotations().some(annotation => {
-        return annotation.type === 'error';
-      });
+      this.valid_ = !this.editor_.getSession().getAnnotations()
+          .some((annotation: { type: string }) => {
+            return annotation.type === 'error';
+          });
       if (this.valid_) {
         this.ngModelCtrl_.$setViewValue(this.editor_.getValue());
       } else {
@@ -46,7 +47,7 @@ export default class CodeEditorCtrl {
   /**
    * Render function for ngModel.
    */
-  private renderModel_() {
+  private renderModel_(): void {
     this.editor_.setValue(this.ngModelCtrl_.$viewValue || '');
     this.editor_.selection.clearSelection();
   }
@@ -64,7 +65,7 @@ export default class CodeEditorCtrl {
    * @param language The language to set the editor.
    * @param ngModelCtrl
    */
-  onLink(editorEl: HTMLElement, language: string, ngModelCtrl: angular.INgModelController) {
+  onLink(editorEl: HTMLElement, language: string, ngModelCtrl: angular.INgModelController): void {
     this.editor_ = this.aceService_.edit(editorEl);
     this.editor_.setTheme('ace/theme/monokai');
 

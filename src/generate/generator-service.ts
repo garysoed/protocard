@@ -4,20 +4,20 @@ import ImageResource from '../model/image-resource';
 import Utils from '../util/utils';
 
 // TODO(gs): Move to external file?
-function imageUrlHelper(images: { [key: string]: ImageResource }) {
-  return function(name) {
+function imageUrlHelper(images: { [key: string]: ImageResource }): Function {
+  return function(name: string): string {
     return images[name] ? images[name].url : null;
   };
 }
 
-function lowercase(input) {
+function lowercase(input: string): string {
   return input
       .replace(/[^a-zA-Z0-9 ]/g, '_')
       .replace(/ /g, '-')
       .toLocaleLowerCase();
 }
 
-function ifeq(a, b, options) {
+function ifeq(a: any, b: any, options: Handlebars.IHelperOptions): string {
   if (a === b) {
     return options.fn(this);
   } else {
@@ -40,16 +40,15 @@ export default class GeneratorService {
       globals: { [key: string]: any },
       helpers: { [key: string]: FunctionObject },
       images: { [key: string]: ImageResource },
-      partials: { [key: string]: string }) {
-
-    let helperFns = Utils.mapValue(helpers, helper => helper.asFunction());
+      partials: { [key: string]: string }): Generator {
+    let helperFns = Utils.mapValue(helpers, (helper: FunctionObject) => helper.asFunction());
     helperFns['_ifeq'] = ifeq;
     helperFns['_imgUrl'] = imageUrlHelper(images);
     helperFns['_lowercase'] = lowercase;
     let options = {
       globals: globals,
       helpers: <{ [index: string]: Function }>helperFns,
-      partials: partials
+      partials: partials,
     };
     return new Generator(this.handlebarsService_, options);
   }

@@ -25,7 +25,7 @@ export default class {
     this.renderService_ = RenderService;
   }
 
-  getPipeline(assetId: string) {
+  getPipeline(assetId: string): AssetPipeline {
     if (!this.pipelines_[assetId]) {
       let asset = this.assetService_.getAsset(assetId);
       this.pipelines_[assetId] = new AssetPipeline(

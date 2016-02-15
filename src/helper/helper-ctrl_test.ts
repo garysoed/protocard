@@ -81,12 +81,12 @@ describe('helper.HelperCtrl', () => {
   });
 
   describe('get helpers', () => {
-    it('should return provider which resolves with the correct value', done => {
+    it('should return provider which resolves with the correct value', (done: jasmine.IDoneFn) => {
       let result = jasmine.createObj('helperResult');
       mockHelperNode.result = Promise.resolve(result);
 
       ctrl.helpers.promise
-          .then(helpers => {
+          .then((helpers: any) => {
             expect(helpers).toEqual(result);
             done();
           }, done.fail);

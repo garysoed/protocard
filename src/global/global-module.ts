@@ -7,7 +7,7 @@ export default angular
     .module('pc.global.GlobalModule', [
       AssetPipelineServiceModule.name,
       AssetServiceModule.name,
-      CodeEditorModule.name
+      CodeEditorModule.name,
     ])
     .directive('pcGlobal', () => {
       return {
@@ -17,6 +17,6 @@ export default angular
         scope: {
           'asset': '='
         },
-        templateUrl: './global/global.ng'
+        templateUrl: './global/global.ng',
       };
     });

@@ -23,7 +23,7 @@ describe('settings.SettingsDialogService', () => {
         locals: {
           'asset': asset
         },
-        targetEvent: event
+        targetEvent: event,
       }));
     });
   });

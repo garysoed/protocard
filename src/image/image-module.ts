@@ -9,7 +9,7 @@ export default angular
       AssetPipelineServiceModule.name,
       AssetServiceModule.name,
       DriveDialogModule.name,
-      ImageSelectModule.name
+      ImageSelectModule.name,
     ])
     .directive('pcImage', () => {
       return {
@@ -19,6 +19,6 @@ export default angular
         scope: {
           'asset': '='
         },
-        templateUrl: './image/image.ng'
+        templateUrl: './image/image.ng',
       };
     });

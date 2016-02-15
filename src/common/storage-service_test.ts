@@ -8,11 +8,11 @@ import StorageService from './storage-service';
 class FakeClass {
   @Field('data') data: any;
 
-  constructor(data) {
+  constructor(data: any) {
     this.data = data;
   }
 
-  static fromJSON(json) {
+  static fromJSON(json: any): FakeClass {
     return new this(json.data);
   }
 }

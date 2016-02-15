@@ -43,14 +43,14 @@ describe('data.DataCtrl', () => {
   });
 
   describe('get preview', () => {
-    it('should return the provider with the correct data', done => {
+    it('should return the provider with the correct data', (done: jasmine.IDoneFn) => {
       let processResults = ['a', 'b'];
       mockProcessNode.result = Promise.resolve(processResults);
 
       spyOn(Math, 'random').and.returnValue(0.5);
 
       ctrl.preview.promise
-          .then(previewData => {
+          .then((previewData: any) => {
             expect(previewData).toEqual('"b"');
             done();
           }, done.fail);

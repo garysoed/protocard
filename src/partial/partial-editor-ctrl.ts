@@ -37,7 +37,7 @@ export default class {
 
   private setSelectedKey_(): Promise<any> {
     return this.labelNode_.result
-        .then(result => {
+        .then((result: { data: { [key: string]: any } }) => {
           let labels = Object.keys(result.data);
           this.selectedKey_ = labels[Math.floor(Math.random() * labels.length)];
           Cache.clear(this);
@@ -54,7 +54,7 @@ export default class {
     return new Provider<string>(
         this.$scope_,
         this.partialNode_.result
-            .then(partialsMap => {
+            .then((partialsMap: { [key: string]: { [key: string]: string } }) => {
               if (this.selectedKey === null) {
                 return '';
               }
@@ -92,7 +92,7 @@ export default class {
   /**
    * Called when the refresh button is clicked.
    */
-  onRefreshClick() {
+  onRefreshClick(): void {
     this.setSelectedKey_();
     Cache.clear(this);
   }

@@ -29,13 +29,13 @@ export default class RenderService {
     let height = params.height;
 
     return this.iframeElPromise
-        .then(iframeEl => {
+        .then((iframeEl: HTMLIFrameElement) => {
           // TODO(gs): Cache this.
           let location = this.$window_.location;
           let origin = `${location.protocol}//${location.host}`;
-          return new Promise((resolve, reject) => {
+          return new Promise((resolve: (data: any) => void, reject: (data: any) => void) => {
             let id = Math.random();
-            let messageHandler = event => {
+            let messageHandler = (event: any) => {
               if (event.origin !== origin) {
                 return;
               }
@@ -55,7 +55,7 @@ export default class RenderService {
                   'content': content,
                   'height': height,
                   'width': width,
-                  'id': id
+                  'id': id,
                 },
                 origin);
           });
@@ -68,18 +68,19 @@ export default class RenderService {
    */
   get iframeElPromise(): Promise<HTMLIFrameElement> {
     if (this.iframeElPromise_ === null) {
-      this.iframeElPromise_ = new Promise((resolve, reject) => {
-        let iframeEl = this.document_.createElement('iframe');
-        iframeEl.style.visibility = 'hidden';
-        iframeEl.style.position = 'fixed';
-        iframeEl.style.top = '0';
-        iframeEl.src = 'render/preview-app.html';
-        iframeEl.addEventListener('load', () => {
-          resolve(iframeEl);
-        });
+      this.iframeElPromise_ = new Promise(
+          (resolve: (data: any) => void, reject: (data: any) => void) => {
+            let iframeEl = this.document_.createElement('iframe');
+            iframeEl.style.visibility = 'hidden';
+            iframeEl.style.position = 'fixed';
+            iframeEl.style.top = '0';
+            iframeEl.src = 'render/preview-app.html';
+            iframeEl.addEventListener('load', () => {
+              resolve(iframeEl);
+            });
 
-        this.document_.body.appendChild(iframeEl);
-      });
+            this.document_.body.appendChild(iframeEl);
+          });
     }
     return this.iframeElPromise_;
   }
@@ -97,7 +98,7 @@ export default class RenderService {
     return this.requestPool_.queue({
       content: content,
       height: height,
-      width: width
+      width: width,
     });
   }
 };

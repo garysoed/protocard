@@ -2,7 +2,7 @@ import RequestTicket from './request-ticket';
 import Runner from './runner';
 
 export default class RequestPool<P, R> {
-  private callbackFn_: (P) => R;
+  private callbackFn_: (data: P) => R;
   private queue_: Promise<any>[];
 
   /**
@@ -27,7 +27,7 @@ export default class RequestPool<P, R> {
     if (this.queue_.length === 0) {
       runner.run(params);
       promise = ticket.promise
-          .then(value => {
+          .then((value: any) => {
             this.queue_.shift();
             return value;
           });
@@ -40,7 +40,7 @@ export default class RequestPool<P, R> {
             }
             return ticket.promise;
           })
-          .then(value => {
+          .then((value: any) => {
             this.queue_.shift();
             return value;
           });

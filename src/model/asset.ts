@@ -27,7 +27,8 @@ export default class Asset {
    * @param name Name of the asset.
    */
   constructor(name: string) {
-    this.id_ = `asset.${Date.now()}`;
+    // TODO(gs): Use chance.js.guid
+    this.id_ = `asset.${Math.random()}`;
     this.name_ = name;
     this.data_ = null;
     this.dataProcessor_ = new FunctionObject('return function(lineData) { return lineData; };');

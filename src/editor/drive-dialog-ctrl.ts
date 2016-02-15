@@ -36,26 +36,26 @@ export default class DriveDialogCtrl {
         .then(() => {
           return this.clientPromise_;
         })
-        .then(client => {
+        .then((client: any) => {
           return Promise.all([
             client,
-            client.children.list({ folderId: resourceUrl, q: 'not trashed' })
+            client.children.list({ folderId: resourceUrl, q: 'not trashed' }),
           ]);
         })
-        .then(values => {
+        .then((values: any[]) => {
           let [client, response] = values;
           let batch = this.gapiService_.newBatch();
 
-          response.result.items.map(child => {
+          response.result.items.map((child: any) => {
             batch.add(client.files.get({ fileId: child.id }));
           });
 
           return Promise.all([
             client.files.get({ fileId: resourceUrl }),
-            batch
+            batch,
           ]);
         })
-        .then(values => {
+        .then((values: any[]) => {
           let [folderResponse, batchResponse] = values;
           let webViewLink = folderResponse.result.webViewLink;
 
@@ -110,7 +110,7 @@ export default class DriveDialogCtrl {
   /**
    * Handler called when the delete button is clicked.
    */
-  onDeleteClick() {
+  onDeleteClick(): void {
     for (let selectedImage of this.selectedImages_) {
       let index = this.resources_.indexOf(selectedImage);
       this.resources_.splice(index, 1);
@@ -121,14 +121,14 @@ export default class DriveDialogCtrl {
   /**
    * Handler called when the OK button is clicked.
    */
-  onOkClick() {
+  onOkClick(): void {
     this.$mdDialog_.hide(this.resources_);
   }
 
   /**
    * Handler called when the Cancel button is clicked.
    */
-  onCancelClick() {
+  onCancelClick(): void {
     this.$mdDialog_.cancel();
   }
 }

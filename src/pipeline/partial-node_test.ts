@@ -21,43 +21,43 @@ describe('pipeline.PartialNode', () => {
   });
 
   describe('runHandler_', () => {
-    it('should return a promise with the correct result', done => {
+    it('should return a promise with the correct result', (done: jasmine.IDoneFn) => {
       let globals = jasmine.createObj('globals');
       let helpers = jasmine.createObj('helpers');
       let images = jasmine.createObj('images');
       let labelledData = {
         data: {
           'label1': 'label1Data',
-          'label2': 'label2Data'
-        }
+          'label2': 'label2Data',
+        },
       };
 
       let templateName = 'templateName';
 
       mockAsset.partials = {
         'partial1': 'partial1String',
-        'partial2': 'partial2String'
+        'partial2': 'partial2String',
       };
       mockAsset.templateName = templateName;
 
       let mockGenerator = jasmine.createSpyObj('Generator', ['generateSingle']);
-      mockGenerator.generateSingle.and.callFake((partialString, labelledData) => {
+      mockGenerator.generateSingle.and.callFake((partialString: string, labelledData: string) => {
         return `${partialString}${labelledData}`;
       });
 
       mockGeneratorService.createGenerator.and.returnValue(mockGenerator);
 
       node.runHandler_([globals, helpers, images, labelledData])
-          .then(results => {
+          .then((results: any) => {
             expect(results).toEqual({
               'partial1': {
                 'label1': 'partial1Stringlabel1Data',
-                'label2': 'partial1Stringlabel2Data'
+                'label2': 'partial1Stringlabel2Data',
               },
               'partial2': {
                 'label1': 'partial2Stringlabel1Data',
-                'label2': 'partial2Stringlabel2Data'
-              }
+                'label2': 'partial2Stringlabel2Data',
+              },
             });
             expect(mockGeneratorService.createGenerator)
                 .toHaveBeenCalledWith(globals, helpers, images, {});

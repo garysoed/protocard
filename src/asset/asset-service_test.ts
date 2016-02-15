@@ -5,7 +5,7 @@ import Asset from '../model/asset';
 import AssetService, { EventType as AssetServiceEventType } from './asset-service';
 import { KEY_INDEX } from './asset-service';
 
-describe('data.AssetService', () => {
+describe('asset.AssetService', () => {
   let assetService;
   let mockStorageService;
 
@@ -62,7 +62,7 @@ describe('data.AssetService', () => {
     });
 
     it('should return the assets stored locally', () => {
-      mockStorageService.getItem.and.callFake(id => {
+      mockStorageService.getItem.and.callFake((id: string) => {
         if (id === KEY_INDEX) {
           return [asset.id];
         } else if (id === asset.id) {
@@ -74,7 +74,7 @@ describe('data.AssetService', () => {
     });
 
     it('should cache the data', () => {
-      mockStorageService.getItem.and.callFake(id => {
+      mockStorageService.getItem.and.callFake((id: string) => {
         if (id === KEY_INDEX) {
           return [asset.id];
         } else if (id === asset.id) {
@@ -101,9 +101,9 @@ describe('data.AssetService', () => {
       let data = {
         [asset1.id]: asset1,
         [asset2.id]: asset2,
-        [KEY_INDEX]: [asset1.id, asset2.id]
+        [KEY_INDEX]: [asset1.id, asset2.id],
       };
-      mockStorageService.getItem.and.callFake(id => data[id]);
+      mockStorageService.getItem.and.callFake((id: string) => data[id]);
     });
 
     it('should return the correct asset', () => {
@@ -137,7 +137,7 @@ describe('data.AssetService', () => {
     });
 
     it('should invalidate the cache', () => {
-      mockStorageService.getItem.and.callFake(id => {
+      mockStorageService.getItem.and.callFake((id: string) => {
         if (id === KEY_INDEX) {
           return [asset.id];
         } else if (id === asset.id) {
@@ -150,14 +150,13 @@ describe('data.AssetService', () => {
       assetService.saveAsset(newAsset);
 
       mockStorageService.getItem.calls.reset();
-      mockStorageService.getItem.and.callFake(id => {
+      mockStorageService.getItem.and.callFake((id: string) => {
         if (id === KEY_INDEX) {
           return <any>([newAsset.id]);
         } else if (id === newAsset.id) {
           return newAsset;
         }
       });
-      mockStorageService.getItem();
       expect(assetService.assets).not.toEqual(assets);
       expect(mockStorageService.getItem).toHaveBeenCalled();
     });

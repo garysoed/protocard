@@ -42,11 +42,11 @@ export default class StorageService<T> {
    * @param key Key to store the item in.
    * @param item The item to be stored.
    */
-  setItem(key: string, item: T) {
+  setItem(key: string, item: T): void {
     this.storage_.setItem(`${this.namespace_}.${key}`, JSON.stringify(Serializer.toJSON(item)));
   }
 
-  removeItem(key: string) {
+  removeItem(key: string): void {
     this.storage_.removeItem(`${this.namespace_}.${key}`);
   }
 };

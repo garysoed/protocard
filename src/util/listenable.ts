@@ -3,7 +3,7 @@ import DisposableFunction from './disposable-function';
 
 
 export default class Listenable<T> extends Disposable {
-  private callbacksMap_: Map<T, ((any) => void)[]>;
+  private callbacksMap_: Map<T, ((data: any) => void)[]>;
 
   constructor() {
     super();
@@ -13,14 +13,14 @@ export default class Listenable<T> extends Disposable {
   /**
    * @override
    */
-  disposeInternal() {
+  disposeInternal(): void {
     this.callbacksMap_.clear();
   }
 
-  dispatch(eventType: T, payload = null) {
+  dispatch(eventType: T, payload: any = null): void {
     let callbacks = this.callbacksMap_.get(eventType);
     if (!!callbacks) {
-      callbacks.forEach(callback => {
+      callbacks.forEach((callback: (data: any) => void) => {
         window.setTimeout(() => {
           callback(payload);
         }, 0);
@@ -28,7 +28,7 @@ export default class Listenable<T> extends Disposable {
     }
   }
 
-  on(eventType: T, callback: (any) => void): DisposableFunction {
+  on(eventType: T, callback: (data: any) => void): DisposableFunction {
     if (!this.callbacksMap_.has(eventType)) {
       this.callbacksMap_.set(eventType, []);
     }

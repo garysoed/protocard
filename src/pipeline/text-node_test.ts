@@ -15,7 +15,7 @@ describe('pipeline.TextNode', () => {
   });
 
   describe('runHandler_', () => {
-    it('should return the data extracted from TSV format', done => {
+    it('should return the data extracted from TSV format', (done: jasmine.IDoneFn) => {
       let content = 'file content';
       let mockFile = jasmine.createObj('File');
       let extractedData = jasmine.createObj('extractedData');
@@ -27,7 +27,7 @@ describe('pipeline.TextNode', () => {
       spyOn(Extract, 'fromTsv').and.returnValue(extractedData);
 
       node.runHandler_()
-          .then(result => {
+          .then((result: any) => {
             expect(result).toEqual(extractedData);
             expect(Extract.fromTsv).toHaveBeenCalledWith(content);
             done();

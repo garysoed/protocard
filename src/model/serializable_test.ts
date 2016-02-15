@@ -52,7 +52,7 @@ describe('model.Serializer', () => {
         'fieldA': compositeValue,
         'basic': jasmine.objectContaining({
           'fieldA': basicValue
-        })
+        }),
       }));
 
       let deserialized = Serializer.fromJSON(serialized);
@@ -111,8 +111,8 @@ describe('model.Serializer', () => {
         'fieldA': {
           'basic': jasmine.objectContaining({
             'fieldA': value
-          })
-        }
+          }),
+        },
       }));
 
       let deserialized = Serializer.fromJSON(serialized);

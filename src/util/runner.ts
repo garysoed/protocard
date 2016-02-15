@@ -4,11 +4,11 @@
  */
 export default class Runner<P, R> {
   private error_: Error;
-  private callback_: (P) => R;
+  private callback_: (data: P) => R;
   private ran_: boolean;
   private result_: R;
 
-  constructor(callback: (P) => R) {
+  constructor(callback: (data: P) => R) {
     this.error_ = undefined;
     this.callback_ = callback;
     this.ran_ = false;
@@ -27,7 +27,7 @@ export default class Runner<P, R> {
     return this.result_;
   }
 
-  run(params: P) {
+  run(params: P): void {
     if (this.ran_) {
       throw Error(`Cannot rerun the runner. It has already ran`);
     }

@@ -5,6 +5,6 @@ import ImageSelectModule from './image-select-module';
 export default angular
     .module('pc.editor.DriveDialogModule', [
       GapiServiceModule.name,
-      ImageSelectModule.name
+      ImageSelectModule.name,
     ])
     .service('DriveDialogService', DriveDialogService);

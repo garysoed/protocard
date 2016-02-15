@@ -15,7 +15,7 @@ export default class {
   /**
    * Called when the add button is clicked.
    */
-  onAddClick() {
+  onAddClick(): void {
     let newName = Utils.generateKey(this.asset_.partials, 'partial');
     let newPartial = '<div>New partial</div>';
     this.asset_.partials[newName] = newPartial;

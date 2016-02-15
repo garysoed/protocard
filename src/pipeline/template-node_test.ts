@@ -26,7 +26,7 @@ describe('pipeline.TemplateNode', () => {
   });
 
   describe('runHandler', () => {
-    it('should return promise that resolves with the correct data', done => {
+    it('should return promise that resolves with the correct data', (done: jasmine.IDoneFn) => {
       let globals = jasmine.createObj('globals');
       let helpers = jasmine.createObj('helpers');
       let images = jasmine.createObj('images');
@@ -43,7 +43,7 @@ describe('pipeline.TemplateNode', () => {
 
       let htmlStringMap = {
         'label1': 'htmlString1',
-        'label2': 'htmlString2'
+        'label2': 'htmlString2',
       };
 
       let mockGenerator = jasmine.createSpyObj('Generator', ['generate']);
@@ -53,9 +53,9 @@ describe('pipeline.TemplateNode', () => {
 
       let mockTickets = {
         'htmlString1': jasmine.createSpyObj('Ticket', ['deactivate']),
-        'htmlString2': jasmine.createSpyObj('Ticket', ['deactivate'])
+        'htmlString2': jasmine.createSpyObj('Ticket', ['deactivate']),
       };
-      mockRenderService.render.and.callFake(htmlString => {
+      mockRenderService.render.and.callFake((htmlString: string) => {
         return mockTickets[htmlString];
       });
 
@@ -64,7 +64,7 @@ describe('pipeline.TemplateNode', () => {
       mockAsset.templateString = templateString;
 
       node.runHandler_([globals, helpers, images, labelledData, processedData])
-          .then(renderedMap => {
+          .then((renderedMap: any) => {
             expect(Object.keys(renderedMap).length).toEqual(2);
 
             let rendered1 = renderedMap['label1'];

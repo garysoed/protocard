@@ -9,7 +9,7 @@ export default angular
       AssetPipelineServiceModule.name,
       AssetServiceModule.name,
       ContextButtonModule.name,
-      FileUploadModule.name
+      FileUploadModule.name,
     ])
     .directive('pcText', () => {
       return {
@@ -19,6 +19,6 @@ export default angular
         scope: {
           'asset': '='
         },
-        templateUrl: './text/text.ng'
+        templateUrl: './text/text.ng',
       };
     });

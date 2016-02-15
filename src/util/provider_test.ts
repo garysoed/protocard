@@ -5,7 +5,8 @@ import Provider from './provider';
 
 describe('util.Provider', () => {
   describe('value', () => {
-    it('should return the promise value when the digest cycle is triggered', done => {
+    it('should return the promise value when the digest cycle is triggered',
+        (done: jasmine.IDoneFn) => {
       let value = 'value';
       let promise = Promise.resolve(value);
       let mockScope = jasmine.createSpyObj('$scope', ['$apply']);

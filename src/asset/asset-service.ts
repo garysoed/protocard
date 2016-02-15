@@ -34,7 +34,7 @@ export default class AssetService extends Listenable<EventType> {
     return this.storage_.getItem(KEY_INDEX, Array, []);
   }
 
-  deleteAsset(asset: Asset) {
+  deleteAsset(asset: Asset): void {
     if (this.index_.indexOf(asset.id) >= 0) {
       this.index_.splice(this.index_.indexOf(asset.id), 1);
       this.storage_.removeItem(asset.id);
@@ -58,7 +58,7 @@ export default class AssetService extends Listenable<EventType> {
   @Cache
   get assets(): { [id: string]: Asset } {
     let assets = <{ [id: string]: Asset }>{};
-    this.index_.forEach(id => {
+    this.index_.forEach((id: string) => {
       assets[id] = this.storage_.getItem(id, Asset);
     });
     return assets;
@@ -76,7 +76,7 @@ export default class AssetService extends Listenable<EventType> {
    *
    * @param saveAsset The Asset to be stored.
    */
-  saveAsset(asset: Asset) {
+  saveAsset(asset: Asset): void {
     let index = this.index_;
 
     if (index.indexOf(asset.id) < 0) {

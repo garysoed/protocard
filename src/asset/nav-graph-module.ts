@@ -5,7 +5,7 @@ import NavigateButtonModule from '../navigate/navigate-button-module';
 export default angular
     .module('pc.asset.NavGraphModule', [
       AssetPipelineServiceModule.name,
-      NavigateButtonModule.name
+      NavigateButtonModule.name,
     ])
     .directive('pcNavGraph', () => {
       return {
@@ -15,6 +15,6 @@ export default angular
         scope: {
           'asset': '='
         },
-        templateUrl: './asset/nav-graph.ng'
+        templateUrl: './asset/nav-graph.ng',
       };
     });

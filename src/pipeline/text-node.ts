@@ -6,7 +6,7 @@ import Node from './node';
 export default class TextNode extends Node<string[][]> {
   private asset_: Asset;
 
-  constructor(asset) {
+  constructor(asset: Asset) {
     super([]);
 
     this.asset_ = asset;

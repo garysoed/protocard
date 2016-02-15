@@ -54,7 +54,7 @@ export default class {
    * @param oldName Previous name of the helper.
    * @param newName New name of the helper.
    */
-  private onHelperItemChanged_(event: any, oldName: string, newName: string) {
+  private onHelperItemChanged_(event: any, oldName: string, newName: string): void {
     let helper = this.asset_.helpers[oldName];
     delete this.asset_.helpers[oldName];
     this.asset_.helpers[newName] = helper;
@@ -69,7 +69,7 @@ export default class {
    * @param event
    * @param helperName Name of the helper that was deleted.
    */
-  private onHelperItemDeleted_(event: any, helperName: string) {
+  private onHelperItemDeleted_(event: any, helperName: string): void {
     delete this.asset_.helpers[helperName];
     Cache.clear(this);
     this.helperNode_.refresh();
@@ -82,14 +82,14 @@ export default class {
    * @param event
    * @param helperName Name of the helper that was edited.
    */
-  onHelperItemEdited_(event: any, helperName: string) {
+  onHelperItemEdited_(event: any, helperName: string): void {
     this.navigateService_.toAsset(this.asset_.id, 'helper.editor', helperName);
   }
 
   /**
    * Handler called when the add button is clicked.
    */
-  onAddClick() {
+  onAddClick(): void {
     let newName = Utils.generateKey(this.asset_.helpers, 'helper');
     let newHelper = new FunctionObject('return function() { }');
     this.asset_.helpers[newName] = newHelper;

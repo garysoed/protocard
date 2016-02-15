@@ -9,7 +9,7 @@ export default angular
       AssetPipelineServiceModule.name,
       CodeEditorModule.name,
       ContextButtonModule.name,
-      PreviewableCodeEditorModule.name
+      PreviewableCodeEditorModule.name,
     ])
     .directive('pcData', () => {
       return {
@@ -19,6 +19,6 @@ export default angular
         scope: {
           'asset': '='
         },
-        templateUrl: './data/data.ng'
+        templateUrl: './data/data.ng',
       };
     });

@@ -26,16 +26,17 @@ describe('editor.DriveDialogCtrl', () => {
   });
 
   describe('updateResources_', () => {
-    it('should authenticate and resolve with the correct ImageResources', done => {
+    it('should authenticate and resolve with the correct ImageResources',
+        (done: jasmine.IDoneFn) => {
       let resourceUrl = 'resourceUrl';
       let webViewLink = 'webViewLink';
       let listResponse = {
         result: {
           items: [
             { id: 'id1' },
-            { id: 'id2' }
-          ]
-        }
+            { id: 'id2' },
+          ],
+        },
       };
       let batchResponse = {
         result: {
@@ -44,8 +45,8 @@ describe('editor.DriveDialogCtrl', () => {
           },
           '2': {
             result: { thumbnailLink: 'thumbnailLink2', title: 'title2' }
-          }
-        }
+          },
+        },
       };
       let batch = Promise.resolve(batchResponse);
       batch['add'] = jasmine.createSpy('batch.add');
@@ -59,16 +60,15 @@ describe('editor.DriveDialogCtrl', () => {
 
       let getResponses = {
         id1: Promise.resolve(),
-        id2: Promise.resolve()
+        id2: Promise.resolve(),
       };
       let folderResponse = {
         result: { webViewLink: webViewLink }
       };
       mockDriveClient.files = {
-        get: jasmine.createSpy('files.get').and.callFake(payload => {
-          let rv = getResponses[payload.fileId] || Promise.resolve(folderResponse);
-          return rv;
-        })
+        get: jasmine.createSpy('files.get').and.callFake((payload: any) => {
+          return getResponses[payload.fileId] || Promise.resolve(folderResponse);
+        }),
       };
 
       spyOn(fake$scope, '$apply');
@@ -78,7 +78,7 @@ describe('editor.DriveDialogCtrl', () => {
             expect(mockGapiService.authenticate).toHaveBeenCalledWith(['drive.readonly']);
             expect(mockDriveClient.children.list).toHaveBeenCalledWith({
               folderId: resourceUrl,
-              q: 'not trashed'
+              q: 'not trashed',
             });
 
             expect(ctrl.resources[0].alias).toEqual('title1');

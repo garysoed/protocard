@@ -16,7 +16,7 @@ export default class NavigateService {
    * @param [subview] Name of asset subview to navigate to. Defaults to empty string.
    * @param [subitemId] Name of the sub item associated with the asset.
    */
-  toAsset(assetId: string, subview = null, subitemId: string = null) {
+  toAsset(assetId: string, subview: string = null, subitemId: string = null): void {
     let path = `/asset/${assetId}`;
 
     if (subview !== null) {
@@ -31,11 +31,11 @@ export default class NavigateService {
   /**
    * Navigates to home.
    */
-  toHome() {
+  toHome(): void {
     this.$location_.url('/');
   }
 
-  toSubview(subview: string) {
+  toSubview(subview: string): void {
     this.$location_.search('subview', subview);
   }
 };

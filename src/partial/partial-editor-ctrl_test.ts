@@ -43,11 +43,11 @@ describe('partial.PartialEditorCtrl', () => {
   });
 
   describe('setSelectedKey_', () => {
-    it('should clear the cache and pick a selecteed key randomly', done => {
+    it('should clear the cache and pick a selecteed key randomly', (done: jasmine.IDoneFn) => {
       let selectedKey = 'selectedLabel';
       let labelsMap = {
         'otherLabel': 'value',
-        [selectedKey]: 'value2'
+        [selectedKey]: 'value2',
       };
 
       spyOn(mock$scope, '$apply');
@@ -67,18 +67,18 @@ describe('partial.PartialEditorCtrl', () => {
   });
 
   describe('get preview', () => {
-    it('should return a provider that resolves to the correct value', done => {
+    it('should return a provider that resolves to the correct value', (done: jasmine.IDoneFn) => {
       let selectedKey = 'selectedKey';
       let renderedValue = 'renderedValue';
       mockPartialNode.result = Promise.resolve({
         [NAME]: {
           [selectedKey]: renderedValue
-        }
+        },
       });
 
       ctrl.selectedKey = selectedKey;
       ctrl.preview.promise
-          .then(previewValue => {
+          .then((previewValue: any) => {
             expect(previewValue).toEqual(renderedValue);
             done();
           }, done.fail);
@@ -90,47 +90,47 @@ describe('partial.PartialEditorCtrl', () => {
       expect(ctrl.preview).toBe(ctrl.preview);
     });
 
-    it('should return empty string if there are no keys selected', done => {
+    it('should return empty string if there are no keys selected', (done: jasmine.IDoneFn) => {
       mockPartialNode.result = Promise.resolve({
         [NAME]: {
           'selectedKey': 'renderedValue'
-        }
+        },
       });
       mockLabelNode.result = Promise.resolve({});
 
       ctrl.preview.promise
-          .then(previewValue => {
+          .then((previewValue: any) => {
             expect(previewValue).toEqual('');
             done();
           }, done.fail);
     });
 
-    it('should return empty string if the partial name is incorrect', done => {
+    it('should return empty string if the partial name is incorrect', (done: jasmine.IDoneFn) => {
       let selectedKey = 'selectedKey';
       mockPartialNode.result = Promise.resolve({
         'otherName': {
           [selectedKey]: 'renderedValue'
-        }
+        },
       });
 
       ctrl.selectedKey = selectedKey;
       ctrl.preview.promise
-          .then(previewValue => {
+          .then((previewValue: any) => {
             expect(previewValue).toEqual('');
             done();
           }, done.fail);
     });
 
-    it('should return empty string if the selected key does not exist', done => {
+    it('should return empty string if the selected key does not exist', (done: jasmine.IDoneFn) => {
       mockPartialNode.result = Promise.resolve({
         'otherName': {
           'selectedKey': 'renderedValue'
-        }
+        },
       });
 
       ctrl.selectedKey = 'otherKey';
       ctrl.preview.promise
-          .then(previewValue => {
+          .then((previewValue: any) => {
             expect(previewValue).toEqual('');
             done();
           }, done.fail);

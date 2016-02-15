@@ -7,7 +7,7 @@ export default angular
     .module('pc.partial.PartialEditorModule', [
       AssetNamePickerModule.name,
       AssetPipelineServiceModule.name,
-      ContextButtonModule.name
+      ContextButtonModule.name,
     ])
     .directive('pcPartialEditor', () => {
       return {
@@ -16,8 +16,8 @@ export default angular
         restrict: 'E',
         scope: {
           'asset': '=',
-          'name': '='
+          'name': '=',
         },
-        templateUrl: './partial/partial-editor.ng'
+        templateUrl: './partial/partial-editor.ng',
       };
     });

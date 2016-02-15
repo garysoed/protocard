@@ -49,7 +49,7 @@ export default class ViewCtrl extends Disposable {
         AssetService.on(AssetServiceEventType.SAVED, this.onAssetSaved_.bind(this)));
   }
 
-  private onAssetSaved_() {
+  private onAssetSaved_(): void {
     this.isAssetSaved_ = true;
     this.lastAssetSaveTime_ = (new Date()).toLocaleTimeString();
     window.setTimeout(() => {
@@ -58,7 +58,7 @@ export default class ViewCtrl extends Disposable {
     }, 3000);
   }
 
-  private onRouteUpdate_() {
+  private onRouteUpdate_(): void {
     this.currentHelper_ = null;
     this.currentPartialName_ = null;
 
@@ -130,21 +130,21 @@ export default class ViewCtrl extends Disposable {
   /**
    * Handler called when the back button is clicked.
    */
-  onBackClick() {
+  onBackClick(): void {
     this.navigateService_.toHome();
   }
 
   /**
    * Handler called when the menu button is clicked.
    */
-  onMenuClick() {
+  onMenuClick(): void {
     this.isSidebarOpen_ = !this.isSidebarOpen_;
   }
 
   /**
    * Handler called when the settings button is clicked.
    */
-  onSettingsClick(event: MouseEvent) {
+  onSettingsClick(event: MouseEvent): void {
     this.settingsDialogService_.show(event, this.asset_);
   }
 };

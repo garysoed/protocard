@@ -23,16 +23,16 @@ describe('render.RenderService', () => {
       mock$document.body = mockBody;
     });
 
-    it('should resolves with the newly created iframe', done => {
+    it('should resolves with the newly created iframe', (done: jasmine.IDoneFn) => {
       let mockIframeEl = jasmine.createSpyObj('IframeEl', ['addEventListener']);
-      mockIframeEl.addEventListener.and.callFake((type, handler) => {
+      mockIframeEl.addEventListener.and.callFake((type: any, handler: Function) => {
         handler();
       });
       mockIframeEl.style = {};
       mock$document.createElement.and.returnValue(mockIframeEl);
 
       service.iframeElPromise
-          .then(iframeEl => {
+          .then((iframeEl: any) => {
             expect(mock$document.createElement).toHaveBeenCalledWith('iframe');
             expect(iframeEl.addEventListener).toHaveBeenCalledWith('load', jasmine.any(Function));
             expect(iframeEl).toEqual(mockIframeEl);
@@ -41,23 +41,23 @@ describe('render.RenderService', () => {
           }, done.fail);
     });
 
-    it('should cache the iframe', done => {
+    it('should cache the iframe', (done: jasmine.IDoneFn) => {
       let mockIframeEl = jasmine.createSpyObj('IframeEl', ['addEventListener']);
-      mockIframeEl.addEventListener.and.callFake((type, handler) => {
+      mockIframeEl.addEventListener.and.callFake((type: any, handler: Function) => {
         handler();
       });
       mockIframeEl.style = {};
       mock$document.createElement.and.returnValue(mockIframeEl);
 
       service.iframeElPromise
-          .then(iframeEl => {
+          .then((iframeEl: any) => {
             mock$document.createElement.calls.reset();
             return Promise.all([
               iframeEl,
-              service.iframeElPromise
+              service.iframeElPromise,
             ]);
           })
-          .then(values => {
+          .then((values: any) => {
             let [firstInputEl, secondInputEl] = values;
             expect(secondInputEl).toEqual(firstInputEl);
             expect(mock$document.createElement).not.toHaveBeenCalled();
@@ -85,7 +85,7 @@ describe('render.RenderService', () => {
       expect(spyRequestPoolQueue).toHaveBeenCalledWith({
         content: content,
         height: height,
-        width: width
+        width: width,
       });
     });
   });
@@ -96,14 +96,14 @@ describe('render.RenderService', () => {
     beforeEach(() => {
       mockIframeEl = jasmine.createSpyObj('IframeEl', ['addEventListener']);
       mockIframeEl.contentWindow = jasmine.createSpyObj('IframeEl.contentWindow', ['postMessage']);
-      mockIframeEl.addEventListener.and.callFake((type, handler) => {
+      mockIframeEl.addEventListener.and.callFake((type: any, handler: Function) => {
         handler();
       });
       mockIframeEl.style = {};
       mock$document.createElement.and.returnValue(mockIframeEl);
     });
 
-    it('should resolves with the data URI', done => {
+    it('should resolves with the data URI', (done: jasmine.IDoneFn) => {
       let content = 'content';
       let width = 123;
       let height = 456;
@@ -116,7 +116,7 @@ describe('render.RenderService', () => {
       mock$window.location.protocol = protocol;
 
       let event = { data: { id: id, uri: dataUri }, origin: origin };
-      mock$window.addEventListener.and.callFake((type, handler) => {
+      mock$window.addEventListener.and.callFake((type: any, handler: Function) => {
         handler(event);
       });
 
@@ -124,7 +124,7 @@ describe('render.RenderService', () => {
 
       service
           .onRequest_({ content: content, height: height, width: width })
-          .then(actualDataUri => {
+          .then((actualDataUri: any) => {
             expect(mock$window.addEventListener)
                 .toHaveBeenCalledWith('message', jasmine.any(Function));
             let handler = mock$window.addEventListener.calls.argsFor(0)[1];
@@ -137,7 +137,7 @@ describe('render.RenderService', () => {
                     jasmine.objectContaining({
                       'content': content,
                       'height': height,
-                      'width': width
+                      'width': width,
                     }),
                     origin);
             expect(actualDataUri).toEqual(dataUri);
@@ -145,16 +145,16 @@ describe('render.RenderService', () => {
           }, done.fail);
     });
 
-    it('should ignore messages from other origin', done => {
+    it('should ignore messages from other origin', (done: jasmine.IDoneFn) => {
       jasmine.clock().install();
       mock$window.location.host = 'abs.url';
       mock$window.location.protocol = 'http:';
-      mock$window.addEventListener.and.callFake((type, handler) => {
+      mock$window.addEventListener.and.callFake((type: any, handler: Function) => {
         handler({ data: 'dataUri', origin: 'https://other.origin' });
       });
 
       service
-          .onRequest_({ content: 'content', height: 4456, width: 123, })
+          .onRequest_({ content: 'content', height: 4456, width: 123 })
           .then(done.fail, done.fail);
       setTimeout(() => {
         jasmine.clock().uninstall();
@@ -163,11 +163,11 @@ describe('render.RenderService', () => {
       jasmine.clock().tick(2);
     });
 
-    it('should ignore messages with a different ID', done => {
+    it('should ignore messages with a different ID', (done: jasmine.IDoneFn) => {
       jasmine.clock().install();
       mock$window.location.host = 'abs.url';
       mock$window.location.protocol = 'http:';
-      mock$window.addEventListener.and.callFake((type, handler) => {
+      mock$window.addEventListener.and.callFake((type: any, handler: Function) => {
         handler({ data: { id: 'otherId', uri: 'dataUri' }, origin: 'https://other.origin' });
       });
 

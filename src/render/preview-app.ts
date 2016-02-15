@@ -7,13 +7,13 @@ angular
       'ngMaterial',
       'ngRoute',
       DomServiceModule.name,
-      Html2canvasServiceModule.name
+      Html2canvasServiceModule.name,
     ])
-    .config(($documentProvider, $routeProvider) => {
+    .config(($routeProvider: angular.ui.IUrlRouterProvider) => {
       $routeProvider.otherwise(
           {
             controller: PreviewAppCtrl,
             controllerAs: 'ctrl',
-            templateUrl: 'render/preview-app.ng'
+            templateUrl: 'render/preview-app.ng',
           });
     });

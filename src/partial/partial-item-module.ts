@@ -9,8 +9,8 @@ export default angular
         restrict: 'E',
         scope: {
           asset: '=',
-          name: '='
+          name: '=',
         },
-        templateUrl: './partial/partial-item.ng'
+        templateUrl: './partial/partial-item.ng',
       };
     });

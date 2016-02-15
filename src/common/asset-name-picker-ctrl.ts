@@ -19,19 +19,19 @@ export default class {
     this.searchText_ = '';
   }
 
-  private onBlur_() {
+  private onBlur_(): void {
     if (!!this.onBlurHandler_) {
       this.onBlurHandler_();
     }
   }
 
-  private onFocus_() {
+  private onFocus_(): void {
     if (!!this.onFocusHandler_) {
       this.onFocusHandler_();
     }
   }
 
-  onLink(element: HTMLElement, ngModelCtrl: angular.INgModelController) {
+  onLink(element: HTMLElement, ngModelCtrl: angular.INgModelController): void {
     window.setTimeout(() => {
       let inputEl = element.querySelector('input');
       inputEl.addEventListener('focus', this.onFocus_.bind(this));
@@ -42,10 +42,10 @@ export default class {
 
   get searchResults(): Promise<string[]> {
     return this.labelNode_.result
-        .then(result => {
+        .then((result: { index: Fuse }) => {
           return result.index.search(this.searchText)
-              .map(searchResult => {
-                return searchResult['label'];
+              .map((searchResult: { label: string }) => {
+                return searchResult.label;
               });
         });
   }

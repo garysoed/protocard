@@ -13,7 +13,7 @@ export default angular
       ErrorDisplayModule.name,
       JszipServiceModule.name,
       GeneratorServiceModule.name,
-      RenderServiceModule.name
+      RenderServiceModule.name,
     ])
     .directive('pcRender', () => {
       return {
@@ -23,6 +23,6 @@ export default angular
         scope: {
           'asset': '='
         },
-        templateUrl: './render/render.ng'
+        templateUrl: './render/render.ng',
       };
     });

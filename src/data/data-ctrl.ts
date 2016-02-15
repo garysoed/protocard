@@ -23,7 +23,7 @@ export default class DataCtrl {
     this.processNode_ = AssetPipelineService.getPipeline($scope['asset'].id).processNode;
   }
 
-  onRefreshClick() {
+  onRefreshClick(): void {
     Cache.clear(this);
   }
 
@@ -32,7 +32,7 @@ export default class DataCtrl {
     return new Provider<string>(
         this.$scope_,
         this.processNode_.result
-            .then(rows => {
+            .then((rows: any[]) => {
               let obj = rows[Math.floor(Math.random() * rows.length)];
               return JSON.stringify(obj, null, 2).trim();
             }),

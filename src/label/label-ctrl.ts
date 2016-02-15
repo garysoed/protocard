@@ -24,7 +24,7 @@ export default class {
     this.labelNode_ = AssetPipelineService.getPipeline(this.asset_.id).labelNode;
   }
 
-  get assetLabel() {
+  get assetLabel(): string {
     return this.asset_.templateName;
   }
   set assetLabel(label: string) {
@@ -39,14 +39,14 @@ export default class {
     return new Provider(
         this.$scope_,
         this.labelNode_.result
-            .then(labels => {
+            .then((labels: { [key: string]: any }) => {
               let keys = Object.keys(labels);
               return keys.length > 0 ? keys[Math.floor(Math.random() * keys.length)] : '';
             }),
         '');
   }
 
-  onRefreshClick() {
+  onRefreshClick(): void {
     Cache.clear(this);
   }
 };

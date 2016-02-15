@@ -9,6 +9,6 @@ export default angular
       AssetPipelineServiceModule.name,
       AssetServiceModule.name,
       DownloadServiceModule.name,
-      NavigateServiceModule.name
+      NavigateServiceModule.name,
     ])
     .service('SettingsDialogService', SettingsDialogService);

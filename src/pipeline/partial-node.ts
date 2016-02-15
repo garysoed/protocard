@@ -29,7 +29,7 @@ export default class PartialNode extends Node<IPartialMap> {
   }
 
   runHandler_(dependencies: any[]): Promise<IPartialMap> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve: (data: any) => void, reject: (data: any) => void) => {
       let globals = <{ [key: string]: any }>dependencies[0];
       let helpers = <{ [key: string]: FunctionObject }>dependencies[1];
       let images = <{ [name: string]: ImageResource }>dependencies[2];

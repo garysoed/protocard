@@ -9,7 +9,7 @@ export enum FileTypes {
 
 const FILE_TYPE_MAP: Map<FileTypes, string[]> = new Map<FileTypes, string[]>([
   [FileTypes.CSV, ['csv']],
-  [FileTypes.TSV, ['tsv']]
+  [FileTypes.TSV, ['tsv']],
 ]);
 
 @Serializable('File')
@@ -21,7 +21,7 @@ export default class File {
    * @param type Type of the file.
    * @param content Content of the file.
    */
-  constructor(type = FileTypes.UNKNOWN, content = '') {
+  constructor(type: FileTypes = FileTypes.UNKNOWN, content: string = '') {
     this.type_ = type;
     this.content_ = content;
   }
@@ -44,7 +44,7 @@ export default class File {
     let fileParts = filename.split('.');
     let ext = fileParts[fileParts.length - 1];
     let result = FileTypes.UNKNOWN;
-    FILE_TYPE_MAP.forEach((exts, key) => {
+    FILE_TYPE_MAP.forEach((exts: string[], key: FileTypes) => {
       if (exts.indexOf(ext) >= 0) {
         result = key;
       }

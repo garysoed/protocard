@@ -17,7 +17,7 @@ describe('common.GapiService', () => {
     let mock$window = <Window>{};
     mock$window['gapi'] = {
       auth: mockGapiAuth,
-      client: mockGapiClient
+      client: mockGapiClient,
     };
     mock$window['API_KEY'] = API_KEY;
     mock$window['CLIENT_ID'] = CLIENT_ID;
@@ -31,22 +31,22 @@ describe('common.GapiService', () => {
   describe('authenticate', () => {
     let SCOPE_PREFIX = 'https://www.googleapis.com/auth/';
 
-    it('should try to refresh the authorization token', done => {
+    it('should try to refresh the authorization token', (done: jasmine.IDoneFn) => {
       let scopes = ['a', 'b'];
       let expectedScopes = `${SCOPE_PREFIX}${scopes[0]} ${SCOPE_PREFIX}${scopes[1]}`;
       let result = {};
 
-      mockGapiAuth.authorize.and.callFake((payload, callback) => {
+      mockGapiAuth.authorize.and.callFake((payload: any, callback: (data: any) => void) => {
         callback(result);
       });
 
       service.authenticate(scopes)
-          .then(actualResult => {
+          .then((actualResult: void) => {
             expect(mockGapiAuth.authorize).toHaveBeenCalledWith(
                 jasmine.objectContaining({
                   client_id: CLIENT_ID,
                   immediate: true,
-                  scope: expectedScopes
+                  scope: expectedScopes,
                 }),
                 jasmine.any(Function));
             expect(result).toEqual(actualResult);
@@ -54,12 +54,12 @@ describe('common.GapiService', () => {
           }, done.fail);
     });
 
-    it('should fallback to oauth prompt if refresh fails', done => {
+    it('should fallback to oauth prompt if refresh fails', (done: jasmine.IDoneFn) => {
       let scopes = ['a', 'b'];
       let expectedScopes = `${SCOPE_PREFIX}${scopes[0]} ${SCOPE_PREFIX}${scopes[1]}`;
       let result = {};
 
-      mockGapiAuth.authorize.and.callFake((payload, callback) => {
+      mockGapiAuth.authorize.and.callFake((payload: any, callback: Function) => {
         if (payload.immediate) {
           callback();
         } else {
@@ -68,19 +68,19 @@ describe('common.GapiService', () => {
       });
 
       service.authenticate(scopes)
-          .then(actualResult => {
+          .then((actualResult: any) => {
             expect(mockGapiAuth.authorize).toHaveBeenCalledWith(
                 jasmine.objectContaining({
                   client_id: CLIENT_ID,
                   immediate: true,
-                  scope: expectedScopes
+                  scope: expectedScopes,
                 }),
                 jasmine.any(Function));
             expect(mockGapiAuth.authorize).toHaveBeenCalledWith(
                 jasmine.objectContaining({
                   client_id: CLIENT_ID,
                   immediate: false,
-                  scope: expectedScopes
+                  scope: expectedScopes,
                 }),
                 jasmine.any(Function));
             expect(result).toEqual(actualResult);
@@ -88,22 +88,20 @@ describe('common.GapiService', () => {
           }, done.fail);
     });
 
-    it('should reject the promise if the oauth prompt fails', done => {
+    it('should reject the promise if the oauth prompt fails', (done: jasmine.IDoneFn) => {
       let scopes = ['a', 'b'];
 
-      mockGapiAuth.authorize.and.callFake((payload, callback) => {
+      mockGapiAuth.authorize.and.callFake((payload: any, callback: Function) => {
         callback();
       });
 
       service.authenticate(scopes)
-          .then(done.fail, () => {
-            done();
-          });
+          .then(done.fail, done);
     });
   });
 
   describe('getClientPromise', () => {
-    it('should load the client and resolve it', done => {
+    it('should load the client and resolve it', (done: jasmine.IDoneFn) => {
       let name = 'name';
       let version = 'version';
       let client = {};
@@ -111,7 +109,7 @@ describe('common.GapiService', () => {
       mockGapiClient.load.and.returnValue(Promise.resolve());
 
       service.getClientPromise(name, version)
-          .then(actualClient => {
+          .then((actualClient: any) => {
             expect(mockGapiClient.load).toHaveBeenCalledWith(name, version);
             expect(actualClient).toEqual(client);
             done();

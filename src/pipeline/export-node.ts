@@ -9,12 +9,13 @@ export default class ExportNode extends Node<Promise<ImageResource>[]> {
   }
 
   runHandler_(dependencies: any[]): Promise<Promise<ImageResource>[]> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve: (data: any) => void, reject: (data: any) => void) => {
       let renderedDataMap: { [label: string]: RenderedData } = dependencies[0];
       let imageResourcePromises = [];
       for (let label in renderedDataMap) {
-        imageResourcePromises.push(renderedDataMap[label].dataUriTicket.promise
-            .then(function(label, dataUri) {
+        imageResourcePromises.push(renderedDataMap[label].dataUriTicket
+            .promise
+            .then(function(label: string, dataUri: string): ImageResource {
               return new ImageResource(label, dataUri);
             }.bind(null, label)));
       }

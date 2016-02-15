@@ -36,13 +36,13 @@ export default angular
       TemplateModule.name,
       TextModule.name,
     ])
-    .config($routeProvider => {
+    .config(($routeProvider: angular.ui.IUrlRouterProvider) => {
       $routeProvider.when(
           '/asset/:assetId',
           {
             controller: ViewCtrl,
             controllerAs: 'ctrl',
             reloadOnSearch: false,
-            templateUrl: 'asset/view.ng'
+            templateUrl: 'asset/view.ng',
           });
     });

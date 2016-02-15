@@ -1,6 +1,10 @@
 import ImageSelectCtrl from './image-select-ctrl';
 
-export function link(scope, element, attr, ctrls) {
+export function link(
+    scope: angular.IScope,
+    element: angular.IAugmentedJQuery,
+    attr: angular.IAttributes,
+    ctrls: any[]): void {
   let [imageSelectCtrl, ngModelCtrl] = ctrls;
   imageSelectCtrl.onLink(ngModelCtrl);
 };
@@ -17,6 +21,6 @@ export default angular
         scope: {
           'images': '='
         },
-        templateUrl: './editor/image-select.ng'
+        templateUrl: './editor/image-select.ng',
       };
     });

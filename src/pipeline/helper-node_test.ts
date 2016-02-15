@@ -13,11 +13,11 @@ describe('pipeline.HelperNode', () => {
   });
 
   describe('runHandler_', () => {
-    it('should return the helpers object from the asset', done => {
+    it('should return the helpers object from the asset', (done: jasmine.IDoneFn) => {
       let helpers = jasmine.createObj('helpers');
       mockAsset.helpers = helpers;
       node.runHandler_()
-          .then(result => {
+          .then((result: any) => {
             expect(result).toEqual(helpers);
             done();
           }, done.fail);

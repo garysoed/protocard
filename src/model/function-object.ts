@@ -12,7 +12,7 @@ export default class FunctionObject {
   /**
    * @param [fnString] Initial value of the function string.
    */
-  constructor(fnString = '') {
+  constructor(fnString: string = '') {
     this.fnString_ = fnString;
   }
 

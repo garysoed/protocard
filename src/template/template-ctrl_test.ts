@@ -31,7 +31,7 @@ describe('template.TemplateCtrl', () => {
     mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
     mockAssetPipelineService.getPipeline.and.returnValue({
       labelNode: mockLabelNode,
-      templateNode: mockTemplateNode
+      templateNode: mockTemplateNode,
     });
 
     mock$scope = new FakeScope({ 'asset': mockAsset });
@@ -95,7 +95,7 @@ describe('template.TemplateCtrl', () => {
   });
 
   describe('setQuery_', () => {
-    it('should randomly select a query', done => {
+    it('should randomly select a query', (done: jasmine.IDoneFn) => {
       let labels = { 'label1': 'data', 'label2': 'data' };
       mockLabelNode.result = Promise.resolve({ data: labels });
 
@@ -114,14 +114,14 @@ describe('template.TemplateCtrl', () => {
   });
 
   describe('get isPreviewLoading', () => {
-    it('should return true until it is loaded', done => {
+    it('should return true until it is loaded', (done: jasmine.IDoneFn) => {
       let query = 'query';
       mockTemplateNode.result = Promise.resolve({
         [query]: {
           dataUriTicket: {
             promise: Promise.resolve('dataUri')
-          }
-        }
+          },
+        },
       });
 
       ctrl.query = query;
@@ -136,7 +136,7 @@ describe('template.TemplateCtrl', () => {
           }, done.fail);
     });
 
-    it('should return false if there are no rendered data', done => {
+    it('should return false if there are no rendered data', (done: jasmine.IDoneFn) => {
       mockTemplateNode.result = Promise.resolve({ });
 
       ctrl.isPreviewLoading.promise
@@ -148,46 +148,47 @@ describe('template.TemplateCtrl', () => {
   });
 
   describe('get preview', () => {
-    it('should return a provider that resolves with the selected preview data', done => {
+    it('should return a provider that resolves with the selected preview data',
+        (done: jasmine.IDoneFn) => {
       let htmlSource = 'htmlSource';
       let query = 'query';
       mockTemplateNode.result = Promise.resolve({
         [query]: { htmlSource: htmlSource },
-        'otherQuery': 'otherData'
+        'otherQuery': 'otherData',
       });
 
       ctrl.query = query;
 
       ctrl.preview.promise
-          .then(previewSource => {
+          .then((previewSource: any) => {
             expect(previewSource).toEqual(htmlSource);
             done();
           }, done.fail);
     });
 
-    it('should resolve with empty string if the query is null', done => {
+    it('should resolve with empty string if the query is null', (done: jasmine.IDoneFn) => {
       mockTemplateNode.result = Promise.resolve({
         'query': 'data',
-        'otherQuery': 'otherData'
+        'otherQuery': 'otherData',
       });
 
       ctrl.preview.promise
-          .then(previewSource => {
+          .then((previewSource: any) => {
             expect(previewSource).toEqual('');
             done();
           }, done.fail);
     });
 
-    it('should resolve with empty string if the query is invalid', done => {
+    it('should resolve with empty string if the query is invalid', (done: jasmine.IDoneFn) => {
       mockTemplateNode.result = Promise.resolve({
         'query': 'data',
-        'otherQuery': 'otherData'
+        'otherQuery': 'otherData',
       });
 
       ctrl.query = 'invalidQuery';
 
       ctrl.preview.promise
-          .then(previewSource => {
+          .then((previewSource: any) => {
             expect(previewSource).toEqual('');
             done();
           }, done.fail);
@@ -201,15 +202,15 @@ describe('template.TemplateCtrl', () => {
   });
 
   describe('get previewDataUri', () => {
-    it('should empty string until the data uri is loaded', done => {
+    it('should empty string until the data uri is loaded', (done: jasmine.IDoneFn) => {
       let query = 'query';
       let dataUri = 'dataUri';
       mockTemplateNode.result = Promise.resolve({
         [query]: {
           dataUriTicket: {
             promise: Promise.resolve(dataUri)
-          }
-        }
+          },
+        },
       });
 
       ctrl.query = query;
@@ -224,7 +225,7 @@ describe('template.TemplateCtrl', () => {
           }, done.fail);
     });
 
-    it('should return empty string if there are no rendered data', done => {
+    it('should return empty string if there are no rendered data', (done: jasmine.IDoneFn) => {
       mockTemplateNode.result = Promise.resolve({ });
 
       ctrl.previewDataUri.promise

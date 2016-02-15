@@ -41,7 +41,7 @@ describe('render.RenderCtrl', () => {
   });
 
   describe('renderAll_', () => {
-    it('should add all the rendered images', done => {
+    it('should add all the rendered images', (done: jasmine.IDoneFn) => {
       let imageResource1 = jasmine.createObj('imageResource1');
       let imageResource2 = jasmine.createObj('imageResource2');
       let results = [Promise.resolve(imageResource1), Promise.resolve(imageResource2)];
@@ -61,7 +61,7 @@ describe('render.RenderCtrl', () => {
           }, done.fail);
     });
 
-    it('should set the last error if the export node throws error', done => {
+    it('should set the last error if the export node throws error', (done: jasmine.IDoneFn) => {
       let error = jasmine.createObj('error');
 
       mockExportNode.result = Promise.reject(error);
@@ -76,7 +76,8 @@ describe('render.RenderCtrl', () => {
           }, done.fail);
     });
 
-    it('should set the last error if one of the image resource promises throws error', done => {
+    it('should set the last error if one of the image resource promises throws error',
+        (done: jasmine.IDoneFn) => {
       let error = jasmine.createObj('error');
       let results = [Promise.reject(error)];
 
@@ -160,7 +161,7 @@ describe('render.RenderCtrl', () => {
   describe('onSelectAllClick', () => {
     it('should select all rendered images', () => {
       let renderedImages = ['image1', 'image2'];
-      renderedImages.forEach(image => ctrl.images.push(image));
+      renderedImages.forEach((image: any) => ctrl.images.push(image));
 
       ctrl.onSelectAllClick();
       expect(ctrl.selectedImages).toEqual(renderedImages);
@@ -168,7 +169,7 @@ describe('render.RenderCtrl', () => {
 
     it('should unselect selected images, then select all rendered images', () => {
       let renderedImages = ['image1', 'image2'];
-      renderedImages.forEach(image => ctrl.images.push(image));
+      renderedImages.forEach((image: any) => ctrl.images.push(image));
       ctrl.selectedImages.push('image1');
 
       ctrl.onSelectAllClick();

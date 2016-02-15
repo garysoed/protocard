@@ -23,7 +23,8 @@ describe('pipeline.LabelNode', () => {
   });
 
   describe('runHandler_', () => {
-    it('should return a promise that resolves to the generator service output', done => {
+    it('should return a promise that resolves to the generator service output',
+        (done: jasmine.IDoneFn) => {
       let globals = jasmine.createObj('globals');
       let helpers = jasmine.createObj('helpers');
       let processedData = jasmine.createObj('processedData');
@@ -40,7 +41,7 @@ describe('pipeline.LabelNode', () => {
       mockAsset.templateName = templateName;
 
       node.runHandler_([globals, helpers, processedData])
-          .then(result => {
+          .then((result: any) => {
             expect(result).toEqual({ data: renderedLabels, index: index });
             expect(mockGeneratorService.createGenerator)
                 .toHaveBeenCalledWith(globals, helpers, {}, {});
