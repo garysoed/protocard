@@ -1,4 +1,4 @@
-var gt = require('../../gulptree/main.js')(__dirname);
+var gn = require('../../node_modules/gs-tools/gulp/gulp-node')(__dirname, require('gulp'));
 var tasks = require('../../gulptasks');
 
-tasks.allTests(gt,'home');
+tasks.allTests(gn, 'home');

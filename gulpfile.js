@@ -1,6 +1,5 @@
 var babel      = require('gulp-babel');
 var concat     = require('gulp-concat');
-var gulp       = require('gulp');
 var debug      = require('gulp-debug');
 var insert     = require('gulp-insert');
 var jasmine    = require('gulp-jasmine');
@@ -12,12 +11,12 @@ var sourcemaps = require('gulp-sourcemaps');
 var typescript = require('gulp-typescript');
 var webpack    = require('gulp-webpack');
 
-var gt = require('./gulptree/main')(__dirname);
+var gn = require('./node_modules/gs-tools/gulp/gulp-node')(__dirname, require('gulp'));
 var tasks = require('./gulptasks');
 
-gt.exec('compile-test', gt.series(
+gn.exec('compile-test', gn.series(
     '_compile',
-    gt.parallel(
+    gn.parallel(
         './src/asset:_compile-test',
         './src/common:_compile-test',
         './src/convert:_compile-test',
@@ -42,7 +41,7 @@ gt.exec('compile-test', gt.series(
         './src/util:_compile-test'
     )));
 
-gt.exec('lint', gt.parallel(
+gn.exec('lint', gn.parallel(
     './src/asset:lint',
     './src/common:lint',
     './src/convert:lint',
@@ -66,42 +65,42 @@ gt.exec('lint', gt.parallel(
     './src/thirdparty:lint',
     './src/util:lint'
 ));
-gt.exec('test', gt.series('.:compile-test', tasks.test(gt, 'out/**')));
-gt.exec('karma', gt.series('.:compile-test', tasks.karma(gt, 'out/**')));
-gt.exec('compile', gt.series('_compile'));
+gn.exec('test', gn.series('.:compile-test', tasks.test(gn, 'out/**')));
+gn.exec('karma', gn.series('.:compile-test', tasks.karma(gn, 'out/**')));
+gn.exec('compile', gn.series('_compile'));
 
-gt.exec('compile-scripts', function() {
-  return gt.src(['scripts/**/*.js'])
+gn.exec('compile-scripts', function() {
+  return gn.src(['scripts/**/*.js'])
       .pipe(babel({
         presets: ['es2015']
       }))
-      .pipe(gulp.dest('out/scripts'));
+      .pipe(gn.dest('out/scripts'));
   });
 
-gt.exec('compile-ui', gt.series(
-    gt.parallel(
+gn.exec('compile-ui', gn.series(
+    gn.parallel(
         '_compile',
         function css_() {
-          return gt.src(['src/**/*.css'])
+          return gn.src(['src/**/*.css'])
               .pipe(myth())
               .pipe(concat('css.css'))
-              .pipe(gt.dest('out'));
+              .pipe(gn.dest('out'));
         },
         function ng_() {
-          return gt.src(['src/**/*.ng'])
-              .pipe(gt.dest('out'));
+          return gn.src(['src/**/*.ng'])
+              .pipe(gn.dest('out'));
         },
         function api_() {
-          return gt.src(['api/test.js'])
+          return gn.src(['api/test.js'])
               .pipe(concat('api.js'))
-              .pipe(gt.dest('out'));
+              .pipe(gn.dest('out'));
         },
         function subPages_() {
-          return gt.src(['src/**/*.html'])
-              .pipe(gt.dest('out'));
+          return gn.src(['src/**/*.html'])
+              .pipe(gn.dest('out'));
         }),
     function packApp_() {
-      return gt.src(['out/app.js'])
+      return gn.src(['out/app.js'])
           .pipe(sourcemaps.init())
           .pipe(webpack({
             output: {
@@ -109,10 +108,10 @@ gt.exec('compile-ui', gt.series(
             }
           }))
           .pipe(sourcemaps.write('./', { includeContent: true }))
-          .pipe(gt.dest('out'));
+          .pipe(gn.dest('out'));
     },
     function packRender_() {
-      return gt.src(['out/render/preview-app.js'])
+      return gn.src(['out/render/preview-app.js'])
           .pipe(sourcemaps.init())
           .pipe(webpack({
             output: {
@@ -120,17 +119,17 @@ gt.exec('compile-ui', gt.series(
             }
           }))
           .pipe(sourcemaps.write('./', { includeContent: true }))
-          .pipe(gt.dest('out/render'));
+          .pipe(gn.dest('out/render'));
     }
 ));
 
 
-gt.exec('watch', function() {
-  gt.watch(['src/**/*'], gt.series('.:compile-ui'));
+gn.exec('watch', function() {
+  gn.watch(['src/**/*'], gn.series('.:compile-ui'));
 });
 
-gt.exec('watch-test', function() {
-  gt.watch(['src/**/*.ts'], gt.series('.:compile-test'));
+gn.exec('watch-test', function() {
+  gn.watch(['src/**/*.ts'], gn.series('.:compile-test'));
 });
 
-gt.exec('default', gt.exec('compile-ui'));
+gn.exec('default', gn.exec('compile-ui'));

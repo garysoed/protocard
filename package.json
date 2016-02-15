@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/garysoed/protocard#readme",
   "dependencies": {
+    "gs-tools": "garysoed/gs-tools",
     "gulp-util": "^3.0.6",
     "gulp-webshot": "^0.1.4",
     "handlebars": "^4.0.3",
