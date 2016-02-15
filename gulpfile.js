@@ -12,6 +12,8 @@ var typescript = require('gulp-typescript');
 var webpack    = require('gulp-webpack');
 
 var gn = require('./node_modules/gs-tools/gulp/gulp-node')(__dirname, require('gulp'));
+var karmaTasks = require('./node_modules/gs-tools/gulp-tasks/karma')(
+    require('karma').Server);
 var tasks = require('./gulptasks');
 
 gn.exec('compile-test', gn.series(
@@ -65,8 +67,8 @@ gn.exec('lint', gn.parallel(
     './src/thirdparty:lint',
     './src/util:lint'
 ));
-gn.exec('test', gn.series('.:compile-test', tasks.test(gn, 'out/**')));
-gn.exec('karma', gn.series('.:compile-test', tasks.karma(gn, 'out/**')));
+gn.exec('test', gn.series('.:compile-test', karmaTasks.once(gn, 'out/**')));
+gn.exec('karma', gn.series('.:compile-test', karmaTasks.watch(gn, 'out/**')));
 gn.exec('compile', gn.series('_compile'));
 
 gn.exec('compile-scripts', function() {
