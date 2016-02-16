@@ -34,6 +34,8 @@ describe('template.TemplateCtrl', () => {
       templateNode: mockTemplateNode,
     });
 
+    mockLabelNode.result = Promise.resolve();
+
     mock$scope = new FakeScope({ 'asset': mockAsset });
 
     ctrl = new TemplateCtrl(
@@ -237,13 +239,6 @@ describe('template.TemplateCtrl', () => {
   });
 
   describe('get and set query', () => {
-    it('should call setQuery_ if no query is set', () => {
-      spyOn(ctrl, 'setQuery_');
-
-      expect(ctrl.query).toEqual(null);
-      expect(ctrl.setQuery_).toHaveBeenCalledWith();
-    });
-
     it('should return the set value if set', () => {
       let query = 'query';
 
@@ -294,10 +289,12 @@ describe('template.TemplateCtrl', () => {
   describe('onRefreshClick', () => {
     it('should update the input element srcdoc', () => {
       spyOn(Cache, 'clear');
+      spyOn(ctrl, 'setQuery_');
 
       ctrl.onRefreshClick();
 
       expect(Cache.clear).toHaveBeenCalledWith(ctrl);
+      expect(ctrl.setQuery_).toHaveBeenCalledWith();
     });
   });
 

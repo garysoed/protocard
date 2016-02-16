@@ -44,6 +44,7 @@ export default class TemplateCtrl {
     this.templateNode_ = assetPipeline.templateNode;
 
     this.showSearch_();
+    this.setQuery_();
   }
 
   @Cache
@@ -137,9 +138,6 @@ export default class TemplateCtrl {
   }
 
   get query(): string {
-    if (this.query_ === null) {
-      this.setQuery_();
-    }
     return this.query_;
   }
   set query(newQuery: string) {
@@ -177,7 +175,7 @@ export default class TemplateCtrl {
    * Called when the refresh button is clicked.
    */
   onRefreshClick(): void {
-    this.query_ = null;
+    this.setQuery_();
     Cache.clear(this);
   }
 }
