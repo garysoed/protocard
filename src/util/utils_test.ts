@@ -31,15 +31,4 @@ describe('util.Utils', () => {
       expect(Utils.getUniqueId('a')).toEqual('a_1');
     });
   });
-
-  describe('mapValue', () => {
-    it('should map the values of the given array', () => {
-      let obj = jasmine.cast<{ [index: string]: string }>({
-        a: 'a',
-        b: 'b',
-      });
-      let out = Utils.mapValue(obj, (value: string) => `${value}_`);
-      expect(out).toEqual({ a: 'a_', b: 'b_' });
-    });
-  });
 });

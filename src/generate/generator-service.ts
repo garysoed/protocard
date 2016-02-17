@@ -1,7 +1,7 @@
 import FunctionObject from '../model/function-object';
 import Generator from './generator';
 import ImageResource from '../model/image-resource';
-import Utils from '../util/utils';
+import Records from '../../node_modules/gs-tools/src/collection/records';
 
 // TODO(gs): Move to external file?
 function imageUrlHelper(images: { [key: string]: ImageResource }): Function {
@@ -41,7 +41,7 @@ export default class GeneratorService {
       helpers: { [key: string]: FunctionObject },
       images: { [key: string]: ImageResource },
       partials: { [key: string]: string }): Generator {
-    let helperFns = Utils.mapValue(helpers, (helper: FunctionObject) => helper.asFunction());
+    let helperFns = Records.mapValue(helpers, (helper: FunctionObject) => helper.asFunction());
     helperFns['_ifeq'] = ifeq;
     helperFns['_imgUrl'] = imageUrlHelper(images);
     helperFns['_lowercase'] = lowercase;
