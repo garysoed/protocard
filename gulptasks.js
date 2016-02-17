@@ -1,13 +1,4 @@
 var gulp = require('gulp');
-var debug = require('gulp-debug');
-var karma = require('karma').Server;
-var named = require('vinyl-named');
-var path = require('path');
-var sourcemaps = require('gulp-sourcemaps');
-var tslint = require('gulp-tslint');
-var typescript = require('gulp-typescript');
-var webpack = require('gulp-webpack');
-
 var typescriptTasks = require('./node_modules/gs-tools/gulp-tasks/typescript')(
     require('gulp-tslint'),
     require('gulp-typescript'));
@@ -20,6 +11,7 @@ var packTasks = require('./node_modules/gs-tools/gulp-tasks/pack')(
 
 var tasks = {};
 tasks.allTests = function(gt, dir) {
+  var dir = 'src/' + dir;
   gt.task('_compile-test', packTasks.tests(gt, dir));
 
   gt.exec('compile-test', gt.series('_compile', '.:_compile-test'));

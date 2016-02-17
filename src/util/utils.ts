@@ -35,25 +35,6 @@ export default {
   },
 
   /**
-   * Mixes in two objects together.
-   *
-   * @param fromObj The source object to be mixed in.
-   * @param toObj The destination mixin object.
-   */
-  mixin(fromObj: any, toObj: any): void {
-    for (let key in fromObj) {
-      let value = fromObj[key];
-      if (toObj[key] !== undefined) {
-        if (typeof toObj[key] === 'object') {
-          this.mixin(value, toObj[key]);
-        }
-      } else {
-        toObj[key] = JSON.parse(JSON.stringify(value));
-      }
-    }
-  },
-
-  /**
    * Maps the values in the given object.
    *
    * @param object Object to map the values in.

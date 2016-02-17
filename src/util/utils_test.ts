@@ -32,35 +32,6 @@ describe('util.Utils', () => {
     });
   });
 
-  describe('mixin', () => {
-    it('should copy the source keys to the destination object', () => {
-      let dest = { a: 1 };
-      let source = { b: 2, c: 3 };
-      Utils.mixin(source, dest);
-
-      expect(dest).toEqual({ a: 1, b: 2, c: 3 });
-    });
-
-    it('should recursively mixin the values', () => {
-      let dest = { a: { ab: 1 } };
-      let source = { a: { cd: 2 } };
-      Utils.mixin(source, dest);
-      expect(dest).toEqual({
-        a: {
-          ab: 1,
-          cd: 2,
-        },
-      });
-    });
-
-    it('should ignore if keys conflict for non objects', () => {
-      let dest = { a: 2 };
-      let source = { a: 1 };
-      Utils.mixin(source, dest);
-      expect(dest.a).toEqual(2);
-    });
-  });
-
   describe('mapValue', () => {
     it('should map the values of the given array', () => {
       let obj = jasmine.cast<{ [index: string]: string }>({

@@ -1,4 +1,4 @@
-import Utils from '../util/utils';
+import Jsons from '../../node_modules/gs-tools/src/jsons';
 
 interface IConfig {
   globals?: { [key: string]: any };
@@ -31,7 +31,7 @@ export default class Generator {
     this.handlebars_ = handlebars;
     this.options_ = options;
 
-    Utils.mixin({ noEscape: true }, this.options_);
+    Jsons.mixin({ noEscape: true }, this.options_);
 
     // Register the helpers.
     for (let key in helpers) {
@@ -86,7 +86,7 @@ export default class Generator {
       try {
         let evalLocalData = this.resolve_(localData, this.globals_, this.options_);
         let data = JSON.parse(JSON.stringify(this.globals_));
-        Utils.mixin({ _: evalLocalData }, data);
+        Jsons.mixin({ _: evalLocalData }, data);
         let rendered = template(data);
         let outName = outNameTemplate(data);
         outContent[outName] = rendered;
@@ -107,7 +107,7 @@ export default class Generator {
     let template = this.handlebars_.compile(templateBody, this.options_);
     let evalLocalData = this.resolve_(localData, this.globals_, this.options_);
     let data = JSON.parse(JSON.stringify(this.globals_));
-    Utils.mixin({ _: evalLocalData }, data);
+    Jsons.mixin({ _: evalLocalData }, data);
     return template(data);
   }
 
@@ -121,7 +121,7 @@ export default class Generator {
       try {
         let evalLocalData = this.resolve_(localData, this.globals_, this.options_);
         let data = JSON.parse(JSON.stringify(this.globals_));
-        Utils.mixin({ _: evalLocalData }, data);
+        Jsons.mixin({ _: evalLocalData }, data);
         let outName = outNameTemplate(data);
         outContent[outName] = localData;
       } catch (e) {

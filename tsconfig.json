@@ -14,14 +14,16 @@
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true,
         "outDir": "out/",
-        "rootDir": "src/"
+        "rootDir": "./"
     },
     "filesGlob": [
         "**/*.ts",
         "**/*.tsx",
         "!node_modules/**",
         "!bower_components/**",
-        "node_modules/gulp-typescript/node_modules/typescript/lib/lib.es6.d.ts"
+        "node_modules/gulp-typescript/node_modules/typescript/lib/lib.es6.d.ts",
+        "node_modules/gs-tools/declarations/gs-tools.d.ts",
+        "node_modules/gs-tools/src/**"
     ],
     "compileOnSave": true,
     "buildOnSave": false,
@@ -229,7 +231,11 @@
         "src/util/runner.ts",
         "src/util/utils_test.ts",
         "src/util/utils.ts",
-        "node_modules/gulp-typescript/node_modules/typescript/lib/lib.es6.d.ts"
+        "node_modules/gulp-typescript/node_modules/typescript/lib/lib.es6.d.ts",
+        "node_modules/gs-tools/declarations/gs-tools.d.ts",
+        "node_modules/gs-tools/src/gulpfile.js",
+        "node_modules/gs-tools/src/jsons_test.ts",
+        "node_modules/gs-tools/src/jsons.ts"
     ],
     "atom": {
         "rewriteTsconfig": true
