@@ -1,4 +1,4 @@
-import DisposableFunction from '../util/disposable-function';
+import DisposableFunction from '../../node_modules/gs-tools/src/dispose/disposable-function';
 
 export default class FakeScope {
   constructor(values: { [key: string]: any } = {}) {

@@ -3,7 +3,7 @@ TestBase.init();
 
 import Asset from '../model/asset';
 import { EventType as AssetServiceEventType } from '../asset/asset-service';
-import DisposableFunction from '../util/disposable-function';
+import DisposableFunction from '../../node_modules/gs-tools/src/dispose/disposable-function';
 import FakeScope from '../testing/fake-scope';
 import ViewCtrl from './view-ctrl';
 

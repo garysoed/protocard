@@ -1,11 +1,11 @@
 import Cache from '../decorator/cache';
-import Disposable from '../util/disposable';
-import DisposableFunction from '../util/disposable-function';
+import BaseDisposable from '../../node_modules/gs-tools/src/dispose/base-disposable';
+import DisposableFunction from '../../node_modules/gs-tools/src/dispose/disposable-function';
 import NavigateService from './navigate-service';
 
 
 // TODO(gs): Base ctrl.
-export default class NavigateButtonCtrl extends Disposable {
+export default class NavigateButtonCtrl extends BaseDisposable {
   private $scope_: angular.IScope;
   private icon_: string;
   private navigateService_: NavigateService;

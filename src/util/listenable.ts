@@ -1,8 +1,8 @@
-import Disposable from './disposable';
-import DisposableFunction from './disposable-function';
+import BaseDisposable from '../../node_modules/gs-tools/src/dispose/base-disposable';
+import DisposableFunction from '../../node_modules/gs-tools/src/dispose/disposable-function';
 
 
-export default class Listenable<T> extends Disposable {
+export default class Listenable<T> extends BaseDisposable {
   private callbacksMap_: Map<T, ((data: any) => void)[]>;
 
   constructor() {

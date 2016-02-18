@@ -1,7 +1,7 @@
 import Asset from '../model/asset';
 import AssetService, { EventType as AssetServiceEventType } from './asset-service';
-import Disposable from '../util/disposable';
-import DisposableFunction from '../util/disposable-function';
+import BaseDisposable from '../../node_modules/gs-tools/src/dispose/base-disposable';
+import DisposableFunction from '../../node_modules/gs-tools/src/dispose/disposable-function';
 import FunctionObject from '../model/function-object';
 import NavigateService from '../navigate/navigate-service';
 import SettingsDialogService from '../settings/settings-dialog-service';
@@ -9,7 +9,7 @@ import SettingsDialogService from '../settings/settings-dialog-service';
 /**
  * Controller for the create page view.
  */
-export default class ViewCtrl extends Disposable {
+export default class ViewCtrl extends BaseDisposable {
   private $location_: angular.ILocationService;
   private $scope_: angular.IScope;
   private asset_: Asset;

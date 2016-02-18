@@ -2,11 +2,9 @@
 
 import Asset from './model/asset';
 import Comparator from './decorator/compare';
-import { TRACKED_DISPOSABLES, Flags as DisposableFlags } from './util/disposable';
+import DisposableTestBase from '../node_modules/gs-tools/src/dispose/testing/test-base';
 
 let called = false;
-
-let DISPOSABLES = [];
 
 export default {
   init() {
@@ -14,10 +12,7 @@ export default {
       return;
     }
 
-    jasmine.addDisposable = disposable => {
-      DISPOSABLES.push(disposable);
-      return disposable;
-    };
+    DisposableTestBase.setup(jasmine);
 
     jasmine.createObj = (name) => {
       return { type: name };
@@ -40,18 +35,7 @@ export default {
     };
 
     beforeEach(() => {
-      DISPOSABLES = [];
       jasmine.addCustomEqualityTester(Comparator.equals.bind(Comparator));
-      DisposableFlags.enableTracking = true;
-    });
-
-    afterEach(() => {
-      DISPOSABLES.forEach(disposable => disposable.dispose());
-      DisposableFlags.enableTracking = false;
-
-      expect(TRACKED_DISPOSABLES).toEqual([]);
-
-      TRACKED_DISPOSABLES.splice(0, TRACKED_DISPOSABLES.length);
     });
 
     called = true;
