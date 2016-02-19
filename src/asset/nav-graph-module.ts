@@ -15,6 +15,6 @@ export default angular
         scope: {
           'asset': '='
         },
-        templateUrl: './asset/nav-graph.ng',
+        templateUrl: 'src/asset/nav-graph.ng',
       };
     });

@@ -16,6 +16,6 @@ export default angular
           asset: '=',
           helper: '=',
         },
-        templateUrl: './helper/helper-editor.ng',
+        templateUrl: 'src/helper/helper-editor.ng',
       };
     });

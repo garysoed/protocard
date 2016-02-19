@@ -43,6 +43,6 @@ export default angular
             controller: ViewCtrl,
             controllerAs: 'ctrl',
             reloadOnSearch: false,
-            templateUrl: 'asset/view.ng',
+            templateUrl: 'src/asset/view.ng',
           });
     });

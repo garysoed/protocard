@@ -19,6 +19,6 @@ export default angular
         scope: {
           'asset': '='
         },
-        templateUrl: './image/image.ng',
+        templateUrl: 'src/image/image.ng',
       };
     });

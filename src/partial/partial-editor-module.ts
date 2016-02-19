@@ -18,6 +18,6 @@ export default angular
           'asset': '=',
           'name': '=',
         },
-        templateUrl: './partial/partial-editor.ng',
+        templateUrl: 'src/partial/partial-editor.ng',
       };
     });

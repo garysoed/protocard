@@ -21,6 +21,6 @@ export default angular
         scope: {
           'images': '='
         },
-        templateUrl: './editor/image-select.ng',
+        templateUrl: 'src/editor/image-select.ng',
       };
     });

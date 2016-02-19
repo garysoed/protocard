@@ -16,7 +16,7 @@ export default class {
         'asset': asset
       },
       targetEvent: $event,
-      templateUrl: 'settings/settings-dialog.ng',
+      templateUrl: 'src/settings/settings-dialog.ng',
     });
   }
 };

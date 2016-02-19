@@ -23,6 +23,6 @@ export default angular
         scope: {
           'asset': '='
         },
-        templateUrl: './render/render.ng',
+        templateUrl: 'src/render/render.ng',
       };
     });

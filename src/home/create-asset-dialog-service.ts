@@ -25,7 +25,7 @@ export default class {
       controller: Ctrl,
       controllerAs: 'ctrl',
       targetEvent: $event,
-      templateUrl: 'home/create-asset-dialog.ng',
+      templateUrl: 'src/home/create-asset-dialog.ng',
     });
   }
 };

@@ -27,7 +27,7 @@ export default angular
           'classes': '@',
           'extensions': '@',
         },
-        templateUrl: './editor/file-upload.ng',
+        templateUrl: 'src/editor/file-upload.ng',
         transclude: true,
       };
     });

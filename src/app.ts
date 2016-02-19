@@ -24,3 +24,5 @@ angular
       $routeProvider.otherwise('/');
       $sceProvider.enabled(false);
     });
+
+angular.bootstrap(document.body, ['pc.App'], {strictDi: false});

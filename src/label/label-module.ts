@@ -17,6 +17,6 @@ export default angular
         scope: {
           'asset': '='
         },
-        templateUrl: './label/label.ng',
+        templateUrl: 'src/label/label.ng',
       };
     });

@@ -26,6 +26,6 @@ export default angular
           'language': '@',
           'readOnly': '@',
         },
-        templateUrl: './editor/code-editor.ng',
+        templateUrl: 'src/editor/code-editor.ng',
       };
     });

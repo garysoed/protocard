@@ -25,7 +25,7 @@ export default angular
         scope: {
           'language': '@'
         },
-        templateUrl: './editor/previewable-code-editor.ng',
+        templateUrl: 'src/editor/previewable-code-editor.ng',
         transclude: true,
       };
     });

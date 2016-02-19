@@ -26,6 +26,6 @@ export default angular
           'onFocus': '&',
           'onBlur': '&',
         },
-        templateUrl: './common/asset-name-picker.ng',
+        templateUrl: 'src/common/asset-name-picker.ng',
       };
     });

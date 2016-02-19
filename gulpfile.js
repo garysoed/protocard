@@ -90,7 +90,7 @@ gn.exec('compile-ui', gn.series(
         },
         function ng_() {
           return gn.src(['src/**/*.ng'])
-              .pipe(gn.dest('out'));
+              .pipe(gn.dest('out/src'));
         },
         function api_() {
           return gn.src(['api/test.js'])
@@ -99,10 +99,10 @@ gn.exec('compile-ui', gn.series(
         },
         function subPages_() {
           return gn.src(['src/**/*.html'])
-              .pipe(gn.dest('out'));
+              .pipe(gn.dest('out/src'));
         }),
     function packApp_() {
-      return gn.src(['out/app.js'])
+      return gn.src(['out/src/app.js'])
           .pipe(sourcemaps.init())
           .pipe(webpack({
             output: {
@@ -113,7 +113,7 @@ gn.exec('compile-ui', gn.series(
           .pipe(gn.dest('out'));
     },
     function packRender_() {
-      return gn.src(['out/render/preview-app.js'])
+      return gn.src(['out/src/render/preview-app.js'])
           .pipe(sourcemaps.init())
           .pipe(webpack({
             output: {
@@ -121,7 +121,7 @@ gn.exec('compile-ui', gn.series(
             }
           }))
           .pipe(sourcemaps.write('./', { includeContent: true }))
-          .pipe(gn.dest('out/render'));
+          .pipe(gn.dest('out/src/render'));
     }
 ));
 

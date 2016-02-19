@@ -20,6 +20,6 @@ export default angular
           {
             controller: ViewCtrl,
             controllerAs: 'ctrl',
-            templateUrl: 'home/view.ng',
+            templateUrl: 'src/home/view.ng',
           });
     });

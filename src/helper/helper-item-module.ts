@@ -10,6 +10,6 @@ export default angular
         scope: {
           name: '='
         },
-        templateUrl: './helper/helper-item.ng',
+        templateUrl: 'src/helper/helper-item.ng',
       };
     });

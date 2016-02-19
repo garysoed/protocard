@@ -19,7 +19,7 @@ export default class {
     options['controller'] = DriveDialogCtrl;
     options['controllerAs'] = 'ctrl';
     options['targetEvent'] = $event;
-    options['templateUrl'] = 'editor/drive-dialog.ng';
+    options['templateUrl'] = 'src/editor/drive-dialog.ng';
     return this.$mdDialog_.show(options);
   }
 };

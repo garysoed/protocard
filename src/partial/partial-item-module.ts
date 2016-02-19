@@ -11,6 +11,6 @@ export default angular
           asset: '=',
           name: '=',
         },
-        templateUrl: './partial/partial-item.ng',
+        templateUrl: 'src/partial/partial-item.ng',
       };
     });

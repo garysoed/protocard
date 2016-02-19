@@ -74,7 +74,7 @@ export default class RenderService {
             iframeEl.style.visibility = 'hidden';
             iframeEl.style.position = 'fixed';
             iframeEl.style.top = '0';
-            iframeEl.src = 'render/preview-app.html';
+            iframeEl.src = 'src/render/preview-app.html';
             iframeEl.addEventListener('load', () => {
               resolve(iframeEl);
             });

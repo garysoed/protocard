@@ -37,7 +37,7 @@ export default angular
         restrict: 'E',
         scope: {
         },
-        templateUrl: './${dir}/${name}.ng'
+        templateUrl: 'src/${dir}/${name}.ng'
       };
     });
 `;

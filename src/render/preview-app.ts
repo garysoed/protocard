@@ -14,6 +14,6 @@ angular
           {
             controller: PreviewAppCtrl,
             controllerAs: 'ctrl',
-            templateUrl: 'render/preview-app.ng',
+            templateUrl: 'src/render/preview-app.ng',
           });
     });

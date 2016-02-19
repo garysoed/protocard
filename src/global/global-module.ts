@@ -17,6 +17,6 @@ export default angular
         scope: {
           'asset': '='
         },
-        templateUrl: './global/global.ng',
+        templateUrl: 'src/global/global.ng',
       };
     });

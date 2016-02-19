@@ -17,6 +17,6 @@ export default angular
         scope: {
           asset: '='
         },
-        templateUrl: './partial/partial.ng',
+        templateUrl: 'src/partial/partial.ng',
       };
     });

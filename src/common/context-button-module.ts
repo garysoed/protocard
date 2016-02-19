@@ -22,7 +22,7 @@ export default angular
         restrict: 'E',
         scope: {
         },
-        templateUrl: './common/context-button.ng',
+        templateUrl: 'src/common/context-button.ng',
         transclude: true,
       };
     });
