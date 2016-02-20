@@ -1,19 +1,17 @@
 var babel      = require('gulp-babel');
 var concat     = require('gulp-concat');
-var debug      = require('gulp-debug');
-var insert     = require('gulp-insert');
-var jasmine    = require('gulp-jasmine');
-var karma      = require('karma').Server;
-var myth       = require('gulp-myth');
-var named      = require('vinyl-named');
 var path       = require('path');
-var sourcemaps = require('gulp-sourcemaps');
-var typescript = require('gulp-typescript');
-var webpack    = require('gulp-webpack');
 
 var gn = require('./node_modules/gs-tools/gulp/gulp-node')(__dirname, require('gulp'));
 var karmaTasks = require('./node_modules/gs-tools/gulp-tasks/karma')(
     require('karma').Server);
+var mythTasks = require('./node_modules/gs-tools/gulp-tasks/myth')(
+    require('gulp-concat'),
+    require('gulp-myth'));
+var packTasks = require('./node_modules/gs-tools/gulp-tasks/pack')(
+    require('vinyl-named'),
+    require('gulp-sourcemaps'),
+    require('gulp-webpack'));
 var tasks = require('./gulptasks');
 
 gn.exec('compile-test', gn.series(
@@ -82,12 +80,7 @@ gn.exec('compile-scripts', function() {
 gn.exec('compile-ui', gn.series(
     gn.parallel(
         '_compile',
-        function css_() {
-          return gn.src(['src/**/*.css'])
-              .pipe(myth())
-              .pipe(concat('css.css'))
-              .pipe(gn.dest('out'));
-        },
+        mythTasks.compile(gn, '**'),
         function ng_() {
           return gn.src(['src/**/*.ng'])
               .pipe(gn.dest('out/src'));
@@ -101,28 +94,8 @@ gn.exec('compile-ui', gn.series(
           return gn.src(['src/**/*.html'])
               .pipe(gn.dest('out/src'));
         }),
-    function packApp_() {
-      return gn.src(['out/src/app.js'])
-          .pipe(sourcemaps.init())
-          .pipe(webpack({
-            output: {
-              filename: 'js.js'
-            }
-          }))
-          .pipe(sourcemaps.write('./', { includeContent: true }))
-          .pipe(gn.dest('out'));
-    },
-    function packRender_() {
-      return gn.src(['out/src/render/preview-app.js'])
-          .pipe(sourcemaps.init())
-          .pipe(webpack({
-            output: {
-              filename: 'js.js'
-            }
-          }))
-          .pipe(sourcemaps.write('./', { includeContent: true }))
-          .pipe(gn.dest('out/src/render'));
-    }
+    packTasks.app(gn, 'app.js'),
+    packTasks.app(gn, 'render/preview-app.js')
 ));
 
 
