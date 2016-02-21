@@ -80,7 +80,7 @@ gn.exec('compile-scripts', function() {
 gn.exec('compile-ui', gn.series(
     gn.parallel(
         '_compile',
-        mythTasks.compile(gn, '**'),
+        mythTasks.compile(gn, 'src/**'),
         function ng_() {
           return gn.src(['src/**/*.ng'])
               .pipe(gn.dest('out/src'));
@@ -94,8 +94,8 @@ gn.exec('compile-ui', gn.series(
           return gn.src(['src/**/*.html'])
               .pipe(gn.dest('out/src'));
         }),
-    packTasks.app(gn, 'app.js'),
-    packTasks.app(gn, 'render/preview-app.js')
+    packTasks.app(gn, 'src/app.js', 'js.js'),
+    packTasks.app(gn, 'src/render/preview-app.js', 'src/render/js.js')
 ));
 
 
