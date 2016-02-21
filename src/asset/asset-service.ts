@@ -1,6 +1,6 @@
 import Asset from '../model/asset';
 import Cache from '../decorator/cache';
-import Listenable from '../util/listenable';
+import Listenable from '../../node_modules/gs-tools/src/event/listenable';
 import StorageService from '../common/storage-service';
 
 export enum EventType {

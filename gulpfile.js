@@ -99,12 +99,16 @@ gn.exec('compile-ui', gn.series(
 ));
 
 
-gn.exec('watch', function() {
-  gn.watch(['src/**/*'], gn.series('.:compile-ui'));
-});
+gn.exec('watch', gn.series(
+    '.:compile-ui',
+    function _watch() {
+      gn.watch(['src/**/*'], gn.series('.:compile-ui'));
+    }));
 
-gn.exec('watch-test', function() {
-  gn.watch(['src/**/*.ts'], gn.series('.:compile-test'));
-});
+gn.exec('watch-test', gn.series(
+    '.:compile-test',
+    function _watch() {
+      gn.watch(['src/**/*.ts'], gn.series('.:compile-test'));
+    }));
 
 gn.exec('default', gn.exec('compile-ui'));
