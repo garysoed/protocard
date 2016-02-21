@@ -1,10 +1,11 @@
-// eval(`require('babel/polyfill')`);
-
-import Asset from './model/asset';
 import Comparator from './decorator/compare';
-import DisposableTestBase from '../node_modules/gs-tools/src/dispose/testing/test-base';
+import DisposableTestSetup from '../node_modules/gs-tools/src/testing/disposable-test-setup';
+import TestSetup from '../node_modules/gs-tools/src/testing/test-setup';
 
 let called = false;
+const TEST_SETUP = new TestSetup([
+  DisposableTestSetup
+]);
 
 export default {
   init() {
@@ -12,11 +13,12 @@ export default {
       return;
     }
 
-    DisposableTestBase.setup(jasmine);
+    TEST_SETUP.setup();
 
     jasmine.createObj = (name) => {
       return { type: name };
     };
+
 
     jasmine.createSpyBuilder = (name, methods) => {
       let spy = jasmine.createSpyObj(name, methods);

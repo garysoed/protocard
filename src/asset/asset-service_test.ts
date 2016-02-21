@@ -3,6 +3,7 @@ TestBase.init();
 
 import Asset from '../model/asset';
 import AssetService, { EventType as AssetServiceEventType } from './asset-service';
+import DisposableTestSetup from '../../node_modules/gs-tools/src/testing/disposable-test-setup';
 import { KEY_INDEX } from './asset-service';
 
 describe('asset.AssetService', () => {
@@ -14,7 +15,7 @@ describe('asset.AssetService', () => {
         'StorageService',
         ['getItem', 'removeItem', 'setItem']);
     assetService = new AssetService(mockStorageService);
-    jasmine.addDisposable(assetService);
+    DisposableTestSetup.add(assetService);
   });
 
   describe('deleteAsset', () => {

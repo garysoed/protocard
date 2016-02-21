@@ -1,21 +1,23 @@
 import TestBase from '../testbase';
 TestBase.init();
 
+import DisposableTestSetup from '../../node_modules/gs-tools/src/testing/disposable-test-setup';
 import Listenable from './listenable';
+
 
 describe('util.Listenable', () => {
   let listenable;
 
   beforeEach(() => {
     listenable = new Listenable<string>();
-    jasmine.addDisposable(listenable);
+    DisposableTestSetup.add(listenable);
   });
 
   describe('dispose', () => {
     it('should clear the callback map', () => {
       let mockCallback = jasmine.createSpy('Callback');
       let event = 'event';
-      jasmine.addDisposable(listenable.on(event, mockCallback));
+      DisposableTestSetup.add(listenable.on(event, mockCallback));
       listenable.dispose();
 
       listenable.dispatch(event);
@@ -29,7 +31,7 @@ describe('util.Listenable', () => {
       let mockCallback = jasmine.createSpy('Callback');
       let event = 'event';
       let payload = jasmine.createObj('payload');
-      jasmine.addDisposable(listenable.on(event, mockCallback));
+      DisposableTestSetup.add(listenable.on(event, mockCallback));
 
       let setTimeoutSpy = spyOn(window, 'setTimeout');
 

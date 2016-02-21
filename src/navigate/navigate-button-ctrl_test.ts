@@ -1,6 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
+import DisposableTestSetup from '../../node_modules/gs-tools/src/testing/disposable-test-setup';
 import FakeScope from '../testing/fake-scope';
 import NavigateButtonCtrl from './navigate-button-ctrl';
 
@@ -19,7 +20,7 @@ describe('navigate.NavigateButtonCtrl', () => {
     mockNavigateService = jasmine.createSpyObj('NavigateService', ['getSubview', 'toSubview']);
 
     ctrl = new NavigateButtonCtrl(mock$scope, mockNavigateService);
-    jasmine.addDisposable(ctrl);
+    DisposableTestSetup.add(ctrl);
   });
 
   describe('selectedCss', () => {
