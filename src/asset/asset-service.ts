@@ -1,6 +1,6 @@
 import Asset from '../model/asset';
 import Cache from '../decorator/cache';
-import Listenable from '../../node_modules/gs-tools/src/event/listenable';
+import BaseListenable from '../../node_modules/gs-tools/src/event/base-listenable';
 import StorageService from '../common/storage-service';
 
 export enum EventType {
@@ -15,7 +15,7 @@ export const KEY_INDEX: string = 'assets';
 /**
  * Manages assets in the storage.
  */
-export default class AssetService extends Listenable<EventType> {
+export default class AssetService extends BaseListenable<EventType> {
   private storage_: StorageService<any>;
 
   /**
