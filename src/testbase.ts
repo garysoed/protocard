@@ -1,10 +1,10 @@
 import Comparator from './decorator/compare';
-import DisposableTestSetup from '../node_modules/gs-tools/src/testing/disposable-test-setup';
+import TestDispose from '../node_modules/gs-tools/src/testing/test-dispose';
 import TestSetup from '../node_modules/gs-tools/src/testing/test-setup';
 
 let called = false;
 const TEST_SETUP = new TestSetup([
-  DisposableTestSetup
+  TestDispose
 ]);
 
 export default {

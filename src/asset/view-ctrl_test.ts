@@ -4,7 +4,7 @@ TestBase.init();
 import Asset from '../model/asset';
 import { EventType as AssetServiceEventType } from '../asset/asset-service';
 import DisposableFunction from '../../node_modules/gs-tools/src/dispose/disposable-function';
-import DisposableTestSetup from '../../node_modules/gs-tools/src/testing/disposable-test-setup';
+import TestDispose from '../../node_modules/gs-tools/src/testing/test-dispose';
 import FakeScope from '../testing/fake-scope';
 import ViewCtrl from './view-ctrl';
 
@@ -40,7 +40,7 @@ describe('asset.ViewCtrl', () => {
         mockAssetService,
         mockNavigateService,
         mockSettingsDialogService);
-    DisposableTestSetup.add(ctrl);
+    TestDispose.add(ctrl);
   });
 
   it('should initialize correctly', () => {
