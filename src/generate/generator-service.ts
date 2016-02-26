@@ -41,7 +41,10 @@ export default class GeneratorService {
       helpers: { [key: string]: FunctionObject },
       images: { [key: string]: ImageResource },
       partials: { [key: string]: string }): Generator {
-    let helperFns = Records.mapValue(helpers, (helper: FunctionObject) => helper.asFunction());
+    let helperFns = Records
+        .of(helpers)
+        .mapValue((helper: FunctionObject) => helper.asFunction())
+        .data;
     helperFns['_ifeq'] = ifeq;
     helperFns['_imgUrl'] = imageUrlHelper(images);
     helperFns['_lowercase'] = lowercase;
