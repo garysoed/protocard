@@ -1,5 +1,5 @@
 import Asset from '../model/asset';
-import AssetService, { EventType as AssetServiceEventType } from './asset-service';
+import { AssetService, EventType as AssetServiceEventType } from './asset-service';
 import BaseDisposable from '../../node_modules/gs-tools/src/dispose/base-disposable';
 import DisposableFunction from '../../node_modules/gs-tools/src/dispose/disposable-function';
 import FunctionObject from '../model/function-object';

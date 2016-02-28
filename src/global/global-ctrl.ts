@@ -1,6 +1,6 @@
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
-import AssetService from '../asset/asset-service';
+import { AssetService } from '../asset/asset-service';
 import GlobalNode from '../pipeline/global-node';
 
 /**

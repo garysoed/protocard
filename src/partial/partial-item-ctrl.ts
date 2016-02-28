@@ -1,5 +1,5 @@
 import Asset from '../model/asset';
-import AssetService from '../asset/asset-service';
+import { AssetService } from '../asset/asset-service';
 import NavigateService from '../navigate/navigate-service';
 
 export default class {

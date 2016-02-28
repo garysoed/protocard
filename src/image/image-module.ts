@@ -1,5 +1,5 @@
 import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
-import AssetServiceModule from '../asset/asset-service-module';
+import AssetServiceModule from '../asset/asset-service';
 import DriveDialogModule from '../editor/drive-dialog-module';
 import ImageCtrl from './image-ctrl';
 import ImageSelectModule from '../editor/image-select-module';

@@ -51,7 +51,6 @@
         "declaration/tsd.d.ts",
         "src/app.ts",
         "src/asset/asset-service_test.ts",
-        "src/asset/asset-service-module.ts",
         "src/asset/asset-service.ts",
         "src/asset/nav-graph-ctrl_test.ts",
         "src/asset/nav-graph-ctrl.ts",

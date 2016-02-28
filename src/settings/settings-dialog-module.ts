@@ -1,5 +1,5 @@
 import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
-import AssetServiceModule from '../asset/asset-service-module';
+import AssetServiceModule from '../asset/asset-service';
 import DownloadServiceModule from '../common/download-service-module';
 import NavigateServiceModule from '../navigate/navigate-service-module';
 import SettingsDialogService from './settings-dialog-service';

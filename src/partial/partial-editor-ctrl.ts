@@ -1,6 +1,6 @@
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
-import AssetService from '../asset/asset-service';
+import { AssetService } from '../asset/asset-service';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import LabelNode from '../pipeline/label-node';
 import PartialNode from '../pipeline/partial-node';

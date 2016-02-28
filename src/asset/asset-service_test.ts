@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import Asset from '../model/asset';
-import AssetService, { EventType as AssetServiceEventType } from './asset-service';
+import { AssetService, EventType as AssetServiceEventType } from './asset-service';
 import TestDispose from '../../node_modules/gs-tools/src/testing/test-dispose';
 import { KEY_INDEX } from './asset-service';
 

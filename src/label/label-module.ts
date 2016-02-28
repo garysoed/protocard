@@ -1,5 +1,5 @@
 import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
-import AssetServiceModule from '../asset/asset-service-module';
+import AssetServiceModule from '../asset/asset-service';
 import ContextButtonModule from '../common/context-button-module';
 import LabelCtrl from './label-ctrl';
 

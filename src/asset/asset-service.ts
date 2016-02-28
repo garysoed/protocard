@@ -2,6 +2,8 @@ import Asset from '../model/asset';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import BaseListenable from '../../node_modules/gs-tools/src/event/base-listenable';
 import StorageService from '../common/storage-service';
+import StorageServiceModule from '../common/storage-service-module';
+
 
 export enum EventType {
   SAVED
@@ -15,7 +17,7 @@ export const KEY_INDEX: string = 'assets';
 /**
  * Manages assets in the storage.
  */
-export default class AssetService extends BaseListenable<EventType> {
+export class AssetService extends BaseListenable<EventType> {
   private storage_: StorageService<any>;
 
   /**
@@ -89,3 +91,9 @@ export default class AssetService extends BaseListenable<EventType> {
     this.dispatch(EventType.SAVED, asset);
   }
 };
+
+export default angular
+    .module('pc.data.AssetServiceModule', [
+      StorageServiceModule.name,
+    ])
+    .service('AssetService', AssetService);

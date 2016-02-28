@@ -1,5 +1,5 @@
 import Asset from '../model/asset';
-import AssetService from '../asset/asset-service';
+import { AssetService } from '../asset/asset-service';
 import FunctionObject from '../model/function-object';
 
 export default class HelperEditorCtrl {

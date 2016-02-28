@@ -1,5 +1,5 @@
 import Asset from '../model/asset';
-import AssetService from '../asset/asset-service';
+import { AssetService } from '../asset/asset-service';
 import CreateAssetDialogService from './create-asset-dialog-service';
 import File from '../model/file';
 import NavigateService from '../navigate/navigate-service';
