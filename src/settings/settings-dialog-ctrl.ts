@@ -1,7 +1,7 @@
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService from '../asset/asset-service';
-import Cache from '../decorator/cache';
+import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import DownloadService from '../common/download-service';
 import GlobalNode from '../pipeline/global-node';
 import NavigateService from '../navigate/navigate-service';
@@ -79,7 +79,7 @@ export default class {
     this.globalNode_.refresh();
   }
 
-  @Cache
+  @Cache()
   get presets(): string[] {
     return PRESETS.map((preset: Preset) => preset.fullDescription);
   }

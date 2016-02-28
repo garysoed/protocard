@@ -1,7 +1,7 @@
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService from '../asset/asset-service';
-import Cache from '../decorator/cache';
+import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import LabelNode from '../pipeline/label-node';
 import PartialNode from '../pipeline/partial-node';
 import Provider from '../util/provider';
@@ -49,7 +49,7 @@ export default class {
     return this.asset_;
   }
 
-  @Cache
+  @Cache()
   get preview(): Provider<string> {
     return new Provider<string>(
         this.$scope_,

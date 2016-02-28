@@ -1,5 +1,5 @@
 import Asset from '../model/asset';
-import Cache from '../decorator/cache';
+import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import ExportNode from './export-node';
 import GeneratorService from '../generate/generator-service';
 import GlobalNode from './global-node';
@@ -29,27 +29,27 @@ export default class AssetPipeline {
     this.renderService_ = renderService;
   }
 
-  @Cache
+  @Cache()
   get exportNode(): ExportNode {
     return new ExportNode(this.templateNode);
   }
 
-  @Cache
+  @Cache()
   get globalNode(): GlobalNode {
     return new GlobalNode(this.asset_);
   }
 
-  @Cache
+  @Cache()
   get helperNode(): HelperNode {
     return new HelperNode(this.asset_);
   }
 
-  @Cache
+  @Cache()
   get imageNode(): ImageNode {
     return new ImageNode(this.asset_);
   }
 
-  @Cache
+  @Cache()
   get labelNode(): LabelNode {
     return new LabelNode(
         this.asset_,
@@ -60,7 +60,7 @@ export default class AssetPipeline {
         this.processNode);
   }
 
-  @Cache
+  @Cache()
   get partialNode(): PartialNode {
     return new PartialNode(
         this.asset_,
@@ -71,12 +71,12 @@ export default class AssetPipeline {
         this.labelNode);
   }
 
-  @Cache
+  @Cache()
   get processNode(): ProcessNode {
     return new ProcessNode(this.asset_, this.textNode);
   }
 
-  @Cache
+  @Cache()
   get templateNode(): TemplateNode {
     return new TemplateNode(
         this.asset_,
@@ -90,7 +90,7 @@ export default class AssetPipeline {
         this.renderService_);
   }
 
-  @Cache
+  @Cache()
   get textNode(): TextNode {
     return new TextNode(this.asset_);
   }

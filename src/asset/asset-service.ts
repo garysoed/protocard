@@ -1,5 +1,5 @@
 import Asset from '../model/asset';
-import Cache from '../decorator/cache';
+import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import BaseListenable from '../../node_modules/gs-tools/src/event/base-listenable';
 import StorageService from '../common/storage-service';
 
@@ -29,7 +29,7 @@ export default class AssetService extends BaseListenable<EventType> {
   /**
    * @return Array of asset IDs stored.
    */
-  @Cache
+  @Cache()
   private get index_(): string[] {
     return this.storage_.getItem(KEY_INDEX, Array, []);
   }
@@ -55,7 +55,7 @@ export default class AssetService extends BaseListenable<EventType> {
    * @return Dictionary of `data.Asset`s stored with the ID as the key and asset object as the
    *    value.
    */
-  @Cache
+  @Cache()
   get assets(): { [id: string]: Asset } {
     let assets = <{ [id: string]: Asset }> {};
     this.index_.forEach((id: string) => {

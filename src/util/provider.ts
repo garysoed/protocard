@@ -1,7 +1,7 @@
 /**
  * @fileoverview Wraps a promise to provide its value.
  */
-import Cache from '../decorator/cache';
+import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 
 
 export default class Provider<T> {
@@ -23,7 +23,7 @@ export default class Provider<T> {
     return this.promise_;
   }
 
-  @Cache
+  @Cache()
   get value(): T {
     return this.value_;
   }

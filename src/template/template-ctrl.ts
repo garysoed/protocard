@@ -1,7 +1,7 @@
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService from '../asset/asset-service';
-import Cache from '../decorator/cache';
+import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import GeneratorService from '../generate/generator-service';
 import LabelNode from '../pipeline/label-node';
 import Provider from '../util/provider';
@@ -47,7 +47,7 @@ export default class TemplateCtrl {
     this.setQuery_();
   }
 
-  @Cache
+  @Cache()
   private get renderResult_(): Promise<RenderedData> {
     return this.templateNode_.result
         .then((results: { [key: string]: RenderedData }) => {
@@ -91,7 +91,7 @@ export default class TemplateCtrl {
     return this.asset_;
   }
 
-  @Cache
+  @Cache()
   get isPreviewLoading(): Provider<boolean> {
     return new Provider(
         this.$scope_,
@@ -115,7 +115,7 @@ export default class TemplateCtrl {
     return this.isSearchVisible_;
   }
 
-  @Cache
+  @Cache()
   get preview(): Provider<string> {
     return new Provider(
         this.$scope_,
@@ -126,7 +126,7 @@ export default class TemplateCtrl {
         '');
   }
 
-  @Cache
+  @Cache()
   get previewDataUri(): Provider<string> {
     return new Provider(
         this.$scope_,

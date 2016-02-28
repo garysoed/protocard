@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import Cache from '../decorator/cache';
+import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import FakeScope from '../testing/fake-scope';
 import LabelCtrl from './label-ctrl';
 

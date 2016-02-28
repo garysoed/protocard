@@ -1,4 +1,4 @@
-import Cache from '../decorator/cache';
+import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import BaseDisposable from '../../node_modules/gs-tools/src/dispose/base-disposable';
 import DisposableFunction from '../../node_modules/gs-tools/src/dispose/disposable-function';
 import NavigateService from './navigate-service';
@@ -39,7 +39,7 @@ export default class NavigateButtonCtrl extends BaseDisposable {
     return this.icon_;
   }
 
-  @Cache
+  @Cache()
   get selectedCss(): string {
     let subview = this.navigateService_.getSubview();
     if (!subview) {

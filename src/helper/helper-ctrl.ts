@@ -1,7 +1,7 @@
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService from '../asset/asset-service';
-import Cache from '../decorator/cache';
+import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import FunctionObject from '../model/function-object';
 import { Events as HelperItemEvents } from './helper-item-ctrl';
 import HelperNode from '../pipeline/helper-node';
@@ -39,7 +39,7 @@ export default class {
     $scope.$on(HelperItemEvents.EDITED, this.onHelperItemEdited_.bind(this));
   }
 
-  @Cache
+  @Cache()
   get helpers(): Provider<{ [key: string]: FunctionObject }> {
     return new Provider(
         this.$scope_,

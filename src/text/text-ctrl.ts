@@ -1,7 +1,7 @@
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetService from '../asset/asset-service';
-import Cache from '../decorator/cache';
+import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import File from '../model/file';
 import Provider from '../util/provider';
 import TextNode from '../pipeline/text-node';
@@ -45,7 +45,7 @@ export default class TextCtrl {
     this.textNode_.refresh();
   }
 
-  @Cache
+  @Cache()
   get parsedData(): Provider<string[][]> {
     return new Provider<string[][]>(
         this.$scope_,

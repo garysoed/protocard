@@ -1,4 +1,4 @@
-import Cache from '../decorator/cache';
+import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 
 abstract class Node<T> {
   private dependencies_: Node<any>[];
@@ -27,7 +27,7 @@ abstract class Node<T> {
   /**
    * Runs all the dependencies, then run the handler of this node.
    */
-  @Cache
+  @Cache()
   private run_(): Promise<T> {
     return Promise.all(this.dependencies_.map((dependency: Node<any>) => dependency.result))
         .then((results: any) => this.runHandler_(results))
