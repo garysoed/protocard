@@ -3,7 +3,7 @@ import CodeEditorModule from '../editor/code-editor-module';
 import HelperEditorCtrl from './helper-editor-ctrl';
 
 export default angular
-    .module('pc.helper.HelperEditorModule', [
+    .module('helper.HelperEditorModule', [
       AssetServiceModule.name,
       CodeEditorModule.name,
     ])

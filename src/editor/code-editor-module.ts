@@ -11,7 +11,7 @@ export function link(
 };
 
 export default angular
-    .module('pc.editor.CodeEditorModule', [
+    .module('editor.CodeEditorModule', [
       'ngMaterial',
       AceServiceModule.name,
     ])

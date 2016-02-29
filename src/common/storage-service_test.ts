@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import Serializer, { Field, Serializable } from '../model/serializable';
-import StorageService from './storage-service';
+import { StorageService } from './storage-service';
 
 @Serializable('FakeClass')
 class FakeClass {

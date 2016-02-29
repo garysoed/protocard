@@ -1,7 +1,7 @@
 import PartialItemCtrl from './partial-item-ctrl';
 
 export default angular
-    .module('pc.partial.PartialItemModule', [])
+    .module('partial.PartialItemModule', [])
     .directive('pcPartialItem', () => {
       return {
         controller: PartialItemCtrl,

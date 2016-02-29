@@ -1,7 +1,17 @@
-import ErrorDisplayCtrl from './error-display-ctrl';
+export class ErrorDisplayCtrl {
+  private $scope_: angular.IScope;
+
+  constructor($scope: angular.IScope) {
+    this.$scope_ = $scope;
+  }
+
+  get lastError(): any {
+    return this.$scope_['error'].message;
+  }
+}
 
 export default angular
-    .module('pc.common.ErrorDisplayModule', [])
+    .module('common.ErrorDisplayModule', [])
     .directive('pcErrorDisplay', () => {
       return {
         controller: ErrorDisplayCtrl,

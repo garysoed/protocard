@@ -1,10 +1,10 @@
 import AssetServiceModule from '../asset/asset-service';
-import ContextButtonModule from '../common/context-button-module';
+import ContextButtonModule from '../common/context-button';
 import PartialCtrl from './partial-ctrl';
 import PartialItemModule from './partial-item-module';
 
 export default angular
-    .module('pc.partial.PartialModule', [
+    .module('partial.PartialModule', [
       AssetServiceModule.name,
       ContextButtonModule.name,
       PartialItemModule.name,

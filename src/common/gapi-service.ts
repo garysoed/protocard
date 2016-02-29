@@ -1,7 +1,7 @@
 /**
  * Interface to Gapi Client.
  */
-export default class {
+export class GapiService {
   private gapi_: Gapi;
   private clientId_: string;
 
@@ -81,3 +81,8 @@ export default class {
     return this.gapi_.client.newBatch();
   }
 };
+
+
+export default angular
+    .module('common.GapiServiceModule', ['ng'])
+    .service('GapiService', GapiService);

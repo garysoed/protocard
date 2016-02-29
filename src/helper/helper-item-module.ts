@@ -1,7 +1,7 @@
 import HelperItemCtrl from './helper-item-ctrl';
 
 export default angular
-    .module('pc.helper.HelperItemModule', [])
+    .module('helper.HelperItemModule', [])
     .directive('pcHelperItem', () => {
       return {
         controller: HelperItemCtrl,

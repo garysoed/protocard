@@ -3,7 +3,7 @@ import Serializer from '../model/serializable';
 /**
  * Service to manage local storage.
  */
-export default class StorageService<T> {
+export class StorageService<T> {
 
   private storage_: Storage;
   private namespace_: string;
@@ -50,3 +50,9 @@ export default class StorageService<T> {
     this.storage_.removeItem(`${this.namespace_}.${key}`);
   }
 };
+
+export default angular
+    .module('common.StorageServiceModule', [])
+    .service('StorageService', ($window: Window) => {
+      return new StorageService($window, 'pc');
+    });

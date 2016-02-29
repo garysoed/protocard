@@ -3,7 +3,7 @@ import HomeViewModule from './home/view-module';
 
 
 angular
-    .module('pc.App', [
+    .module('App', [
       'ngMaterial',
       'ngMessages',
       'ngRoute',

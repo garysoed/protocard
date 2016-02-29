@@ -10,7 +10,7 @@ export function link(
 };
 
 export default angular
-    .module('pc.editor.ImageSelectModule', [])
+    .module('editor.ImageSelectModule', [])
     .directive('pcImageSelect', () => {
       return {
         controller: ImageSelectCtrl,

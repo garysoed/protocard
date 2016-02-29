@@ -1,11 +1,11 @@
 import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
 import AssetServiceModule from '../asset/asset-service';
-import ContextButtonModule from '../common/context-button-module';
+import ContextButtonModule from '../common/context-button';
 import FileUploadModule from '../editor/file-upload-module';
 import TextCtrl from './text-ctrl';
 
 export default angular
-    .module('pc.text.TextModule', [
+    .module('text.TextModule', [
       AssetPipelineServiceModule.name,
       AssetServiceModule.name,
       ContextButtonModule.name,

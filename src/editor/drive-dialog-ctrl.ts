@@ -1,4 +1,4 @@
-import GapiService from '../common/gapi-service';
+import { GapiService } from '../common/gapi-service';
 import ImageResource from '../model/image-resource';
 
 export default class DriveDialogCtrl {

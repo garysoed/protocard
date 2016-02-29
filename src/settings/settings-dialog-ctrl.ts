@@ -2,7 +2,7 @@ import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import { AssetService } from '../asset/asset-service';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
-import DownloadService from '../common/download-service';
+import { DownloadService } from '../common/download-service';
 import GlobalNode from '../pipeline/global-node';
 import NavigateService from '../navigate/navigate-service';
 import Preset, { Origin } from '../model/preset';

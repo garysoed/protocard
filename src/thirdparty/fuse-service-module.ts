@@ -5,5 +5,5 @@
 import ThirdpartyProvider from './thirdparty-provider';
 
 export default angular
-    .module('pc.thirdparty.FuseServiceModule', [])
+    .module('thirdparty.FuseServiceModule', [])
     .provider('FuseService', ThirdpartyProvider('Fuse'));

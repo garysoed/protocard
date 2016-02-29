@@ -1,7 +1,7 @@
 import NavigateButtonCtrl from './navigate-button-ctrl';
 
 export default angular
-    .module('pc.navigate.NavigateButtonModule', [])
+    .module('navigate.NavigateButtonModule', [])
     .directive('pcNavigateButton', () => {
       return {
         controller: NavigateButtonCtrl,

@@ -1,4 +1,4 @@
-export default class DownloadService {
+export class DownloadService {
   private $window_: Window;
   private document_: Document;
   private linkEl_: HTMLAnchorElement;
@@ -31,3 +31,7 @@ export default class DownloadService {
     this.$window_.URL.revokeObjectURL(url);
   }
 };
+
+export default angular
+    .module('common.DownloadServiceModule', [])
+    .service('DownloadService', DownloadService);

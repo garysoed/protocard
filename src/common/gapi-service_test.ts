@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import GapiService from './gapi-service';
+import { GapiService } from './gapi-service';
 
 describe('common.GapiService', () => {
   let CLIENT_ID = 'CLIENT_ID';

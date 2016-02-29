@@ -4,7 +4,7 @@ import CodeEditorModule from '../editor/code-editor-module';
 import GlobalCtrl from './global-ctrl';
 
 export default angular
-    .module('pc.global.GlobalModule', [
+    .module('global.GlobalModule', [
       AssetPipelineServiceModule.name,
       AssetServiceModule.name,
       CodeEditorModule.name,

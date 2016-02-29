@@ -1,6 +1,6 @@
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
-import DownloadService from '../common/download-service';
+import { DownloadService } from '../common/download-service';
 import ExportNode from '../pipeline/export-node';
 import ImageResource from '../model/image-resource';
 import RenderService from './render-service';

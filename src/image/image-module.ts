@@ -5,7 +5,7 @@ import ImageCtrl from './image-ctrl';
 import ImageSelectModule from '../editor/image-select-module';
 
 export default angular
-    .module('pc.image.ImageModule', [
+    .module('image.ImageModule', [
       AssetPipelineServiceModule.name,
       AssetServiceModule.name,
       DriveDialogModule.name,

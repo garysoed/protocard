@@ -3,7 +3,7 @@ import Html2canvasServiceModule from '../thirdparty/html2canvas-service-module';
 import PreviewAppCtrl from './preview-app-ctrl';
 
 angular
-    .module('pc.PreviewApp', [
+    .module('PreviewApp', [
       'ngMaterial',
       'ngRoute',
       DomServiceModule.name,

@@ -2,9 +2,11 @@
  * @fileoverview Controller for searching for asset names.
  */
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
+import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
 import LabelNode from '../pipeline/label-node';
 
-export default class {
+
+export class AssetNamePickerCtrl {
   private labelNode_: LabelNode;
   private ngModelCtrl_: angular.INgModelController;
   private onBlurHandler_: Function;
@@ -64,3 +66,32 @@ export default class {
     this.ngModelCtrl_.$setViewValue(key);
   }
 };
+
+function link(
+    scope: angular.IScope,
+    element: angular.IAugmentedJQuery,
+    attr: angular.IAttributes,
+    ctrls: any[]): void {
+  let [assetNamePickerCtrl, ngModelCtrl] = ctrls;
+  assetNamePickerCtrl.onLink(element[0], ngModelCtrl);
+}
+
+export default angular
+    .module('common.AssetNamePickerModule', [
+      AssetPipelineServiceModule.name
+    ])
+    .directive('pcAssetNamePicker', () => {
+      return {
+        controller: AssetNamePickerCtrl,
+        controllerAs: 'ctrl',
+        link: link,
+        require: ['pcAssetNamePicker', 'ngModel'],
+        restrict: 'E',
+        scope: {
+          'asset': '=',
+          'onFocus': '&',
+          'onBlur': '&',
+        },
+        templateUrl: 'src/common/asset-name-picker.ng',
+      };
+    });

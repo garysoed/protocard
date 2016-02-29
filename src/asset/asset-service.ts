@@ -1,8 +1,7 @@
 import Asset from '../model/asset';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import BaseListenable from '../../node_modules/gs-tools/src/event/base-listenable';
-import StorageService from '../common/storage-service';
-import StorageServiceModule from '../common/storage-service-module';
+import StorageServiceModule, { StorageService } from '../common/storage-service';
 
 
 export enum EventType {

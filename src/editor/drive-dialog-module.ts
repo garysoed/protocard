@@ -1,9 +1,9 @@
 import DriveDialogService from './drive-dialog-service';
-import GapiServiceModule from '../common/gapi-service-module';
+import GapiServiceModule from '../common/gapi-service';
 import ImageSelectModule from './image-select-module';
 
 export default angular
-    .module('pc.editor.DriveDialogModule', [
+    .module('editor.DriveDialogModule', [
       GapiServiceModule.name,
       ImageSelectModule.name,
     ])

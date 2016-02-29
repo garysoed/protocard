@@ -11,7 +11,7 @@ export function service(namespace, name) {
 `import ${serviceClassName} from './${serviceName}';
 
 export default angular
-    .module('pc.${namespace}.${moduleClassName}', [])
+    .module('${namespace}.${moduleClassName}', [])
     .service('${serviceClassName}', ${serviceClassName});
 `;
 
@@ -29,7 +29,7 @@ export function directive(namespace, name) {
 `import ${ctrlClassName} from './${ctrlName}';
 
 export default angular
-    .module('pc.${namespace}.${moduleClassName}', [])
+    .module('${namespace}.${moduleClassName}', [])
     .directive('pc${className}', () => {
       return {
         controller: ${ctrlClassName},

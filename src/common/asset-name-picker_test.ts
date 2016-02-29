@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import AssetNamePickerCtrl from './asset-name-picker-ctrl';
+import { AssetNamePickerCtrl } from './asset-name-picker';
 import FakeScope from '../testing/fake-scope';
 
 describe('common.AssetNamePickerCtrl', () => {

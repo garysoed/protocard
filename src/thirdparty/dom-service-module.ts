@@ -5,5 +5,5 @@
 import ThirdpartyProvider from './thirdparty-provider';
 
 export default angular
-    .module('pc.thirdparty.DomServiceModule', [])
+    .module('thirdparty.DomServiceModule', [])
     .provider('DOMParserService', ThirdpartyProvider('DOMParser'));

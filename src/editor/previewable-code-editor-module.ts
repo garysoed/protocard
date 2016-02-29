@@ -12,7 +12,7 @@ export function link(
 }
 
 export default angular
-    .module('pc.editor.PreviewableCodeEditorModule', [
+    .module('editor.PreviewableCodeEditorModule', [
       CodeEditorModule.name
     ])
     .directive('pcPreviewableCodeEditor', () => {

@@ -1,11 +1,11 @@
 import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
 import CodeEditorModule from '../editor/code-editor-module';
-import ContextButtonModule from '../common/context-button-module';
+import ContextButtonModule from '../common/context-button';
 import DataCtrl from './data-ctrl';
 import PreviewableCodeEditorModule from '../editor/previewable-code-editor-module';
 
 export default angular
-    .module('pc.asset.data.DataModule', [
+    .module('asset.data.DataModule', [
       AssetPipelineServiceModule.name,
       CodeEditorModule.name,
       ContextButtonModule.name,

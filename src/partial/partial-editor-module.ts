@@ -1,10 +1,10 @@
-import AssetNamePickerModule from '../common/asset-name-picker-module';
+import AssetNamePickerModule from '../common/asset-name-picker';
 import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
-import ContextButtonModule from '../common/context-button-module';
+import ContextButtonModule from '../common/context-button';
 import PartialEditorCtrl from './partial-editor-ctrl';
 
 export default angular
-    .module('pc.partial.PartialEditorModule', [
+    .module('partial.PartialEditorModule', [
       AssetNamePickerModule.name,
       AssetPipelineServiceModule.name,
       ContextButtonModule.name,

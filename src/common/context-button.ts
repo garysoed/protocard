@@ -1,4 +1,26 @@
-import ContextButtonCtrl from './context-button-ctrl';
+export class ContextButtonCtrl {
+  private isOpen_: boolean;
+
+  constructor() {
+    this.isOpen_ = false;
+  }
+
+  get isOpen(): boolean {
+    return this.isOpen_;
+  }
+
+  set isOpen(open: boolean) {
+    this.isOpen_ = open;
+  }
+
+  onFabMouseEnter(): void {
+    this.isOpen_ = true;
+  }
+
+  onFabMouseLeave(): void {
+    this.isOpen_ = false;
+  }
+}
 
 function link(
     scope: angular.IScope,
@@ -12,7 +34,7 @@ function link(
 }
 
 export default angular
-    .module('pc.common.ContextButtonModule', [])
+    .module('common.ContextButtonModule', [])
     .directive('pcContextButton', () => {
 
       return {

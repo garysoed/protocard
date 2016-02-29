@@ -15,7 +15,7 @@ function link(
 }
 
 export default angular
-    .module('pc.editor.FileUploadModule', [])
+    .module('editor.FileUploadModule', [])
     .directive('pcFileUpload', () => {
       return {
         controller: FileUploadCtrl,

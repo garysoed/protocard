@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import DownloadService from './download-service';
+import { DownloadService } from './download-service';
 
 describe('common.DownloadService', () => {
   let mock$window;
