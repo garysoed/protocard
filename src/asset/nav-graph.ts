@@ -3,18 +3,21 @@
  */
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
+import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
 import ExportNode from '../pipeline/export-node';
 import GlobalNode from '../pipeline/global-node';
 import HelperNode from '../pipeline/helper-node';
 import ImageNode from '../pipeline/image-node';
 import LabelNode from '../pipeline/label-node';
+import NavigateButtonModule from '../navigate/navigate-button-module';
 import Node from '../pipeline/node';
 import PartialNode from '../pipeline/partial-node';
 import ProcessNode from '../pipeline/process-node';
 import TemplateNode from '../pipeline/template-node';
 import TextNode from '../pipeline/text-node';
 
-export default class {
+
+export class NavGraphCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
   private deregisterFns_: Function[];
@@ -106,3 +109,20 @@ export default class {
     return this.templateNode_.isDone;
   }
 };
+
+export default angular
+    .module('asset.NavGraphModule', [
+      AssetPipelineServiceModule.name,
+      NavigateButtonModule.name,
+    ])
+    .directive('pcNavGraph', () => {
+      return {
+        controller: NavGraphCtrl,
+        controllerAs: 'ctrl',
+        restrict: 'E',
+        scope: {
+          'asset': '='
+        },
+        templateUrl: 'src/asset/nav-graph.ng',
+      };
+    });

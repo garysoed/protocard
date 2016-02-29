@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import FakeScope from '../testing/fake-scope';
-import NavGraphCtrl from './nav-graph-ctrl';
+import { NavGraphCtrl } from './nav-graph';
 
 describe('asset.NavGraphCtrl', () => {
   let mock$scope;

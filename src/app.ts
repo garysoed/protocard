@@ -1,5 +1,6 @@
-import AssetViewModule from './asset/view-module';
+import AssetViewModule from './asset/view';
 import HomeViewModule from './home/view-module';
+
 
 angular
     .module('pc.App', [
@@ -7,7 +8,7 @@ angular
       'ngMessages',
       'ngRoute',
       AssetViewModule.name,
-      HomeViewModule.name
+      HomeViewModule.name,
     ])
     .config(($mdIconProvider, $mdThemingProvider, $routeProvider, $sceProvider) => {
       $mdIconProvider

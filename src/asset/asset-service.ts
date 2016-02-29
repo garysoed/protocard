@@ -93,7 +93,7 @@ export class AssetService extends BaseListenable<EventType> {
 };
 
 export default angular
-    .module('pc.data.AssetServiceModule', [
-      StorageServiceModule.name,
+    .module('asset.AssetServiceModule', [
+      StorageServiceModule.name
     ])
     .service('AssetService', AssetService);

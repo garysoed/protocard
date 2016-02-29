@@ -1,15 +1,32 @@
 import Asset from '../model/asset';
 import { AssetService, EventType as AssetServiceEventType } from './asset-service';
+import AssetServiceModule from './asset-service';
 import BaseDisposable from '../../node_modules/gs-tools/src/dispose/base-disposable';
+import DataModule from '../data/data-module';
 import DisposableFunction from '../../node_modules/gs-tools/src/dispose/disposable-function';
 import FunctionObject from '../model/function-object';
+import GlobalModule from '../global/global-module';
+import HelperEditorModule from '../helper/helper-editor-module';
+import HelperModule from '../helper/helper-module';
+import ImageModule from '../image/image-module';
+import LabelModule from '../label/label-module';
+import NavGraphModule from './nav-graph';
+import NavigateButtonModule from '../navigate/navigate-button-module';
 import NavigateService from '../navigate/navigate-service';
+import NavigateServiceModule from '../navigate/navigate-service-module';
+import PartialEditorModule from '../partial/partial-editor-module';
+import PartialModule from '../partial/partial-module';
+import RenderModule from '../render/render-module';
+import SettingsDialogModule from '../settings/settings-dialog-module';
 import SettingsDialogService from '../settings/settings-dialog-service';
+import TemplateModule from '../template/template-module';
+import TextModule from '../text/text-module';
+
 
 /**
  * Controller for the create page view.
  */
-export default class ViewCtrl extends BaseDisposable {
+export class ViewCtrl extends BaseDisposable {
   private $location_: angular.ILocationService;
   private $scope_: angular.IScope;
   private asset_: Asset;
@@ -148,3 +165,34 @@ export default class ViewCtrl extends BaseDisposable {
     this.settingsDialogService_.show(event, this.asset_);
   }
 };
+
+export default angular
+    .module('asset.ViewModule', [
+      'ngRoute',
+      AssetServiceModule.name,
+      DataModule.name,
+      GlobalModule.name,
+      HelperEditorModule.name,
+      HelperModule.name,
+      ImageModule.name,
+      LabelModule.name,
+      NavGraphModule.name,
+      NavigateButtonModule.name,
+      NavigateServiceModule.name,
+      PartialModule.name,
+      PartialEditorModule.name,
+      RenderModule.name,
+      SettingsDialogModule.name,
+      TemplateModule.name,
+      TextModule.name,
+    ])
+    .config(($routeProvider: angular.ui.IUrlRouterProvider) => {
+      $routeProvider.when(
+          '/asset/:assetId',
+          {
+            controller: ViewCtrl,
+            controllerAs: 'ctrl',
+            reloadOnSearch: false,
+            templateUrl: 'src/asset/view.ng',
+          });
+    });
