@@ -3,6 +3,7 @@ TestBase.init();
 
 import FakeScope from '../testing/fake-scope';
 import { NavGraphCtrl } from './nav-graph';
+import TestDispose from '../../node_modules/gs-tools/src/testing/test-dispose';
 
 describe('asset.NavGraphCtrl', () => {
   let mock$scope;
@@ -26,7 +27,6 @@ describe('asset.NavGraphCtrl', () => {
 
   beforeEach(() => {
     mock$scope = <any> (new FakeScope());
-    mock$scope['asset'] = { id: 'assetId' };
     spyOn(mock$scope, '$on');
 
     mockDeregister = jasmine.createSpy('deregister');
@@ -54,11 +54,14 @@ describe('asset.NavGraphCtrl', () => {
     });
 
     ctrl = new NavGraphCtrl(mock$scope, mockAssetPipelineService);
+    ctrl.asset = { id: 'assetId' };
+    TestDispose.add(ctrl);
   });
 
   it('should trigger digest when export node is changed', () => {
     spyOn(mock$scope, '$apply');
 
+    ctrl['exportNode_'];
     expect(mockExportNode.addChangeListener).toHaveBeenCalledWith(jasmine.any(Function));
 
     mockExportNode.addChangeListener.calls.argsFor(0)[0]();
@@ -68,6 +71,7 @@ describe('asset.NavGraphCtrl', () => {
   it('should trigger digest when global node is changed', () => {
     spyOn(mock$scope, '$apply');
 
+    ctrl['globalNode_'];
     expect(mockGlobalNode.addChangeListener).toHaveBeenCalledWith(jasmine.any(Function));
 
     mockGlobalNode.addChangeListener.calls.argsFor(0)[0]();
@@ -77,6 +81,7 @@ describe('asset.NavGraphCtrl', () => {
   it('should trigger digest when helper node is changed', () => {
     spyOn(mock$scope, '$apply');
 
+    ctrl['helperNode_'];
     expect(mockHelperNode.addChangeListener).toHaveBeenCalledWith(jasmine.any(Function));
 
     mockHelperNode.addChangeListener.calls.argsFor(0)[0]();
@@ -86,6 +91,7 @@ describe('asset.NavGraphCtrl', () => {
   it('should trigger digest when image node is changed', () => {
     spyOn(mock$scope, '$apply');
 
+    ctrl['imageNode_'];
     expect(mockImageNode.addChangeListener).toHaveBeenCalledWith(jasmine.any(Function));
 
     mockImageNode.addChangeListener.calls.argsFor(0)[0]();
@@ -95,6 +101,7 @@ describe('asset.NavGraphCtrl', () => {
   it('should trigger digest when label node is changed', () => {
     spyOn(mock$scope, '$apply');
 
+    ctrl['labelNode_'];
     expect(mockLabelNode.addChangeListener).toHaveBeenCalledWith(jasmine.any(Function));
 
     mockLabelNode.addChangeListener.calls.argsFor(0)[0]();
@@ -104,6 +111,7 @@ describe('asset.NavGraphCtrl', () => {
   it('should trigger digest when partial node is changed', () => {
     spyOn(mock$scope, '$apply');
 
+    ctrl['partialNode_'];
     expect(mockPartialNode.addChangeListener).toHaveBeenCalledWith(jasmine.any(Function));
 
     mockPartialNode.addChangeListener.calls.argsFor(0)[0]();
@@ -113,6 +121,7 @@ describe('asset.NavGraphCtrl', () => {
   it('should trigger digest when process node is changed', () => {
     spyOn(mock$scope, '$apply');
 
+    ctrl['processNode_'];
     expect(mockProcessNode.addChangeListener).toHaveBeenCalledWith(jasmine.any(Function));
 
     mockProcessNode.addChangeListener.calls.argsFor(0)[0]();
@@ -122,6 +131,7 @@ describe('asset.NavGraphCtrl', () => {
   it('should trigger digest when template node is changed', () => {
     spyOn(mock$scope, '$apply');
 
+    ctrl['templateNode_'];
     expect(mockTemplateNode.addChangeListener).toHaveBeenCalledWith(jasmine.any(Function));
 
     mockTemplateNode.addChangeListener.calls.argsFor(0)[0]();
@@ -131,6 +141,7 @@ describe('asset.NavGraphCtrl', () => {
   it('should trigger digest when text node is changed', () => {
     spyOn(mock$scope, '$apply');
 
+    ctrl['textNode_'];
     expect(mockTextNode.addChangeListener).toHaveBeenCalledWith(jasmine.any(Function));
 
     mockTextNode.addChangeListener.calls.argsFor(0)[0]();
@@ -138,6 +149,16 @@ describe('asset.NavGraphCtrl', () => {
   });
 
   it('should deregister all the listeners on destroy', () => {
+    ctrl['exportNode_'];
+    ctrl['globalNode_'];
+    ctrl['helperNode_'];
+    ctrl['imageNode_'];
+    ctrl['labelNode_'];
+    ctrl['partialNode_'];
+    ctrl['processNode_'];
+    ctrl['templateNode_'];
+    ctrl['textNode_'];
+
     expect(mock$scope.$on).toHaveBeenCalledWith('$destroy', jasmine.any(Function));
 
     mock$scope.$on.calls.argsFor(0)[1]();

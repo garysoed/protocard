@@ -2,8 +2,11 @@
  * @fileoverview Displays the navigation graph.
  */
 import Asset from '../model/asset';
+import AssetPipeline from '../pipeline/asset-pipeline';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
+import BaseDisposable from '../../node_modules/gs-tools/src/dispose/base-disposable';
+import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import ExportNode from '../pipeline/export-node';
 import GlobalNode from '../pipeline/global-node';
 import HelperNode from '../pipeline/helper-node';
@@ -17,47 +20,59 @@ import TemplateNode from '../pipeline/template-node';
 import TextNode from '../pipeline/text-node';
 
 
-export class NavGraphCtrl {
+export class NavGraphCtrl extends BaseDisposable {
   private $scope_: angular.IScope;
   private asset_: Asset;
+  private assetPipelineService_: AssetPipelineService;
   private deregisterFns_: Function[];
-  private exportNode_: ExportNode;
-  private globalNode_: GlobalNode;
-  private helperNode_: HelperNode;
-  private imageNode_: ImageNode;
-  private labelNode_: LabelNode;
-  private partialNode_: PartialNode;
-  private processNode_: ProcessNode;
-  private templateNode_: TemplateNode;
-  private textNode_: TextNode;
 
   constructor($scope: angular.IScope, AssetPipelineService: AssetPipelineService) {
+    super();
     this.$scope_ = $scope;
-
-    let assetPipeline = AssetPipelineService.getPipeline(this.asset_.id);
-    this.exportNode_ = assetPipeline.exportNode;
-    this.globalNode_ = assetPipeline.globalNode;
-    this.helperNode_ = assetPipeline.helperNode;
-    this.imageNode_ = assetPipeline.imageNode;
-    this.labelNode_ = assetPipeline.labelNode;
-    this.partialNode_ = assetPipeline.partialNode;
-    this.processNode_ = assetPipeline.processNode;
-    this.templateNode_ = assetPipeline.templateNode;
-    this.textNode_ = assetPipeline.textNode;
-
-    this.deregisterFns_ = [
-      this.exportNode_,
-      this.globalNode_,
-      this.helperNode_,
-      this.imageNode_,
-      this.labelNode_,
-      this.partialNode_,
-      this.processNode_,
-      this.templateNode_,
-      this.textNode_,
-    ].map((node: Node<any>) => node.addChangeListener(this.onPipelineNodeChange_.bind(this)));
+    this.assetPipelineService_ = AssetPipelineService;
+    this.deregisterFns_ = [];
 
     $scope.$on('$destroy', this.onScopeDestroy_.bind(this));
+  }
+
+  @Cache()
+  private get assetPipeline_(): AssetPipeline {
+    return this.assetPipelineService_.getPipeline(this.asset_.id);
+  }
+
+  @Cache()
+  private get exportNode_(): ExportNode {
+    let node = this.assetPipeline_.exportNode;
+    this.deregisterFns_.push(node.addChangeListener(this.onPipelineNodeChange_.bind(this)));
+    return node;
+  }
+
+  @Cache()
+  private get globalNode_(): GlobalNode {
+    let node = this.assetPipeline_.globalNode;
+    this.deregisterFns_.push(node.addChangeListener(this.onPipelineNodeChange_.bind(this)));
+    return node;
+  }
+
+  @Cache()
+  private get helperNode_(): HelperNode {
+    let node = this.assetPipeline_.helperNode;
+    this.deregisterFns_.push(node.addChangeListener(this.onPipelineNodeChange_.bind(this)));
+    return node;
+  }
+
+  @Cache()
+  private get imageNode_(): ImageNode {
+    let node = this.assetPipeline_.imageNode;
+    this.deregisterFns_.push(node.addChangeListener(this.onPipelineNodeChange_.bind(this)));
+    return node;
+  }
+
+  @Cache()
+  private get labelNode_(): LabelNode {
+    let node = this.assetPipeline_.labelNode;
+    this.deregisterFns_.push(node.addChangeListener(this.onPipelineNodeChange_.bind(this)));
+    return node;
   }
 
   private onScopeDestroy_(): void {
@@ -66,6 +81,34 @@ export class NavGraphCtrl {
 
   private onPipelineNodeChange_(): void {
     this.$scope_.$apply(() => undefined);
+  }
+
+  @Cache()
+  private get partialNode_(): PartialNode {
+    let node = this.assetPipeline_.partialNode;
+    this.deregisterFns_.push(node.addChangeListener(this.onPipelineNodeChange_.bind(this)));
+    return node;
+  }
+
+  @Cache()
+  private get processNode_(): ProcessNode {
+    let node = this.assetPipeline_.processNode;
+    this.deregisterFns_.push(node.addChangeListener(this.onPipelineNodeChange_.bind(this)));
+    return node;
+  }
+
+  @Cache()
+  private get templateNode_(): TemplateNode {
+    let node = this.assetPipeline_.templateNode;
+    this.deregisterFns_.push(node.addChangeListener(this.onPipelineNodeChange_.bind(this)));
+    return node;
+  }
+
+  @Cache()
+  private get textNode_(): TextNode {
+    let node = this.assetPipeline_.textNode;
+    this.deregisterFns_.push(node.addChangeListener(this.onPipelineNodeChange_.bind(this)));
+    return node;
   }
 
   get asset(): Asset {
@@ -123,7 +166,7 @@ export default angular
     ])
     .component('pcNavGraph', {
       bindings: {
-        'asset': '<',
+        'asset': '<'
       },
       controller: NavGraphCtrl,
       templateUrl: 'src/asset/nav-graph.ng',
