@@ -21,7 +21,7 @@
   <!-- Row 2 -->
   <foreignObject width="50" height="50" x="0" y="100">
     <pc-navigate-button
-        disabled="!ctrl.canProcessData"
+        disabled="!$ctrl.canProcessData"
         icon="work"
         subview="data"
         text="Process Data"></pc-navigate-button>
@@ -32,7 +32,7 @@
   <!-- Row 4 -->
   <foreignObject width="50" height="50" x="75" y="250">
     <pc-navigate-button
-        disabled="!ctrl.canEditLabel"
+        disabled="!$ctrl.canEditLabel"
         icon="label"
         subview="label"
         text="Label Data"></pc-navigate-button>
@@ -43,7 +43,7 @@
   <!-- Row 6 -->
   <foreignObject width="50" height="50" x="150" y="400">
     <pc-navigate-button
-        disabled="!ctrl.canEditPartial"
+        disabled="!$ctrl.canEditPartial"
         icon="format_paint"
         subview="partial"
         text="Subtemplate"></pc-navigate-button>
@@ -52,7 +52,7 @@
   <!-- Row 7 -->
   <foreignObject width="50" height="50" x="150" y="500">
     <pc-navigate-button
-        disabled="!ctrl.canEditTemplate"
+        disabled="!$ctrl.canEditTemplate"
         icon="mode_edit"
         subview="template"
         text="Main Template"></pc-navigate-button>
@@ -61,7 +61,7 @@
   <!-- Row 8 -->
   <foreignObject width="50" height="50" x="150" y="600">
     <pc-navigate-button
-        disabled="!ctrl.canPublish"
+        disabled="!$ctrl.canPublish"
         icon="publish"
         subview="render"
         text="Publish"></pc-navigate-button>
@@ -69,7 +69,7 @@
 
   <!-- Connectors from Row 1 -->
   <line
-      ng-class="{disabled: !ctrl.isDataReady}"
+      ng-class="{disabled: !$ctrl.isDataReady}"
       x1="25" y1="50" x2="25" y2="100"></line>
   <polyline points="100,50 100,200"></polyline>
   <polyline points="175,50 175,200 100,200"></polyline>
@@ -77,34 +77,34 @@
 
   <!-- Connectors from Row 2 -->
   <polyline
-      ng-class="{disabled: !ctrl.isProcessDataReady}"
+      ng-class="{disabled: !$ctrl.isProcessDataReady}"
       points="25,150 25,200 100,200"></polyline>
 
   <!-- Connectors from Row 3 -->
   <polyline
-      ng-class="{disabled: !ctrl.canEditLabel}"
+      ng-class="{disabled: !$ctrl.canEditLabel}"
       points="100,200 100,250"></polyline>
 
   <!-- Connectors from Row 4 -->
   <polyline
-      ng-class="{disabled: !ctrl.isLabelReady}"
+      ng-class="{disabled: !$ctrl.isLabelReady}"
       points="100,300 100,350 175,350">
   </polyline>
 
   <!-- Connectors from Row 5 -->
   <line
-      ng-class="{disabled: !ctrl.canEditPartial}"
+      ng-class="{disabled: !$ctrl.canEditPartial}"
       x1="175" y1="350" x2="175" y2="400">
   </line>
 
   <!-- Connectors from Row 6 -->
   <line
-      ng-class="{disabled: !ctrl.isPartialReady}"
+      ng-class="{disabled: !$ctrl.isPartialReady}"
       x1="175" y1="450" x2="175" y2="500">
   </line>
 
   <!-- Connectors from Row 7 -->
   <line
-      ng-class="{disabled: !ctrl.isTemplateReady}"
+      ng-class="{disabled: !$ctrl.isTemplateReady}"
       x1="175" y1="550" x2="175" y2="600"></line>
 </svg>

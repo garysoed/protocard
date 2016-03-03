@@ -33,7 +33,6 @@ export class NavGraphCtrl {
 
   constructor($scope: angular.IScope, AssetPipelineService: AssetPipelineService) {
     this.$scope_ = $scope;
-    this.asset_ = $scope['asset'];
 
     let assetPipeline = AssetPipelineService.getPipeline(this.asset_.id);
     this.exportNode_ = assetPipeline.exportNode;
@@ -67,6 +66,13 @@ export class NavGraphCtrl {
 
   private onPipelineNodeChange_(): void {
     this.$scope_.$apply(() => undefined);
+  }
+
+  get asset(): Asset {
+    return this.asset_;
+  }
+  set asset(asset: Asset) {
+    this.asset_ = asset;
   }
 
   get canEditLabel(): boolean {
@@ -115,14 +121,10 @@ export default angular
       AssetPipelineServiceModule.name,
       NavigateButtonModule.name,
     ])
-    .directive('pcNavGraph', () => {
-      return {
-        controller: NavGraphCtrl,
-        controllerAs: 'ctrl',
-        restrict: 'E',
-        scope: {
-          'asset': '='
-        },
-        templateUrl: 'src/asset/nav-graph.ng',
-      };
+    .component('pcNavGraph', {
+      bindings: {
+        'asset': '<',
+      },
+      controller: NavGraphCtrl,
+      templateUrl: 'src/asset/nav-graph.ng',
     });
