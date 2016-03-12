@@ -1,6 +1,6 @@
 import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
 import AssetServiceModule from '../asset/asset-service';
-import CodeEditorModule from '../editor/code-editor-module';
+import CodeEditorModule from '../editor/code-editor';
 import GlobalCtrl from './global-ctrl';
 
 export default angular

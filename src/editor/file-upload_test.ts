@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import { FileTypes } from '../model/file';
-import FileUploadCtrl from './file-upload-ctrl';
+import { FileUploadCtrl } from './file-upload';
 
 describe('editor.FileUploadCtrl', () => {
   let mockInputEl;

@@ -1,7 +1,7 @@
 import AssetServiceModule from '../asset/asset-service';
 import ContextButtonModule from '../common/context-button';
 import CreateAssetDialogModule from './create-asset-dialog-module';
-import FileUploadModule from '../editor/file-upload-module';
+import FileUploadModule from '../editor/file-upload';
 import NavigateServiceModule from '../navigate/navigate-service-module';
 import ViewCtrl from './view-ctrl';
 

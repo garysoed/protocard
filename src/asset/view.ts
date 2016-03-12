@@ -2,7 +2,7 @@ import Asset from '../model/asset';
 import { AssetService, EventType as AssetServiceEventType } from './asset-service';
 import AssetServiceModule from './asset-service';
 import BaseDisposable from '../../node_modules/gs-tools/src/dispose/base-disposable';
-import DataModule from '../data/data-module';
+import DataModule from '../data/data';
 import DisposableFunction from '../../node_modules/gs-tools/src/dispose/disposable-function';
 import FunctionObject from '../model/function-object';
 import GlobalModule from '../global/global-module';

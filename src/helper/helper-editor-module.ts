@@ -1,5 +1,5 @@
 import AssetServiceModule from '../asset/asset-service';
-import CodeEditorModule from '../editor/code-editor-module';
+import CodeEditorModule from '../editor/code-editor';
 import HelperEditorCtrl from './helper-editor-ctrl';
 
 export default angular

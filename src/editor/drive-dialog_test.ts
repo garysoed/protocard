@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import DriveDialogCtrl from './drive-dialog-ctrl';
+import { DriveDialogCtrl, DriveDialogService } from './drive-dialog';
 import FakeScope from '../testing/fake-scope';
 
 describe('editor.DriveDialogCtrl', () => {
@@ -133,6 +133,27 @@ describe('editor.DriveDialogCtrl', () => {
     it('should cancel the dialog', () => {
       ctrl.onCancelClick();
       expect(mock$mdDialog.cancel).toHaveBeenCalledWith();
+    });
+  });
+});
+
+describe('editor.DriveDialogService', () => {
+  let mock$mdDialog;
+  let service;
+
+  beforeEach(() => {
+    mock$mdDialog = jasmine.createSpyObj('$mdDialog', ['show']);
+    service = new DriveDialogService(mock$mdDialog);
+  });
+
+  describe('show', () => {
+    it('should show the dialog', () => {
+      let $event = {};
+      service.show($event);
+      expect(mock$mdDialog.show).toHaveBeenCalledWith(jasmine.objectContaining({
+        controller: DriveDialogCtrl,
+        targetEvent: $event,
+      }));
     });
   });
 });

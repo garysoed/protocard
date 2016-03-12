@@ -1,6 +1,6 @@
 import File from '../model/file';
 
-export default class FileUploadCtrl {
+export class FileUploadCtrl {
   private $window_: Window;
   private classes_: string;
   private extensions_: string;
@@ -61,3 +61,35 @@ export default class FileUploadCtrl {
     this.inputEl_.click();
   }
 }
+
+function link(
+    scope: angular.IScope,
+    element: angular.IAugmentedJQuery,
+    attr: angular.IAttributes,
+    ctrls: any[],
+    transclude: angular.ITranscludeFunction): void {
+  let [fileUploadCtrl, ngModelCtrl] = ctrls;
+  fileUploadCtrl.onLink(element[0].querySelector('input[type="file"]'), ngModelCtrl);
+
+  transclude((clone: JQuery) => {
+    element.find('ng-transclude').replaceWith(clone);
+  });
+}
+
+export default angular
+    .module('editor.FileUploadModule', [])
+    .directive('pcFileUpload', () => {
+      return {
+        controller: FileUploadCtrl,
+        controllerAs: 'ctrl',
+        link: link,
+        require: ['pcFileUpload', 'ngModel'],
+        restrict: 'E',
+        scope: {
+          'classes': '@',
+          'extensions': '@',
+        },
+        templateUrl: 'src/editor/file-upload.ng',
+        transclude: true,
+      };
+    });

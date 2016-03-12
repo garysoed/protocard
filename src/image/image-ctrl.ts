@@ -2,7 +2,7 @@ import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
 import { AssetService } from '../asset/asset-service';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
-import DriveDialogService from '../editor/drive-dialog-service';
+import { DriveDialogService } from '../editor/drive-dialog';
 import ImageNode from '../pipeline/image-node';
 import ImageResource from '../model/image-resource';
 import Provider from '../util/provider';

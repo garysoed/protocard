@@ -1,8 +1,8 @@
 import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
 import AssetServiceModule from '../asset/asset-service';
-import DriveDialogModule from '../editor/drive-dialog-module';
+import DriveDialogModule from '../editor/drive-dialog';
 import ImageCtrl from './image-ctrl';
-import ImageSelectModule from '../editor/image-select-module';
+import ImageSelectModule from '../editor/image-select';
 
 export default angular
     .module('image.ImageModule', [

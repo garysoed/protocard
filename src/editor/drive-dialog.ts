@@ -1,7 +1,9 @@
-import { GapiService } from '../common/gapi-service';
+import GapiServiceModule, { GapiService } from '../common/gapi-service';
 import ImageResource from '../model/image-resource';
+import ImageSelectModule from './image-select';
 
-export default class DriveDialogCtrl {
+
+export class DriveDialogCtrl {
   private $mdDialog_: angular.material.IDialogService;
   private $scope_: angular.IScope;
   private gapiService_: GapiService;
@@ -132,3 +134,36 @@ export default class DriveDialogCtrl {
     this.$mdDialog_.cancel();
   }
 }
+
+
+export class DriveDialogService {
+
+  private $mdDialog_: angular.material.IDialogService;
+
+  constructor($mdDialog: angular.material.IDialogService) {
+    this.$mdDialog_ = $mdDialog;
+  }
+
+  /**
+   * Shows the dialog.
+   * @param $event The Angular event triggering the dialog.
+   * @return {Promise} Promise that will be resolved when the dialog is hidden, or rejected if the
+   *    dialog is cancelled.
+   */
+  show($event: MouseEvent): angular.IPromise<any> {
+    let options = <angular.material.IDialogOptions> {};
+    options['controller'] = DriveDialogCtrl;
+    options['controllerAs'] = 'ctrl';
+    options['targetEvent'] = $event;
+    options['templateUrl'] = 'src/editor/drive-dialog.ng';
+    return this.$mdDialog_.show(options);
+  }
+};
+
+
+export default angular
+    .module('editor.DriveDialogModule', [
+      GapiServiceModule.name,
+      ImageSelectModule.name,
+    ])
+    .service('DriveDialogService', DriveDialogService);

@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import DataCtrl from './data-ctrl';
+import { DataCtrl } from './data';
 import FakeScope from '../testing/fake-scope';
 
 describe('data.DataCtrl', () => {

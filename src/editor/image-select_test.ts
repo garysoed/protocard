@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import ImageSelectCtrl from './image-select-ctrl';
+import { ImageSelectCtrl } from './image-select';
 
 describe('editor.ImageSelectCtrl', () => {
   let mock$scope;

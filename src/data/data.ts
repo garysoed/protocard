@@ -1,11 +1,16 @@
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
+import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
 import { AssetService } from '../asset/asset-service';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
+import CodeEditorModule from '../editor/code-editor';
+import ContextButtonModule from '../common/context-button';
+import PreviewableCodeEditorModule from '../editor/previewable-code-editor';
 import ProcessNode from '../pipeline/process-node';
 import Provider from '../util/provider';
 
-export default class DataCtrl {
+
+export class DataCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
   private assetService_: AssetService;
@@ -52,3 +57,22 @@ export default class DataCtrl {
     }
   }
 }
+
+export default angular
+    .module('asset.data.DataModule', [
+      AssetPipelineServiceModule.name,
+      CodeEditorModule.name,
+      ContextButtonModule.name,
+      PreviewableCodeEditorModule.name,
+    ])
+    .directive('pcData', () => {
+      return {
+        controller: DataCtrl,
+        controllerAs: 'ctrl',
+        restrict: 'E',
+        scope: {
+          'asset': '='
+        },
+        templateUrl: 'src/data/data.ng',
+      };
+    });

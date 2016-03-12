@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import FakeScope from '../testing/fake-scope';
-import PreviewableCodeEditorCtrl from './previewable-code-editor-ctrl';
+import { PreviewableCodeEditorCtrl } from './previewable-code-editor';
 
 describe('editor.PreviewableCodeEditorCtrl', () => {
   let mock$scope;

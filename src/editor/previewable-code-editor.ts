@@ -1,7 +1,36 @@
-import CodeEditorModule from './code-editor-module';
-import PreviewableCodeEditorCtrl from './previewable-code-editor-ctrl';
+/**
+ * @fileoverview Controller for the previewable code editor.
+ */
+ import CodeEditorModule from './code-editor';
 
-export function link(
+
+export class PreviewableCodeEditorCtrl {
+  private language_: string;
+  private ngModelCtrl_: angular.INgModelController;
+
+  constructor($scope: angular.IScope) {
+    this.language_ = $scope['language'];
+    this.ngModelCtrl_ = null;
+  }
+
+  get codeString(): string {
+    return this.ngModelCtrl_.$viewValue;
+  }
+  set codeString(newCodeString: string) {
+    this.ngModelCtrl_.$setViewValue(newCodeString);
+  }
+
+  get language(): string {
+    return this.language_;
+  }
+
+  onLink(ngModelCtrl: angular.INgModelController): void {
+    this.ngModelCtrl_ = ngModelCtrl;
+  }
+};
+
+
+function link(
     scope: angular.IScope,
     element: angular.IAugmentedJQuery,
     attr: angular.IAttributes,

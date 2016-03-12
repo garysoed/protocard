@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import CodeEditorCtrl from './code-editor-ctrl';
+import { CodeEditorCtrl } from './code-editor';
 
 describe('editor.CodeEditorCtrl', () => {
   let mock$scope;
