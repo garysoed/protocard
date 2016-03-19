@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import Serializer, { Field, Serializable } from '../model/serializable';
+import Serializer, { Field, Serializable } from '../../node_modules/gs-tools/src/data/a-serializable';
 import { StorageService } from './storage-service';
 
 @Serializable('FakeClass')

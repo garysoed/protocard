@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import ImageResource from './image-resource';
-import Serializer from './serializable';
+import Serializer from '../../node_modules/gs-tools/src/data/a-serializable';
 
 describe('data.ImageResource', () => {
   it('should be able to be converted to / from JSON', () => {

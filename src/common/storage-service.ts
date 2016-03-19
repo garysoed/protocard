@@ -1,4 +1,4 @@
-import Serializer from '../model/serializable';
+import Serializer from '../../node_modules/gs-tools/src/data/a-serializable';
 
 /**
  * Service to manage local storage.

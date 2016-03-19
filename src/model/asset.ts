@@ -2,7 +2,7 @@ import { Comparable } from '../decorator/compare';
 import File from './file';
 import FunctionObject from './function-object';
 import ImageResource from './image-resource';
-import { Serializable, Field } from './serializable';
+import { Serializable, Field } from '../../node_modules/gs-tools/src/data/a-serializable';
 
 /**
  * Represents an asset.

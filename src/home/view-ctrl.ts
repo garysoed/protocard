@@ -3,7 +3,7 @@ import { AssetService } from '../asset/asset-service';
 import CreateAssetDialogService from './create-asset-dialog-service';
 import File from '../model/file';
 import NavigateService from '../navigate/navigate-service';
-import Serializer from '../model/serializable';
+import Serializer from '../../node_modules/gs-tools/src/data/a-serializable';
 
 /**
  * Controller for the home view.

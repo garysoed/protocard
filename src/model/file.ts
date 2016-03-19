@@ -1,5 +1,5 @@
 import { Comparable } from '../decorator/compare';
-import { Field, Serializable } from './serializable';
+import { Field, Serializable } from '../../node_modules/gs-tools/src/data/a-serializable';
 
 export enum FileTypes {
   UNKNOWN,

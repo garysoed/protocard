@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import File, { FileTypes } from './file';
-import Serializable from './serializable';
+import Serializable from '../../node_modules/gs-tools/src/data/a-serializable';
 
 describe('model.File', () => {
   it('should be able to be converted to / from JSON', () => {

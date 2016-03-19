@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import FunctionObject from './function-object';
-import Serializer from './serializable';
+import Serializer from '../../node_modules/gs-tools/src/data/a-serializable';
 
 describe('model.FunctionObject', () => {
   it('should be able to be converted to / from JSON', () => {

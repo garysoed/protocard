@@ -6,7 +6,7 @@ import { DownloadService } from '../common/download-service';
 import GlobalNode from '../pipeline/global-node';
 import NavigateService from '../navigate/navigate-service';
 import Preset, { Origin } from '../model/preset';
-import Serializer from '../model/serializable';
+import Serializer from '../../node_modules/gs-tools/src/data/a-serializable';
 
 const CUSTOM_PRESET = new Preset(Origin.CUSTOM, '', 0, 0);
 export const PRESETS = [

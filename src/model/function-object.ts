@@ -1,5 +1,5 @@
 import { Comparable } from '../decorator/compare';
-import { Serializable, Field } from './serializable';
+import { Serializable, Field } from '../../node_modules/gs-tools/src/data/a-serializable';
 
 /**
  * Represents a function.

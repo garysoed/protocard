@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import Asset from '../model/asset';
-import Serializer from '../model/serializable';
+import Serializer from '../../node_modules/gs-tools/src/data/a-serializable';
 import ViewCtrl from './view-ctrl';
 
 describe('home.ViewCtrl', () => {
