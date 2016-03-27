@@ -1,13 +1,16 @@
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
-import { AssetService } from '../asset/asset-service';
+import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
+import AssetServiceModule, { AssetService } from '../asset/asset-service';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
-import { DriveDialogService } from '../editor/drive-dialog';
+import DriveDialogModule, { DriveDialogService } from '../editor/drive-dialog';
 import ImageNode from '../pipeline/image-node';
 import ImageResource from '../model/image-resource';
+import ImageSelectModule from '../editor/image-select';
 import Provider from '../util/provider';
 
-export default class ImageCtrl {
+
+export class ImageCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
   private assetService_: AssetService;
@@ -91,3 +94,23 @@ export default class ImageCtrl {
         });
   }
 }
+
+
+export default angular
+    .module('image.ImageModule', [
+      AssetPipelineServiceModule.name,
+      AssetServiceModule.name,
+      DriveDialogModule.name,
+      ImageSelectModule.name,
+    ])
+    .directive('pcImage', () => {
+      return {
+        controller: ImageCtrl,
+        controllerAs: 'ctrl',
+        restrict: 'E',
+        scope: {
+          'asset': '='
+        },
+        templateUrl: 'src/image/image.ng',
+      };
+    });

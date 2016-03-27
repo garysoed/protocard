@@ -4,8 +4,7 @@ import ContextButtonModule from '../common/context-button';
 import CreateAssetDialogModule, { CreateAssetDialogService } from './create-asset-dialog';
 import File from '../model/file';
 import FileUploadModule from '../editor/file-upload';
-import NavigateService from '../navigate/navigate-service';
-import NavigateServiceModule from '../navigate/navigate-service-module';
+import NavigateServiceModule, { NavigateService } from '../navigate/navigate-service';
 import Serializer from '../../node_modules/gs-tools/src/data/a-serializable';
 
 

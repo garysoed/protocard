@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import FakeScope from '../testing/fake-scope';
-import ImageCtrl from './image-ctrl';
+import { ImageCtrl } from './image';
 
 describe('image.ImageCtrl', () => {
   const ASSET_ID = 'assetId';

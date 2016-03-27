@@ -1,6 +1,6 @@
 import Asset from '../model/asset';
 import { AssetService } from '../asset/asset-service';
-import NavigateService from '../navigate/navigate-service';
+import { NavigateService } from '../navigate/navigate-service';
 
 export default class {
   private asset_: Asset;

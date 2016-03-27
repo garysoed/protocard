@@ -1,4 +1,4 @@
-export default class NavigateService {
+export class NavigateService {
   private $location_: angular.ILocationService;
 
   constructor($location: angular.ILocationService) {
@@ -39,3 +39,7 @@ export default class NavigateService {
     this.$location_.search('subview', subview);
   }
 };
+
+export default angular
+    .module('common.NavigateServiceModule', ['ng'])
+    .service('NavigateService', NavigateService);

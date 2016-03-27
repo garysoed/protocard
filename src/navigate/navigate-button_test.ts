@@ -3,7 +3,7 @@ TestBase.init();
 
 import TestDispose from '../../node_modules/gs-tools/src/testing/test-dispose';
 import FakeScope from '../testing/fake-scope';
-import NavigateButtonCtrl from './navigate-button-ctrl';
+import { NavigateButtonCtrl } from './navigate-button';
 
 describe('navigate.NavigateButtonCtrl', () => {
   const SUBVIEW = 'subview';

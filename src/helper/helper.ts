@@ -7,7 +7,7 @@ import FunctionObject from '../model/function-object';
 import { Events as HelperItemEvents } from './helper-item';
 import HelperItemModule from './helper-item';
 import HelperNode from '../pipeline/helper-node';
-import NavigateService from '../navigate/navigate-service';
+import { NavigateService } from '../navigate/navigate-service';
 import Provider from '../util/provider';
 import Utils from '../util/utils';
 

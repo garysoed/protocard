@@ -1,11 +1,11 @@
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import BaseDisposable from '../../node_modules/gs-tools/src/dispose/base-disposable';
 import DisposableFunction from '../../node_modules/gs-tools/src/dispose/disposable-function';
-import NavigateService from './navigate-service';
+import { NavigateService } from './navigate-service';
 
 
 // TODO(gs): Base ctrl.
-export default class NavigateButtonCtrl extends BaseDisposable {
+export class NavigateButtonCtrl extends BaseDisposable {
   private $scope_: angular.IScope;
   private icon_: string;
   private navigateService_: NavigateService;
@@ -68,3 +68,20 @@ export default class NavigateButtonCtrl extends BaseDisposable {
     }
   }
 }
+
+export default angular
+    .module('navigate.NavigateButtonModule', [])
+    .directive('pcNavigateButton', () => {
+      return {
+        controller: NavigateButtonCtrl,
+        controllerAs: 'ctrl',
+        restrict: 'E',
+        scope: {
+          'disabled': '=',
+          'icon': '@',
+          'subview': '@',
+          'text': '@',
+        },
+        templateUrl: 'src/navigate/navigate-button.ng',
+      };
+    });

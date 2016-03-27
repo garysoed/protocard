@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import NavigateService from './navigate-service';
+import { NavigateService } from './navigate-service';
 
 describe('navigate.NavigateService', () => {
   let mock$location;

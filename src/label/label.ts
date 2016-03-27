@@ -3,12 +3,14 @@
  */
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
-import { AssetService } from '../asset/asset-service';
+import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
+import AssetServiceModule, { AssetService } from '../asset/asset-service';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
+import ContextButtonModule from '../common/context-button';
 import LabelNode from '../pipeline/label-node';
 import Provider from '../util/provider';
 
-export default class {
+export class LabelCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
   private assetService_: AssetService;
@@ -50,3 +52,21 @@ export default class {
     Cache.clear(this);
   }
 };
+
+export default angular
+    .module('label.LabelModule', [
+      AssetPipelineServiceModule.name,
+      AssetServiceModule.name,
+      ContextButtonModule.name,
+    ])
+    .directive('pcLabel', () => {
+      return {
+        controller: LabelCtrl,
+        controllerAs: 'ctrl',
+        restrict: 'E',
+        scope: {
+          'asset': '='
+        },
+        templateUrl: 'src/label/label.ng',
+      };
+    });

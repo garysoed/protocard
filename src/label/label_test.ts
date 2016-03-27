@@ -3,7 +3,7 @@ TestBase.init();
 
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import FakeScope from '../testing/fake-scope';
-import LabelCtrl from './label-ctrl';
+import { LabelCtrl } from './label';
 
 describe('label.LabelCtrl', () => {
   const ASSET_ID = 'assetId';
