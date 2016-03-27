@@ -1,5 +1,6 @@
 import FunctionObject from '../model/function-object';
 import Generator from './generator';
+import HandlebarsServiceModule from '../thirdparty/handlebars-service-module';
 import ImageResource from '../model/image-resource';
 import Records from '../../node_modules/gs-tools/src/collection/records';
 
@@ -25,7 +26,7 @@ function ifeq(a: any, b: any, options: Handlebars.IHelperOptions): string {
   }
 }
 
-export default class GeneratorService {
+export class GeneratorService {
   private handlebarsService_: IHandlebars;
 
   /**
@@ -56,3 +57,9 @@ export default class GeneratorService {
     return new Generator(this.handlebarsService_, options);
   }
 };
+
+export default angular
+    .module('generator.GeneratorServiceModule', [
+      HandlebarsServiceModule.name
+    ])
+    .service('GeneratorService', GeneratorService);

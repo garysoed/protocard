@@ -1,9 +1,9 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import HelperEditorCtrl from './helper-editor-ctrl';
+import { HelperEditorCtrl } from './helper-editor';
 
-describe('asset.subview.HelperEditorCtrl', () => {
+describe('helper.HelperEditorCtrl', () => {
   let asset;
   let helper;
   let mockAssetService;

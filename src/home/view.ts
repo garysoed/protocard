@@ -1,14 +1,18 @@
 import Asset from '../model/asset';
-import { AssetService } from '../asset/asset-service';
-import CreateAssetDialogService from './create-asset-dialog-service';
+import AssetServiceModule, { AssetService } from '../asset/asset-service';
+import ContextButtonModule from '../common/context-button';
+import CreateAssetDialogModule, { CreateAssetDialogService } from './create-asset-dialog';
 import File from '../model/file';
+import FileUploadModule from '../editor/file-upload';
 import NavigateService from '../navigate/navigate-service';
+import NavigateServiceModule from '../navigate/navigate-service-module';
 import Serializer from '../../node_modules/gs-tools/src/data/a-serializable';
+
 
 /**
  * Controller for the home view.
  */
-export default class {
+export class ViewCtrl {
   private assetService_: AssetService;
   private createAssetDialogService_: CreateAssetDialogService;
   private navigateService_: NavigateService;
@@ -68,3 +72,22 @@ export default class {
     }
   }
 };
+
+export default angular
+    .module('home.ViewModule', [
+      'ngRoute',
+      AssetServiceModule.name,
+      ContextButtonModule.name,
+      CreateAssetDialogModule.name,
+      FileUploadModule.name,
+      NavigateServiceModule.name,
+    ])
+    .config(($routeProvider: angular.ui.IUrlRouterProvider) => {
+      $routeProvider.when(
+          '/',
+          {
+            controller: ViewCtrl,
+            controllerAs: 'ctrl',
+            templateUrl: 'src/home/view.ng',
+          });
+    });

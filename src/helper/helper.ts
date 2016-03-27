@@ -1,9 +1,11 @@
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
-import { AssetService } from '../asset/asset-service';
+import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
+import AssetServiceModule, { AssetService } from '../asset/asset-service';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import FunctionObject from '../model/function-object';
-import { Events as HelperItemEvents } from './helper-item-ctrl';
+import { Events as HelperItemEvents } from './helper-item';
+import HelperItemModule from './helper-item';
 import HelperNode from '../pipeline/helper-node';
 import NavigateService from '../navigate/navigate-service';
 import Provider from '../util/provider';
@@ -12,7 +14,7 @@ import Utils from '../util/utils';
 /**
  * Controller for the helper subview.
  */
-export default class {
+export class HelperCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
   private assetService_: AssetService;
@@ -98,3 +100,22 @@ export default class {
     this.assetService_.saveAsset(this.asset_);
   }
 }
+
+
+export default angular
+    .module('helper.HelperModule', [
+      AssetPipelineServiceModule.name,
+      AssetServiceModule.name,
+      HelperItemModule.name,
+    ])
+    .directive('pcHelper', () => {
+      return {
+        controller: HelperCtrl,
+        controllerAs: 'ctrl',
+        restrict: 'E',
+        scope: {
+          'asset': '='
+        },
+        templateUrl: 'src/helper/helper.ng',
+      };
+    });

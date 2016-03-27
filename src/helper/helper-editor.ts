@@ -1,8 +1,9 @@
 import Asset from '../model/asset';
-import { AssetService } from '../asset/asset-service';
+import AssetServiceModule, { AssetService } from '../asset/asset-service';
+import CodeEditorModule from '../editor/code-editor';
 import FunctionObject from '../model/function-object';
 
-export default class HelperEditorCtrl {
+export class HelperEditorCtrl {
   private assetService_: AssetService;
   private asset_: Asset;
   private helper_: FunctionObject;
@@ -26,3 +27,22 @@ export default class HelperEditorCtrl {
     }
   }
 }
+
+
+export default angular
+    .module('helper.HelperEditorModule', [
+      AssetServiceModule.name,
+      CodeEditorModule.name,
+    ])
+    .directive('pcHelperEditor', () => {
+      return {
+        controller: HelperEditorCtrl,
+        controllerAs: 'ctrl',
+        restrict: 'E',
+        scope: {
+          asset: '=',
+          helper: '=',
+        },
+        templateUrl: 'src/helper/helper-editor.ng',
+      };
+    });

@@ -1,6 +1,6 @@
 import AssetPipelineService from './asset-pipeline-service';
 import FuseServiceModule from '../thirdparty/fuse-service-module';
-import GeneratorServiceModule from '../generate/generator-service-module';
+import GeneratorServiceModule from '../generate/generator-service';
 import RenderServiceModule from '../render/render-service-module';
 
 export default angular

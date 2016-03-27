@@ -2,7 +2,7 @@ import Node from './node';
 
 import Asset from '../model/asset';
 import FunctionObject from '../model/function-object';
-import GeneratorService from '../generate/generator-service';
+import { GeneratorService } from '../generate/generator-service';
 import GlobalNode from './global-node';
 import HelperNode from './helper-node';
 import ProcessNode from './process-node';

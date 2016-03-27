@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import GlobalCtrl from './global-ctrl';
+import {GlobalCtrl} from './global';
 
 describe('global.GlobalCtrl', () => {
   const ASSET_ID = 'assetId';

@@ -3,7 +3,7 @@
  */
 import AssetPipeline from './asset-pipeline';
 import { AssetService } from '../asset/asset-service';
-import GeneratorService from '../generate/generator-service';
+import { GeneratorService } from '../generate/generator-service';
 import RenderService from '../render/render-service';
 
 export default class {

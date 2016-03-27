@@ -1,9 +1,9 @@
 import TestBase from '../testbase';
 TestBase.init();
 
+import { Events as HelperItemEvents } from './helper-item';
 import FakeScope from '../testing/fake-scope';
-import HelperCtrl from './helper-ctrl';
-import { Events as HelperItemEvents } from './helper-item-ctrl';
+import { HelperCtrl } from './helper';
 
 describe('helper.HelperCtrl', () => {
   const ASSET_ID = 'assetId';

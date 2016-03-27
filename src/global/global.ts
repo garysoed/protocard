@@ -1,12 +1,14 @@
 import Asset from '../model/asset';
 import AssetPipelineService from '../pipeline/asset-pipeline-service';
-import { AssetService } from '../asset/asset-service';
+import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
+import AssetServiceModule, { AssetService } from '../asset/asset-service';
+import CodeEditorModule from '../editor/code-editor';
 import GlobalNode from '../pipeline/global-node';
 
 /**
- * @class asset.subview.GlobalCtrl
+ * @class global.GlobalCtrl
  */
-export default class {
+export class GlobalCtrl {
   private asset_: Asset;
   private assetService_: AssetService;
   private globalNode_: GlobalNode;
@@ -44,3 +46,21 @@ export default class {
     }
   }
 }
+
+export default angular
+    .module('global.GlobalModule', [
+      AssetPipelineServiceModule.name,
+      AssetServiceModule.name,
+      CodeEditorModule.name,
+    ])
+    .directive('pcGlobal', () => {
+      return {
+        controller: GlobalCtrl,
+        controllerAs: 'ctrl',
+        restrict: 'E',
+        scope: {
+          'asset': '='
+        },
+        templateUrl: 'src/global/global.ng',
+      };
+    });

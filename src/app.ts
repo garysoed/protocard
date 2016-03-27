@@ -1,5 +1,5 @@
 import AssetViewModule from './asset/view';
-import HomeViewModule from './home/view-module';
+import HomeViewModule from './home/view';
 
 
 angular

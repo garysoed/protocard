@@ -13,7 +13,6 @@ import HelperNode from '../pipeline/helper-node';
 import ImageNode from '../pipeline/image-node';
 import LabelNode from '../pipeline/label-node';
 import NavigateButtonModule from '../navigate/navigate-button-module';
-import Node from '../pipeline/node';
 import PartialNode from '../pipeline/partial-node';
 import ProcessNode from '../pipeline/process-node';
 import TemplateNode from '../pipeline/template-node';

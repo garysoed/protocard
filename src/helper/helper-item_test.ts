@@ -2,9 +2,9 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import FakeScope from '../testing/fake-scope';
-import HelperItemCtrl, { Events } from './helper-item-ctrl';
+import { Events, HelperItemCtrl } from './helper-item';
 
-describe('asset.subview.HelperItemCtrl', () => {
+describe('helper.HelperItemCtrl', () => {
   let helper;
   let name;
   let mock$scope;

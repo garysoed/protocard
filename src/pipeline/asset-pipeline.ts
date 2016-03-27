@@ -1,7 +1,7 @@
 import Asset from '../model/asset';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import ExportNode from './export-node';
-import GeneratorService from '../generate/generator-service';
+import { GeneratorService } from '../generate/generator-service';
 import GlobalNode from './global-node';
 import HelperNode from './helper-node';
 import ImageNode from './image-node';

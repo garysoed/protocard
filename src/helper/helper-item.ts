@@ -7,9 +7,9 @@ export const Events = {
 };
 
 /**
- * @class asset.subview.HelperItemCtrl
+ * @class helper.HelperItemCtrl
  */
-export default class HelperItemCtrl {
+export class HelperItemCtrl {
   private $scope_: angular.IScope;
   private name_: string;
 
@@ -44,3 +44,18 @@ export default class HelperItemCtrl {
     this.$scope_.$emit(Events.EDITED, this.name_);
   }
 }
+
+
+export default angular
+    .module('helper.HelperItemModule', [])
+    .directive('pcHelperItem', () => {
+      return {
+        controller: HelperItemCtrl,
+        controllerAs: 'ctrl',
+        restrict: 'E',
+        scope: {
+          name: '='
+        },
+        templateUrl: 'src/helper/helper-item.ng',
+      };
+    });

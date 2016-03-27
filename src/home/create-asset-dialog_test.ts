@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import Asset from '../model/asset';
-import CreateAssetDialogCtrl from './create-asset-dialog-ctrl';
+import { CreateAssetDialogCtrl, CreateAssetDialogService } from './create-asset-dialog';
 
 describe('home.CreateAssetDialogCtrl', () => {
   let mock$mdDialog;
@@ -47,6 +47,29 @@ describe('home.CreateAssetDialogCtrl', () => {
       ctrl.onCancelClick();
 
       expect(mock$mdDialog.cancel).toHaveBeenCalledWith();
+    });
+  });
+});
+
+describe('home.CreateAssetDialogService', () => {
+  let mock$mdDialog;
+  let service;
+
+  beforeEach(() => {
+    mock$mdDialog = jasmine.createSpyObj('$mdDialog', ['show']);
+    service = new CreateAssetDialogService(mock$mdDialog);
+  });
+
+  describe('show', () => {
+    it('should call the $mdDialog service', () => {
+      let $event = {};
+      let promise = Promise.resolve();
+      mock$mdDialog.show.and.returnValue(promise);
+
+      expect(service.show($event)).toEqual(promise);
+      expect(mock$mdDialog.show).toHaveBeenCalledWith(jasmine.objectContaining({
+        targetEvent: $event
+      }));
     });
   });
 });

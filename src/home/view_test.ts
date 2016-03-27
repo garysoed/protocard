@@ -3,7 +3,7 @@ TestBase.init();
 
 import Asset from '../model/asset';
 import Serializer from '../../node_modules/gs-tools/src/data/a-serializable';
-import ViewCtrl from './view-ctrl';
+import { ViewCtrl } from './view';
 
 describe('home.ViewCtrl', () => {
   let mockAssetService;

@@ -1,6 +1,6 @@
 import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
 import ContextButtonModule from '../common/context-button';
-import GeneratorServiceModule from '../generate/generator-service-module';
+import GeneratorServiceModule from '../generate/generator-service';
 import RenderServiceModule from '../render/render-service-module';
 import TemplateCtrl from './template-ctrl';
 

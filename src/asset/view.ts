@@ -5,9 +5,9 @@ import BaseDisposable from '../../node_modules/gs-tools/src/dispose/base-disposa
 import DataModule from '../data/data';
 import DisposableFunction from '../../node_modules/gs-tools/src/dispose/disposable-function';
 import FunctionObject from '../model/function-object';
-import GlobalModule from '../global/global-module';
-import HelperEditorModule from '../helper/helper-editor-module';
-import HelperModule from '../helper/helper-module';
+import GlobalModule from '../global/global';
+import HelperEditorModule from '../helper/helper-editor';
+import HelperModule from '../helper/helper';
 import ImageModule from '../image/image-module';
 import LabelModule from '../label/label-module';
 import NavGraphModule from './nav-graph';
