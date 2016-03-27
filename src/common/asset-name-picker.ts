@@ -1,8 +1,7 @@
 /**
  * @fileoverview Controller for searching for asset names.
  */
-import AssetPipelineService from '../pipeline/asset-pipeline-service';
-import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
+import AssetPipelineServiceModule, { AssetPipelineService } from '../pipeline/asset-pipeline-service';
 import LabelNode from '../pipeline/label-node';
 
 

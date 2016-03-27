@@ -8,7 +8,7 @@ import ImageNode from './image-node';
 import LabelNode from './label-node';
 import PartialNode from './partial-node';
 import ProcessNode from './process-node';
-import RenderService from '../render/render-service';
+import { RenderService } from '../render/render-service';
 import TemplateNode from './template-node';
 import TextNode from './text-node';
 

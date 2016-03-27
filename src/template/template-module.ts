@@ -1,7 +1,7 @@
-import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
+import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service';
 import ContextButtonModule from '../common/context-button';
 import GeneratorServiceModule from '../generate/generator-service';
-import RenderServiceModule from '../render/render-service-module';
+import RenderServiceModule from '../render/render-service';
 import TemplateCtrl from './template-ctrl';
 
 export default angular

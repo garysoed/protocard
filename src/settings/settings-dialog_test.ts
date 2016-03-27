@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import SettingsDialogCtrl, { PRESETS } from './settings-dialog-ctrl';
+import { PRESETS, SettingsDialogCtrl, SettingsDialogService } from './settings-dialog';
 
 describe('settings.SettingsDialogCtrl', () => {
   let mock$mdDialog;
@@ -121,6 +121,32 @@ describe('settings.SettingsDialogCtrl', () => {
       ctrl.onOkClick();
 
       expect(mock$mdDialog.hide).toHaveBeenCalledWith();
+    });
+  });
+});
+
+describe('settings.SettingsDialogService', () => {
+  let mock$mdDialog;
+  let service;
+
+  beforeEach(() => {
+    mock$mdDialog = jasmine.createSpyObj('$mdDialog', ['show']);
+    service = new SettingsDialogService(mock$mdDialog);
+  });
+
+  describe('show', () => {
+    it('should show the dialog with the correct parameters', () => {
+      let event = jasmine.createObj('event');
+      let asset = jasmine.createObj('asset');
+
+      service.show(event, asset);
+
+      expect(mock$mdDialog.show).toHaveBeenCalledWith(jasmine.objectContaining({
+        locals: {
+          'asset': asset
+        },
+        targetEvent: event,
+      }));
     });
   });
 });

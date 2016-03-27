@@ -1,12 +1,13 @@
 import Asset from '../model/asset';
-import AssetPipelineService from '../pipeline/asset-pipeline-service';
-import { AssetService } from '../asset/asset-service';
+import AssetPipelineServiceModule, { AssetPipelineService } from '../pipeline/asset-pipeline-service';
+import AssetServiceModule, { AssetService } from '../asset/asset-service';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
-import { DownloadService } from '../common/download-service';
+import DownloadServiceModule, { DownloadService } from '../common/download-service';
 import GlobalNode from '../pipeline/global-node';
-import { NavigateService } from '../navigate/navigate-service';
+import NavigateServiceModule, { NavigateService } from '../navigate/navigate-service';
 import Preset, { Origin } from '../model/preset';
 import Serializer from '../../node_modules/gs-tools/src/data/a-serializable';
+
 
 const CUSTOM_PRESET = new Preset(Origin.CUSTOM, '', 0, 0);
 export const PRESETS = [
@@ -14,7 +15,7 @@ export const PRESETS = [
   CUSTOM_PRESET,
 ];
 
-export default class {
+export class SettingsDialogCtrl {
   private $mdDialog_: angular.material.IDialogService;
   private asset_: Asset;
   private assetService_: AssetService;
@@ -102,3 +103,34 @@ export default class {
     this.$mdDialog_.hide();
   }
 }
+
+
+export class SettingsDialogService {
+  private $mdDialog_: angular.material.IDialogService;
+
+  constructor($mdDialog: angular.material.IDialogService) {
+    this.$mdDialog_ = $mdDialog;
+  }
+
+  show($event: MouseEvent, asset: Asset): void {
+    this.$mdDialog_.show({
+      controller: SettingsDialogCtrl,
+      controllerAs: 'ctrl',
+      locals: {
+        'asset': asset
+      },
+      targetEvent: $event,
+      templateUrl: 'src/settings/settings-dialog.ng',
+    });
+  }
+};
+
+
+export default angular
+    .module('settings.SettingsDialogModule', [
+      AssetPipelineServiceModule.name,
+      AssetServiceModule.name,
+      DownloadServiceModule.name,
+      NavigateServiceModule.name,
+    ])
+    .service('SettingsDialogService', SettingsDialogService);

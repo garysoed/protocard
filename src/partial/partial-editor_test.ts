@@ -3,7 +3,7 @@ TestBase.init();
 
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import FakeScope from '../testing/fake-scope';
-import PartialEditorCtrl from './partial-editor-ctrl';
+import { PartialEditorCtrl } from './partial-editor';
 
 describe('partial.PartialEditorCtrl', () => {
   const ASSET_ID = 'assetId';

@@ -2,7 +2,7 @@ import Asset from '../model/asset';
 import { AssetService } from '../asset/asset-service';
 import { NavigateService } from '../navigate/navigate-service';
 
-export default class {
+export class PartialItemCtrl {
   private asset_: Asset;
   private assetService_: AssetService;
   private name_: string;
@@ -45,3 +45,18 @@ export default class {
     }
   }
 }
+
+export default angular
+    .module('partial.PartialItemModule', [])
+    .directive('pcPartialItem', () => {
+      return {
+        controller: PartialItemCtrl,
+        controllerAs: 'ctrl',
+        restrict: 'E',
+        scope: {
+          asset: '=',
+          name: '=',
+        },
+        templateUrl: 'src/partial/partial-item.ng',
+      };
+    });

@@ -3,8 +3,7 @@
  */
 import Asset from '../model/asset';
 import AssetPipeline from '../pipeline/asset-pipeline';
-import AssetPipelineService from '../pipeline/asset-pipeline-service';
-import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
+import AssetPipelineServiceModule, { AssetPipelineService } from '../pipeline/asset-pipeline-service';
 import BaseDisposable from '../../node_modules/gs-tools/src/dispose/base-disposable';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import ExportNode from '../pipeline/export-node';

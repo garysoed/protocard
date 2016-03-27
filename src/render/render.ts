@@ -1,12 +1,16 @@
 import Asset from '../model/asset';
-import AssetPipelineService from '../pipeline/asset-pipeline-service';
-import { DownloadService } from '../common/download-service';
+import { AssetPipelineService } from '../pipeline/asset-pipeline-service';
+import ContextButtonModule from '../common/context-button';
+import DownloadServiceModule, { DownloadService } from '../common/download-service';
+import ErrorDisplayModule from '../common/error-display';
 import ExportNode from '../pipeline/export-node';
+import GeneratorServiceModule from '../generate/generator-service';
 import ImageResource from '../model/image-resource';
-import RenderService from './render-service';
+import JszipServiceModule from '../thirdparty/jszip-service-module';
+import RenderServiceModule, { RenderService } from './render-service';
 
 // TODO(gs): Rename to export
-export default class RenderCtrl {
+export class RenderCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
   private destroyed_: boolean;
@@ -184,3 +188,24 @@ export default class RenderCtrl {
     this.selectedImages_ = images;
   }
 }
+
+export default angular
+    .module('render.RenderModule', [
+      ContextButtonModule.name,
+      DownloadServiceModule.name,
+      ErrorDisplayModule.name,
+      JszipServiceModule.name,
+      GeneratorServiceModule.name,
+      RenderServiceModule.name,
+    ])
+    .directive('pcRender', () => {
+      return {
+        controller: RenderCtrl,
+        controllerAs: 'ctrl',
+        restrict: 'E',
+        scope: {
+          'asset': '='
+        },
+        templateUrl: 'src/render/render.ng',
+      };
+    });

@@ -1,8 +1,11 @@
 import Asset from '../model/asset';
-import { AssetService } from '../asset/asset-service';
+import AssetServiceModule, { AssetService } from '../asset/asset-service';
+import ContextButtonModule from '../common/context-button';
+import PartialItemModule from './partial-item';
 import Utils from '../util/utils';
 
-export default class {
+
+export class PartialCtrl {
   private asset_: Asset;
   private assetService_: AssetService;
 
@@ -30,3 +33,21 @@ export default class {
     return this.asset_.partials;
   }
 }
+
+export default angular
+    .module('partial.PartialModule', [
+      AssetServiceModule.name,
+      ContextButtonModule.name,
+      PartialItemModule.name,
+    ])
+    .directive('pcPartial', () => {
+      return {
+        controller: PartialCtrl,
+        controllerAs: 'ctrl',
+        restrict: 'E',
+        scope: {
+          asset: '='
+        },
+        templateUrl: 'src/partial/partial.ng',
+      };
+    });

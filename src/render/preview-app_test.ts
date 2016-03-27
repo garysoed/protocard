@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import FakeDocument from '../testing/fake-document';
-import PreviewAppCtrl from './preview-app-ctrl';
+import { PreviewAppCtrl } from './preview-app';
 
 describe('render.PreviewAppCtrl', () => {
   let mock$window;

@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import AssetPipelineService from './asset-pipeline-service';
+import { AssetPipelineService } from './asset-pipeline-service';
 
 describe('pipeline.AssetPipelineService', () => {
   let mockAssetService;

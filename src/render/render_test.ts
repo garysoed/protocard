@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import FakeScope from '../testing/fake-scope';
-import RenderCtrl from './render-ctrl';
+import { RenderCtrl } from './render';
 
 describe('render.RenderCtrl', () => {
   const ASSET_ID = 'assetId';

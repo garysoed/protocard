@@ -1,6 +1,5 @@
 import Asset from '../model/asset';
-import AssetPipelineService from '../pipeline/asset-pipeline-service';
-import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
+import AssetPipelineServiceModule, { AssetPipelineService } from '../pipeline/asset-pipeline-service';
 import AssetServiceModule, { AssetService } from '../asset/asset-service';
 import CodeEditorModule from '../editor/code-editor';
 import GlobalNode from '../pipeline/global-node';

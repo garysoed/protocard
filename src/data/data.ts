@@ -1,6 +1,5 @@
 import Asset from '../model/asset';
-import AssetPipelineService from '../pipeline/asset-pipeline-service';
-import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
+import AssetPipelineServiceModule, { AssetPipelineService } from '../pipeline/asset-pipeline-service';
 import { AssetService } from '../asset/asset-service';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import CodeEditorModule from '../editor/code-editor';

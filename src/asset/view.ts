@@ -13,11 +13,10 @@ import LabelModule from '../label/label';
 import NavGraphModule from './nav-graph';
 import NavigateButtonModule from '../navigate/navigate-button';
 import NavigateServiceModule, { NavigateService } from '../navigate/navigate-service';
-import PartialEditorModule from '../partial/partial-editor-module';
-import PartialModule from '../partial/partial-module';
-import RenderModule from '../render/render-module';
-import SettingsDialogModule from '../settings/settings-dialog-module';
-import SettingsDialogService from '../settings/settings-dialog-service';
+import PartialEditorModule from '../partial/partial-editor';
+import PartialModule from '../partial/partial';
+import RenderModule from '../render/render';
+import SettingsDialogModule, { SettingsDialogService } from '../settings/settings-dialog';
 import TemplateModule from '../template/template-module';
 import TextModule from '../text/text-module';
 

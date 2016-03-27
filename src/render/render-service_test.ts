@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import RenderService from './render-service';
+import { RenderService } from './render-service';
 
 describe('render.RenderService', () => {
   let mock$document;

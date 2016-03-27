@@ -7,7 +7,7 @@ interface IParams {
   height: number;
 }
 
-export default class RenderService {
+export class RenderService {
   private $window_: Window;
   private document_: Document;
   private iframeElPromise_: Promise<HTMLIFrameElement>;
@@ -102,3 +102,7 @@ export default class RenderService {
     });
   }
 };
+
+export default angular
+    .module('render.RenderServiceModule', [])
+    .service('RenderService', RenderService);

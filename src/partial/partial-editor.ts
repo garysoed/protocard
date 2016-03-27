@@ -1,12 +1,14 @@
 import Asset from '../model/asset';
-import AssetPipelineService from '../pipeline/asset-pipeline-service';
+import AssetNamePickerModule from '../common/asset-name-picker';
+import AssetPipelineServiceModule, { AssetPipelineService } from '../pipeline/asset-pipeline-service';
 import { AssetService } from '../asset/asset-service';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
+import ContextButtonModule from '../common/context-button';
 import LabelNode from '../pipeline/label-node';
 import PartialNode from '../pipeline/partial-node';
 import Provider from '../util/provider';
 
-export default class {
+export class PartialEditorCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
   private assetService_: AssetService;
@@ -97,3 +99,22 @@ export default class {
     Cache.clear(this);
   }
 }
+
+export default angular
+    .module('partial.PartialEditorModule', [
+      AssetNamePickerModule.name,
+      AssetPipelineServiceModule.name,
+      ContextButtonModule.name,
+    ])
+    .directive('pcPartialEditor', () => {
+      return {
+        controller: PartialEditorCtrl,
+        controllerAs: 'ctrl',
+        restrict: 'E',
+        scope: {
+          'asset': '=',
+          'name': '=',
+        },
+        templateUrl: 'src/partial/partial-editor.ng',
+      };
+    });

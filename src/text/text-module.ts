@@ -1,4 +1,4 @@
-import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service-module';
+import AssetPipelineServiceModule from '../pipeline/asset-pipeline-service';
 import AssetServiceModule from '../asset/asset-service';
 import ContextButtonModule from '../common/context-button';
 import FileUploadModule from '../editor/file-upload';

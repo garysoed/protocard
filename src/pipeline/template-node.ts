@@ -10,7 +10,7 @@ import Node from './node';
 import PartialNode from './partial-node';
 import ProcessNode from './process-node';
 import RequestTicket from '../util/request-ticket';
-import RenderService from '../render/render-service';
+import { RenderService } from '../render/render-service';
 import RenderedData from '../model/rendered-data';
 
 export default class TemplateNode extends Node<{ [label: string]: RenderedData }> {

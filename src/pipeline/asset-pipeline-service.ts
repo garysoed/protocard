@@ -3,10 +3,11 @@
  */
 import AssetPipeline from './asset-pipeline';
 import { AssetService } from '../asset/asset-service';
-import { GeneratorService } from '../generate/generator-service';
-import RenderService from '../render/render-service';
+import FuseServiceModule from '../thirdparty/fuse-service-module';
+import GeneratorServiceModule, { GeneratorService } from '../generate/generator-service';
+import RenderServiceModule, { RenderService } from '../render/render-service';
 
-export default class {
+export class AssetPipelineService {
   private assetService_: AssetService;
   private fuseService_: FuseCtor;
   private generatorService_: GeneratorService;
@@ -37,3 +38,11 @@ export default class {
     return this.pipelines_[assetId];
   }
 };
+
+export default angular
+    .module('pipeline.AssetPipelineModule', [
+      FuseServiceModule.name,
+      GeneratorServiceModule.name,
+      RenderServiceModule.name,
+    ])
+    .service('AssetPipelineService', AssetPipelineService);

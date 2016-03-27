@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import PartialItemCtrl from './partial-item-ctrl';
+import { PartialItemCtrl } from './partial-item';
 
 describe('partial.PartialItemCtrl', () => {
   const NAME = 'name';
