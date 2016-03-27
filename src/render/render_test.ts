@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import FakeScope from '../testing/fake-scope';
+import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
 import { RenderCtrl } from './render';
 
 describe('render.RenderCtrl', () => {
@@ -18,7 +18,7 @@ describe('render.RenderCtrl', () => {
 
   beforeEach(() => {
     mockAsset = { id: ASSET_ID };
-    mock$scope = new FakeScope();
+    mock$scope = FakeScope.create();
     mock$scope['asset'] = mockAsset;
     mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
     mockDownloadService = jasmine.createSpyObj('DownloadService', ['download']);

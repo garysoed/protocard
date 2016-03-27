@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import FakeScope from '../testing/fake-scope';
+import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
 import { PreviewableCodeEditorCtrl } from './previewable-code-editor';
 
 describe('editor.PreviewableCodeEditorCtrl', () => {
@@ -9,7 +9,7 @@ describe('editor.PreviewableCodeEditorCtrl', () => {
   let ctrl;
 
   beforeEach(() => {
-    mock$scope = new FakeScope({});
+    mock$scope = FakeScope.create();
     ctrl = new PreviewableCodeEditorCtrl(mock$scope);
   });
 

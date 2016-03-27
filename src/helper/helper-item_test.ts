@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import FakeScope from '../testing/fake-scope';
+import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
 import { Events, HelperItemCtrl } from './helper-item';
 
 describe('helper.HelperItemCtrl', () => {
@@ -13,7 +13,7 @@ describe('helper.HelperItemCtrl', () => {
   beforeEach(() => {
     helper = {};
     name = 'name';
-    mock$scope = new FakeScope();
+    mock$scope = FakeScope.create();
     mock$scope.helper = helper;
     mock$scope.name = name;
     ctrl = new HelperItemCtrl(mock$scope);

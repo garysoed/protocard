@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import { DataCtrl } from './data';
-import FakeScope from '../testing/fake-scope';
+import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
 
 describe('data.DataCtrl', () => {
   const ASSET_ID = 'assetId';
@@ -23,7 +23,7 @@ describe('data.DataCtrl', () => {
     mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
     mockAssetPipelineService.getPipeline.and.returnValue({ processNode: mockProcessNode });
 
-    let scope = <any> (new FakeScope());
+    let scope = FakeScope.create();
     scope['asset'] = asset;
     ctrl = new DataCtrl(scope, mockAssetPipelineService, mockAssetService);
   });

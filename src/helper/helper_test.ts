@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import { Events as HelperItemEvents } from './helper-item';
-import FakeScope from '../testing/fake-scope';
+import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
 import { HelperCtrl } from './helper';
 
 describe('helper.HelperCtrl', () => {
@@ -22,7 +22,8 @@ describe('helper.HelperCtrl', () => {
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
     mockHelperNode = jasmine.createSpyObj('HelperNode', ['refresh']);
     mockNavigateService = jasmine.createSpyObj('NavigateService', ['toAsset']);
-    mock$scope = new FakeScope({ 'asset': asset });
+    mock$scope = FakeScope.create();
+    mock$scope['asset'] = asset;
 
     mockAssetPipelineService.getPipeline.and.returnValue({ helperNode: mockHelperNode });
 

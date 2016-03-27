@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
-import FakeScope from '../testing/fake-scope';
+import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
 import { PartialEditorCtrl } from './partial-editor';
 
 describe('partial.PartialEditorCtrl', () => {
@@ -20,7 +20,9 @@ describe('partial.PartialEditorCtrl', () => {
 
   beforeEach(() => {
     mockAsset = { id: ASSET_ID, partials: { [NAME]: PARTIAL } };
-    mock$scope = new FakeScope({ 'asset': mockAsset, 'name': NAME });
+    mock$scope = FakeScope.create();
+    mock$scope['asset'] = mockAsset;
+    mock$scope['name'] = NAME;
 
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
     mockLabelNode = jasmine.createObj('LabelNode');

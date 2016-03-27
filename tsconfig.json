@@ -160,7 +160,6 @@
         "src/template/template.ts",
         "src/testbase.ts",
         "src/testing/fake-document.ts",
-        "src/testing/fake-scope.ts",
         "src/text/text_test.ts",
         "src/text/text.ts",
         "src/thirdparty/ace-service.ts",

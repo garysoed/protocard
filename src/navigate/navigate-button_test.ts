@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import TestDispose from '../../node_modules/gs-tools/src/testing/test-dispose';
-import FakeScope from '../testing/fake-scope';
+import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
 import { NavigateButtonCtrl } from './navigate-button';
 
 describe('navigate.NavigateButtonCtrl', () => {
@@ -13,7 +13,7 @@ describe('navigate.NavigateButtonCtrl', () => {
   let ctrl;
 
   beforeEach(() => {
-    mock$scope = new FakeScope();
+    mock$scope = FakeScope.create();
     mock$scope['subview'] = SUBVIEW;
     mock$scope['text'] = 'text';
 

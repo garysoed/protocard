@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import FakeScope from '../testing/fake-scope';
+import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
 import File, { FileTypes } from '../model/file';
 import { TextCtrl } from './text';
 
@@ -26,7 +26,7 @@ describe('text.TextCtrl', () => {
 
     mockAssetPipelineService.getPipeline.and.returnValue({ textNode: mockTextNode });
 
-    mock$scope = <any> (new FakeScope());
+    mock$scope = FakeScope.create();
     mock$scope['asset'] = mockAsset;
     spyOn(mock$scope, '$on');
 

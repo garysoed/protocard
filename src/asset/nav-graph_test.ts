@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import FakeScope from '../testing/fake-scope';
+import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
 import { NavGraphCtrl } from './nav-graph';
 import TestDispose from '../../node_modules/gs-tools/src/testing/test-dispose';
 
@@ -26,7 +26,7 @@ describe('asset.NavGraphCtrl', () => {
   }
 
   beforeEach(() => {
-    mock$scope = <any> (new FakeScope());
+    mock$scope = FakeScope.create();
     spyOn(mock$scope, '$on');
 
     mockDeregister = jasmine.createSpy('deregister');

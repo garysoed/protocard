@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import { DriveDialogCtrl, DriveDialogService } from './drive-dialog';
-import FakeScope from '../testing/fake-scope';
+import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
 
 describe('editor.DriveDialogCtrl', () => {
   let fake$scope;
@@ -12,7 +12,7 @@ describe('editor.DriveDialogCtrl', () => {
   let ctrl;
 
   beforeEach(() => {
-    fake$scope = new FakeScope();
+    fake$scope = FakeScope.create();
     mock$mdDialog = jasmine.createSpyObj('$mdDialog', ['cancel', 'hide']);
     mockDriveClient = {};
     mockGapiService = jasmine.createSpyObj(

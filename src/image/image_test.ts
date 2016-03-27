@@ -1,7 +1,7 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import FakeScope from '../testing/fake-scope';
+import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
 import { ImageCtrl } from './image';
 
 describe('image.ImageCtrl', () => {
@@ -24,9 +24,8 @@ describe('image.ImageCtrl', () => {
     mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
     mockAssetPipelineService.getPipeline.and.returnValue({ imageNode: mockImageNode });
 
-    mock$scope = new FakeScope({
-      'asset': mockAsset
-    });
+    mock$scope = FakeScope.create();
+    mock$scope['asset'] = mockAsset;
 
     ctrl = new ImageCtrl(
         mock$scope,

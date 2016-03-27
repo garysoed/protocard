@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
-import FakeScope from '../testing/fake-scope';
+import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
 import { TemplateCtrl } from './template';
 
 describe('template.TemplateCtrl', () => {
@@ -36,7 +36,8 @@ describe('template.TemplateCtrl', () => {
 
     mockLabelNode.result = Promise.resolve();
 
-    mock$scope = new FakeScope({ 'asset': mockAsset });
+    mock$scope = FakeScope.create();
+    mock$scope['asset'] = mockAsset;
 
     ctrl = new TemplateCtrl(
         mock$scope, mockAssetPipelineService, mockAssetService, mockGeneratorService);

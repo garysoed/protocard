@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
-import FakeScope from '../testing/fake-scope';
+import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
 import { LabelCtrl } from './label';
 
 describe('label.LabelCtrl', () => {
@@ -17,7 +17,8 @@ describe('label.LabelCtrl', () => {
 
   beforeEach(() => {
     mockAsset = { id: ASSET_ID };
-    mock$scope = new FakeScope({ 'asset': mockAsset });
+    mock$scope = FakeScope.create();
+    mock$scope['asset'] = mockAsset;
     mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
     mockLabelNode = jasmine.createSpyObj('LabelNode', ['refresh']);

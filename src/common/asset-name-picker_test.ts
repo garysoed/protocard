@@ -2,7 +2,7 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import { AssetNamePickerCtrl } from './asset-name-picker';
-import FakeScope from '../testing/fake-scope';
+import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
 
 describe('common.AssetNamePickerCtrl', () => {
   const ASSET_ID = 'assetId';
@@ -22,11 +22,11 @@ describe('common.AssetNamePickerCtrl', () => {
     let mockAsset = { id: ASSET_ID };
     mockOnBlur = jasmine.createSpy('onBlur');
     mockOnFocus = jasmine.createSpy('onFocus');
-    let $scope = <any> (new FakeScope({
-      'asset': mockAsset,
-      'onBlur': mockOnBlur,
-      'onFocus': mockOnFocus,
-    }));
+    let $scope = FakeScope.create();
+    $scope['asset'] = mockAsset;
+    $scope['onBlur'] = mockOnBlur;
+    $scope['onFocus'] = mockOnFocus;
+
     ctrl = new AssetNamePickerCtrl($scope, mockAssetPipelineService);
   });
 
@@ -66,7 +66,8 @@ describe('common.AssetNamePickerCtrl', () => {
 
       let setTimeoutSpy = spyOn(window, 'setTimeout');
 
-      let $scope = <any> (new FakeScope({ 'asset': jasmine.createObj('asset') }));
+      let $scope = FakeScope.create();
+      $scope['asset'] = jasmine.createObj('asset');
       ctrl = new AssetNamePickerCtrl($scope, mockAssetPipelineService);
       ctrl.onLink(mockElement, jasmine.createObj('NgModelCtrl'));
 
