@@ -1,6 +1,6 @@
 import FunctionObject from '../model/function-object';
 import Generator from './generator';
-import HandlebarsServiceModule from '../thirdparty/handlebars-service-module';
+import HandlebarsServiceModule from '../thirdparty/handlebars-service';
 import ImageResource from '../model/image-resource';
 import Records from '../../node_modules/gs-tools/src/collection/records';
 

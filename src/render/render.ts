@@ -6,7 +6,7 @@ import ErrorDisplayModule from '../common/error-display';
 import ExportNode from '../pipeline/export-node';
 import GeneratorServiceModule from '../generate/generator-service';
 import ImageResource from '../model/image-resource';
-import JszipServiceModule from '../thirdparty/jszip-service-module';
+import JszipServiceModule from '../thirdparty/jszip-service';
 import RenderServiceModule, { RenderService } from './render-service';
 
 // TODO(gs): Rename to export

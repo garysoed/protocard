@@ -1,5 +1,5 @@
-import DomServiceModule from '../thirdparty/dom-service-module';
-import Html2canvasServiceModule from '../thirdparty/html2canvas-service-module';
+import DomServiceModule from '../thirdparty/dom-service';
+import Html2canvasServiceModule from '../thirdparty/html2canvas-service';
 
 export class PreviewAppCtrl {
 

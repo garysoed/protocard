@@ -1,16 +1,20 @@
 import Asset from '../model/asset';
-import { AssetPipelineService } from '../pipeline/asset-pipeline-service';
+import AssetPipelineServiceModule, { AssetPipelineService } from '../pipeline/asset-pipeline-service';
 import { AssetService } from '../asset/asset-service';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
-import { GeneratorService } from '../generate/generator-service';
+import ContextButtonModule from '../common/context-button';
+import GeneratorServiceModule, { GeneratorService } from '../generate/generator-service';
 import LabelNode from '../pipeline/label-node';
 import Provider from '../util/provider';
-import TemplateNode from '../pipeline/template-node';
+import RenderServiceModule from '../render/render-service';
 import RenderedData from '../model/rendered-data';
+import TemplateNode from '../pipeline/template-node';
+
 
 const SEARCH_TIMEOUT = 1000;
 
-export default class TemplateCtrl {
+
+export class TemplateCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
   private assetService_: AssetService;
@@ -179,3 +183,23 @@ export default class TemplateCtrl {
     Cache.clear(this);
   }
 }
+
+
+export default angular
+    .module('template.TemplateModule', [
+      AssetPipelineServiceModule.name,
+      ContextButtonModule.name,
+      GeneratorServiceModule.name,
+      RenderServiceModule.name,
+    ])
+    .directive('pcTemplate', () => {
+      return {
+        controller: TemplateCtrl,
+        controllerAs: 'ctrl',
+        restrict: 'E',
+        scope: {
+          'asset': '='
+        },
+        templateUrl: 'src/template/template.ng',
+      };
+    });

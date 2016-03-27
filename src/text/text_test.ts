@@ -3,7 +3,7 @@ TestBase.init();
 
 import FakeScope from '../testing/fake-scope';
 import File, { FileTypes } from '../model/file';
-import TextCtrl from './text-ctrl';
+import { TextCtrl } from './text';
 
 describe('text.TextCtrl', () => {
   const ASSET_ID = 'assetId';

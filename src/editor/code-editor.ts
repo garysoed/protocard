@@ -1,4 +1,4 @@
-import AceServiceModule from '../thirdparty/ace-service-module';
+import AceServiceModule from '../thirdparty/ace-service';
 
 
 export class CodeEditorCtrl {

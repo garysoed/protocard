@@ -3,7 +3,7 @@
  */
 import AssetPipeline from './asset-pipeline';
 import { AssetService } from '../asset/asset-service';
-import FuseServiceModule from '../thirdparty/fuse-service-module';
+import FuseServiceModule from '../thirdparty/fuse-service';
 import GeneratorServiceModule, { GeneratorService } from '../generate/generator-service';
 import RenderServiceModule, { RenderService } from '../render/render-service';
 

@@ -17,8 +17,8 @@ import PartialEditorModule from '../partial/partial-editor';
 import PartialModule from '../partial/partial';
 import RenderModule from '../render/render';
 import SettingsDialogModule, { SettingsDialogService } from '../settings/settings-dialog';
-import TemplateModule from '../template/template-module';
-import TextModule from '../text/text-module';
+import TemplateModule from '../template/template';
+import TextModule from '../text/text';
 
 
 /**

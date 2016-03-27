@@ -1,12 +1,15 @@
 import Asset from '../model/asset';
-import { AssetPipelineService } from '../pipeline/asset-pipeline-service';
-import { AssetService } from '../asset/asset-service';
+import AssetPipelineServiceModule, { AssetPipelineService } from '../pipeline/asset-pipeline-service';
+import AssetServiceModule, { AssetService } from '../asset/asset-service';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
+import ContextButtonModule from '../common/context-button';
 import File from '../model/file';
+import FileUploadModule from '../editor/file-upload';
 import Provider from '../util/provider';
 import TextNode from '../pipeline/text-node';
 
-export default class TextCtrl {
+
+export class TextCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
   private assetService_: AssetService;
@@ -57,3 +60,23 @@ export default class TextCtrl {
     return !!this.asset_.data;
   }
 }
+
+
+export default angular
+    .module('text.TextModule', [
+      AssetPipelineServiceModule.name,
+      AssetServiceModule.name,
+      ContextButtonModule.name,
+      FileUploadModule.name,
+    ])
+    .directive('pcText', () => {
+      return {
+        controller: TextCtrl,
+        controllerAs: 'ctrl',
+        restrict: 'E',
+        scope: {
+          'asset': '='
+        },
+        templateUrl: 'src/text/text.ng',
+      };
+    });
