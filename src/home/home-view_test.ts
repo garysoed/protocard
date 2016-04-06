@@ -3,9 +3,9 @@ TestBase.init();
 
 import Asset from '../model/asset';
 import Serializer from '../../node_modules/gs-tools/src/data/a-serializable';
-import { ViewCtrl } from './view';
+import { HomeViewCtrl } from './home-view';
 
-describe('home.ViewCtrl', () => {
+describe('home.HomeViewCtrl', () => {
   let mockAssetService;
   let mockCreateAssetDialogService;
   let mockNavigateService;
@@ -15,7 +15,7 @@ describe('home.ViewCtrl', () => {
     mockAssetService = jasmine.createSpyObj('AssetService', ['hasAssets', 'saveAsset']);
     mockCreateAssetDialogService = jasmine.createSpyObj('CreateAssetDialogService', ['show']);
     mockNavigateService = jasmine.createSpyObj('NavigateService', ['toAsset']);
-    ctrl = new ViewCtrl(mockAssetService, mockCreateAssetDialogService, mockNavigateService);
+    ctrl = new HomeViewCtrl(mockAssetService, mockCreateAssetDialogService, mockNavigateService);
   });
 
   describe('getAssets', () => {

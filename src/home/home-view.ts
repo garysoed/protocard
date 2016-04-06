@@ -11,7 +11,7 @@ import Serializer from '../../node_modules/gs-tools/src/data/a-serializable';
 /**
  * Controller for the home view.
  */
-export class ViewCtrl {
+export class HomeViewCtrl {
   private assetService_: AssetService;
   private createAssetDialogService_: CreateAssetDialogService;
   private navigateService_: NavigateService;
@@ -81,12 +81,7 @@ export default angular
       FileUploadModule.name,
       NavigateServiceModule.name,
     ])
-    .config(($routeProvider: angular.ui.IUrlRouterProvider) => {
-      $routeProvider.when(
-          '/',
-          {
-            controller: ViewCtrl,
-            controllerAs: 'ctrl',
-            templateUrl: 'src/home/view.ng',
-          });
+    .component('homeView', {
+      controller: HomeViewCtrl,
+      templateUrl: 'src/home/home-view.ng',
     });

@@ -6,37 +6,40 @@
   "bundle": "declaration/tsd.d.ts",
   "installed": {
     "angularjs/angular.d.ts": {
-      "commit": "bcd5761826eb567876c197ccc6a87c4d05731054"
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
     },
     "jquery/jquery.d.ts": {
-      "commit": "bcd5761826eb567876c197ccc6a87c4d05731054"
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
     },
     "jasmine/jasmine.d.ts": {
-      "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
     },
     "gapi/gapi.d.ts": {
-      "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
     },
     "ace/ace.d.ts": {
-      "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
     },
     "angular-material/angular-material.d.ts": {
-      "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
     },
     "handlebars/handlebars.d.ts": {
-      "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
     },
     "jszip/jszip.d.ts": {
-      "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
     },
     "html2canvas/html2canvas.d.ts": {
-      "commit": "dc9dabe74a5be62613b17a3605309783a12ff28a"
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
     },
     "fuse/fuse.d.ts": {
-      "commit": "e69fe60f2d6377ea4fae539493997b098f52cad1"
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
     },
     "angular-ui-router/angular-ui-router.d.ts": {
-      "commit": "bcd5761826eb567876c197ccc6a87c4d05731054"
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
+    },
+    "angularjs/angular-component-router.d.ts": {
+      "commit": "247e8d48404d11f3aff85dea5029413229e0fc36"
     }
   }
 }

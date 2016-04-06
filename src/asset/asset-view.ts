@@ -24,10 +24,11 @@ import TextModule from '../text/text';
 /**
  * Controller for the create page view.
  */
-export class ViewCtrl extends BaseDisposable {
+export class AssetViewCtrl extends BaseDisposable {
   private $location_: angular.ILocationService;
   private $scope_: angular.IScope;
   private asset_: Asset;
+  private assetService_: AssetService;
   private currentHelper_: FunctionObject;
   private currentPartialName_: string;
   private isAssetSaved_: boolean;
@@ -40,14 +41,14 @@ export class ViewCtrl extends BaseDisposable {
   constructor(
       $location: angular.ILocationService,
       $scope: angular.IScope,
-      $routeParams: any,
       AssetService: AssetService,
       NavigateService: NavigateService,
       SettingsDialogService: SettingsDialogService) {
     super();
     this.$location_ = $location;
     this.$scope_ = $scope;
-    this.asset_ = AssetService.getAsset($routeParams['assetId']);
+    this.asset_ = null;
+    this.assetService_ = AssetService;
     this.currentHelper_ = null;
     this.currentPartialName_ = null;
     this.isAssetSaved_ = false;
@@ -86,6 +87,11 @@ export class ViewCtrl extends BaseDisposable {
         this.currentPartialName_ = subitemId;
         break;
     }
+  }
+
+  $routerOnActivate(next: angular.ComponentInstruction): boolean {
+    this.asset_ = this.assetService_.getAsset(next.params['assetId']);
+    return true;
   }
 
   /**
@@ -184,13 +190,8 @@ export default angular
       TemplateModule.name,
       TextModule.name,
     ])
-    .config(($routeProvider: angular.ui.IUrlRouterProvider) => {
-      $routeProvider.when(
-          '/asset/:assetId',
-          {
-            controller: ViewCtrl,
-            controllerAs: 'ctrl',
-            reloadOnSearch: false,
-            templateUrl: 'src/asset/view.ng',
-          });
+    .component('assetView', {
+      controller: AssetViewCtrl,
+      controllerAs: '$ctrl',
+      templateUrl: 'src/asset/asset-view.ng',
     });

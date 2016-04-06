@@ -86,21 +86,28 @@ gn.exec('compile-ui', gn.series(
     gn.parallel(
         '_compile',
         mythTasks.compile(gn, 'src/**'),
-        function ng_() {
-          return gn.src(['src/**/*.ng'])
-              .pipe(gn.dest('out/src'));
-        },
         function api_() {
           return gn.src(['api/test.js'])
               .pipe(concat('api.js'))
               .pipe(gn.dest('out'));
         },
+        function dependencies_() {
+          return gn.src(['node_modules/@angular/router/angular1/angular_1_router.js'], {'base': '.'})
+              .pipe(gn.dest('out'));
+        },
+        function ng_() {
+          return gn.src(['src/**/*.ng'])
+              .pipe(gn.dest('out/src'));
+        },
         function subPages_() {
           return gn.src(['src/**/*.html'])
               .pipe(gn.dest('out/src'));
         }),
-    packTasks.app(gn, 'src/app.js', 'js.js'),
-    packTasks.app(gn, 'src/render/preview-app.js', 'src/render/js.js')
+    packTasks.app(
+        gn,
+        ['node_modules/@angular/router/angular1/angular_1_router.js', 'src/app.js'],
+        'js.js'),
+    packTasks.app(gn, ['src/render/preview-app.js'], 'src/render/js.js')
 ));
 
 

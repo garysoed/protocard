@@ -10,10 +10,10 @@
       <li>Generate assets
     </ol>
     <section class="buttons md-body-1" layout="column" layout-align="center center">
-      <md-input-container ng-show="ctrl.hasAssets()">
+      <md-input-container ng-show="$ctrl.hasAssets()">
         <label>Load Asset</label>
-        <md-select ng-model="ctrl.loadedAsset" ng-model-options="{ updateOn: 'default' }">
-          <md-option ng-repeat="(id, asset) in ctrl.getAssets()" value="{{asset.id}}">
+        <md-select ng-model="$ctrl.loadedAsset" ng-model-options="{ updateOn: 'default' }">
+          <md-option ng-repeat="(id, asset) in $ctrl.getAssets()" value="{{asset.id}}">
             {{asset.name}}
           </md-option>
         </md-select>
@@ -23,8 +23,8 @@
 
   <pc-context-button>
     <md-fab-trigger>
-      <md-button class="md-fab" ng-click="ctrl.onCreateClick($event)">
-        <md-tooltip md-direction="left">Creates a new asset</md-tooltip>
+      <md-button class="md-fab" ng-click="$ctrl.onCreateClick($event)">
+        <md-tooltip md-direction="left">Create a new asset</md-tooltip>
         <md-icon>add</md-icon>
       </md-button>
     </md-fab-trigger>
@@ -32,7 +32,7 @@
       <pc-file-upload
           classes="md-fab md-raised md-mini"
           extensions=".json"
-          ng-model="ctrl.newAsset">
+          ng-model="$ctrl.newAsset">
         <md-tooltip md-direction="left">Upload asset from disk</md-tooltip>
         <md-icon>file_upload</md-icon>
       </pc-file-upload>

@@ -1,15 +1,23 @@
-import AssetViewModule from './asset/view';
-import HomeViewModule from './home/view';
+import AssetViewModule from './asset/asset-view';
+import HomeViewModule from './home/home-view';
 
 
 angular
     .module('pc.App', [
+      'ngComponentRouter',
       'ngMaterial',
       'ngMessages',
       'ngRoute',
       AssetViewModule.name,
       HomeViewModule.name,
     ])
+    .component('app', {
+      $routeConfig: [
+        { path: '/home', name: 'Home', component: 'homeView', useAsDefault: true },
+        { path: '/asset/:assetId', name: 'Asset', component: 'assetView' },
+      ],
+      templateUrl: 'src/app.ng'
+    })
     .config(($mdIconProvider, $mdThemingProvider, $routeProvider, $sceProvider) => {
       $mdIconProvider
           .defaultFontSet('material-icons');
@@ -22,8 +30,6 @@ angular
           .primaryPalette('deep-purple')
           .accentPalette('light-green')
           .dark();
-      $routeProvider.otherwise('/');
       $sceProvider.enabled(false);
-    });
-
-angular.bootstrap(document.body, ['pc.App'], {strictDi: false});
+    })
+    .value('$routerRootComponent', 'app');
