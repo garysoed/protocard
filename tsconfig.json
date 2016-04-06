@@ -33,8 +33,6 @@
         "declaration/ace/ace.d.ts",
         "declaration/angular-component.d.ts",
         "declaration/angular-material/angular-material.d.ts",
-        "declaration/angular-ui-router.d.ts",
-        "declaration/angular-ui-router/angular-ui-router.d.ts",
         "declaration/angular.d.ts",
         "declaration/angularjs/angular-component-router.d.ts",
         "declaration/angularjs/angular.d.ts",

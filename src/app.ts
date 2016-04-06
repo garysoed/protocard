@@ -7,18 +7,26 @@ angular
       'ngComponentRouter',
       'ngMaterial',
       'ngMessages',
-      'ngRoute',
       AssetViewModule.name,
       HomeViewModule.name,
     ])
     .component('app', {
       $routeConfig: [
-        { path: '/home', name: 'Home', component: 'homeView', useAsDefault: true },
-        { path: '/asset/:assetId', name: 'Asset', component: 'assetView' },
+        {
+          component: 'homeView',
+          name: 'Home',
+          path: '/home',
+          useAsDefault: true
+        },
+        {
+          component: 'assetView',
+          name: 'Asset',
+          path: '/asset/:assetId',
+        },
       ],
       templateUrl: 'src/app.ng'
     })
-    .config(($mdIconProvider, $mdThemingProvider, $routeProvider, $sceProvider) => {
+    .config(($mdIconProvider, $mdThemingProvider, $sceProvider) => {
       $mdIconProvider
           .defaultFontSet('material-icons');
       $mdThemingProvider
