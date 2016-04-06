@@ -1,5 +1,6 @@
 import Asset from '../model/asset';
-import AssetPipelineServiceModule, { AssetPipelineService } from '../pipeline/asset-pipeline-service';
+import AssetPipelineServiceModule, { AssetPipelineService }
+    from '../pipeline/asset-pipeline-service';
 import { AssetService } from '../asset/asset-service';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import ContextButtonModule from '../common/context-button';
