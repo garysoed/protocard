@@ -3,7 +3,9 @@ TestBase.init();
 
 import Extract from '../convert/extract';
 import { FileTypes } from '../model/file';
+import TestDispose from '../../node_modules/gs-tools/src/testing/test-dispose';
 import TextNode from './text-node';
+
 
 describe('pipeline.TextNode', () => {
   let mockAsset;
@@ -12,6 +14,7 @@ describe('pipeline.TextNode', () => {
   beforeEach(() => {
     mockAsset = jasmine.createObj('Asset');
     node = new TextNode(mockAsset);
+    TestDispose.add(node);
   });
 
   describe('runHandler_', () => {

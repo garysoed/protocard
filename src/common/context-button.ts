@@ -22,29 +22,10 @@ export class ContextButtonCtrl {
   }
 }
 
-function link(
-    scope: angular.IScope,
-    element: JQuery,
-    attrs: any,
-    ctrl: any,
-    transclude: angular.ITranscludeFunction): void {
-  transclude((clone: JQuery) => {
-    element.find('ng-transclude').replaceWith(clone);
-  });
-}
-
 export default angular
     .module('common.ContextButtonModule', [])
-    .directive('pcContextButton', () => {
-
-      return {
-        controller: ContextButtonCtrl,
-        controllerAs: 'ctrl',
-        link: link,
-        restrict: 'E',
-        scope: {
-        },
-        templateUrl: 'src/common/context-button.ng',
-        transclude: true,
-      };
+    .component('pcContextButton', {
+      controller: ContextButtonCtrl,
+      templateUrl: 'src/common/context-button.ng',
+      transclude: true,
     });

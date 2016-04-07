@@ -1,7 +1,8 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import Node from './node';
+import Node, { EventType } from './node';
+import TestDispose from '../../node_modules/gs-tools/src/testing/test-dispose';
 
 
 class TestNode extends Node<string> {
@@ -31,6 +32,7 @@ describe('pipeline.Node', () => {
 
     result = {};
     node = new TestNode([dependency], result);
+    TestDispose.add(dependency, node);
   });
 
   it('should refresh when the dependency is changed', () => {
@@ -40,6 +42,42 @@ describe('pipeline.Node', () => {
     dependency.addChangeListener.calls.argsFor(0)[0]();
 
     expect(node.refresh).toHaveBeenCalledWith();
+  });
+
+  describe('run_', () => {
+    it('should dispatch event when dependencies are done', (done: jasmine.IDoneFn) => {
+      let dependencyValue = 'dependencyValue';
+      let resultValue = 'resultValue';
+      dependencyResult.result = Promise.resolve(dependencyValue);
+      result.result = Promise.resolve(resultValue);
+
+      spyOn(node, 'dispatch');
+      spyOn(node, 'runHandler_').and.callThrough();
+
+      node['run_']()
+          .then((result: any) => {
+            expect(result).toEqual(resultValue);
+            expect(node.runHandler_).toHaveBeenCalledWith([dependencyValue]);
+            expect(node.dispatch).toHaveBeenCalledWith(EventType.CHANGED);
+            expect(node['isDone_']).toEqual(true);
+            done();
+          }, done.fail);
+    });
+
+    it('should dispatch event when runHandler_ is rejected',
+        (done: jasmine.IDoneFn) => {
+          dependencyResult.result = Promise.resolve('value');
+          result.result = Promise.reject('error');
+
+          spyOn(node, 'dispatch');
+
+          node['run_']()
+              .then(() => {
+                expect(node.dispatch).toHaveBeenCalledWith(EventType.CHANGED);
+                expect(node['isDone_']).toEqual(false);
+                done();
+              }, done.fail);
+        });
   });
 
   describe('addChangeListener', () => {
@@ -80,6 +118,7 @@ describe('pipeline.Node', () => {
       dependency1 = jasmine.createSpyObj('dependency1', ['addChangeListener']);
       dependency2 = jasmine.createSpyObj('dependency2', ['addChangeListener']);
       node = new TestNode([dependency1, dependency2], { result: Promise.resolve(null) });
+      TestDispose.add(node);
     });
 
     it('should return true if all of the dependencies are done', () => {

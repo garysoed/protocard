@@ -62,7 +62,7 @@ angular
       DomServiceModule.name,
       Html2canvasServiceModule.name,
     ])
-    .config(($routeProvider: angular.ui.IUrlRouterProvider) => {
+    .config(($routeProvider: any) => {
       $routeProvider.otherwise(
           {
             controller: PreviewAppCtrl,

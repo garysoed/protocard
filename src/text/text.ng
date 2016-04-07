@@ -1,7 +1,7 @@
 <div class="asset-text pc-fill-parent" layout="column">
-  <md-content class="preview" ng-if="ctrl.hasData()" flex>
+  <md-content class="preview" ng-if="$ctrl.hasData()" flex>
     <table>
-      <tr ng-repeat="row in ctrl.parsedData.value">
+      <tr ng-repeat="row in $ctrl.parsedData.value">
         <td ng-repeat="entry in row track by $index" valign="top">
           {{entry}}
         </td>
@@ -14,13 +14,13 @@
       <pc-file-upload
           classes="md-fab"
           extensions=".tsv"
-          ng-model="ctrl.data">
-        <div ng-if="!ctrl.hasData()">
-          <md-tooltip md-direction="left" ng-if="!ctrl.hasData()">Upload new data</md-tooltip>
+          ng-model="$ctrl.data">
+        <div ng-if="!$ctrl.hasData()">
+          <md-tooltip md-direction="left" ng-if="!$ctrl.hasData()">Upload new data</md-tooltip>
           <md-icon>add</md-icon>
         </div>
 
-        <div ng-if="ctrl.hasData()">
+        <div ng-if="$ctrl.hasData()">
           <md-tooltip md-direction="left">Replace the data</md-tooltip>
           <md-icon>edit</md-icon>
         </div>

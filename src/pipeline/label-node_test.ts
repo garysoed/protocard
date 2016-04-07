@@ -2,6 +2,8 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import LabelNode from './label-node';
+import TestDispose from '../../node_modules/gs-tools/src/testing/test-dispose';
+
 
 describe('pipeline.LabelNode', () => {
   let mockAsset;
@@ -20,6 +22,7 @@ describe('pipeline.LabelNode', () => {
         jasmine.createSpyObj('GlobalNode', ['addChangeListener']),
         jasmine.createSpyObj('HelperNode', ['addChangeListener']),
         jasmine.createSpyObj('ProcessNode', ['addChangeListener']));
+    TestDispose.add(node);
   });
 
   describe('runHandler_', () => {

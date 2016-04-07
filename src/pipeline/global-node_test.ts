@@ -2,6 +2,8 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import GlobalNode from './global-node';
+import TestDispose from '../../node_modules/gs-tools/src/testing/test-dispose';
+
 
 describe('pipeline.GlobalNode', () => {
   let mockAsset;
@@ -10,6 +12,7 @@ describe('pipeline.GlobalNode', () => {
   beforeEach(() => {
     mockAsset = jasmine.createObj('Asset');
     node = new GlobalNode(mockAsset);
+    TestDispose.add(node);
   });
 
   describe('runHandler_', () => {

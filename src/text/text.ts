@@ -2,41 +2,45 @@ import Asset from '../model/asset';
 import AssetPipelineServiceModule, { AssetPipelineService }
     from '../pipeline/asset-pipeline-service';
 import AssetServiceModule, { AssetService } from '../asset/asset-service';
+import BaseComponent from '../../node_modules/gs-tools/src/ng/base-component';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import ContextButtonModule from '../common/context-button';
 import File from '../model/file';
 import FileUploadModule from '../editor/file-upload';
+import { EventType as NodeEventType } from '../pipeline/node';
 import Provider from '../util/provider';
 import TextNode from '../pipeline/text-node';
 
 
-export class TextCtrl {
-  private $scope_: angular.IScope;
+export class TextCtrl extends BaseComponent {
   private asset_: Asset;
+  private assetPipelineService_: AssetPipelineService;
   private assetService_: AssetService;
-  private changeListenerDeregister_: Function;
   private textNode_: TextNode;
 
   constructor(
       $scope: angular.IScope,
       AssetPipelineService: AssetPipelineService,
       AssetService: AssetService) {
-    this.$scope_ = $scope;
-    this.asset_ = $scope['asset'];
+    super($scope);
+    this.assetPipelineService_ = AssetPipelineService;
     this.assetService_ = AssetService;
-    this.textNode_ = AssetPipelineService.getPipeline($scope['asset'].id).textNode;
-    this.changeListenerDeregister_ =
-        this.textNode_.addChangeListener(this.onTextNodeChange_.bind(this));
-
-    $scope.$on('$destroy', this.onDestroy_.bind(this));
-  }
-
-  private onDestroy_(): void {
-    this.changeListenerDeregister_();
   }
 
   private onTextNodeChange_(): void {
-    this.$scope_.$apply(() => undefined);
+    this.triggerDigest();
+  }
+
+  $onInit(): void {
+    this.textNode_ = this.assetPipelineService_.getPipeline(this.asset_.id).textNode;
+    this.addDisposable(this.textNode_.on(NodeEventType.CHANGED, this.onTextNodeChange_.bind(this)));
+  }
+
+  get asset(): Asset {
+    return this.asset_;
+  }
+  set asset(asset: Asset) {
+    this.asset_ = asset;
   }
 
   get data(): File {
@@ -52,7 +56,7 @@ export class TextCtrl {
   @Cache()
   get parsedData(): Provider<string[][]> {
     return new Provider<string[][]>(
-        this.$scope_,
+        this.$scope,
         this.textNode_.result,
         []);
   }
@@ -70,14 +74,10 @@ export default angular
       ContextButtonModule.name,
       FileUploadModule.name,
     ])
-    .directive('pcText', () => {
-      return {
-        controller: TextCtrl,
-        controllerAs: 'ctrl',
-        restrict: 'E',
-        scope: {
-          'asset': '='
-        },
-        templateUrl: 'src/text/text.ng',
-      };
+    .component('pcText', {
+      bindings: {
+        'asset': '<'
+      },
+      controller: TextCtrl,
+      templateUrl: 'src/text/text.ng',
     });

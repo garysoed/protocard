@@ -2,6 +2,8 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import TemplateNode from './template-node';
+import TestDispose from '../../node_modules/gs-tools/src/testing/test-dispose';
+
 
 describe('pipeline.TemplateNode', () => {
   let mockAsset;
@@ -23,6 +25,7 @@ describe('pipeline.TemplateNode', () => {
         jasmine.createSpyObj('PartialNode', ['addChangeListener']),
         jasmine.createSpyObj('ProcessNode', ['addChangeListener']),
         mockRenderService);
+    TestDispose.add(node);
   });
 
   describe('runHandler', () => {

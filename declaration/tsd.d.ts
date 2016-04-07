@@ -9,5 +9,4 @@
 /// <reference path="jszip/jszip.d.ts" />
 /// <reference path="html2canvas/html2canvas.d.ts" />
 /// <reference path="fuse/fuse.d.ts" />
-/// <reference path="angular-ui-router/angular-ui-router.d.ts" />
 /// <reference path="angularjs/angular-component-router.d.ts" />

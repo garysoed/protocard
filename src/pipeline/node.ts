@@ -1,11 +1,17 @@
+import BaseListenable from '../../node_modules/gs-tools/src/event/base-listenable';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 
-abstract class Node<T> {
+export enum EventType {
+  CHANGED
+}
+
+abstract class Node<T> extends BaseListenable<EventType> {
   private dependencies_: Node<any>[];
   private isDone_: boolean;
   private listeners_: Set<Function>;
 
   constructor(dependencies: Node<any>[]) {
+    super();
     this.dependencies_ = dependencies;
     this.isDone_ = false;
     this.listeners_ = new Set<Function>();
@@ -35,10 +41,12 @@ abstract class Node<T> {
             (result: T) => {
               this.isDone_ = true;
               this.listeners_.forEach((listener: Function) => listener());
+              this.dispatch(EventType.CHANGED);
               return result;
             },
             (error: any) => {
               this.listeners_.forEach((listener: Function) => listener());
+              this.dispatch(EventType.CHANGED);
             });
   }
 

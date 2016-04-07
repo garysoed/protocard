@@ -211,6 +211,7 @@
         "node_modules/gs-tools/src/mock/mocks.ts",
         "node_modules/gs-tools/src/net/gulpfile.js",
         "node_modules/gs-tools/src/net/http.ts",
+        "node_modules/gs-tools/src/ng/base-component.ts",
         "node_modules/gs-tools/src/ng/base-service.ts",
         "node_modules/gs-tools/src/ng/bem-class.ts",
         "node_modules/gs-tools/src/ng/fake-scope.ts",

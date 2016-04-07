@@ -2,6 +2,8 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import ImageNode from './image-node';
+import TestDispose from '../../node_modules/gs-tools/src/testing/test-dispose';
+
 
 describe('pipeline.ImageNode', () => {
   let mockAsset;
@@ -10,6 +12,7 @@ describe('pipeline.ImageNode', () => {
   beforeEach(() => {
     mockAsset = jasmine.createObj('Asset');
     node = new ImageNode(mockAsset);
+    TestDispose.add(node);
   });
 
   describe('runHandler_', () => {

@@ -2,6 +2,8 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import ProcessNode from './process-node';
+import TestDispose from '../../node_modules/gs-tools/src/testing/test-dispose';
+
 
 describe('pipeline.ProcessNode', () => {
   let mockAsset;
@@ -12,6 +14,7 @@ describe('pipeline.ProcessNode', () => {
 
     let textNode = jasmine.createSpyObj('TextNode', ['addChangeListener']);
     node = new ProcessNode(mockAsset, textNode);
+    TestDispose.add(node);
   });
 
   describe('runHandler_', () => {

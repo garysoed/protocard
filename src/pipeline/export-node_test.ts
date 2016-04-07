@@ -2,6 +2,8 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import ExportNode from './export-node';
+import TestDispose from '../../node_modules/gs-tools/src/testing/test-dispose';
+
 
 describe('pipeline.ExportNode', () => {
   let node;
@@ -9,6 +11,7 @@ describe('pipeline.ExportNode', () => {
   beforeEach(() => {
     node = new ExportNode(
         jasmine.createSpyObj('TemplateNode', ['addChangeListener']));
+    TestDispose.add(node);
   });
 
   describe('runHandler_', () => {

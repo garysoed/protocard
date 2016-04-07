@@ -2,6 +2,8 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import PartialNode from './partial-node';
+import TestDispose from '../../node_modules/gs-tools/src/testing/test-dispose';
+
 
 describe('pipeline.PartialNode', () => {
   let mockAsset;
@@ -18,6 +20,7 @@ describe('pipeline.PartialNode', () => {
         jasmine.createSpyObj('HelperNode', ['addChangeListener']),
         jasmine.createSpyObj('ImageNode', ['addChangeListener']),
         jasmine.createSpyObj('LabelNode', ['addChangeListener']));
+    TestDispose.add(node);
   });
 
   describe('runHandler_', () => {
