@@ -41,3 +41,5 @@ angular
       $sceProvider.enabled(false);
     })
     .value('$routerRootComponent', 'app');
+
+angular.bootstrap(document.body, ['pc.App']);

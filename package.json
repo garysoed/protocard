@@ -19,11 +19,16 @@
   "homepage": "https://github.com/garysoed/protocard#readme",
   "dependencies": {
     "@angular/router": "^0.2.0",
+    "angular2": "^2.0.0-beta.13",
+    "es6-shim": "^0.35.0",
     "gs-tools": "garysoed/gs-tools",
     "gulp-util": "^3.0.6",
     "gulp-webshot": "^0.1.4",
     "handlebars": "^4.0.3",
-    "through2": "^2.0.0"
+    "reflect-metadata": "^0.1.2",
+    "rxjs": "^5.0.0-beta.2",
+    "through2": "^2.0.0",
+    "zone.js": "^0.6.9"
   },
   "devDependencies": {
     "babel": "^5.8.23",
