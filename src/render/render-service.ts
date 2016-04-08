@@ -1,5 +1,9 @@
+import BaseService from '../../node_modules/gs-tools/src/ng/base-service';
+import Cache from '../../node_modules/gs-tools/src/data/a-cache';
+import PostMessageChannel from '../../node_modules/gs-tools/src/ui/post-message-channel';
 import RequestPool from '../util/request-pool';
 import RequestTicket from '../util/request-ticket';
+
 
 interface IParams {
   content: string;
@@ -7,17 +11,30 @@ interface IParams {
   height: number;
 }
 
-export class RenderService {
+export class RenderService extends BaseService<void> {
   private $window_: Window;
   private document_: Document;
   private iframeElPromise_: Promise<HTMLIFrameElement>;
   private requestPool_: RequestPool<IParams, string>;
 
   constructor($document: JQLite<Document>, $window: Window) {
+    super($window);
     this.$window_ = $window;
     this.document_ = $document[0];
     this.iframeElPromise_ = null;
     this.requestPool_ = new RequestPool<IParams, string>(this.onRequest_.bind(this));
+  }
+
+  @Cache()
+  private get iframeElChannelPromise_(): Promise<PostMessageChannel> {
+    return this.iframeElPromise
+        .then((iframeEl: HTMLIFrameElement) => {
+          return PostMessageChannel.open(this.$window_, iframeEl.contentWindow);
+        })
+        .then((channel: PostMessageChannel) => {
+          this.addDisposable(channel);
+          return channel;
+        })
   }
 
   /**
@@ -28,37 +45,33 @@ export class RenderService {
     let width = params.width;
     let height = params.height;
 
-    return this.iframeElPromise
-        .then((iframeEl: HTMLIFrameElement) => {
-          // TODO(gs): Cache this.
-          let location = this.$window_.location;
-          let origin = `${location.protocol}//${location.host}`;
-          return new Promise((resolve: (data: any) => void, reject: (data: any) => void) => {
-            let id = Math.random();
-            let messageHandler = (event: any) => {
-              if (event.origin !== origin) {
-                return;
-              }
+    return Promise
+        .all<any>([
+          this.iframeElPromise,
+          this.iframeElChannelPromise_,
+        ])
+        .then((results: any[]) => {
+          let iframeEl: HTMLIFrameElement = results[0];
+          let messageChannel: PostMessageChannel = results[1]
+          let id = Math.random();
 
-              if (event.data.id !== id) {
-                return;
-              }
-              this.$window_.removeEventListener('message', messageHandler);
-              resolve(event.data.uri);
-            };
-            this.$window_.addEventListener('message', messageHandler);
+          iframeEl.style.width = `${width}px`;
+          iframeEl.style.height = `${height}px`;
 
-            iframeEl.style.width = `${width}px`;
-            iframeEl.style.height = `${height}px`;
-            iframeEl.contentWindow.postMessage(
-                {
-                  'content': content,
-                  'height': height,
-                  'width': width,
-                  'id': id,
-                },
-                origin);
+          messageChannel.post({
+            'content': content,
+            'height': height,
+            'width': width,
+            'id': id,
           });
+
+          return messageChannel
+              .waitForMessage((data: gs.IJson) => {
+                return data['id'] === id;
+              })
+              .then((data: gs.IJson) => {
+                return data['uri'];
+              });
         });
   }
 

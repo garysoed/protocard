@@ -2,7 +2,10 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import FakeDocument from '../testing/fake-document';
+import Mocks from '../../node_modules/gs-tools/src/mock/mocks';
+import PostMessageChannel from '../../node_modules/gs-tools/src/ui/post-message-channel';
 import { PreviewAppCtrl } from './preview-app';
+import TestDispose from '../../node_modules/gs-tools/src/testing/test-dispose';
 
 describe('render.PreviewAppCtrl', () => {
   let mock$window;
@@ -11,15 +14,20 @@ describe('render.PreviewAppCtrl', () => {
   let mockCustomStyleEl;
   let mockDOMParserService;
   let mockHtml2canvasService;
+  let mockPostMessageChannel;
   let ctrl;
 
   beforeEach(() => {
     mock$window = jasmine.createSpyObj('$window', ['addEventListener', 'setTimeout']);
+    mock$window.location = { host: 'host', protocol: 'protocol' };
     mockCanvasEl = jasmine.createSpyObj('CanvasEl', ['getContext', 'toDataURL']);
     mockContentEl = {};
     mockCustomStyleEl = {};
     mockDOMParserService = jasmine.createSpy('DOMParserService');
     mockHtml2canvasService = jasmine.createSpy('Html2canvasService');
+    mockPostMessageChannel = Mocks.disposable();
+    mockPostMessageChannel.post = jasmine.createSpy('post');
+    mockPostMessageChannel.waitForMessage = jasmine.createSpy('waitForMessage');
 
     let fake$document = new FakeDocument({
       'canvas': mockCanvasEl,
@@ -29,23 +37,38 @@ describe('render.PreviewAppCtrl', () => {
 
     let jqliteDoc = jasmine.cast<JQLite<Document>>([fake$document]);
 
+    spyOn(PostMessageChannel, 'listen').and.returnValue(Promise.resolve(mockPostMessageChannel));
+
     ctrl = new PreviewAppCtrl(
         jqliteDoc,
         mock$window,
         mockDOMParserService,
         mockHtml2canvasService);
+    TestDispose.add(ctrl);
   });
 
-  it('should listen to message event from $window', () => {
-    expect(mock$window.addEventListener).toHaveBeenCalledWith('message', jasmine.any(Function));
+  it('should open the post message channel correctly', (done: any) => {
+    expect(PostMessageChannel.listen).toHaveBeenCalledWith(
+        mock$window,
+        `${mock$window.location.protocol}//${mock$window.location.host}`);
+    ctrl['postMessageChannelPromise_']
+        .then((channel: PostMessageChannel) => {
+          expect(channel).toEqual(mockPostMessageChannel);
+          expect(mockPostMessageChannel.waitForMessage).toHaveBeenCalledWith(jasmine.any(Function));
+          done();
+        }, done.fail);
   });
 
   describe('onMessage_', () => {
     let onMessage_;
     let id = 'id';
 
-    beforeEach(() => {
-      onMessage_ = mock$window.addEventListener.calls.argsFor(0)[1];
+    beforeEach((done: any) => {
+      ctrl['postMessageChannelPromise_']
+          .then(() => {
+            onMessage_ = mockPostMessageChannel.waitForMessage.calls.argsFor(0)[0];
+            done();
+          }, done.fail);
     });
 
     it('should render the content and send it back', () => {
@@ -68,14 +91,7 @@ describe('render.PreviewAppCtrl', () => {
       mockDOMParser.parseFromString.and.returnValue(fakeParsedDocument);
       mockDOMParserService.and.returnValue(mockDOMParser);
 
-      let event = {
-        data: data,
-        origin: 'origin',
-        source: {
-          postMessage: jasmine.createSpy('postMessage')
-        },
-      };
-      onMessage_(event);
+      onMessage_(data);
 
       // Trigger the timeout.
       expect(mock$window.setTimeout)
@@ -105,8 +121,8 @@ describe('render.PreviewAppCtrl', () => {
       expect(mockContext.drawImage)
           .toHaveBeenCalledWith(canvas, 0, 0, width, height);
       expect(mockCanvasEl.toDataURL).toHaveBeenCalledWith('image/png');
-      expect(event.source.postMessage)
-          .toHaveBeenCalledWith({ id: id, uri: dataUrl }, event.origin);
+      expect(mockPostMessageChannel.post)
+          .toHaveBeenCalledWith({ id: id, uri: dataUrl });
     });
   });
 });

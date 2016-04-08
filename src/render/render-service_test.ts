@@ -1,7 +1,11 @@
 import TestBase from '../testbase';
 TestBase.init();
 
+import Mocks from '../../node_modules/gs-tools/src/mock/mocks';
+import PostMessageChannel from '../../node_modules/gs-tools/src/ui/post-message-channel';
 import { RenderService } from './render-service';
+import TestDispose from '../../node_modules/gs-tools/src/testing/test-dispose';
+
 
 describe('render.RenderService', () => {
   let mock$document;
@@ -13,6 +17,119 @@ describe('render.RenderService', () => {
     mock$window = jasmine.createSpyObj('$window', ['addEventListener', 'removeEventListener']);
     mock$window.location = {};
     service = new RenderService([mock$document], mock$window);
+    TestDispose.add(service);
+  });
+
+  describe('iframeElChannelPromise_', () => {
+    it('should open the channel correctly', (done: any) => {
+      let mockPostMessageChannel = Mocks.disposable();
+      let mockContentWindow = Mocks.object('ContentWindow');
+      let mockIframeEl = Mocks.object('IframeEl');
+
+      mockIframeEl.contentWindow = mockContentWindow;
+
+      Object.defineProperty(service, 'iframeElPromise', {
+        get() {
+          return Promise.resolve(mockIframeEl);
+        }
+      });
+
+      spyOn(PostMessageChannel, 'open').and.returnValue(Promise.resolve(mockPostMessageChannel));
+
+      service['iframeElChannelPromise_']
+          .then((channel: PostMessageChannel) => {
+            expect(channel).toEqual(mockPostMessageChannel);
+            expect(PostMessageChannel.open).toHaveBeenCalledWith(mock$window, mockContentWindow);
+            done();
+          }, done.fail);
+    });
+  });
+
+  describe('onRequest_', () => {
+    let mockIframeEl;
+
+    beforeEach(() => {
+      mockIframeEl = jasmine.createSpyObj('IframeEl', ['addEventListener']);
+      mockIframeEl.contentWindow = jasmine.createSpyObj('IframeEl.contentWindow', ['postMessage']);
+      mockIframeEl.addEventListener.and.callFake((type: any, handler: Function) => {
+        handler();
+      });
+      mockIframeEl.style = {};
+      mock$document.createElement.and.returnValue(mockIframeEl);
+    });
+
+    it('should resolves with the data URI', (done: jasmine.IDoneFn) => {
+      let content = 'content';
+      let width = 123;
+      let height = 456;
+      let id = 12;
+      let dataUri = 'dataUri';
+      let mockPostMessageChannel =
+          jasmine.createSpyObj('PostMessageChannel', ['post', 'waitForMessage']);
+      mockPostMessageChannel.waitForMessage.and.returnValue(Promise.resolve({
+        id: id,
+        uri: dataUri
+      }));
+
+      spyOn(Math, 'random').and.returnValue(id);
+
+      Object.defineProperty(service, 'iframeElPromise', {
+        get() {
+          return Promise.resolve(mockIframeEl);
+        }
+      });
+      Object.defineProperty(service, 'iframeElChannelPromise_', {
+        get() {
+          return Promise.resolve(mockPostMessageChannel);
+        }
+      });
+
+      service
+          .onRequest_({ content: content, height: height, width: width })
+          .then((actualDataUri: any) => {
+            expect(actualDataUri).toEqual(dataUri);
+            expect(mockPostMessageChannel.post).toHaveBeenCalledWith({
+              'content': content,
+              'height': height,
+              'id': id,
+              'width': width,
+            });
+
+            expect(mockPostMessageChannel.waitForMessage.calls.argsFor(0)[0]({ id: id }))
+                .toEqual(true);
+
+            expect(mockIframeEl.style.width).toEqual(`${width}px`);
+            expect(mockIframeEl.style.height).toEqual(`${height}px`);
+            done();
+          }, done.fail);
+    });
+
+    it('should ignore messages with a different ID', (done: jasmine.IDoneFn) => {
+      let mockPostMessageChannel =
+          jasmine.createSpyObj('PostMessageChannel', ['post', 'waitForMessage']);
+      mockPostMessageChannel.waitForMessage.and.returnValue(Promise.resolve({
+        uri: 'uri'
+      }));
+
+      Object.defineProperty(service, 'iframeElPromise', {
+        get() {
+          return Promise.resolve(mockIframeEl);
+        }
+      });
+      Object.defineProperty(service, 'iframeElChannelPromise_', {
+        get() {
+          return Promise.resolve(mockPostMessageChannel);
+        }
+      });
+
+      service
+          .onRequest_({ content: 'content', height: 123, width: 456 })
+          .then((actualDataUri: any) => {
+            expect(mockPostMessageChannel.waitForMessage.calls.argsFor(0)[0]({ id: 'otherId' }))
+                .toEqual(false);
+            done();
+          }, done.fail);
+    });
   });
 
   describe('get iframeElPromise', () => {
@@ -87,100 +204,6 @@ describe('render.RenderService', () => {
         height: height,
         width: width,
       });
-    });
-  });
-
-  describe('onRequest_', () => {
-    let mockIframeEl;
-
-    beforeEach(() => {
-      mockIframeEl = jasmine.createSpyObj('IframeEl', ['addEventListener']);
-      mockIframeEl.contentWindow = jasmine.createSpyObj('IframeEl.contentWindow', ['postMessage']);
-      mockIframeEl.addEventListener.and.callFake((type: any, handler: Function) => {
-        handler();
-      });
-      mockIframeEl.style = {};
-      mock$document.createElement.and.returnValue(mockIframeEl);
-    });
-
-    it('should resolves with the data URI', (done: jasmine.IDoneFn) => {
-      let content = 'content';
-      let width = 123;
-      let height = 456;
-      let host = 'abs.url:8080';
-      let protocol = 'http:';
-      let origin = `${protocol}//${host}`;
-      let id = 12;
-      let dataUri = 'dataUri';
-      mock$window.location.host = host;
-      mock$window.location.protocol = protocol;
-
-      let event = { data: { id: id, uri: dataUri }, origin: origin };
-      mock$window.addEventListener.and.callFake((type: any, handler: Function) => {
-        handler(event);
-      });
-
-      spyOn(Math, 'random').and.returnValue(id);
-
-      service
-          .onRequest_({ content: content, height: height, width: width })
-          .then((actualDataUri: any) => {
-            expect(mock$window.addEventListener)
-                .toHaveBeenCalledWith('message', jasmine.any(Function));
-            let handler = mock$window.addEventListener.calls.argsFor(0)[1];
-            expect(mock$window.removeEventListener).toHaveBeenCalledWith('message', handler);
-
-            expect(mockIframeEl.style.width).toEqual(`${width}px`);
-            expect(mockIframeEl.style.height).toEqual(`${height}px`);
-            expect(mockIframeEl.contentWindow.postMessage)
-                .toHaveBeenCalledWith(
-                    jasmine.objectContaining({
-                      'content': content,
-                      'height': height,
-                      'width': width,
-                    }),
-                    origin);
-            expect(actualDataUri).toEqual(dataUri);
-            done();
-          }, done.fail);
-    });
-
-    it('should ignore messages from other origin', (done: jasmine.IDoneFn) => {
-      jasmine.clock().install();
-      mock$window.location.host = 'abs.url';
-      mock$window.location.protocol = 'http:';
-      mock$window.addEventListener.and.callFake((type: any, handler: Function) => {
-        handler({ data: 'dataUri', origin: 'https://other.origin' });
-      });
-
-      service
-          .onRequest_({ content: 'content', height: 4456, width: 123 })
-          .then(done.fail, done.fail);
-      setTimeout(() => {
-        jasmine.clock().uninstall();
-        done();
-      }, 1);
-      jasmine.clock().tick(2);
-    });
-
-    it('should ignore messages with a different ID', (done: jasmine.IDoneFn) => {
-      jasmine.clock().install();
-      mock$window.location.host = 'abs.url';
-      mock$window.location.protocol = 'http:';
-      mock$window.addEventListener.and.callFake((type: any, handler: Function) => {
-        handler({ data: { id: 'otherId', uri: 'dataUri' }, origin: 'https://other.origin' });
-      });
-
-      spyOn(Math, 'random').and.returnValue('expectedId');
-
-      service
-          .onRequest_({ content: 'content', height: 4456, width: 123 })
-          .then(done.fail, done.fail);
-      setTimeout(() => {
-        jasmine.clock().uninstall();
-        done();
-      }, 1);
-      jasmine.clock().tick(2);
     });
   });
 });

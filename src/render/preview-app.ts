@@ -1,20 +1,24 @@
+import BaseDisposable from '../../node_modules/gs-tools/src/dispose/base-disposable';
 import DomServiceModule from '../thirdparty/dom-service';
 import Html2canvasServiceModule from '../thirdparty/html2canvas-service';
+import PostMessageChannel from '../../node_modules/gs-tools/src/ui/post-message-channel';
 
-export class PreviewAppCtrl {
 
+export class PreviewAppCtrl extends BaseDisposable {
   private $window_: Window;
   private canvasEl_: HTMLCanvasElement;
   private contentEl_: HTMLElement;
   private customStyleEl_: HTMLElement;
   private domParserService_: DOMParser;
   private html2canvasService_: Html2CanvasStatic;
+  private postMessageChannelPromise_: Promise<PostMessageChannel>;
 
   constructor(
       $document: JQLite<Document>,
       $window: Window,
       DOMParserService: DOMParser,
       Html2canvasService: Html2CanvasStatic) {
+    super();
     this.$window_ = $window;
     this.canvasEl_ = <HTMLCanvasElement> ($document[0].querySelector('canvas'));
     this.contentEl_ = <HTMLElement> ($document[0].querySelector('#content'));
@@ -22,17 +26,23 @@ export class PreviewAppCtrl {
     this.domParserService_ = DOMParserService;
     this.html2canvasService_ = Html2canvasService;
 
-    $window.addEventListener('message', this.onMessage_.bind(this));
+    this.postMessageChannelPromise_ = PostMessageChannel
+        .listen($window, PostMessageChannel.getOrigin($window))
+        .then((channel: PostMessageChannel) => {
+          this.addDisposable(channel);
+          channel.waitForMessage(this.onMessage_.bind(this, channel));
+          return channel;
+        });
   }
 
   /**
    * Handler called when there is a message event dispatched by the window.
    */
-  private onMessage_(event: MessageEvent): void {
-    let content = event.data['content'];
-    let height = event.data['height'];
-    let width = event.data['width'];
-    let id = event.data['id'];
+  private onMessage_(channel: PostMessageChannel, data: gs.IJson): boolean {
+    let content = data['content'];
+    let height = data['height'];
+    let width = data['width'];
+    let id = data['id'];
 
     let parser = new this.domParserService_();
     let doc = parser.parseFromString(content, 'text/html');
@@ -48,10 +58,12 @@ export class PreviewAppCtrl {
           let ctx = this.canvasEl_.getContext('2d');
           ctx.drawImage(canvas, 0, 0, width, height);
           let dataUri = this.canvasEl_.toDataURL('image/png');
-          event.source.postMessage({ id: id, uri: dataUri }, event.origin);
+          channel.post({ id: id, uri: dataUri });
         },
       });
     }, 100);
+
+    return false;
   }
 };
 

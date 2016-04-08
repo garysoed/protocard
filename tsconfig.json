@@ -234,6 +234,7 @@
         "node_modules/gs-tools/src/ui/doms.ts",
         "node_modules/gs-tools/src/ui/gulpfile.js",
         "node_modules/gs-tools/src/ui/overflow-watcher.ts",
+        "node_modules/gs-tools/src/ui/post-message-channel.ts",
         "node_modules/gs-tools/src/ui/README.md"
     ],
     "atom": {
