@@ -25,8 +25,8 @@
     "gulp-util": "^3.0.6",
     "gulp-webshot": "^0.1.4",
     "handlebars": "^4.0.3",
-    "reflect-metadata": "^0.1.2",
-    "rxjs": "^5.0.0-beta.2",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.2",
     "through2": "^2.0.0",
     "zone.js": "^0.6.9"
   },
