@@ -3,6 +3,7 @@ var concat     = require('gulp-concat');
 var path       = require('path');
 
 var gn = require('./node_modules/gs-tools/gulp/gulp-node')(__dirname, require('gulp'));
+var fileTasks = require('./node_modules/gs-tools/gulp-tasks/file')(require('gulp-concat'));
 var karmaTasks = require('./node_modules/gs-tools/gulp-tasks/karma')(
     require('karma').Server);
 var mythTasks = require('./node_modules/gs-tools/gulp-tasks/myth')(
@@ -86,22 +87,15 @@ gn.exec('compile-ui', gn.series(
     gn.parallel(
         '_compile',
         mythTasks.compile(gn, 'src/**'),
+        fileTasks.copy(gn, [
+          'node_modules/@angular/router/angular1/angular_1_router.js',
+          'src/**/*.ng',
+          'src/**/*.html'
+        ]),
         function api_() {
           return gn.src(['api/test.js'])
               .pipe(concat('api.js'))
               .pipe(gn.dest('out'));
-        },
-        function dependencies_() {
-          return gn.src(['node_modules/@angular/router/angular1/angular_1_router.js'], {'base': '.'})
-              .pipe(gn.dest('out'));
-        },
-        function ng_() {
-          return gn.src(['src/**/*.ng'])
-              .pipe(gn.dest('out/src'));
-        },
-        function subPages_() {
-          return gn.src(['src/**/*.html'])
-              .pipe(gn.dest('out/src'));
         }),
     packTasks.app(
         gn,
