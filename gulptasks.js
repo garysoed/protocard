@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var fileTasks = require('./node_modules/gs-tools/gulp-tasks/file')(require('gulp-concat'));
 var typescriptTasks = require('./node_modules/gs-tools/gulp-tasks/typescript')(
     require('gulp-tslint'),
     require('gulp-typescript'));
@@ -34,6 +35,10 @@ tasks.allTests = function(gt, dir) {
   })
 };
 
-gulp.task('_compile', typescriptTasks.compile(gulp));
+gulp.task('_compile', gulp.parallel(
+    typescriptTasks.compile(gulp),
+    fileTasks.copy(gulp, [
+      'node_modules/angular2/**/*.js'
+    ])));
 
 module.exports = tasks;

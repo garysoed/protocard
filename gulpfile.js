@@ -88,6 +88,7 @@ gn.exec('compile-ui', gn.series(
         '_compile',
         mythTasks.compile(gn, 'src/**'),
         fileTasks.copy(gn, [
+          'node_modules/angular2/bundles/angular2-polyfills.js',
           'node_modules/@angular/router/angular1/angular_1_router.js',
           'src/**/*.ng',
           'src/**/*.html'
