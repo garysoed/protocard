@@ -71,7 +71,10 @@ var mockAngular = {
   pattern: 'node_modules/gs-tools/src/testing/mock-angular.js',
   included: true
 };
-gn.exec('test', gn.series('.:compile-test', karmaTasks.once(gn, '**', [mockAngular])));
+gn.exec('test', gn.series(
+    '.:compile-test',
+    '.:lint',
+    karmaTasks.once(gn, '**', [mockAngular])));
 gn.exec('karma', gn.series('.:compile-test', karmaTasks.watch(gn, '**', [mockAngular])));
 gn.exec('compile', gn.series('_compile'));
 
@@ -117,4 +120,4 @@ gn.exec('watch-test', gn.series(
       gn.watch(['src/**/*.ts'], gn.series('.:compile-test'));
     }));
 
-gn.exec('default', gn.series('lint', 'compile-ui'));
+gn.exec('default', gn.series('compile-ui'));

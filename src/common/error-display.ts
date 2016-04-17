@@ -1,25 +1,24 @@
 export class ErrorDisplayCtrl {
-  private $scope_: angular.IScope;
+  private error_: Error;
 
-  constructor($scope: angular.IScope) {
-    this.$scope_ = $scope;
+  get error(): Error {
+    return this.error_ ;
+  }
+  set error(error: Error) {
+    this.error_ = error;
   }
 
   get lastError(): any {
-    return this.$scope_['error'].message;
+    return this.error_.message;
   }
 }
 
 export default angular
     .module('common.ErrorDisplayModule', [])
-    .directive('pcErrorDisplay', () => {
-      return {
-        controller: ErrorDisplayCtrl,
-        controllerAs: 'ctrl',
-        restrict: 'E',
-        scope: {
-          'error': '=',
-        },
-        templateUrl: 'src/common/error-display.ng',
-      };
+    .component('pcErrorDisplay', {
+      bindings: {
+        'error': '<',
+      },
+      controller: ErrorDisplayCtrl,
+      templateUrl: 'src/common/error-display.ng',
     });
