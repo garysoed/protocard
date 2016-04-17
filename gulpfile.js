@@ -73,7 +73,6 @@ var mockAngular = {
 };
 gn.exec('test', gn.series(
     '.:compile-test',
-    '.:lint',
     karmaTasks.once(gn, '**', [mockAngular])));
 gn.exec('karma', gn.series('.:compile-test', karmaTasks.watch(gn, '**', [mockAngular])));
 gn.exec('compile', gn.series('_compile'));
