@@ -130,7 +130,7 @@ describe('render.RenderCtrl', () => {
       mockAsset.name = 'assetName';
 
       let selectedImages = [
-        { alias: 'imageAlias1', url: 'data:image/png,base64data1' }
+        { alias: 'imageAlias1', url: 'data:image/png,base64data1' },
       ];
       ctrl.selectedImages = selectedImages;
 

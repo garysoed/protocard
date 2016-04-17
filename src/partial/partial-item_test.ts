@@ -14,7 +14,7 @@ describe('partial.PartialItemCtrl', () => {
   beforeEach(() => {
     mockAsset = {
       partials: {
-        [NAME]: EDITED_PARTIAL
+        [NAME]: EDITED_PARTIAL,
       },
     };
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
@@ -58,7 +58,7 @@ describe('partial.PartialItemCtrl', () => {
       ctrl.name = newName;
 
       expect(mockAsset.partials).toEqual(jasmine.objectContaining({
-        [NAME]: EDITED_PARTIAL
+        [NAME]: EDITED_PARTIAL,
       }));
       expect(mockAssetService.saveAsset).not.toHaveBeenCalled();
     });

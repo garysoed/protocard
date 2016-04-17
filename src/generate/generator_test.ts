@@ -140,7 +140,7 @@ describe('Generator', () => {
       let localDataList = [
         {
           a: {
-            b: '{{a}}'
+            b: '{{a}}',
           },
         },
       ];

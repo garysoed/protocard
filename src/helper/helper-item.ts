@@ -54,7 +54,7 @@ export default angular
         controllerAs: 'ctrl',
         restrict: 'E',
         scope: {
-          name: '='
+          name: '=',
         },
         templateUrl: 'src/helper/helper-item.ng',
       };

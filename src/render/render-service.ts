@@ -34,7 +34,7 @@ export class RenderService extends BaseService<void> {
         .then((channel: PostMessageChannel) => {
           this.addDisposable(channel);
           return channel;
-        })
+        });
   }
 
   /**
@@ -52,7 +52,7 @@ export class RenderService extends BaseService<void> {
         ])
         .then((results: any[]) => {
           let iframeEl: HTMLIFrameElement = results[0];
-          let messageChannel: PostMessageChannel = results[1]
+          let messageChannel: PostMessageChannel = results[1];
           let id = Math.random();
 
           iframeEl.style.width = `${width}px`;

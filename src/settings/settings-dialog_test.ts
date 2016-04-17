@@ -143,7 +143,7 @@ describe('settings.SettingsDialogService', () => {
 
       expect(mock$mdDialog.show).toHaveBeenCalledWith(jasmine.objectContaining({
         locals: {
-          'asset': asset
+          'asset': asset,
         },
         targetEvent: event,
       }));

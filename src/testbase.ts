@@ -1,10 +1,12 @@
 import Comparator from './decorator/compare';
 import TestDispose from '../node_modules/gs-tools/src/testing/test-dispose';
+import TestJasmine from '../node_modules/gs-tools/src/testing/test-jasmine';
 import TestSetup from '../node_modules/gs-tools/src/testing/test-setup';
 
 let called = false;
 const TEST_SETUP = new TestSetup([
-  TestDispose
+  TestDispose,
+  TestJasmine,
 ]);
 
 export default {

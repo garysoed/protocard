@@ -88,7 +88,6 @@ gn.exec('compile-ui', gn.series(
         '_compile',
         mythTasks.compile(gn, 'src/**'),
         fileTasks.copy(gn, [
-          'node_modules/angular2/bundles/angular2-polyfills.js',
           'node_modules/@angular/router/angular1/angular_1_router.js',
           'src/**/*.ng',
           'src/**/*.html'
@@ -118,4 +117,4 @@ gn.exec('watch-test', gn.series(
       gn.watch(['src/**/*.ts'], gn.series('.:compile-test'));
     }));
 
-gn.exec('default', gn.exec('compile-ui'));
+gn.exec('default', gn.series('lint', 'compile-ui'));

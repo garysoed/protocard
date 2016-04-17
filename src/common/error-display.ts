@@ -18,7 +18,7 @@ export default angular
         controllerAs: 'ctrl',
         restrict: 'E',
         scope: {
-          'error': '='
+          'error': '=',
         },
         templateUrl: 'src/common/error-display.ng',
       };

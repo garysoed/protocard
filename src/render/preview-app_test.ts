@@ -25,7 +25,7 @@ describe('render.PreviewAppCtrl', () => {
     mockCustomStyleEl = {};
     mockDOMParserService = jasmine.createSpy('DOMParserService');
     mockHtml2canvasService = jasmine.createSpy('Html2canvasService');
-    mockPostMessageChannel = Mocks.disposable();
+    mockPostMessageChannel = Mocks.disposable('PostMessageChannel');
     mockPostMessageChannel.post = jasmine.createSpy('post');
     mockPostMessageChannel.waitForMessage = jasmine.createSpy('waitForMessage');
 
@@ -104,7 +104,7 @@ describe('render.PreviewAppCtrl', () => {
       expect(mockCustomStyleEl.innerHTML).toEqual(mockParsedStyleEl.innerHTML);
       expect(mockContentEl.innerHTML).toEqual(mockParsedRootEl.outerHTML);
       expect(mockHtml2canvasService).toHaveBeenCalledWith(mockContentEl, jasmine.objectContaining({
-        'onrendered': jasmine.any(Function)
+        'onrendered': jasmine.any(Function),
       }));
 
       let canvas = {};

@@ -55,10 +55,7 @@ export class TextCtrl extends BaseComponent {
 
   @Cache()
   get parsedData(): Provider<string[][]> {
-    return new Provider<string[][]>(
-        this.$scope,
-        this.textNode_.result,
-        []);
+    return new Provider<string[][]>(this.$scope, this.textNode_.result, []);
   }
 
   hasData(): boolean {
@@ -76,7 +73,7 @@ export default angular
     ])
     .component('pcText', {
       bindings: {
-        'asset': '<'
+        'asset': '<',
       },
       controller: TextCtrl,
       templateUrl: 'src/text/text.ng',

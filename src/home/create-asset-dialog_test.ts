@@ -68,7 +68,7 @@ describe('home.CreateAssetDialogService', () => {
 
       expect(service.show($event)).toEqual(promise);
       expect(mock$mdDialog.show).toHaveBeenCalledWith(jasmine.objectContaining({
-        targetEvent: $event
+        targetEvent: $event,
       }));
     });
   });

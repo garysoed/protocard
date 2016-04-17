@@ -118,7 +118,7 @@ export class SettingsDialogService {
       controller: SettingsDialogCtrl,
       controllerAs: 'ctrl',
       locals: {
-        'asset': asset
+        'asset': asset,
       },
       targetEvent: $event,
       templateUrl: 'src/settings/settings-dialog.ng',

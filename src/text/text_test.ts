@@ -10,8 +10,6 @@ import { TextCtrl } from './text';
 
 
 describe('text.TextCtrl', () => {
-  const ASSET_ID = 'assetId';
-
   let mock$scope;
   let mockAssetPipelineService;
   let mockAssetService;
@@ -46,6 +44,7 @@ describe('text.TextCtrl', () => {
       mockAsset.id = assetId;
 
       let mockTextNode = Mocks.listenable('TextNode');
+      TestDispose.add(mockTextNode);
       spyOn(mockTextNode, 'on').and.callThrough();
 
       mockAssetPipelineService.getPipeline.and.returnValue({ textNode: mockTextNode });

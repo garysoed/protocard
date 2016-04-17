@@ -41,10 +41,10 @@ describe('editor.DriveDialogCtrl', () => {
       let batchResponse = {
         result: {
           '1': {
-            result: { thumbnailLink: 'thumbnailLink1', title: 'title1' }
+            result: { thumbnailLink: 'thumbnailLink1', title: 'title1' },
           },
           '2': {
-            result: { thumbnailLink: 'thumbnailLink2', title: 'title2' }
+            result: { thumbnailLink: 'thumbnailLink2', title: 'title2' },
           },
         },
       };
@@ -55,7 +55,7 @@ describe('editor.DriveDialogCtrl', () => {
       mockGapiService.newBatch.and.returnValue(batch);
 
       mockDriveClient.children = {
-        list: jasmine.createSpy('children.list').and.returnValue(Promise.resolve(listResponse))
+        list: jasmine.createSpy('children.list').and.returnValue(Promise.resolve(listResponse)),
       };
 
       let getResponses = {
@@ -63,7 +63,7 @@ describe('editor.DriveDialogCtrl', () => {
         id2: Promise.resolve(),
       };
       let folderResponse = {
-        result: { webViewLink: webViewLink }
+        result: { webViewLink: webViewLink },
       };
       mockDriveClient.files = {
         get: jasmine.createSpy('files.get').and.callFake((payload: any) => {

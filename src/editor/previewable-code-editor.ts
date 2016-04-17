@@ -42,7 +42,7 @@ function link(
 
 export default angular
     .module('editor.PreviewableCodeEditorModule', [
-      CodeEditorModule.name
+      CodeEditorModule.name,
     ])
     .directive('pcPreviewableCodeEditor', () => {
       return {
@@ -52,7 +52,7 @@ export default angular
         require: ['pcPreviewableCodeEditor', 'ngModel'],
         restrict: 'E',
         scope: {
-          'language': '@'
+          'language': '@',
         },
         templateUrl: 'src/editor/previewable-code-editor.ng',
         transclude: true,

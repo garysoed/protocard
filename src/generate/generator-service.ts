@@ -60,6 +60,6 @@ export class GeneratorService {
 
 export default angular
     .module('generator.GeneratorServiceModule', [
-      HandlebarsServiceModule.name
+      HandlebarsServiceModule.name,
     ])
     .service('GeneratorService', GeneratorService);

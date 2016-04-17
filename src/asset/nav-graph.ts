@@ -165,7 +165,7 @@ export default angular
     ])
     .component('pcNavGraph', {
       bindings: {
-        'asset': '<'
+        'asset': '<',
       },
       controller: NavGraphCtrl,
       templateUrl: 'src/asset/nav-graph.ng',

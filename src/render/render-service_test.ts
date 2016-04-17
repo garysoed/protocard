@@ -22,16 +22,16 @@ describe('render.RenderService', () => {
 
   describe('iframeElChannelPromise_', () => {
     it('should open the channel correctly', (done: any) => {
-      let mockPostMessageChannel = Mocks.disposable();
+      let mockPostMessageChannel = Mocks.disposable('PostMessageChannel');
       let mockContentWindow = Mocks.object('ContentWindow');
       let mockIframeEl = Mocks.object('IframeEl');
 
       mockIframeEl.contentWindow = mockContentWindow;
 
       Object.defineProperty(service, 'iframeElPromise', {
-        get() {
+        get(): Promise<any> {
           return Promise.resolve(mockIframeEl);
-        }
+        },
       });
 
       spyOn(PostMessageChannel, 'open').and.returnValue(Promise.resolve(mockPostMessageChannel));
@@ -68,20 +68,20 @@ describe('render.RenderService', () => {
           jasmine.createSpyObj('PostMessageChannel', ['post', 'waitForMessage']);
       mockPostMessageChannel.waitForMessage.and.returnValue(Promise.resolve({
         id: id,
-        uri: dataUri
+        uri: dataUri,
       }));
 
       spyOn(Math, 'random').and.returnValue(id);
 
       Object.defineProperty(service, 'iframeElPromise', {
-        get() {
+        get(): Promise<any> {
           return Promise.resolve(mockIframeEl);
-        }
+        },
       });
       Object.defineProperty(service, 'iframeElChannelPromise_', {
-        get() {
+        get(): Promise<any> {
           return Promise.resolve(mockPostMessageChannel);
-        }
+        },
       });
 
       service
@@ -108,18 +108,18 @@ describe('render.RenderService', () => {
       let mockPostMessageChannel =
           jasmine.createSpyObj('PostMessageChannel', ['post', 'waitForMessage']);
       mockPostMessageChannel.waitForMessage.and.returnValue(Promise.resolve({
-        uri: 'uri'
+        uri: 'uri',
       }));
 
       Object.defineProperty(service, 'iframeElPromise', {
-        get() {
+        get(): Promise<any> {
           return Promise.resolve(mockIframeEl);
-        }
+        },
       });
       Object.defineProperty(service, 'iframeElChannelPromise_', {
-        get() {
+        get(): Promise<any> {
           return Promise.resolve(mockPostMessageChannel);
-        }
+        },
       });
 
       service

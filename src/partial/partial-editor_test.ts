@@ -74,7 +74,7 @@ describe('partial.PartialEditorCtrl', () => {
       let renderedValue = 'renderedValue';
       mockPartialNode.result = Promise.resolve({
         [NAME]: {
-          [selectedKey]: renderedValue
+          [selectedKey]: renderedValue,
         },
       });
 
@@ -95,7 +95,7 @@ describe('partial.PartialEditorCtrl', () => {
     it('should return empty string if there are no keys selected', (done: jasmine.IDoneFn) => {
       mockPartialNode.result = Promise.resolve({
         [NAME]: {
-          'selectedKey': 'renderedValue'
+          'selectedKey': 'renderedValue',
         },
       });
       mockLabelNode.result = Promise.resolve({});
@@ -111,7 +111,7 @@ describe('partial.PartialEditorCtrl', () => {
       let selectedKey = 'selectedKey';
       mockPartialNode.result = Promise.resolve({
         'otherName': {
-          [selectedKey]: 'renderedValue'
+          [selectedKey]: 'renderedValue',
         },
       });
 
@@ -126,7 +126,7 @@ describe('partial.PartialEditorCtrl', () => {
     it('should return empty string if the selected key does not exist', (done: jasmine.IDoneFn) => {
       mockPartialNode.result = Promise.resolve({
         'otherName': {
-          'selectedKey': 'renderedValue'
+          'selectedKey': 'renderedValue',
         },
       });
 

@@ -75,7 +75,7 @@ export default angular
         require: ['pcImageSelect', 'ngModel'],
         restrict: 'E',
         scope: {
-          'images': '='
+          'images': '=',
         },
         templateUrl: 'src/editor/image-select.ng',
       };

@@ -204,7 +204,7 @@ export default angular
         controllerAs: 'ctrl',
         restrict: 'E',
         scope: {
-          'asset': '='
+          'asset': '=',
         },
         templateUrl: 'src/render/render.ng',
       };

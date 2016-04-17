@@ -1,6 +1,5 @@
 import AssetViewModule from './asset/asset-view';
 import HomeViewModule from './home/home-view';
-import upgrade from './upgrade';
 
 
 angular
@@ -43,4 +42,4 @@ angular
     })
     .value('$routerRootComponent', 'app');
 
-upgrade.bootstrap(document.body, ['pc.App']);
+angular.bootstrap(document.body, ['pc.App']);

@@ -32,13 +32,10 @@ tasks.allTests = function(gt, dir) {
       karmaTasks.watch(gt, dir, [mockAngular])));
   gt.exec('watch-test', function() {
     gt.watch(['src/**/*.ts'], gt.series('_compile', '.:compile-test'));
-  })
+  });
+  gt.exec('test', gt.parallel('.:watch-test', '.:karma'));
 };
 
-gulp.task('_compile', gulp.parallel(
-    typescriptTasks.compile(gulp),
-    fileTasks.copy(gulp, [
-      'node_modules/angular2/**/*.js'
-    ])));
+gulp.task('_compile', typescriptTasks.compile(gulp));
 
 module.exports = tasks;

@@ -122,7 +122,7 @@ describe('template.TemplateCtrl', () => {
       mockTemplateNode.result = Promise.resolve({
         [query]: {
           dataUriTicket: {
-            promise: Promise.resolve('dataUri')
+            promise: Promise.resolve('dataUri'),
           },
         },
       });
@@ -211,7 +211,7 @@ describe('template.TemplateCtrl', () => {
       mockTemplateNode.result = Promise.resolve({
         [query]: {
           dataUriTicket: {
-            promise: Promise.resolve(dataUri)
+            promise: Promise.resolve(dataUri),
           },
         },
       });
