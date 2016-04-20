@@ -8,11 +8,13 @@ import ContextButtonModule from '../common/context-button';
 import PreviewableCodeEditorModule from '../editor/previewable-code-editor';
 import ProcessNode from '../pipeline/process-node';
 import Provider from '../util/provider';
+import Records from '../../node_modules/gs-tools/src/collection/records';
 
 
 export class DataCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
+  private assetPipelineService_: AssetPipelineService;
   private assetService_: AssetService;
   private processNode_: ProcessNode;
   private processorString_: string;
@@ -22,10 +24,30 @@ export class DataCtrl {
       AssetPipelineService: AssetPipelineService,
       AssetService: AssetService) {
     this.$scope_ = $scope;
-    this.asset_ = $scope['asset'];
+    this.assetPipelineService_ = AssetPipelineService;
     this.assetService_ = AssetService;
-    this.processorString_ = this.asset_.dataProcessor.fnString;
-    this.processNode_ = AssetPipelineService.getPipeline($scope['asset'].id).processNode;
+  }
+
+  $onChanges(changes: { [key: string]: any }): void {
+    Records.of(changes).forEach((value: any, key: string) => {
+      if (key === 'asset') {
+        this.asset = value.currentValue;
+        this.processorString_ = this.asset.dataProcessor.fnString;
+        this.processNode_ = this.assetPipelineService_.getPipeline(this.asset.id).processNode;
+      }
+    });
+  }
+
+  $onInit(): void {
+    this.processorString_ = this.asset.dataProcessor.fnString;
+    this.processNode_ = this.assetPipelineService_.getPipeline(this.asset.id).processNode;
+  }
+
+  get asset(): Asset {
+    return this.asset_;
+  }
+  set asset(asset: Asset) {
+    this.asset_ = asset;
   }
 
   onRefreshClick(): void {
@@ -65,14 +87,10 @@ export default angular
       ContextButtonModule.name,
       PreviewableCodeEditorModule.name,
     ])
-    .directive('pcData', () => {
-      return {
-        controller: DataCtrl,
-        controllerAs: 'ctrl',
-        restrict: 'E',
-        scope: {
-          'asset': '=',
-        },
-        templateUrl: 'src/data/data.ng',
-      };
+    .component('pcData', {
+      bindings: {
+        'asset': '<',
+      },
+      controller: DataCtrl,
+      templateUrl: 'src/data/data.ng',
     });

@@ -1,54 +1,81 @@
 import TestBase from '../testbase';
 TestBase.init();
 
+import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import { DataCtrl } from './data';
 import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
+import Mocks from '../../node_modules/gs-tools/src/mock/mocks';
+
 
 describe('data.DataCtrl', () => {
-  const ASSET_ID = 'assetId';
-
-  let asset;
-  let dataProcessor;
   let mockAssetPipelineService;
   let mockAssetService;
-  let mockProcessNode;
   let ctrl;
 
   beforeEach(() => {
-    dataProcessor = jasmine.createObj('dataProcessor');
-    asset = { dataProcessor: dataProcessor, id: ASSET_ID };
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
-    mockProcessNode = jasmine.createSpyObj('ProcessNode', ['refresh']);
-
     mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
-    mockAssetPipelineService.getPipeline.and.returnValue({ processNode: mockProcessNode });
-
     let scope = FakeScope.create();
-    scope['asset'] = asset;
     ctrl = new DataCtrl(scope, mockAssetPipelineService, mockAssetService);
   });
 
-  it('should initialize with the correct process node', () => {
-    expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(ASSET_ID);
+  describe('$onChanges', () => {
+    it('should handle asset change correctly', () => {
+      let assetId = 'assetId';
+      let fnString = 'fnString';
+      let mockDataProcessor = { fnString: fnString };
+      let mockAsset = { dataProcessor: mockDataProcessor, id: assetId };
+
+      let mockProcessNode = Mocks.object('ProcessNode');
+      let mockPipeline = { processNode: mockProcessNode };
+      mockAssetPipelineService.getPipeline.and.returnValue(mockPipeline);
+
+      ctrl.$onChanges({ 'asset': { currentValue: mockAsset } });
+
+      expect(ctrl.asset).toEqual(mockAsset);
+      expect(ctrl['processorString_']).toEqual(fnString);
+      expect(ctrl['processNode_']).toEqual(mockProcessNode);
+      expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(assetId);
+    });
+  });
+
+  describe('$onInit', () => {
+    it('should initialize with the correct process node', () => {
+      let assetId = 'assetId';
+      let fnString = 'fnString';
+      let mockDataProcessor = { fnString: fnString };
+      let mockAsset = { dataProcessor: mockDataProcessor, id: assetId };
+
+      let mockProcessNode = Mocks.object('ProcessNode');
+      let mockPipeline = { processNode: mockProcessNode };
+      mockAssetPipelineService.getPipeline.and.returnValue(mockPipeline);
+
+      ctrl.asset = mockAsset;
+      ctrl.$onInit();
+
+      expect(ctrl['processorString_']).toEqual(fnString);
+      expect(ctrl['processNode_']).toEqual(mockProcessNode);
+      expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(assetId);
+    });
   });
 
   describe('onRefreshClick', () => {
     it('should invalidate the preview data', () => {
-      mockProcessNode.result = Promise.resolve([1, 2]);
-
-      let firstProvider = ctrl.preview;
+      spyOn(Cache, 'clear');
       ctrl.onRefreshClick();
-      expect(ctrl.preview).not.toBe(firstProvider);
+      expect(Cache.clear).toHaveBeenCalledWith(ctrl);
     });
   });
 
   describe('get preview', () => {
     it('should return the provider with the correct data', (done: jasmine.IDoneFn) => {
       let processResults = ['a', 'b'];
+      let mockProcessNode = Mocks.object('ProcessNode');
       mockProcessNode.result = Promise.resolve(processResults);
 
       spyOn(Math, 'random').and.returnValue(0.5);
 
+      ctrl['processNode_'] = mockProcessNode;
       ctrl.preview.promise
           .then((previewData: any) => {
             expect(previewData).toEqual('"b"');
@@ -57,39 +84,55 @@ describe('data.DataCtrl', () => {
     });
 
     it('should cache the provider', () => {
+      let mockProcessNode = Mocks.object('ProcessNode');
       mockProcessNode.result = Promise.resolve(['a', 'b']);
+
+      ctrl['processNode_'] = mockProcessNode;
       expect(ctrl.preview).toBe(ctrl.preview);
     });
   });
 
   describe('set processorString', () => {
-    beforeEach(() => {
-      mockProcessNode.result = Promise.resolve([1, 2]);
-    });
-
     it('should update the data processor and save the asset if non null', () => {
-      let firstProvider = ctrl.preview;
       let newValue = 'newValue';
+      let mockDataProcessor = Mocks.object('DataProcessor');
+      let mockAsset = Mocks.object('Asset');
+      mockAsset.dataProcessor = mockDataProcessor;
+
+      let mockProcessNode = jasmine.createSpyObj('ProcessNode', ['refresh']);
+
+      spyOn(Cache, 'clear');
+      ctrl['processNode_'] = mockProcessNode;
+      ctrl.asset = mockAsset;
       ctrl.processorString = newValue;
 
       expect(ctrl.processorString).toEqual(newValue);
-      expect(dataProcessor.fnString).toEqual(newValue);
-      expect(mockAssetService.saveAsset).toHaveBeenCalledWith(asset);
+      expect(mockDataProcessor.fnString).toEqual(newValue);
+      expect(mockAssetService.saveAsset).toHaveBeenCalledWith(mockAsset);
       expect(mockProcessNode.refresh).toHaveBeenCalledWith();
-      expect(ctrl.preview).not.toBe(firstProvider);
+      expect(Cache.clear).toHaveBeenCalledWith(ctrl);
     });
 
     it('should not update the data processor or save the asset if null', () => {
-      let firstProvider = ctrl.preview;
       let oldValue = 'oldValue';
-      dataProcessor.fnString = oldValue;
+      let mockDataProcessor = Mocks.object('DataProcessor');
+      mockDataProcessor.fnString = oldValue;
 
+      let mockAsset = Mocks.object('Asset');
+      mockAsset.dataProcessor = mockDataProcessor;
+
+      let mockProcessNode = jasmine.createSpyObj('ProcessNode', ['refresh']);
+
+      spyOn(Cache, 'clear');
+      ctrl['processNode_'] = mockProcessNode;
+      ctrl.asset = mockAsset;
       ctrl.processorString = null;
+
       expect(ctrl.processorString).toEqual(null);
-      expect(dataProcessor.fnString).toEqual(oldValue);
+      expect(mockDataProcessor.fnString).toEqual(oldValue);
       expect(mockAssetService.saveAsset).not.toHaveBeenCalled();
       expect(mockProcessNode.refresh).not.toHaveBeenCalled();
-      expect(ctrl.preview).toBe(firstProvider);
+      expect(Cache.clear).not.toHaveBeenCalled();
     });
   });
 });
