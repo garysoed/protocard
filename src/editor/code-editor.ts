@@ -2,32 +2,26 @@ import AceServiceModule from '../thirdparty/ace-service';
 
 
 export class CodeEditorCtrl {
+  private $element_: HTMLElement;
   private $scope_: angular.IScope;
   private $timeout_: angular.ITimeoutService;
   private aceService_: AceAjax.Ace;
   private editor_: AceAjax.Editor;
-  private ngModelCtrl_: angular.INgModelController;
+  private language_: string;
+  private ngModel_: angular.INgModelController;
+  private readonly_: boolean;
   private valid_: boolean;
 
   constructor(
+      $element: angular.IAugmentedJQuery,
       $scope: angular.IScope,
       $timeout: angular.ITimeoutService,
       AceService: AceAjax.Ace) {
+    this.$element_ = $element[0];
     this.$scope_ = $scope;
     this.$timeout_ = $timeout;
     this.aceService_ = AceService;
-    this.editor_ = null;
-    this.ngModelCtrl_ = null;
     this.valid_ = true;
-
-    $scope.$on('$destroy', this.on$destroy_.bind(this));
-  }
-
-  /**
-   * Handler called when the ctrl is destroy.
-   */
-  private on$destroy_(): void {
-    this.editor_.destroy();
   }
 
   /**
@@ -40,9 +34,9 @@ export class CodeEditorCtrl {
             return annotation.type === 'error';
           });
       if (this.valid_) {
-        this.ngModelCtrl_.$setViewValue(this.editor_.getValue());
+        this.ngModel_.$setViewValue(this.editor_.getValue());
       } else {
-        this.ngModelCtrl_.$setViewValue(null);
+        this.ngModel_.$setViewValue(null);
       }
     });
   }
@@ -51,8 +45,34 @@ export class CodeEditorCtrl {
    * Render function for ngModel.
    */
   private renderModel_(): void {
-    this.editor_.setValue(this.ngModelCtrl_.$viewValue || '');
+    this.editor_.setValue(this.ngModel_.$viewValue || '');
     this.editor_.selection.clearSelection();
+  }
+
+  $onDestroy(): void {
+    this.editor_.destroy();
+  }
+
+  $onInit(): void {
+    if (this.readonly === undefined) {
+      this.readonly = false;
+    }
+
+    let editorEl = <HTMLElement> this.$element_.querySelector('.editor');
+    this.editor_ = this.aceService_.edit(editorEl);
+    this.editor_.setTheme('ace/theme/monokai');
+
+    this.editor_.setReadOnly(this.readonly);
+    this.editor_.setShowPrintMargin(!this.readonly);
+    this.editor_.renderer.setShowGutter(!this.readonly);
+
+    let session = this.editor_.getSession();
+    session.setTabSize(2);
+    session.setMode(`ace/mode/${this.language}`);
+    session.on('changeAnnotation', this.onEditorChangeAnnotation_.bind(this));
+
+    this.valid_ = session.getAnnotations().length === 0;
+    this.ngModel.$render = this.renderModel_.bind(this);
   }
 
   /**
@@ -62,59 +82,42 @@ export class CodeEditorCtrl {
     return this.valid_;
   }
 
-  /**
-   * Handler called when the controller is linked.
-   * @param editorEl The editor container element.
-   * @param language The language to set the editor.
-   * @param ngModelCtrl
-   */
-  onLink(editorEl: HTMLElement, language: string, ngModelCtrl: angular.INgModelController): void {
-    this.editor_ = this.aceService_.edit(editorEl);
-    this.editor_.setTheme('ace/theme/monokai');
-
-    let readonly = !!this.$scope_['readOnly'];
-    this.editor_.setReadOnly(readonly);
-    this.editor_.setShowPrintMargin(!readonly);
-    this.editor_.renderer.setShowGutter(!readonly);
-
-    let session = this.editor_.getSession();
-    session.setTabSize(2);
-    session.setMode(`ace/mode/${language}`);
-    session.on('changeAnnotation', this.onEditorChangeAnnotation_.bind(this));
-
-    this.valid_ = session.getAnnotations().length === 0;
-
-    this.ngModelCtrl_ = ngModelCtrl;
-    ngModelCtrl.$render = this.renderModel_.bind(this);
+  get language(): string {
+    return this.language_;
   }
-};
+  set language(language: string) {
+    this.language_ = language;
+  }
 
+  get ngModel(): angular.INgModelController {
+    return this.ngModel_;
+  }
+  set ngModel(ngModel: angular.INgModelController) {
+    this.ngModel_ = ngModel;
+  }
 
-function link(
-    scope: angular.IScope,
-    element: angular.IAugmentedJQuery,
-    attr: angular.IAttributes,
-    ctrls: any[]): void {
-  let [codeEditorCtrl, ngModelCtrl] = ctrls;
-  codeEditorCtrl.onLink(element[0].querySelector('.editor'), scope['language'], ngModelCtrl);
-};
+  get readonly(): boolean {
+    return this.readonly_;
+  }
+  set readonly(readonly: boolean) {
+    this.readonly_ = !!readonly;
+  }
+}
 
 export default angular
     .module('editor.CodeEditorModule', [
       'ngMaterial',
       AceServiceModule.name,
     ])
-    .directive('pcCodeEditor', () => {
-      return {
-        controller: CodeEditorCtrl,
-        controllerAs: 'ctrl',
-        link: link,
-        require: ['pcCodeEditor', 'ngModel', '?ngChange'],
-        restrict: 'E',
-        scope: {
-          'language': '@',
-          'readOnly': '@',
-        },
-        templateUrl: 'src/editor/code-editor.ng',
-      };
+    .component('pcCodeEditor', {
+      bindings: {
+        'language': '@',
+        'readonly': '<',
+      },
+      controller: CodeEditorCtrl,
+      require: {
+        'ngModel': 'ngModel',
+        'ngChange': '?ngChange',
+      },
+      templateUrl: 'src/editor/code-editor.ng',
     });

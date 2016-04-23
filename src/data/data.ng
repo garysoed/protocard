@@ -3,7 +3,7 @@
       flex
       ng-model="$ctrl.preview.value"
       language="json"
-      read-only="true">
+      readonly="true">
   </pc-code-editor>
 </pc-previewable-code-editor>
 
