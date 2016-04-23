@@ -6,55 +6,42 @@
 
 export class PreviewableCodeEditorCtrl {
   private language_: string;
-  private ngModelCtrl_: angular.INgModelController;
-
-  constructor($scope: angular.IScope) {
-    this.language_ = $scope['language'];
-    this.ngModelCtrl_ = null;
-  }
+  private ngModel_: angular.INgModelController;
 
   get codeString(): string {
-    return this.ngModelCtrl_.$viewValue;
+    return this.ngModel_.$viewValue;
   }
   set codeString(newCodeString: string) {
-    this.ngModelCtrl_.$setViewValue(newCodeString);
+    this.ngModel_.$setViewValue(newCodeString);
   }
 
   get language(): string {
     return this.language_;
   }
+  set language(language: string) {
+    this.language_ = language;
+  }
 
-  onLink(ngModelCtrl: angular.INgModelController): void {
-    this.ngModelCtrl_ = ngModelCtrl;
+  get ngModel(): angular.INgModelController {
+    return this.ngModel_;
+  }
+  set ngModel(ngModel: angular.INgModelController) {
+    this.ngModel_ = ngModel;
   }
 };
-
-
-function link(
-    scope: angular.IScope,
-    element: angular.IAugmentedJQuery,
-    attr: angular.IAttributes,
-    ctrls: any[]): void {
-  let previewableCodeEditorCtrl: PreviewableCodeEditorCtrl = ctrls[0];
-  let ngModelCtrl: angular.INgModelController = ctrls[1];
-  previewableCodeEditorCtrl.onLink(ngModelCtrl);
-}
 
 export default angular
     .module('editor.PreviewableCodeEditorModule', [
       CodeEditorModule.name,
     ])
-    .directive('pcPreviewableCodeEditor', () => {
-      return {
-        controller: PreviewableCodeEditorCtrl,
-        controllerAs: 'ctrl',
-        link: link,
-        require: ['pcPreviewableCodeEditor', 'ngModel'],
-        restrict: 'E',
-        scope: {
-          'language': '@',
-        },
-        templateUrl: 'src/editor/previewable-code-editor.ng',
-        transclude: true,
-      };
+    .component('pcPreviewableCodeEditor', {
+      bindings: {
+        'language': '@',
+      },
+      controller: PreviewableCodeEditorCtrl,
+      require: {
+        'ngModel': 'ngModel',
+      },
+      templateUrl: 'src/editor/previewable-code-editor.ng',
+      transclude: true,
     });

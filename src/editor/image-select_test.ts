@@ -4,19 +4,17 @@ TestBase.init();
 import { ImageSelectCtrl } from './image-select';
 
 describe('editor.ImageSelectCtrl', () => {
-  let mock$scope;
   let ctrl;
 
   beforeEach(() => {
-    mock$scope = {};
-    ctrl = new ImageSelectCtrl(mock$scope);
+    ctrl = new ImageSelectCtrl();
   });
 
   describe('isSelected', () => {
     beforeEach(() => {
-      let mockNgModelCtrl = jasmine.createSpyObj('ngModelCtrl', ['$setViewValue']);
-      mockNgModelCtrl.$viewValue = [];
-      ctrl.onLink(mockNgModelCtrl);
+      let mockNgModel = jasmine.createSpyObj('ngModel', ['$setViewValue']);
+      mockNgModel.$viewValue = [];
+      ctrl.ngModel = mockNgModel;
     });
 
     it('should return true if the given image is selected', () => {
@@ -31,33 +29,33 @@ describe('editor.ImageSelectCtrl', () => {
   });
 
   describe('select', () => {
-    let mockNgModelCtrl;
+    let mockNgModel;
 
     beforeEach(() => {
-      mockNgModelCtrl = jasmine.createSpyObj('NgModelCtrl', ['$setViewValue']);
-      mockNgModelCtrl.$viewValue = [];
-      ctrl.onLink(mockNgModelCtrl);
+      mockNgModel = jasmine.createSpyObj('NgModel', ['$setViewValue']);
+      mockNgModel.$viewValue = [];
+      ctrl.ngModel = mockNgModel;
     });
 
     it('should select the image if it is not selected', () => {
       let image = 'image';
       ctrl.select(image);
-      expect(mockNgModelCtrl.$viewValue).toEqual([image]);
+      expect(mockNgModel.$viewValue).toEqual([image]);
     });
 
     it('should unselect the image if it is selected', () => {
       let image = 'image';
       ctrl.select(image);
       ctrl.select(image);
-      expect(mockNgModelCtrl.$viewValue).toEqual([]);
+      expect(mockNgModel.$viewValue).toEqual([]);
     });
   });
 
   describe('selectedCssFor', () => {
     beforeEach(() => {
-      let mockNgModelCtrl = jasmine.createSpyObj('ngModelCtrl', ['$setViewValue']);
-      mockNgModelCtrl.$viewValue = [];
-      ctrl.onLink(mockNgModelCtrl);
+      let mockNgModel = jasmine.createSpyObj('ngModelCtrl', ['$setViewValue']);
+      mockNgModel.$viewValue = [];
+      ctrl.ngModel = mockNgModel;
     });
 
     it('should return selected if the image is selected', () => {

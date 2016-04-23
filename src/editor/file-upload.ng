@@ -1,4 +1,4 @@
-<md-button ng-click="ctrl.onUploadClick()" ng-class="ctrl.classes">
+<md-button ng-click="$ctrl.onUploadClick()" ng-class="$ctrl.classes">
   <ng-transclude></ng-transclude>
 </md-button>
-<input type="file" accept="{{ctrl.extensions}}">
+<input type="file" accept="{{$ctrl.extensions}}">

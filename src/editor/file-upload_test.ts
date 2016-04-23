@@ -1,52 +1,69 @@
 import TestBase from '../testbase';
 TestBase.init();
 
+import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
 import { FileTypes } from '../model/file';
 import { FileUploadCtrl } from './file-upload';
+import ListenableElement, { EventType as DomEventType }
+    from '../../node_modules/gs-tools/src/event/listenable-element';
+import Mocks from '../../node_modules/gs-tools/src/mock/mocks';
+import TestDispose from '../../node_modules/gs-tools/src/testing/test-dispose';
+
 
 describe('editor.FileUploadCtrl', () => {
-  let mockInputEl;
-  let mockNgModelCtrl;
-  let mockFileReaderCtor;
+  let mock$window;
+  let mock$element;
   let ctrl;
 
   beforeEach(() => {
-    mockInputEl = jasmine.createSpyObj('input', ['addEventListener', 'click']);
-    mockNgModelCtrl = jasmine.createSpyObj('NgModelCtrl', ['$setViewValue']);
-    mockFileReaderCtor = jasmine.createSpy('FileReader');
+    mock$element = jasmine.createSpyObj('$element', ['querySelector']);
 
-    let scope = <angular.IScope> {};
-    scope['classes'] = 'classes';
-    scope['extensions'] = 'extensionse';
-
-    let window = <Window> {};
-    window['FileReader'] = mockFileReaderCtor;
-    ctrl = new FileUploadCtrl(scope, window);
-    ctrl.onLink(mockInputEl, mockNgModelCtrl);
+    mock$window = <Window> {};
+    ctrl = new FileUploadCtrl(<any> [mock$element], FakeScope.create(), mock$window);
+    TestDispose.add(ctrl);
   });
 
-  describe('onLink', () => {
+  describe('$onInit', () => {
     it('should listen to change event', () => {
-      expect(mockInputEl.addEventListener).toHaveBeenCalledWith('change', jasmine.any(Function));
+      let mockInputEl = Mocks.object('InputEl');
+      mock$element.querySelector.and.returnValue(mockInputEl);
+
+      let mockListenableElement = Mocks.listenable('ListenableElement');
+      spyOn(ListenableElement, 'of').and.returnValue(mockListenableElement);
+      spyOn(mockListenableElement, 'on');
+      spyOn(ctrl, 'onFileChange_');
+
+      ctrl.$onInit();
+
+      expect(mock$element.querySelector).toHaveBeenCalledWith('input[type="file"]');
+      expect(ListenableElement.of).toHaveBeenCalledWith(mockInputEl);
+      expect(ctrl['inputEl_']).toEqual(mockListenableElement);
+
+      expect(mockListenableElement.on)
+          .toHaveBeenCalledWith(DomEventType.CHANGE, jasmine.any(Function));
+      mockListenableElement.on.calls.argsFor(0)[1]();
+      expect(ctrl['onFileChange_']).toHaveBeenCalledWith();
     });
   });
 
   describe('onFileChange_', () => {
-    let fileChangeHandler;
-
-    beforeEach(() => {
-      fileChangeHandler = mockInputEl.addEventListener.calls.argsFor(0)[1];
-    });
-
     it('should set the ngModelCtrl view value to the file object with the correct data', () => {
       let fileReaderResult = 'fileReaderResult';
       let file = { name: 'filename.tsv' };
       let mockFileReader = jasmine.createSpyObj('FileReader', ['addEventListener', 'readAsText']);
       mockFileReader.result = fileReaderResult;
+
+      let mockFileReaderCtor = jasmine.createSpy('FileReader');
       mockFileReaderCtor.and.returnValue(mockFileReader);
+      mock$window['FileReader'] = mockFileReaderCtor;
+
+      let mockNgModel = jasmine.createSpyObj('NgModel', ['$setViewValue']);
+      let mockInputEl = jasmine.createSpyObj('input', ['addEventListener']);
 
       mockInputEl.files = [file];
-      fileChangeHandler();
+      ctrl.ngModel = mockNgModel;
+      ctrl['inputEl_'] = { element: mockInputEl };
+      ctrl['onFileChange_']();
 
       expect(mockFileReader.readAsText).toHaveBeenCalledWith(file);
       expect(mockFileReader.addEventListener)
@@ -54,7 +71,7 @@ describe('editor.FileUploadCtrl', () => {
 
       mockFileReader.addEventListener.calls.argsFor(0)[1]();
 
-      let fileObj = mockNgModelCtrl.$setViewValue.calls.argsFor(0)[0];
+      let fileObj = mockNgModel.$setViewValue.calls.argsFor(0)[0];
       expect(fileObj.type).toEqual(FileTypes.TSV);
       expect(fileObj.content).toEqual(fileReaderResult);
     });
@@ -62,6 +79,8 @@ describe('editor.FileUploadCtrl', () => {
 
   describe('onUploadClick', () => {
     it('should click the input element', () => {
+      let mockInputEl = jasmine.createSpyObj('input', ['click']);
+      ctrl['inputEl_'] = { element: mockInputEl };
       ctrl.onUploadClick();
       expect(mockInputEl.click).toHaveBeenCalledWith();
     });
