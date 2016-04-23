@@ -1,51 +1,66 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
-import { Events, HelperItemCtrl } from './helper-item';
+import { HelperItemCtrl } from './helper-item';
+
 
 describe('helper.HelperItemCtrl', () => {
-  let helper;
-  let name;
-  let mock$scope;
   let ctrl;
 
   beforeEach(() => {
-    helper = {};
-    name = 'name';
-    mock$scope = FakeScope.create();
-    mock$scope.helper = helper;
-    mock$scope.name = name;
-    ctrl = new HelperItemCtrl(mock$scope);
+    ctrl = new HelperItemCtrl();
   });
 
-  describe('set name', () => {
-    it('should emit changed event', () => {
-      let newName = 'newName';
-
-      spyOn(mock$scope, '$emit');
-      ctrl.name = newName;
-
-      expect(ctrl.name).toEqual(newName);
-      expect(mock$scope.$emit).toHaveBeenCalledWith(Events.CHANGED, name, newName);
+  describe('$onInit', () => {
+    it('should set the old name', () => {
+      let name = 'name';
+      ctrl.name = name;
+      ctrl.$onInit();
+      expect(ctrl['oldName_']).toEqual(name);
     });
   });
 
   describe('onDeleteClick', () => {
     it('should emit deleted event', () => {
-      spyOn(mock$scope, '$emit');
+      let name = 'name';
+      let mockOnDelete = jasmine.createSpy('onDelete');
+      ctrl.onDelete = mockOnDelete;
+
+      ctrl.name = name;
 
       ctrl.onDeleteClick();
-      expect(mock$scope.$emit).toHaveBeenCalledWith(Events.DELETED, name);
+
+      expect(mockOnDelete).toHaveBeenCalledWith({ name: name });
     });
   });
 
   describe('onEditClick', () => {
     it('should emit edited event', () => {
-      spyOn(mock$scope, '$emit');
+      let name = 'name';
+      let mockOnEdit = jasmine.createSpy('onEdit');
+      ctrl.onEdit = mockOnEdit;
 
+      ctrl.name = name;
       ctrl.onEditClick();
-      expect(mock$scope.$emit).toHaveBeenCalledWith(Events.EDITED, name);
+
+      expect(mockOnEdit).toHaveBeenCalledWith({ name: name });
+    });
+  });
+
+  describe('onInputChange', () => {
+    it('should call the onChanged handler', () => {
+      let mockOnChange = jasmine.createSpy('onChange');
+      ctrl.onChange = mockOnChange;
+
+      let oldName = 'oldName';
+      let newName = 'newName';
+
+      ctrl['oldName_'] = oldName;
+
+      ctrl.name = newName;
+      ctrl.onInputChange();
+
+      expect(mockOnChange).toHaveBeenCalledWith({ newName: newName, oldName: oldName });
     });
   });
 });

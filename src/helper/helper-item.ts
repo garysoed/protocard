@@ -1,61 +1,75 @@
-import Utils from '../util/utils';
-
-export const Events = {
-  CHANGED: Utils.getUniqueId('changed'),
-  DELETED: Utils.getUniqueId('deleted'),
-  EDITED: Utils.getUniqueId('edited'),
-};
-
 /**
  * @class helper.HelperItemCtrl
  */
 export class HelperItemCtrl {
-  private $scope_: angular.IScope;
   private name_: string;
+  private oldName_: string;
+  private onChange_: (locals: { newName: string, oldName: string }) => void;
+  private onDelete_: (locals: { name: string }) => void;
+  private onEdit_: (locals: { name: string }) => void;
 
-  /**
-   * @param {ng.$scope} $scope
-   */
-  constructor($scope: angular.IScope) {
-    this.$scope_ = $scope;
-    this.name_ = $scope['name'];
+  $onInit(): void {
+    this.oldName_ = this.name;
   }
 
   get name(): string {
     return this.name_;
   }
-  set name(newValue: string) {
-    let oldName = this.name_;
-    this.name_ = newValue;
-    this.$scope_.$emit(Events.CHANGED, oldName, newValue);
+  set name(name: string) {
+    this.name_ = name;
+  }
+
+  get onChange(): (locals: { newName: string, oldName: string }) => void {
+    return this.onChange_;
+  }
+  set onChange(onChange: (locals: { newName: string, oldName: string }) => void) {
+    this.onChange_ = onChange;
+  }
+
+  get onDelete(): (locals: { name: string }) => void {
+    return this.onDelete_;
+  }
+  set onDelete(onDelete: (locals: { name: string }) => void) {
+    this.onDelete_ = onDelete;
+  }
+
+  get onEdit(): (locals: { name: string }) => void {
+    return this.onEdit_;
+  }
+  set onEdit(onEdit: (locals: { name: string }) => void) {
+    this.onEdit_ = onEdit;
+  }
+
+  onInputChange(): void {
+    this.onChange_({ newName: this.name, oldName: this.oldName_ });
+    this.oldName_ = this.name;
   }
 
   /**
    * Handler called when the delete button is clicked.
    */
   onDeleteClick(): void {
-    this.$scope_.$emit(Events.DELETED, this.name_);
+    this.onDelete_({ name: this.name_ });
   }
 
   /**
    * Handler called when the edit button is clicked.
    */
   onEditClick(): void {
-    this.$scope_.$emit(Events.EDITED, this.name_);
+    this.onEdit_({ name: this.name_ });
   }
 }
 
 
 export default angular
     .module('helper.HelperItemModule', [])
-    .directive('pcHelperItem', () => {
-      return {
-        controller: HelperItemCtrl,
-        controllerAs: 'ctrl',
-        restrict: 'E',
-        scope: {
-          name: '=',
-        },
-        templateUrl: 'src/helper/helper-item.ng',
-      };
+    .component('pcHelperItem', {
+      bindings: {
+        name: '<',
+        onChange: '&',
+        onDelete: '&',
+        onEdit: '&',
+      },
+      controller: HelperItemCtrl,
+      templateUrl: 'src/helper/helper-item.ng',
     });

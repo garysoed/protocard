@@ -4,7 +4,6 @@ import AssetPipelineServiceModule, { AssetPipelineService }
 import AssetServiceModule, { AssetService } from '../asset/asset-service';
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import FunctionObject from '../model/function-object';
-import { Events as HelperItemEvents } from './helper-item';
 import HelperItemModule from './helper-item';
 import HelperNode from '../pipeline/helper-node';
 import { NavigateService } from '../navigate/navigate-service';
@@ -17,6 +16,7 @@ import Utils from '../util/utils';
 export class HelperCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
+  private assetPipelineService_: AssetPipelineService;
   private assetService_: AssetService;
   private helperNode_: HelperNode;
   private navigateService_: NavigateService;
@@ -31,14 +31,20 @@ export class HelperCtrl {
       AssetService: AssetService,
       NavigateService: NavigateService) {
     this.$scope_ = $scope;
-    this.asset_ = $scope['asset'];
+    this.assetPipelineService_ = AssetPipelineService;
     this.assetService_ = AssetService;
-    this.helperNode_ = AssetPipelineService.getPipeline(this.asset_.id).helperNode;
     this.navigateService_ = NavigateService;
+  }
 
-    $scope.$on(HelperItemEvents.CHANGED, this.onHelperItemChanged_.bind(this));
-    $scope.$on(HelperItemEvents.DELETED, this.onHelperItemDeleted_.bind(this));
-    $scope.$on(HelperItemEvents.EDITED, this.onHelperItemEdited_.bind(this));
+  $onInit(): void {
+    this.helperNode_ = this.assetPipelineService_.getPipeline(this.asset.id).helperNode;
+  }
+
+  get asset(): Asset {
+    return this.asset_;
+  }
+  set asset(asset: Asset) {
+    this.asset_ = asset;
   }
 
   @Cache()
@@ -47,45 +53,6 @@ export class HelperCtrl {
         this.$scope_,
         this.helperNode_.result,
         <{ [key: string]: FunctionObject }> {});
-  }
-
-  /**
-   * Handler called when a helper item fires a changed event.
-   *
-   * @param event
-   * @param oldName Previous name of the helper.
-   * @param newName New name of the helper.
-   */
-  private onHelperItemChanged_(event: any, oldName: string, newName: string): void {
-    let helper = this.asset_.helpers[oldName];
-    delete this.asset_.helpers[oldName];
-    this.asset_.helpers[newName] = helper;
-    Cache.clear(this);
-    this.helperNode_.refresh();
-    this.assetService_.saveAsset(this.asset_);
-  }
-
-  /**
-   * Handler called when a helper item fires a deleted event.
-   *
-   * @param event
-   * @param helperName Name of the helper that was deleted.
-   */
-  private onHelperItemDeleted_(event: any, helperName: string): void {
-    delete this.asset_.helpers[helperName];
-    Cache.clear(this);
-    this.helperNode_.refresh();
-    this.assetService_.saveAsset(this.asset_);
-  }
-
-  /**
-   * Handler called when a helper item fires an edited event.
-   *
-   * @param event
-   * @param helperName Name of the helper that was edited.
-   */
-  onHelperItemEdited_(event: any, helperName: string): void {
-    this.navigateService_.toAsset(this.asset_.id, 'helper.editor', helperName);
   }
 
   /**
@@ -99,6 +66,26 @@ export class HelperCtrl {
     this.helperNode_.refresh();
     this.assetService_.saveAsset(this.asset_);
   }
+
+  onChange(oldName: string, newName: string): void {
+    let helper = this.asset_.helpers[oldName];
+    delete this.asset_.helpers[oldName];
+    this.asset_.helpers[newName] = helper;
+    Cache.clear(this);
+    this.helperNode_.refresh();
+    this.assetService_.saveAsset(this.asset_);
+  }
+
+  onDelete(helperName: string): void {
+    delete this.asset_.helpers[helperName];
+    Cache.clear(this);
+    this.helperNode_.refresh();
+    this.assetService_.saveAsset(this.asset_);
+  }
+
+  onEdit(helperName: string): void {
+    this.navigateService_.toAsset(this.asset_.id, 'helper.editor', helperName);
+  }
 }
 
 
@@ -108,14 +95,10 @@ export default angular
       AssetServiceModule.name,
       HelperItemModule.name,
     ])
-    .directive('pcHelper', () => {
-      return {
-        controller: HelperCtrl,
-        controllerAs: 'ctrl',
-        restrict: 'E',
-        scope: {
-          'asset': '=',
-        },
-        templateUrl: 'src/helper/helper.ng',
-      };
+    .component('pcHelper', {
+      bindings: {
+        'asset': '<',
+      },
+      controller: HelperCtrl,
+      templateUrl: 'src/helper/helper.ng',
     });

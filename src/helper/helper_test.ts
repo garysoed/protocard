@@ -1,14 +1,14 @@
 import TestBase from '../testbase';
 TestBase.init();
 
-import { Events as HelperItemEvents } from './helper-item';
+import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
 import { HelperCtrl } from './helper';
+import Mocks from '../../node_modules/gs-tools/src/mock/mocks';
+
 
 describe('helper.HelperCtrl', () => {
-  const ASSET_ID = 'assetId';
 
-  let asset;
   let mock$scope;
   let mockAssetPipelineService;
   let mockAssetService;
@@ -17,17 +17,14 @@ describe('helper.HelperCtrl', () => {
   let ctrl;
 
   beforeEach(() => {
-    asset = { id: ASSET_ID };
     mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
     mockHelperNode = jasmine.createSpyObj('HelperNode', ['refresh']);
     mockNavigateService = jasmine.createSpyObj('NavigateService', ['toAsset']);
     mock$scope = FakeScope.create();
-    mock$scope['asset'] = asset;
 
     mockAssetPipelineService.getPipeline.and.returnValue({ helperNode: mockHelperNode });
 
-    spyOn(mock$scope, '$on');
     ctrl = new HelperCtrl(
         mock$scope,
         mockAssetPipelineService,
@@ -35,56 +32,95 @@ describe('helper.HelperCtrl', () => {
         mockNavigateService);
   });
 
-  it('should update and save the asset on HelperItem CHANGED event', () => {
-    let helper = jasmine.createObj('Helper');
-    let oldName = 'oldName';
-    let newName = 'newName';
-    asset.helpers = { [oldName]: helper };
+  describe('$onInit', () => {
+    it('should load the correct helper node', () => {
+      let assetId = 'assetId';
+      let mockAsset = Mocks.object('Asset');
+      mockAsset.id = assetId;
 
-    mockHelperNode.result = Promise.resolve();
-    let oldProvider = ctrl.helpers;
+      let mockHelperNode = Mocks.object('HelperNode');
+      let mockPipeline = Mocks.object('Pipeline');
+      mockPipeline.helperNode = mockHelperNode;
 
-    expect(mock$scope.$on).toHaveBeenCalledWith(HelperItemEvents.CHANGED, jasmine.any(Function));
-    mock$scope.$on.calls.argsFor(0)[1]({}, oldName, newName);
+      mockAssetPipelineService.getPipeline.and.returnValue(mockPipeline);
 
-    expect(asset.helpers).toEqual({ [newName]: helper });
-    expect(mockAssetService.saveAsset).toHaveBeenCalledWith(asset);
-    expect(ctrl.helpers).not.toBe(oldProvider);
-    expect(mockHelperNode.refresh).toHaveBeenCalledWith();
+      ctrl.asset = mockAsset;
+      ctrl.$onInit();
+
+      expect(ctrl['helperNode_']).toEqual(mockHelperNode);
+      expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(assetId);
+    });
   });
 
-  it('should delete the helper and save the asset on HelperItem DELETED event', () => {
-    let helper = jasmine.createObj('Helper');
-    let name = 'name';
-    asset.helpers = { [name]: helper };
+  describe('onChange', () => {
+    it('should update and save the asset', () => {
+      let mockAsset = Mocks.object('Asset');
+      let helper = jasmine.createObj('Helper');
+      let oldName = 'oldName';
+      let newName = 'newName';
+      mockAsset.helpers = { [oldName]: helper };
 
-    mockHelperNode.result = Promise.resolve();
-    let oldProvider = ctrl.helpers;
+      let mockHelperNode = jasmine.createSpyObj('HelperNode', ['refresh']);
+      mockHelperNode.result = Promise.resolve();
 
-    expect(mock$scope.$on).toHaveBeenCalledWith(HelperItemEvents.DELETED, jasmine.any(Function));
-    mock$scope.$on.calls.argsFor(1)[1]({}, name);
+      spyOn(Cache, 'clear');
 
-    expect(asset.helpers).toEqual({});
-    expect(mockAssetService.saveAsset).toHaveBeenCalledWith(asset);
-    expect(ctrl.helpers).not.toBe(oldProvider);
-    expect(mockHelperNode.refresh).toHaveBeenCalledWith();
+      ctrl['helperNode_'] = mockHelperNode;
+      ctrl.asset = mockAsset;
+      ctrl.onChange(oldName, newName);
+
+      expect(mockAsset.helpers).toEqual({ [newName]: helper });
+      expect(mockAssetService.saveAsset).toHaveBeenCalledWith(mockAsset);
+      expect(Cache.clear).toHaveBeenCalledWith(ctrl);
+      expect(mockHelperNode.refresh).toHaveBeenCalledWith();
+    });
   });
 
-  it('should navigate to the helper editor on HelperItem EDITED event', () => {
-    let id = 'id';
-    let name = 'name';
-    asset.id = id;
+  describe('onDelete', () => {
+    it('should delete the helper and save the asset', () => {
+      let mockAsset = Mocks.object('Asset');
+      let helper = jasmine.createObj('Helper');
+      let name = 'name';
+      mockAsset.helpers = { [name]: helper };
 
-    expect(mock$scope.$on).toHaveBeenCalledWith(HelperItemEvents.EDITED, jasmine.any(Function));
-    mock$scope.$on.calls.argsFor(2)[1]({}, name);
+      let mockHelperNode = jasmine.createSpyObj('HelperNode', ['refresh']);
+      mockHelperNode.result = Promise.resolve();
 
-    expect(mockNavigateService.toAsset).toHaveBeenCalledWith(id, 'helper.editor', name);
+      spyOn(Cache, 'clear');
+
+      ctrl['helperNode_'] = mockHelperNode;
+      ctrl.asset = mockAsset;
+      ctrl.onDelete(name);
+
+      expect(mockAsset.helpers).toEqual({});
+      expect(mockAssetService.saveAsset).toHaveBeenCalledWith(mockAsset);
+      expect(Cache.clear).toHaveBeenCalledWith(ctrl);
+      expect(mockHelperNode.refresh).toHaveBeenCalledWith();
+    });
+  });
+
+  describe('onEdit', () => {
+    it('should navigate to the helper editor', () => {
+      let id = 'id';
+      let mockAsset = Mocks.object('Asset');
+      mockAsset.id = id;
+
+      let name = 'name';
+
+      ctrl.asset = mockAsset;
+      ctrl.onEdit(name);
+
+      expect(mockNavigateService.toAsset).toHaveBeenCalledWith(id, 'helper.editor', name);
+    });
   });
 
   describe('get helpers', () => {
     it('should return provider which resolves with the correct value', (done: jasmine.IDoneFn) => {
       let result = jasmine.createObj('helperResult');
+      let mockHelperNode = Mocks.object('HelperNode');
       mockHelperNode.result = Promise.resolve(result);
+
+      ctrl['helperNode_'] = mockHelperNode;
 
       ctrl.helpers.promise
           .then((helpers: any) => {
@@ -94,23 +130,31 @@ describe('helper.HelperCtrl', () => {
     });
 
     it('should cache the provider', () => {
+      let mockHelperNode = Mocks.object('HelperNode');
       mockHelperNode.result = Promise.resolve();
+
+      ctrl['helperNode_'] = mockHelperNode;
       expect(ctrl.helpers).toBe(ctrl.helpers);
     });
   });
 
   describe('onAddClick', () => {
     it('should create a new helper, add it to the asset, and save it', () => {
-      asset.helpers = {};
+      let mockAsset = Mocks.object('Asset');
+      mockAsset.helpers = {};
 
+      let mockHelperNode = jasmine.createSpyObj('HelperNode', ['refresh']);
       mockHelperNode.result = Promise.resolve();
-      let oldProvider = ctrl.helpers;
 
+      spyOn(Cache, 'clear');
+
+      ctrl.asset = mockAsset;
+      ctrl['helperNode_'] = mockHelperNode;
       ctrl.onAddClick();
 
-      expect(Object.keys(asset.helpers).length).toEqual(1);
-      expect(mockAssetService.saveAsset).toHaveBeenCalledWith(asset);
-      expect(ctrl.helpers).not.toBe(oldProvider);
+      expect(Object.keys(mockAsset.helpers).length).toEqual(1);
+      expect(mockAssetService.saveAsset).toHaveBeenCalledWith(mockAsset);
+      expect(Cache.clear).toHaveBeenCalledWith(ctrl);
       expect(mockHelperNode.refresh).toHaveBeenCalledWith();
     });
   });

@@ -1,7 +1,12 @@
 <md-content class="pc-helper" layout-fill layout="column">
   <md-list layout-fill>
-    <md-list-item ng-repeat="(name, helper) in ctrl.helpers.value">
-      <pc-helper-item layout-fill helper="helper" name="name"></pc-helper-item>
+    <md-list-item ng-repeat="(name, helper) in $ctrl.helpers.value">
+      <pc-helper-item
+          layout-fill helper="helper"
+          name="name"
+          on-change="$ctrl.onChange(oldName, newName)"
+          on-delete="$ctrl.onDelete(name)"
+          on-edit="$ctrl.onEdit(name)"></pc-helper-item>
     </md-list-item>
   </md-list>
 </md-content>
@@ -9,7 +14,7 @@
 <!-- This blocks the edit button -->
 <pc-context-button>
   <md-fab-trigger>
-    <md-button ng-click="ctrl.onAddClick()" class="md-fab">
+    <md-button ng-click="$ctrl.onAddClick()" class="md-fab">
       <md-tooltip md-direction="left">Creats a new helper function</md-tooltip>
       <md-icon>add</md-icon>
     </md-button>
