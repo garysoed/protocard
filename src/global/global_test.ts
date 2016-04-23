@@ -2,38 +2,47 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import {GlobalCtrl} from './global';
+import Mocks from '../../node_modules/gs-tools/src/mock/mocks';
+
 
 describe('global.GlobalCtrl', () => {
-  const ASSET_ID = 'assetId';
-  let mock$scope;
-  let mockAsset;
   let mockAssetPipelineService;
   let mockAssetService;
-  let mockGlobalNode;
   let ctrl;
 
   beforeEach(() => {
-    mockAsset = { id: ASSET_ID };
-    mock$scope = jasmine.createSpyObj('$scope', ['$on']);
-    mock$scope['asset'] = mockAsset;
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
-    mockGlobalNode = jasmine.createSpyObj('GlobalNode', ['refresh']);
-
     mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
-    mockAssetPipelineService.getPipeline.and.returnValue({ globalNode: mockGlobalNode });
 
-    ctrl = new GlobalCtrl(mock$scope, mockAssetPipelineService, mockAssetService);
+    ctrl = new GlobalCtrl(mockAssetPipelineService, mockAssetService);
   });
 
-  it('should initialize globalsString to the value in the asset', () => {
-    let globalsString = 'globalsString';
-    mockAsset.globalsString = globalsString;
-    ctrl = new GlobalCtrl(mock$scope, mockAssetPipelineService, mockAssetService);
-    expect(ctrl.globalsString).toEqual(globalsString);
-    expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(ASSET_ID);
+  describe('$onInit', () => {
+    it('should initialize globalsString to the value in the asset', () => {
+      let assetId = 'assetId';
+      let globalsString = 'globalsString';
+      let mockAsset = {
+        globalsString: globalsString,
+        id: assetId,
+      };
+      ctrl.asset = mockAsset;
+
+      let mockGlobalNode = jasmine.createSpyObj('GlobalNode', ['refresh']);
+      mockAssetPipelineService.getPipeline.and.returnValue({ globalNode: mockGlobalNode });
+
+      ctrl.$onInit();
+      expect(ctrl.globalsString).toEqual(globalsString);
+      expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(assetId);
+      expect(ctrl['globalNode_']).toEqual(mockGlobalNode);
+    });
   });
 
   describe('isValid', () => {
+    beforeEach(() => {
+      ctrl.asset = {};
+      ctrl['globalNode_'] = jasmine.createSpyObj('GlobalNode', ['refresh']);
+    });
+
     it('should return true if the globals string is non null', () => {
       ctrl.globalsString = 'blah';
       expect(ctrl.isValid()).toEqual(true);
@@ -46,6 +55,16 @@ describe('global.GlobalCtrl', () => {
   });
 
   describe('set globalsString', () => {
+    let mockAsset;
+    let mockGlobalNode;
+
+    beforeEach(() => {
+      mockAsset = Mocks.object('Asset');
+      mockGlobalNode = jasmine.createSpyObj('GlobalNode', ['refresh']);
+      ctrl.asset = mockAsset;
+      ctrl['globalNode_'] = mockGlobalNode;
+    });
+
     it('should update the asset and save it if set to non null', () => {
       let newValue = 'newValue';
 

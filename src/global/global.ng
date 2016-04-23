@@ -1,2 +1,2 @@
-<pc-code-editor layout-fill ng-model="ctrl.globalsString" language="json">
+<pc-code-editor layout-fill ng-model="$ctrl.globalsString" language="json">
 </pc-code-editor>

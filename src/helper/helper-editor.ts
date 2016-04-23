@@ -9,11 +9,26 @@ export class HelperEditorCtrl {
   private helper_: FunctionObject;
   private helperString_: string;
 
-  constructor($scope: angular.IScope, AssetService: AssetService) {
+  constructor(AssetService: AssetService) {
     this.assetService_ = AssetService;
-    this.asset_ = $scope['asset'];
-    this.helper_ = $scope['helper'];
-    this.helperString_ = this.helper_.fnString;
+  }
+
+  $onInit(): void {
+    this.helperString_ = this.helper.fnString;
+  }
+
+  get asset(): Asset {
+    return this.asset_;
+  }
+  set asset(asset: Asset) {
+    this.asset_ = asset;
+  }
+
+  get helper(): FunctionObject {
+    return this.helper_;
+  }
+  set helper(helper: FunctionObject) {
+    this.helper_ = helper;
   }
 
   get helperString(): string {
@@ -34,15 +49,11 @@ export default angular
       AssetServiceModule.name,
       CodeEditorModule.name,
     ])
-    .directive('pcHelperEditor', () => {
-      return {
-        controller: HelperEditorCtrl,
-        controllerAs: 'ctrl',
-        restrict: 'E',
-        scope: {
-          asset: '=',
-          helper: '=',
-        },
-        templateUrl: 'src/helper/helper-editor.ng',
-      };
+    .component('pcHelperEditor', {
+      bindings: {
+        asset: '<',
+        helper: '<',
+      },
+      controller: HelperEditorCtrl,
+      templateUrl: 'src/helper/helper-editor.ng',
     });

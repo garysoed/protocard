@@ -5,23 +5,34 @@ import AssetServiceModule, { AssetService } from '../asset/asset-service';
 import CodeEditorModule from '../editor/code-editor';
 import GlobalNode from '../pipeline/global-node';
 
+
 /**
  * @class global.GlobalCtrl
  */
 export class GlobalCtrl {
   private asset_: Asset;
+  private assetPipelineService_: AssetPipelineService;
   private assetService_: AssetService;
   private globalNode_: GlobalNode;
   private globalsString_: string;
 
   constructor(
-      $scope: angular.IScope,
       AssetPipelineService: AssetPipelineService,
       AssetService: AssetService) {
-    this.asset_ = $scope['asset'];
+    this.assetPipelineService_ = AssetPipelineService;
     this.assetService_ = AssetService;
-    this.globalNode_ = AssetPipelineService.getPipeline(this.asset_.id).globalNode;
-    this.globalsString_ = this.asset_.globalsString;
+  }
+
+  $onInit(): void {
+    this.globalNode_ = this.assetPipelineService_.getPipeline(this.asset.id).globalNode;
+    this.globalsString_ = this.asset.globalsString;
+  }
+
+  get asset(): Asset {
+    return this.asset_;
+  }
+  set asset(asset: Asset) {
+    this.asset_ = asset;
   }
 
   /**
@@ -53,14 +64,10 @@ export default angular
       AssetServiceModule.name,
       CodeEditorModule.name,
     ])
-    .directive('pcGlobal', () => {
-      return {
-        controller: GlobalCtrl,
-        controllerAs: 'ctrl',
-        restrict: 'E',
-        scope: {
-          'asset': '=',
-        },
-        templateUrl: 'src/global/global.ng',
-      };
+    .component('pcGlobal', {
+      bindings: {
+        'asset': '<',
+      },
+      controller: GlobalCtrl,
+      templateUrl: 'src/global/global.ng',
     });
