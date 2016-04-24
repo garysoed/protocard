@@ -3,29 +3,24 @@ TestBase.init();
 
 import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
 import { ImageCtrl } from './image';
+import Mocks from '../../node_modules/gs-tools/src/mock/mocks';
+
 
 describe('image.ImageCtrl', () => {
-  const ASSET_ID = 'assetId';
 
   let mock$scope;
-  let mockAsset;
   let mockAssetPipelineService;
   let mockAssetService;
   let mockDriveDialogService;
-  let mockImageNode;
   let ctrl;
 
   beforeEach(() => {
-    mockAsset = { id: ASSET_ID };
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
     mockDriveDialogService = jasmine.createSpyObj('DriveDialogService', ['show']);
-    mockImageNode = jasmine.createSpyObj('ImageNode', ['refresh']);
 
     mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
-    mockAssetPipelineService.getPipeline.and.returnValue({ imageNode: mockImageNode });
 
     mock$scope = FakeScope.create();
-    mock$scope['asset'] = mockAsset;
 
     ctrl = new ImageCtrl(
         mock$scope,
@@ -34,8 +29,23 @@ describe('image.ImageCtrl', () => {
         mockDriveDialogService);
   });
 
-  it('should initialize correctly', () => {
-    expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(ASSET_ID);
+  describe('$onInit', () => {
+    it('should get the correct imageNode', () => {
+      let assetId = 'assetId';
+      let mockAsset = Mocks.object('Asset');
+      mockAsset.id = assetId;
+
+      let mockImageNode = Mocks.object('ImageNode');
+      let mockPipeline = Mocks.object('Pipeline');
+      mockPipeline.imageNode = mockImageNode;
+      mockAssetPipelineService.getPipeline.and.returnValue(mockPipeline);
+
+      ctrl.asset = mockAsset;
+      ctrl.$onInit();
+
+      expect(ctrl['imageNode_']).toEqual(mockImageNode);
+      expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(assetId);
+    });
   });
 
   describe('hasSelectedImages', () => {
@@ -56,8 +66,10 @@ describe('image.ImageCtrl', () => {
       let image1 = jasmine.createObj('image1');
       let image2 = jasmine.createObj('image2');
       let imageMap = { 'a': image1, 'b': image2 };
+      let mockImageNode = Mocks.object('ImageNode');
       mockImageNode.result = Promise.resolve(imageMap);
 
+      ctrl['imageNode_'] = mockImageNode;
       ctrl.images.promise
           .then((images: any) => {
             expect(images).toEqual([image1, image2]);
@@ -66,14 +78,19 @@ describe('image.ImageCtrl', () => {
     });
 
     it('should cache the provider', () => {
+      let mockImageNode = Mocks.object('ImageNode');
       mockImageNode.result = Promise.resolve(null);
+      ctrl['imageNode_'] = mockImageNode;
       expect(ctrl.images).toBe(ctrl.images);
     });
   });
 
   describe('onDeleteClick', () => {
     it('should delete the images from the asset and save it', () => {
+      let mockAsset = Mocks.object('Asset');
       mockAsset.images = {'image1': 'image1', 'image2': 'image2'};
+
+      ctrl.asset = mockAsset;
       ctrl.selectedImages = [{ alias: 'image2' }];
 
       ctrl.onDeleteClick();
@@ -86,9 +103,11 @@ describe('image.ImageCtrl', () => {
     it('should return a Promise that updates the asset', (done: jasmine.IDoneFn) => {
       let $event = {};
       let images = [{ alias: 'image1' }, { alias: 'image2' }];
+      let mockAsset = Mocks.object('Asset');
       mockAsset.images = {};
       mockDriveDialogService.show.and.returnValue(Promise.resolve(images));
 
+      ctrl.asset = mockAsset;
       ctrl.onDriveClick($event)
           .then(() => {
             expect(mockDriveDialogService.show).toHaveBeenCalledWith($event);

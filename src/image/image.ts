@@ -13,10 +13,10 @@ import Provider from '../util/provider';
 export class ImageCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
+  private assetPipelineService_: AssetPipelineService;
   private assetService_: AssetService;
   private driveDialogService_: DriveDialogService;
   private imageNode_: ImageNode;
-  private imagesArray_: ImageResource[];
   private selectedImages_: ImageResource[];
 
   /**
@@ -28,19 +28,28 @@ export class ImageCtrl {
       AssetService: AssetService,
       DriveDialogService: DriveDialogService) {
     this.$scope_ = $scope;
-    this.asset_ = $scope['asset'];
+    this.assetPipelineService_ = AssetPipelineService;
     this.assetService_ = AssetService;
     this.driveDialogService_ = DriveDialogService;
-    this.imageNode_ = AssetPipelineService.getPipeline($scope['asset'].id).imageNode;
-    this.imagesArray_ = null;
     this.selectedImages_ = [];
   }
 
-  get selectedImages(): ImageResource[] {
-    return this.selectedImages_;
+  $onInit(): void {
+    this.imageNode_ = this.assetPipelineService_.getPipeline(this.asset.id).imageNode;
   }
-  set selectedImages(images: ImageResource[]) {
-    this.selectedImages_ = images;
+
+  get asset(): Asset {
+    return this.asset_;
+  }
+  set asset(asset: Asset) {
+    this.asset_ = asset;
+  }
+
+  /**
+   * @return True iff there are selected images.
+   */
+  hasSelectedImages(): boolean {
+    return this.selectedImages_.length > 0;
   }
 
   @Cache()
@@ -56,13 +65,6 @@ export class ImageCtrl {
               return array;
             }),
         []);
-  }
-
-  /**
-   * @return True iff there are selected images.
-   */
-  hasSelectedImages(): boolean {
-    return this.selectedImages_.length > 0;
   }
 
   /**
@@ -93,6 +95,13 @@ export class ImageCtrl {
           Cache.clear(this);
         });
   }
+
+  get selectedImages(): ImageResource[] {
+    return this.selectedImages_;
+  }
+  set selectedImages(images: ImageResource[]) {
+    this.selectedImages_ = images;
+  }
 }
 
 
@@ -103,14 +112,10 @@ export default angular
       DriveDialogModule.name,
       ImageSelectModule.name,
     ])
-    .directive('pcImage', () => {
-      return {
-        controller: ImageCtrl,
-        controllerAs: 'ctrl',
-        restrict: 'E',
-        scope: {
-          'asset': '=',
-        },
-        templateUrl: 'src/image/image.ng',
-      };
+    .component('pcImage', {
+      bindings: {
+        'asset': '<',
+      },
+      controller: ImageCtrl,
+      templateUrl: 'src/image/image.ng',
     });

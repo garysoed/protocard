@@ -1,23 +1,23 @@
 <!-- TODO(gs): Sort by name, date added, URL -->
 <div class="pc-fill-parent" layout="column" layout-align="start end">
   <md-content class="pc-fill-parent" flex>
-    <pc-image-select ng-model="ctrl.selectedImages" images="ctrl.images.value"></pc-image-select>
+    <pc-image-select ng-model="$ctrl.selectedImages" images="$ctrl.images.value"></pc-image-select>
   </md-content>
 
   <pc-context-button>
     <md-fab-trigger>
       <md-button
           class="md-fab"
-          ng-click="ctrl.onDriveClick($event)"
-          ng-if="!ctrl.hasSelectedImages()">
+          ng-click="$ctrl.onDriveClick($event)"
+          ng-if="!$ctrl.hasSelectedImages()">
         <md-tooltip md-direction="left">Adds more images from Google Drive</md-tooltip>
         <md-icon>insert_drive_file<md-icon>
       </md-button>
 
       <md-button
           class="md-fab"
-          ng-if="ctrl.hasSelectedImages()"
-          ng-click="ctrl.onDeleteClick()">
+          ng-if="$ctrl.hasSelectedImages()"
+          ng-click="$ctrl.onDeleteClick()">
         <md-tooltip md-direction="left">Removes selected images</md-tooltip>
         <md-icon>delete</md-icon>
       </md-button>
