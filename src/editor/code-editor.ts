@@ -7,8 +7,9 @@ export class CodeEditorCtrl {
   private $timeout_: angular.ITimeoutService;
   private aceService_: AceAjax.Ace;
   private editor_: AceAjax.Editor;
+  private initValue_: string;
   private language_: string;
-  private ngModel_: angular.INgModelController;
+  private onChange_: (locals: { newValue: string }) => void;
   private readonly_: boolean;
   private valid_: boolean;
 
@@ -34,19 +35,11 @@ export class CodeEditorCtrl {
             return annotation.type === 'error';
           });
       if (this.valid_) {
-        this.ngModel_.$setViewValue(this.editor_.getValue());
+        this.onChange({ newValue: this.editor_.getValue() });
       } else {
-        this.ngModel_.$setViewValue(null);
+        this.onChange({ newValue: null });
       }
     });
-  }
-
-  /**
-   * Render function for ngModel.
-   */
-  private renderModel_(): void {
-    this.editor_.setValue(this.ngModel_.$viewValue || '');
-    this.editor_.selection.clearSelection();
   }
 
   $onDestroy(): void {
@@ -66,13 +59,23 @@ export class CodeEditorCtrl {
     this.editor_.setShowPrintMargin(!this.readonly);
     this.editor_.renderer.setShowGutter(!this.readonly);
 
+    this.editor_.setValue(this.initValue || '');
+    this.editor_.selection.clearSelection();
+
     let session = this.editor_.getSession();
     session.setTabSize(2);
     session.setMode(`ace/mode/${this.language}`);
     session.on('changeAnnotation', this.onEditorChangeAnnotation_.bind(this));
 
     this.valid_ = session.getAnnotations().length === 0;
-    this.ngModel.$render = this.renderModel_.bind(this);
+    this.onChange_ = this.onChange_ || function(): void { return; };
+  }
+
+  get initValue(): string {
+    return this.initValue_;
+  }
+  set initValue(initValue: string) {
+    this.initValue_ = initValue;
   }
 
   /**
@@ -89,11 +92,11 @@ export class CodeEditorCtrl {
     this.language_ = language;
   }
 
-  get ngModel(): angular.INgModelController {
-    return this.ngModel_;
+  get onChange(): (locals: { newValue: string }) => void {
+    return this.onChange_;
   }
-  set ngModel(ngModel: angular.INgModelController) {
-    this.ngModel_ = ngModel;
+  set onChange(onChange: (locals: { newValue: string }) => void) {
+    this.onChange_ = onChange;
   }
 
   get readonly(): boolean {
@@ -111,13 +114,11 @@ export default angular
     ])
     .component('pcCodeEditor', {
       bindings: {
+        'initValue': '<',
         'language': '@',
+        'onChange': '&',
         'readonly': '<',
       },
       controller: CodeEditorCtrl,
-      require: {
-        'ngModel': 'ngModel',
-        'ngChange': '?ngChange',
-      },
       templateUrl: 'src/editor/code-editor.ng',
     });

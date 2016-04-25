@@ -120,6 +120,16 @@ export class TemplateCtrl {
     return this.isSearchVisible_;
   }
 
+  onCodeChange(newValue: string): void {
+    this.templateString_ = newValue;
+    if (newValue !== null) {
+      this.asset_.templateString = newValue;
+      this.templateNode_.refresh();
+      Cache.clear(this);
+      this.assetService_.saveAsset(this.asset_);
+    }
+  }
+
   @Cache()
   get preview(): Provider<string> {
     return new Provider(
@@ -155,12 +165,6 @@ export class TemplateCtrl {
   }
   set templateString(templateString: string) {
     this.templateString_ = templateString;
-    if (templateString !== null) {
-      this.asset_.templateString = templateString;
-      this.templateNode_.refresh();
-      Cache.clear(this);
-      this.assetService_.saveAsset(this.asset_);
-    }
   }
 
   onSearchBlur(): void {

@@ -2,7 +2,6 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import { CodeEditorCtrl } from './code-editor';
-import Mocks from '../../node_modules/gs-tools/src/mock/mocks';
 
 
 describe('editor.CodeEditorCtrl', () => {
@@ -22,17 +21,17 @@ describe('editor.CodeEditorCtrl', () => {
 
   describe('onEditorChangeAnnotation_', () => {
     let mockEditor;
-    let mockNgModel;
+    let mockOnChange;
     let mockSession;
 
     beforeEach(() => {
       mockEditor = jasmine.createSpyObj('Editor', ['getSession', 'getValue']);
+      mockOnChange = jasmine.createSpy('OnChange');
       mockSession = jasmine.createSpyObj('Session', ['getAnnotations']);
 
       mockEditor.getSession.and.returnValue(mockSession);
 
-      mockNgModel = jasmine.createSpyObj('ngModelCtrl', ['$setViewValue']);
-      ctrl.ngModel = mockNgModel;
+      ctrl.onChange = mockOnChange;
       ctrl['editor_'] = mockEditor;
 
       mockAceService.edit.and.returnValue(mockEditor);
@@ -47,8 +46,7 @@ describe('editor.CodeEditorCtrl', () => {
 
       expect(mock$timeout).toHaveBeenCalledWith(jasmine.any(Function));
       mock$timeout.calls.argsFor(0)[0]();
-
-      expect(mockNgModel.$setViewValue).toHaveBeenCalledWith(value);
+      expect(mockOnChange).toHaveBeenCalledWith({ newValue: value });
     });
 
     it('should update the model view value to null if invalid', () => {
@@ -58,8 +56,7 @@ describe('editor.CodeEditorCtrl', () => {
 
       expect(mock$timeout).toHaveBeenCalledWith(jasmine.any(Function));
       mock$timeout.calls.argsFor(0)[0]();
-
-      expect(mockNgModel.$setViewValue).toHaveBeenCalledWith(null);
+      expect(mockOnChange).toHaveBeenCalledWith({ newValue: null });
     });
   });
 
@@ -94,14 +91,15 @@ describe('editor.CodeEditorCtrl', () => {
     });
 
     it('should set the editor correctly', () => {
+      let initValue = 'initValue';
       let editorEl = {};
       let language = 'language';
 
       mock$element.querySelector.and.returnValue(editorEl);
 
+      ctrl.initValue = initValue;
       ctrl.language = language;
       ctrl.readonly = false;
-      ctrl.ngModel = Mocks.object('NgModel');
 
       spyOn(ctrl, 'onEditorChangeAnnotation_');
 
@@ -109,11 +107,13 @@ describe('editor.CodeEditorCtrl', () => {
 
       expect(mockEditor.setReadOnly).toHaveBeenCalledWith(false);
       expect(mockEditor.setShowPrintMargin).toHaveBeenCalledWith(true);
+      expect(mockEditor.setValue).toHaveBeenCalledWith(initValue);
       expect(mockSession.setMode).toHaveBeenCalledWith(`ace/mode/${language}`);
       expect(mockAceService.edit).toHaveBeenCalledWith(editorEl);
       expect(mock$element.querySelector).toHaveBeenCalledWith('.editor');
       expect(mockRenderer.setShowGutter).toHaveBeenCalledWith(true);
       expect(ctrl['editor_']).toEqual(mockEditor);
+      expect(mockSelection.clearSelection).toHaveBeenCalledWith();
 
       expect(mockSession.on).toHaveBeenCalledWith('changeAnnotation', jasmine.any(Function));
       mockSession.on.calls.argsFor(0)[1]();
@@ -128,7 +128,6 @@ describe('editor.CodeEditorCtrl', () => {
 
       ctrl.language = language;
       ctrl.readonly = true;
-      ctrl.ngModel = Mocks.object('NgModel');
       ctrl.$onInit();
 
       expect(mockEditor.setReadOnly).toHaveBeenCalledWith(true);
@@ -139,41 +138,10 @@ describe('editor.CodeEditorCtrl', () => {
       expect(mockRenderer.setShowGutter).toHaveBeenCalledWith(false);
     });
 
-    it('should override the ngModelCtrl render function to render to the editor', () => {
-      let ngModel = Mocks.object('NgModel');
-
-      ctrl.language = 'language';
-      ctrl.ngModel = ngModel;
-      ctrl.$onInit();
-
-      let modelValue = 'modelValue';
-      ngModel['$viewValue'] = modelValue;
-      ngModel['$render']();
-
-      expect(mockEditor.setValue).toHaveBeenCalledWith(modelValue);
-      expect(mockSelection.clearSelection).toHaveBeenCalledWith();
-    });
-
-    it('should override the ngModelCtrl render function to render empty string when there are no' +
-        'view values',
-        () => {
-          let ngModel = Mocks.object('NgModel');
-
-          ctrl.language = 'language';
-          ctrl.ngModel = ngModel;
-          ctrl.$onInit();
-
-          ngModel['$viewValue'] = null;
-          ngModel['$render']();
-
-          expect(mockEditor.setValue).toHaveBeenCalledWith('');
-        });
-
     it('should default readonly to false', () => {
       mock$element.querySelector.and.returnValue({});
 
       ctrl.language = 'language';
-      ctrl.ngModel = Mocks.object('NgModel');
       ctrl.$onInit();
 
       expect(ctrl.readonly).toEqual(false);

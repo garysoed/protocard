@@ -150,6 +150,37 @@ describe('template.TemplateCtrl', () => {
     });
   });
 
+  describe('onCodeChange', () => {
+    it('should update the asset and saves it if the input is non null', () => {
+      let newValue = 'newValue';
+
+      spyOn(Cache, 'clear');
+
+      ctrl.onCodeChange(newValue);
+
+      expect(ctrl.templateString).toEqual(newValue);
+      expect(mockAsset.templateString).toEqual(newValue);
+      expect(mockAssetService.saveAsset).toHaveBeenCalledWith(mockAsset);
+      expect(Cache.clear).toHaveBeenCalledWith(ctrl);
+      expect(mockTemplateNode.refresh).toHaveBeenCalledWith();
+    });
+
+    it('should update the template string but not the asset if the input is null', () => {
+      let oldValue = 'oldValue';
+      mockAsset.templateString = oldValue;
+
+      spyOn(Cache, 'clear');
+
+      ctrl.onCodeChange(null);
+
+      expect(ctrl.templateString).toEqual(null);
+      expect(mockAsset.templateString).toEqual(oldValue);
+      expect(mockAssetService.saveAsset).not.toHaveBeenCalled();
+      expect(Cache.clear).not.toHaveBeenCalled();
+      expect(mockTemplateNode.refresh).not.toHaveBeenCalled();
+    });
+  });
+
   describe('get preview', () => {
     it('should return a provider that resolves with the selected preview data',
         (done: jasmine.IDoneFn) => {
@@ -253,37 +284,6 @@ describe('template.TemplateCtrl', () => {
       ctrl.query = 'query';
 
       expect(Cache.clear).toHaveBeenCalledWith(ctrl);
-    });
-  });
-
-  describe('set templateString', () => {
-    it('should update the asset and saves it if the input is non null', () => {
-      let newValue = 'newValue';
-
-      spyOn(Cache, 'clear');
-
-      ctrl.templateString = newValue;
-
-      expect(ctrl.templateString).toEqual(newValue);
-      expect(mockAsset.templateString).toEqual(newValue);
-      expect(mockAssetService.saveAsset).toHaveBeenCalledWith(mockAsset);
-      expect(Cache.clear).toHaveBeenCalledWith(ctrl);
-      expect(mockTemplateNode.refresh).toHaveBeenCalledWith();
-    });
-
-    it('should update the template string but not the asset if the input is null', () => {
-      let oldValue = 'oldValue';
-      mockAsset.templateString = oldValue;
-
-      spyOn(Cache, 'clear');
-
-      ctrl.templateString = null;
-
-      expect(ctrl.templateString).toEqual(null);
-      expect(mockAsset.templateString).toEqual(oldValue);
-      expect(mockAssetService.saveAsset).not.toHaveBeenCalled();
-      expect(Cache.clear).not.toHaveBeenCalled();
-      expect(mockTemplateNode.refresh).not.toHaveBeenCalled();
     });
   });
 

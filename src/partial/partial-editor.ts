@@ -52,6 +52,16 @@ export class PartialEditorCtrl {
     return this.asset_;
   }
 
+  onCodeChange(newValue: string): void {
+    this.templateString_ = newValue;
+    if (newValue !== null) {
+      this.asset_.partials[this.name_] = newValue;
+      this.partialNode_.refresh();
+      Cache.clear(this);
+      this.assetService_.saveAsset(this.asset_);
+    }
+  }
+
   @Cache()
   get preview(): Provider<string> {
     return new Provider<string>(
@@ -84,12 +94,6 @@ export class PartialEditorCtrl {
   }
   set templateString(newString: string) {
     this.templateString_ = newString;
-    if (newString !== null) {
-      this.asset_.partials[this.name_] = newString;
-      this.partialNode_.refresh();
-      Cache.clear(this);
-      this.assetService_.saveAsset(this.asset_);
-    }
   }
 
   /**

@@ -60,6 +60,7 @@
         "src/asset/nav-graph.ts",
         "src/common/asset-name-picker_test.ts",
         "src/common/asset-name-picker.ts",
+        "src/common/context-button_test.ts",
         "src/common/context-button.ts",
         "src/common/download-service_test.ts",
         "src/common/download-service.ts",
@@ -209,6 +210,7 @@
         "node_modules/gs-tools/src/collection/README.md",
         "node_modules/gs-tools/src/collection/records.ts",
         "node_modules/gs-tools/src/collection/sets.ts",
+        "node_modules/gs-tools/src/collection/sorted-set.ts",
         "node_modules/gs-tools/src/data/a-cache.ts",
         "node_modules/gs-tools/src/data/a-serializable.ts",
         "node_modules/gs-tools/src/data/gulpfile.js",
@@ -257,6 +259,7 @@
         "node_modules/gs-tools/src/ui/attributes.ts",
         "node_modules/gs-tools/src/ui/doms.ts",
         "node_modules/gs-tools/src/ui/gulpfile.js",
+        "node_modules/gs-tools/src/ui/keyboard-event-polyfill.ts",
         "node_modules/gs-tools/src/ui/overflow-watcher.ts",
         "node_modules/gs-tools/src/ui/post-message-channel.ts",
         "node_modules/gs-tools/src/ui/README.md"

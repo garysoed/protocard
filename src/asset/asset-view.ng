@@ -21,7 +21,7 @@
   <section flex layout="row">
     <md-sidenav class="md-sidenav-left md-whiteframe-z2"
         md-component-id="left"
-        md-is-locked-open="$ctrl.isSidebarOpen">
+        md-is-open="$ctrl.isSidebarOpen">
       <md-content layout-padding>
         <pc-nav-graph asset="$ctrl.asset"></pc-nav-graph>
       </md-content>

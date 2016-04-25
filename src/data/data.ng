@@ -1,7 +1,12 @@
-<pc-previewable-code-editor ng-model="$ctrl.processorString" language="javascript" flex>
-  <pc-code-editor class="preview"
+<pc-previewable-code-editor
+    flex
+    init-value="$ctrl.processorString"
+    on-change="$ctrl.onCodeChange(newValue)"
+    language="javascript">
+  <pc-code-editor
+      class="preview"
       flex
-      ng-model="$ctrl.preview.value"
+      init-value="$ctrl.preview.value"
       language="json"
       readonly="true">
   </pc-code-editor>

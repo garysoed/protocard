@@ -68,6 +68,30 @@ describe('partial.PartialEditorCtrl', () => {
     });
   });
 
+  describe('onCodeChange', () => {
+    it('should update the partial and save the asset', () => {
+      let newString = 'newPartial';
+
+      spyOn(Cache, 'clear');
+
+      ctrl.onCodeChange(newString);
+
+      expect(ctrl.templateString).toEqual(newString);
+      expect(mockAsset.partials).toEqual({ [NAME]: newString });
+      expect(mockAssetService.saveAsset).toHaveBeenCalledWith(mockAsset);
+      expect(Cache.clear).toHaveBeenCalledWith(ctrl);
+      expect(mockPartialNode.refresh).toHaveBeenCalledWith();
+    });
+
+    it('should not save the asset if the input is null', () => {
+      ctrl.onCodeChange(null);
+
+      expect(ctrl.templateString).toEqual(null);
+      expect(mockAsset.partials).toEqual({ [NAME]: PARTIAL });
+      expect(mockAssetService.saveAsset).not.toHaveBeenCalled();
+    });
+  });
+
   describe('get preview', () => {
     it('should return a provider that resolves to the correct value', (done: jasmine.IDoneFn) => {
       let selectedKey = 'selectedKey';
@@ -153,30 +177,6 @@ describe('partial.PartialEditorCtrl', () => {
       ctrl.selectedKey = 'newValue';
 
       expect(Cache.clear).toHaveBeenCalledWith(ctrl);
-    });
-  });
-
-  describe('set templateString', () => {
-    it('should update the partial and save the asset', () => {
-      let newString = 'newPartial';
-
-      spyOn(Cache, 'clear');
-
-      ctrl.templateString = newString;
-
-      expect(ctrl.templateString).toEqual(newString);
-      expect(mockAsset.partials).toEqual({ [NAME]: newString });
-      expect(mockAssetService.saveAsset).toHaveBeenCalledWith(mockAsset);
-      expect(Cache.clear).toHaveBeenCalledWith(ctrl);
-      expect(mockPartialNode.refresh).toHaveBeenCalledWith();
-    });
-
-    it('should not save the asset if the input is null', () => {
-      ctrl.templateString = null;
-
-      expect(ctrl.templateString).toEqual(null);
-      expect(mockAsset.partials).toEqual({ [NAME]: PARTIAL });
-      expect(mockAssetService.saveAsset).not.toHaveBeenCalled();
     });
   });
 

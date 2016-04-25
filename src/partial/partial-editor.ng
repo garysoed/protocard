@@ -1,4 +1,8 @@
-<pc-previewable-code-editor ng-model="ctrl.templateString" language="html" flex>
+<pc-previewable-code-editor
+    flex
+    init-value="ctrl.templateString"
+    language="html"
+    on-change="ctrl.onCodeChange(newValue)">
   <pc-asset-name-picker asset="ctrl.asset" ng-model="ctrl.selectedKey"></pc-asset-name-picker>
   <iframe class="preview" flex srcdoc="{{ctrl.preview.value}}"></iframe>
 </pc-previewable-code-editor>

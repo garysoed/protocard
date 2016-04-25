@@ -11,14 +11,13 @@ describe('editor.PreviewableCodeEditorCtrl', () => {
     ctrl = new PreviewableCodeEditorCtrl();
   });
 
-  describe('set codeString', () => {
-    it('should update the model controller', () => {
+  describe('onCodeChange', () => {
+    it('should call the onChange handler', () => {
       let newCodeString = 'newCodeString';
-      let mockNgModel = jasmine.createSpyObj('NgModel', ['$setViewValue']);
-      ctrl.ngModel = mockNgModel;
-
-      ctrl.codeString = newCodeString;
-      expect(mockNgModel.$setViewValue).toHaveBeenCalledWith(newCodeString);
+      let mockOnChange = jasmine.createSpy('OnChange');
+      ctrl.onChange = mockOnChange;
+      ctrl.onCodeChange(newCodeString);
+      expect(mockOnChange).toHaveBeenCalledWith({ newValue: newCodeString });
     });
   });
 });

@@ -1,5 +1,8 @@
 <div layout="row" md-theme="editor" flex>
-  <pc-code-editor ng-model="$ctrl.codeString" language="{{$ctrl.language}}">
+  <pc-code-editor
+      init-value="$ctrl.initValue"
+      language="{{$ctrl.language}}"
+      on-change="$ctrl.onCodeChange(newValue)">
   </pc-code-editor>
   <div class="preview" flex layout="column" layout-padding>
     <h2 class="md-headline">Preview</h2>

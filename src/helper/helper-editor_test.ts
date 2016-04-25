@@ -14,7 +14,7 @@ describe('helper.HelperEditorCtrl', () => {
     ctrl = new HelperEditorCtrl(mockAssetService);
   });
 
-  describe('set helperString', () => {
+  describe('onCodeChange', () => {
     let mockAsset;
     let mockHelper;
 
@@ -28,7 +28,7 @@ describe('helper.HelperEditorCtrl', () => {
 
     it('should update the value in the helper object and saves it if non null', () => {
       let helperString = 'helperString';
-      ctrl.helperString = helperString;
+      ctrl.onCodeChange(helperString);
 
       expect(ctrl.helperString).toEqual(helperString);
       expect(mockHelper.fnString).toEqual(helperString);
@@ -38,7 +38,7 @@ describe('helper.HelperEditorCtrl', () => {
     it('should update the value but not the helper if null', () => {
       let oldValue = 'oldValue';
       mockHelper.fnString = oldValue;
-      ctrl.helperString = null;
+      ctrl.onCodeChange(null);
 
       expect(ctrl.helperString).toEqual(null);
       expect(mockHelper.fnString).toEqual(oldValue);

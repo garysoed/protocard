@@ -50,6 +50,16 @@ export class DataCtrl {
     this.asset_ = asset;
   }
 
+  onCodeChange(newValue: string): void {
+    this.processorString_ = newValue;
+    if (newValue !== null) {
+      this.asset_.dataProcessor.fnString = newValue;
+      Cache.clear(this);
+      this.assetService_.saveAsset(this.asset_);
+      this.processNode_.refresh();
+    }
+  }
+
   onRefreshClick(): void {
     Cache.clear(this);
   }
@@ -71,12 +81,6 @@ export class DataCtrl {
   }
   set processorString(newValue: string) {
     this.processorString_ = newValue;
-    if (newValue !== null) {
-      this.asset_.dataProcessor.fnString = newValue;
-      Cache.clear(this);
-      this.assetService_.saveAsset(this.asset_);
-      this.processNode_.refresh();
-    }
   }
 }
 

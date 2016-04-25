@@ -36,6 +36,10 @@ export class HelperEditorCtrl {
   }
   set helperString(newValue: string) {
     this.helperString_ = newValue;
+  }
+
+  onCodeChange(newValue: string): void {
+    this.helperString_ = newValue;
     if (newValue !== null) {
       this.helper_.fnString = newValue;
       this.assetService_.saveAsset(this.asset_);

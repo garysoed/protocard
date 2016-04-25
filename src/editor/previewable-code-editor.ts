@@ -5,14 +5,15 @@
 
 
 export class PreviewableCodeEditorCtrl {
+  private initValue_: string;
   private language_: string;
-  private ngModel_: angular.INgModelController;
+  private onChange_: (locals: { newValue: string }) => void;
 
-  get codeString(): string {
-    return this.ngModel_.$viewValue;
+  get initValue(): string {
+    return this.initValue_;
   }
-  set codeString(newCodeString: string) {
-    this.ngModel_.$setViewValue(newCodeString);
+  set initValue(initValue: string) {
+    this.initValue_ = initValue;
   }
 
   get language(): string {
@@ -22,11 +23,15 @@ export class PreviewableCodeEditorCtrl {
     this.language_ = language;
   }
 
-  get ngModel(): angular.INgModelController {
-    return this.ngModel_;
+  get onChange(): (locals: { newValue: string }) => void {
+    return this.onChange_;
   }
-  set ngModel(ngModel: angular.INgModelController) {
-    this.ngModel_ = ngModel;
+  set onChange(onChange: (locals: { newValue: string }) => void) {
+    this.onChange_ = onChange;
+  }
+
+  onCodeChange(newValue: string): void {
+    this.onChange_({ newValue: newValue });
   }
 };
 
@@ -36,12 +41,11 @@ export default angular
     ])
     .component('pcPreviewableCodeEditor', {
       bindings: {
+        'initValue': '<',
         'language': '@',
+        'onChange': '&',
       },
       controller: PreviewableCodeEditorCtrl,
-      require: {
-        'ngModel': 'ngModel',
-      },
       templateUrl: 'src/editor/previewable-code-editor.ng',
       transclude: true,
     });

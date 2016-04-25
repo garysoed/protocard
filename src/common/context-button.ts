@@ -1,8 +1,18 @@
 export class ContextButtonCtrl {
+  private $element_: angular.IAugmentedJQuery;
+  private $transclude_: angular.ITranscludeFunction;
   private isOpen_: boolean;
 
-  constructor() {
+  constructor($element: angular.IAugmentedJQuery, $transclude: angular.ITranscludeFunction) {
     this.isOpen_ = false;
+    this.$element_ = $element;
+    this.$transclude_ = $transclude;
+  }
+
+  $onInit(): void {
+    this.$transclude_((clone: JQuery) => {
+      this.$element_.find('ng-transclude').replaceWith(clone);
+    });
   }
 
   get isOpen(): boolean {
