@@ -5,19 +5,27 @@
     on-change="ctrl.onCodeChange(newValue)">
   <div flex layout="column" class="preview-container">
     <div class="search"
-        layout="row"
+        layout="column"
         ng-class="{ 'visible': ctrl.isSearchVisible }"
         ng-mouseover="ctrl.onSearchMouseOver()">
-      <pc-asset-name-picker
-          flex
-          asset="ctrl.asset"
-          ng-model="ctrl.query"
-          on-blur="ctrl.onSearchBlur()"
-          on-focus="ctrl.onSearchFocus()">
-      </pc-asset-name-picker>
-      <md-switch class="render-mode" ng-model="ctrl.isRenderMode">
-        Render mode
-      </md-switch>
+      <div layout="row">
+        <pc-asset-name-picker
+            flex
+            asset="ctrl.asset"
+            ng-model="ctrl.query"
+            on-blur="ctrl.onSearchBlur()"
+            on-focus="ctrl.onSearchFocus()">
+        </pc-asset-name-picker>
+        <md-switch class="render-mode" ng-model="ctrl.isRenderMode">
+          Render mode
+        </md-switch>
+      </div>
+      <div>
+        <md-slider-container layout="row">
+          <md-icon>zoom_in</md-icon>
+          <md-slider flex md-discrete step="10" min="0" max="200" ng-model="ctrl.zoom"></md-slider>
+        </md-slider-container>
+      </div>
     </div>
     <iframe class="preview"
         flex

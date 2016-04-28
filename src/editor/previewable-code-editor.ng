@@ -5,7 +5,6 @@
       on-change="$ctrl.onCodeChange(newValue)">
   </pc-code-editor>
   <div class="preview" flex layout="column" layout-padding>
-    <h2 class="md-headline">Preview</h2>
     <ng-transclude flex layout="column"></ng-transclude>
   </div>
 </div>

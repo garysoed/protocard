@@ -27,6 +27,7 @@ export class TemplateCtrl {
   private searchVisibleTimeoutId_: number;
   private templateNode_: TemplateNode;
   private templateString_: string;
+  private zoom_: number;
 
   constructor(
       $scope: angular.IScope,
@@ -43,6 +44,7 @@ export class TemplateCtrl {
     this.query_ = null;
     this.searchVisibleTimeoutId_ = null;
     this.templateString_ = this.asset_.templateString;
+    this.zoom_ = 100;
 
     let assetPipeline = AssetPipelineService.getPipeline(this.asset_.id);
     this.labelNode_ = assetPipeline.labelNode;
@@ -132,11 +134,12 @@ export class TemplateCtrl {
 
   @Cache()
   get preview(): Provider<string> {
+    let style = `transform: scale(${this.zoom_ / 100}); transform-origin: 0 0;`;
     return new Provider(
         this.$scope_,
         this.renderResult_
             .then((result: RenderedData) => {
-              return result === null ? '' : result.htmlSource;
+              return result === null ? '' : `<html style="${style}">${result.htmlSource}</html>`;
             }),
         '');
   }
@@ -185,6 +188,14 @@ export class TemplateCtrl {
    */
   onRefreshClick(): void {
     this.setQuery_();
+    Cache.clear(this);
+  }
+
+  get zoom(): number {
+    return this.zoom_;
+  }
+  set zoom(zoom: number) {
+    this.zoom_ = zoom;
     Cache.clear(this);
   }
 }

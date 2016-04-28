@@ -184,6 +184,7 @@ describe('template.TemplateCtrl', () => {
   describe('get preview', () => {
     it('should return a provider that resolves with the selected preview data',
         (done: jasmine.IDoneFn) => {
+      let zoom = 123;
       let htmlSource = 'htmlSource';
       let query = 'query';
       mockTemplateNode.result = Promise.resolve({
@@ -191,11 +192,13 @@ describe('template.TemplateCtrl', () => {
         'otherQuery': 'otherData',
       });
 
+      ctrl.zoom = zoom;
       ctrl.query = query;
 
       ctrl.preview.promise
           .then((previewSource: any) => {
-            expect(previewSource).toEqual(htmlSource);
+            expect(previewSource).toEqual(jasmine.stringMatching(new RegExp(htmlSource)));
+            expect(previewSource).toEqual(jasmine.stringMatching(/scale\(1.23\)/));
             done();
           }, done.fail);
     });
