@@ -13,6 +13,7 @@ import Provider from '../util/provider';
 export class LabelCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
+  private assetPipelineService_: AssetPipelineService;
   private assetService_: AssetService;
   private labelNode_: LabelNode;
 
@@ -21,9 +22,19 @@ export class LabelCtrl {
       AssetPipelineService: AssetPipelineService,
       AssetService: AssetService) {
     this.$scope_ = $scope;
-    this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
-    this.labelNode_ = AssetPipelineService.getPipeline(this.asset_.id).labelNode;
+    this.assetPipelineService_ = AssetPipelineService;
+  }
+
+  $onInit(): void {
+    this.labelNode_ = this.assetPipelineService_.getPipeline(this.asset_.id).labelNode;
+  }
+
+  get asset(): Asset {
+    return this.asset_;
+  }
+  set asset(asset: Asset) {
+    this.asset_ = asset;
   }
 
   get assetLabel(): string {
@@ -41,8 +52,8 @@ export class LabelCtrl {
     return new Provider(
         this.$scope_,
         this.labelNode_.result
-            .then((labels: { [key: string]: any }) => {
-              let keys = Object.keys(labels);
+            .then((labels: { data: { [key: string]: any } }) => {
+              let keys = Object.keys(labels.data);
               return keys.length > 0 ? keys[Math.floor(Math.random() * keys.length)] : '';
             }),
         '');
@@ -59,14 +70,10 @@ export default angular
       AssetServiceModule.name,
       ContextButtonModule.name,
     ])
-    .directive('pcLabel', () => {
-      return {
-        controller: LabelCtrl,
-        controllerAs: 'ctrl',
-        restrict: 'E',
-        scope: {
-          'asset': '=',
-        },
-        templateUrl: 'src/label/label.ng',
-      };
+    .component('pcLabel', {
+      bindings: {
+        'asset': '<',
+      },
+      controller: LabelCtrl,
+      templateUrl: 'src/label/label.ng',
     });

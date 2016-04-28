@@ -4,40 +4,48 @@ TestBase.init();
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
 import { LabelCtrl } from './label';
+import Mocks from '../../node_modules/gs-tools/src/mock/mocks';
+
 
 describe('label.LabelCtrl', () => {
-  const ASSET_ID = 'assetId';
-
   let mock$scope;
-  let mockAsset;
   let mockAssetPipelineService;
   let mockAssetService;
-  let mockLabelNode;
   let ctrl;
 
   beforeEach(() => {
-    mockAsset = { id: ASSET_ID };
     mock$scope = FakeScope.create();
-    mock$scope['asset'] = mockAsset;
     mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
-    mockLabelNode = jasmine.createSpyObj('LabelNode', ['refresh']);
-
-    mockAssetPipelineService.getPipeline.and.returnValue({ labelNode: mockLabelNode });
 
     ctrl = new LabelCtrl(mock$scope, mockAssetPipelineService, mockAssetService);
   });
 
-  it('should initialize with the correct node', () => {
-    expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(ASSET_ID);
+  describe('$onInit', () => {
+    it('should initialize with the correct node', () => {
+      let assetId = 'assetId';
+      let mockAsset = Mocks.object('Asset');
+      mockAsset.id = assetId;
+      let mockLabelNode = jasmine.createSpyObj('LabelNode', ['refresh']);
+      mockAssetPipelineService.getPipeline.and.returnValue({ labelNode: mockLabelNode });
+
+      ctrl.asset = mockAsset;
+      ctrl.$onInit();
+      expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(assetId);
+      expect(ctrl['labelNode_']).toEqual(mockLabelNode);
+    });
   });
 
   describe('set assetLabel', () => {
     it('should update the value and clear the cache', () => {
       let newLabel = 'newLabel';
+      let mockLabelNode = jasmine.createSpyObj('LabelNode', ['refresh']);
+      let mockAsset = Mocks.object('Asset');
 
       spyOn(Cache, 'clear');
 
+      ctrl['labelNode_'] = mockLabelNode;
+      ctrl.asset = mockAsset;
       ctrl.assetLabel = newLabel;
 
       expect(mockAsset.templateName).toEqual(newLabel);
@@ -48,9 +56,16 @@ describe('label.LabelCtrl', () => {
   });
 
   describe('preview', () => {
+    let mockLabelNode;
+
+    beforeEach(() => {
+      mockLabelNode = Mocks.object('LabelNode');
+      ctrl['labelNode_'] = mockLabelNode;
+    });
+
     it('should return a provider which resolves with the correct value',
         (done: jasmine.IDoneFn) => {
-      mockLabelNode.result = Promise.resolve({ 'label1': 'obj', 'label2': 'obj' });
+      mockLabelNode.result = Promise.resolve({ data: { 'label1': 'obj', 'label2': 'obj' } });
 
       spyOn(Math, 'random').and.returnValue(0.5);
 
@@ -62,7 +77,7 @@ describe('label.LabelCtrl', () => {
     });
 
     it('should return empty string if there are no labels', (done: jasmine.IDoneFn) => {
-      mockLabelNode.result = Promise.resolve({});
+      mockLabelNode.result = Promise.resolve({ data: {} });
 
       ctrl.preview.promise
           .then((result: any) => {
@@ -73,19 +88,16 @@ describe('label.LabelCtrl', () => {
     });
 
     it('should cache the provider', () => {
-      mockLabelNode.result = Promise.resolve({});
+      mockLabelNode.result = Promise.resolve({ data: {} });
       expect(ctrl.preview).toBe(ctrl.preview);
     });
   });
 
   describe('onRefreshClick', () => {
     it('should clear the cache', () => {
-      mockLabelNode.result = Promise.resolve({});
-      let firstProvider = ctrl.preview;
-
+      spyOn(Cache, 'clear');
       ctrl.onRefreshClick();
-
-      expect(ctrl.preview).not.toBe(firstProvider);
+      expect(Cache.clear).toHaveBeenCalledWith(ctrl);
     });
   });
 });

@@ -6,7 +6,7 @@ import { NavigateService } from './navigate-service';
 
 // TODO(gs): Base ctrl.
 export class NavigateButtonCtrl extends BaseDisposable {
-  private $scope_: angular.IScope;
+  private disabled_: boolean;
   private icon_: string;
   private navigateService_: NavigateService;
   private subview_: string;
@@ -14,11 +14,7 @@ export class NavigateButtonCtrl extends BaseDisposable {
 
   constructor($scope: angular.IScope, NavigateService: NavigateService) {
     super();
-    this.$scope_ = $scope;
-    this.icon_ = $scope['icon'];
     this.navigateService_ = NavigateService;
-    this.subview_ = $scope['subview'];
-    this.text_ = $scope['text'];
 
     this.addDisposable(
         new DisposableFunction(
@@ -32,11 +28,17 @@ export class NavigateButtonCtrl extends BaseDisposable {
   }
 
   get disabled(): boolean {
-    return this.$scope_['disabled'];
+    return this.disabled_;
+  }
+  set disabled(disabled: boolean) {
+    this.disabled_ = disabled;
   }
 
   get icon(): string {
     return this.icon_;
+  }
+  set icon(icon: string) {
+    this.icon_ = icon;
   }
 
   @Cache()
@@ -58,8 +60,18 @@ export class NavigateButtonCtrl extends BaseDisposable {
     return '';
   }
 
+  get subview(): string {
+    return this.subview_;
+  }
+  set subview(subview: string) {
+    this.subview_ = subview;
+  }
+
   get text(): string {
     return this.text_;
+  }
+  set text(text: string) {
+    this.text_ = text;
   }
 
   onClick(): void {
@@ -71,17 +83,13 @@ export class NavigateButtonCtrl extends BaseDisposable {
 
 export default angular
     .module('navigate.NavigateButtonModule', [])
-    .directive('pcNavigateButton', () => {
-      return {
-        controller: NavigateButtonCtrl,
-        controllerAs: 'ctrl',
-        restrict: 'E',
-        scope: {
-          'disabled': '=',
-          'icon': '@',
-          'subview': '@',
-          'text': '@',
-        },
-        templateUrl: 'src/navigate/navigate-button.ng',
-      };
+    .component('pcNavigateButton', {
+      bindings: {
+        'disabled': '<',
+        'icon': '@',
+        'subview': '@',
+        'text': '@',
+      },
+      controller: NavigateButtonCtrl,
+      templateUrl: 'src/navigate/navigate-button.ng',
     });
