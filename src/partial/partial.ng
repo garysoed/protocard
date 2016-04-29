@@ -1,14 +1,14 @@
 <md-content class="pc-partial pc-fill-parent" layout="column" layout-align="start end">
   <md-list>
-    <md-list-item ng-repeat="(name, partials) in ctrl.partials">
-      <pc-partial-item asset="ctrl.asset" name="name"></pc-partial-item>
+    <md-list-item ng-repeat="(name, partials) in $ctrl.partials">
+      <pc-partial-item asset="$ctrl.asset" init-name="name"></pc-partial-item>
     </md-list-item>
   </md-list>
 </md-content>
 
 <pc-context-button>
   <md-fab-trigger>
-    <md-button ng-click="ctrl.onAddClick()" class="md-fab">
+    <md-button ng-click="$ctrl.onAddClick()" class="md-fab">
       <md-tooltip md-direction="left">Adds a new partial template</md-tooltip>
       <md-icon>add</md-icon>
     </md-button>

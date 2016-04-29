@@ -1,15 +1,15 @@
 <pc-previewable-code-editor
     flex
-    init-value="ctrl.templateString"
+    init-value="$ctrl.templateString"
     language="html"
-    on-change="ctrl.onCodeChange(newValue)">
-  <pc-asset-name-picker asset="ctrl.asset" ng-model="ctrl.selectedKey"></pc-asset-name-picker>
-  <iframe class="preview" flex srcdoc="{{ctrl.preview.value}}"></iframe>
+    on-change="$ctrl.onCodeChange(newValue)">
+  <pc-asset-name-picker asset="$ctrl.asset" ng-model="$ctrl.selectedKey"></pc-asset-name-picker>
+  <iframe class="preview" flex srcdoc="{{$ctrl.preview.value}}"></iframe>
 </pc-previewable-code-editor>
 
 <pc-context-button>
   <md-fab-trigger>
-    <md-button class="md-fab" ng-click="ctrl.onRefreshClick()">
+    <md-button class="md-fab" ng-click="$ctrl.onRefreshClick()">
       <md-icon>refresh</md-icon>
     </md-button>
   </md-fab-trigger>

@@ -9,9 +9,7 @@ export class PartialCtrl {
   private asset_: Asset;
   private assetService_: AssetService;
 
-  constructor($scope: angular.IScope, AssetService: AssetService) {
-    // TODO(gs): Check types from the $scope at runtime.
-    this.asset_ = $scope['asset'];
+  constructor(AssetService: AssetService) {
     this.assetService_ = AssetService;
   }
 
@@ -28,6 +26,9 @@ export class PartialCtrl {
   get asset(): Asset {
     return this.asset_;
   }
+  set asset(asset: Asset) {
+    this.asset_ = asset;
+  }
 
   get partials(): { [key: string]: string } {
     return this.asset_.partials;
@@ -40,14 +41,10 @@ export default angular
       ContextButtonModule.name,
       PartialItemModule.name,
     ])
-    .directive('pcPartial', () => {
-      return {
-        controller: PartialCtrl,
-        controllerAs: 'ctrl',
-        restrict: 'E',
-        scope: {
-          asset: '=',
-        },
-        templateUrl: 'src/partial/partial.ng',
-      };
+    .component('pcPartial', {
+      bindings: {
+        asset: '<',
+      },
+      controller: PartialCtrl,
+      templateUrl: 'src/partial/partial.ng',
     });

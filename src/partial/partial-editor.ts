@@ -12,6 +12,7 @@ import Provider from '../util/provider';
 export class PartialEditorCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
+  private assetPipelineService_: AssetPipelineService;
   private assetService_: AssetService;
   private labelNode_: LabelNode;
   private name_: string;
@@ -27,15 +28,8 @@ export class PartialEditorCtrl {
       AssetPipelineService: AssetPipelineService,
       AssetService: AssetService) {
     this.$scope_ = $scope;
-    this.asset_ = $scope['asset'];
+    this.assetPipelineService_ = AssetPipelineService;
     this.assetService_ = AssetService;
-    this.name_ = $scope['name'];
-    this.labelNode_ = AssetPipelineService.getPipeline(this.asset_.id).labelNode;
-    this.partialNode_ = AssetPipelineService.getPipeline(this.asset_.id).partialNode;
-    this.selectedKey_ = null;
-    this.templateString_ = this.asset_.partials[this.name_];
-
-    this.setSelectedKey_();
   }
 
   private setSelectedKey_(): Promise<any> {
@@ -48,8 +42,26 @@ export class PartialEditorCtrl {
         });
   }
 
+  $onInit(): void {
+    let pipeline = this.assetPipelineService_.getPipeline(this.asset.id);
+    this.labelNode_ = pipeline.labelNode;
+    this.partialNode_ = pipeline.partialNode;
+    this.templateString_ = this.asset.partials[this.name];
+    this.setSelectedKey_();
+  }
+
   get asset(): Asset {
     return this.asset_;
+  }
+  set asset(asset: Asset) {
+    this.asset_ = asset;
+  }
+
+  get name(): string {
+    return this.name_;
+  }
+  set name(name: string) {
+    this.name_ = name;
   }
 
   onCodeChange(newValue: string): void {
@@ -111,15 +123,11 @@ export default angular
       AssetPipelineServiceModule.name,
       ContextButtonModule.name,
     ])
-    .directive('pcPartialEditor', () => {
-      return {
-        controller: PartialEditorCtrl,
-        controllerAs: 'ctrl',
-        restrict: 'E',
-        scope: {
-          'asset': '=',
-          'name': '=',
-        },
-        templateUrl: 'src/partial/partial-editor.ng',
-      };
+    .component('pcPartialEditor', {
+      bindings: {
+        'asset': '<',
+        'name': '<',
+      },
+      controller: PartialEditorCtrl,
+      templateUrl: 'src/partial/partial-editor.ng',
     });

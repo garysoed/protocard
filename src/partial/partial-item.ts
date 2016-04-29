@@ -9,25 +9,24 @@ export class PartialItemCtrl {
   private navigateService_: NavigateService;
 
   constructor(
-      $scope: angular.IScope,
       AssetService: AssetService,
       NavigateService: NavigateService) {
-    this.asset_ = $scope['asset'];
     this.assetService_ = AssetService;
-    this.name_ = $scope['name'];
     this.navigateService_ = NavigateService;
   }
 
-  /**
-   * Called when the delete button is clicked.
-   */
-  onDeleteClick(): void {
-    delete this.asset_.partials[this.name_];
-    this.assetService_.saveAsset(this.asset_);
+  get asset(): Asset {
+    return this.asset_;
+  }
+  set asset(asset: Asset) {
+    this.asset_ = asset;
   }
 
-  onEditClick(): void {
-    this.navigateService_.toAsset(this.asset_.id, 'partial.editor', this.name_);
+  get initName(): string {
+    return this.name_;
+  }
+  set initName(initName: string) {
+    this.name_ = initName;
   }
 
   get name(): string {
@@ -44,19 +43,27 @@ export class PartialItemCtrl {
       // TODO(gs): Error message.
     }
   }
+
+  /**
+   * Called when the delete button is clicked.
+   */
+  onDeleteClick(): void {
+    delete this.asset_.partials[this.name_];
+    this.assetService_.saveAsset(this.asset_);
+  }
+
+  onEditClick(): void {
+    this.navigateService_.toAsset(this.asset_.id, 'partial.editor', this.name_);
+  }
 }
 
 export default angular
     .module('partial.PartialItemModule', [])
-    .directive('pcPartialItem', () => {
-      return {
-        controller: PartialItemCtrl,
-        controllerAs: 'ctrl',
-        restrict: 'E',
-        scope: {
-          asset: '=',
-          name: '=',
-        },
-        templateUrl: 'src/partial/partial-item.ng',
-      };
+    .component('pcPartialItem', {
+      bindings: {
+        asset: '<',
+        initName: '<',
+      },
+      controller: PartialItemCtrl,
+      templateUrl: 'src/partial/partial-item.ng',
     });

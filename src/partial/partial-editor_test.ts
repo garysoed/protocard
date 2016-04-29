@@ -3,36 +3,20 @@ TestBase.init();
 
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
+import Mocks from '../../node_modules/gs-tools/src/mock/mocks';
 import { PartialEditorCtrl } from './partial-editor';
 
-describe('partial.PartialEditorCtrl', () => {
-  const ASSET_ID = 'assetId';
-  const NAME = 'partialName';
-  const PARTIAL = 'partial';
 
+describe('partial.PartialEditorCtrl', () => {
   let mock$scope;
-  let mockAsset;
   let mockAssetPipelineService;
   let mockAssetService;
-  let mockLabelNode;
-  let mockPartialNode;
   let ctrl;
 
   beforeEach(() => {
-    mockAsset = { id: ASSET_ID, partials: { [NAME]: PARTIAL } };
     mock$scope = FakeScope.create();
-    mock$scope['asset'] = mockAsset;
-    mock$scope['name'] = NAME;
-
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
-    mockLabelNode = jasmine.createObj('LabelNode');
-    mockPartialNode = jasmine.createSpyObj('PartialNode', ['refresh']);
-
     mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
-    mockAssetPipelineService.getPipeline.and
-        .returnValue({ labelNode: mockLabelNode, partialNode: mockPartialNode });
-
-    mockLabelNode.result = Promise.resolve();
 
     ctrl = new PartialEditorCtrl(
         mock$scope,
@@ -40,8 +24,33 @@ describe('partial.PartialEditorCtrl', () => {
         mockAssetService);
   });
 
-  it('should initialize correctly', () => {
-    expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(ASSET_ID);
+  describe('$onInit', () => {
+    it('should initialize correctly', () => {
+      let name = 'name';
+      let templateString = 'templateString';
+      let assetId = 'assetId';
+      let mockAsset = Mocks.object('Asset');
+      mockAsset.id = assetId;
+      mockAsset.partials = { [name]: templateString };
+
+      let mockLabelNode = Mocks.object('LabelNode');
+      let mockPartialNode = Mocks.object('PartialNode');
+      let mockPipeline = Mocks.object('Pipeline');
+      mockPipeline.labelNode = mockLabelNode;
+      mockPipeline.partialNode = mockPartialNode;
+
+      mockAssetPipelineService.getPipeline.and.returnValue(mockPipeline);
+
+      spyOn(ctrl, 'setSelectedKey_');
+      ctrl.asset = mockAsset;
+      ctrl.initName = name;
+      ctrl.$onInit();
+
+      expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(assetId);
+      expect(ctrl['labelNode_']).toEqual(mockLabelNode);
+      expect(ctrl['partialNode_']).toEqual(mockPartialNode);
+      expect(ctrl['setSelectedKey_']).toHaveBeenCalledWith();
+    });
   });
 
   describe('setSelectedKey_', () => {
@@ -56,7 +65,9 @@ describe('partial.PartialEditorCtrl', () => {
       spyOn(Cache, 'clear');
       spyOn(Math, 'random').and.returnValue(0.5);
 
+      let mockLabelNode = Mocks.object('LabelNode');
       mockLabelNode.result = Promise.resolve({ data: labelsMap });
+      ctrl['labelNode_'] = mockLabelNode;
 
       ctrl.setSelectedKey_()
           .then(() => {
@@ -69,39 +80,71 @@ describe('partial.PartialEditorCtrl', () => {
   });
 
   describe('onCodeChange', () => {
+    let mockAsset;
+    let mockPartialNode;
+
+    beforeEach(() => {
+      mockAsset = Mocks.object('Asset');
+      mockAsset.partials = {};
+
+      mockPartialNode = jasmine.createSpyObj('PartialNode', ['refresh']);
+      ctrl.asset = mockAsset;
+      ctrl['partialNode_'] = mockPartialNode;
+    });
+
     it('should update the partial and save the asset', () => {
+      let name = 'name';
       let newString = 'newPartial';
 
       spyOn(Cache, 'clear');
 
+      ctrl.name = name;
       ctrl.onCodeChange(newString);
 
       expect(ctrl.templateString).toEqual(newString);
-      expect(mockAsset.partials).toEqual({ [NAME]: newString });
+      expect(mockAsset.partials).toEqual({ [name]: newString });
       expect(mockAssetService.saveAsset).toHaveBeenCalledWith(mockAsset);
       expect(Cache.clear).toHaveBeenCalledWith(ctrl);
       expect(mockPartialNode.refresh).toHaveBeenCalledWith();
     });
 
     it('should not save the asset if the input is null', () => {
+      let name = 'name';
+      let mockPartials = Mocks.object('Partials');
+
+      mockAsset.partials = mockPartials;
+
+      ctrl.name = name;
       ctrl.onCodeChange(null);
 
       expect(ctrl.templateString).toEqual(null);
-      expect(mockAsset.partials).toEqual({ [NAME]: PARTIAL });
+      expect(mockAsset.partials).toEqual(mockPartials);
       expect(mockAssetService.saveAsset).not.toHaveBeenCalled();
     });
   });
 
   describe('get preview', () => {
-    it('should return a provider that resolves to the correct value', (done: jasmine.IDoneFn) => {
+    let mockLabelNode;
+    let mockPartialNode;
+
+    beforeEach(() => {
+      mockLabelNode = Mocks.object('LabelNode');
+      mockPartialNode = Mocks.object('PartialNode');
+      ctrl['labelNode_'] = mockLabelNode;
+      ctrl['partialNode_'] = mockPartialNode;
+    });
+
+    it('should return a provider that resolves to the correct value', (done: any) => {
+      let name = 'name';
       let selectedKey = 'selectedKey';
       let renderedValue = 'renderedValue';
       mockPartialNode.result = Promise.resolve({
-        [NAME]: {
+        [name]: {
           [selectedKey]: renderedValue,
         },
       });
 
+      ctrl.name = name;
       ctrl.selectedKey = selectedKey;
       ctrl.preview.promise
           .then((previewValue: any) => {
@@ -116,14 +159,16 @@ describe('partial.PartialEditorCtrl', () => {
       expect(ctrl.preview).toBe(ctrl.preview);
     });
 
-    it('should return empty string if there are no keys selected', (done: jasmine.IDoneFn) => {
+    it('should return empty string if there are no keys selected', (done: any) => {
+      let name = 'name';
       mockPartialNode.result = Promise.resolve({
-        [NAME]: {
+        [name]: {
           'selectedKey': 'renderedValue',
         },
       });
       mockLabelNode.result = Promise.resolve({});
 
+      ctrl.name = name;
       ctrl.preview.promise
           .then((previewValue: any) => {
             expect(previewValue).toEqual('');
@@ -173,22 +218,19 @@ describe('partial.PartialEditorCtrl', () => {
 
     it('should clear the cache when setting the key', () => {
       spyOn(Cache, 'clear');
-
       ctrl.selectedKey = 'newValue';
-
       expect(Cache.clear).toHaveBeenCalledWith(ctrl);
     });
   });
 
   describe('onRefreshClick', () => {
     it('should clear the cache for the preview data', () => {
-      mockLabelNode.result = Promise.resolve({});
-
+      spyOn(ctrl, 'setSelectedKey_');
       spyOn(Cache, 'clear');
 
       ctrl.onRefreshClick();
 
-      expect(ctrl.selectedKey).toEqual(null);
+      expect(ctrl['setSelectedKey_']).toHaveBeenCalledWith();
       expect(Cache.clear).toHaveBeenCalledWith(ctrl);
     });
   });
