@@ -1,45 +1,45 @@
-<div class="pc-fill-parent pc-asset-render" layout="column" ng-init="ctrl.onInit()">
+<div class="pc-fill-parent pc-asset-render" layout="column">
   <div class="pc-fill-parent load-overlay"
       layout="column"
       layout-align="center center"
-      ng-if="ctrl.isRendering">
+      ng-if="$ctrl.isRendering">
     <div class="container">
-      <md-progress-circular md-mode="determinate" md-diameter="100px" value="{{ctrl.percentDone}}">
+      <md-progress-circular md-mode="determinate" md-diameter="100px" value="{{$ctrl.percentDone}}">
       </md-progress-circular>
-      <div class="md-body-2 text">{{ctrl.renderedCount}} / {{ctrl.totalCount}}</div>
+      <div class="md-body-2 text">{{$ctrl.renderedCount}} / {{$ctrl.totalCount}}</div>
     </div>
   </div>
-  <md-content ng-class="ctrl.isRendering ? 'loading' : ''">
-    <pc-error-display ng-if="ctrl.hasLastError()" error="ctrl.lastError"></pc-error-display>
+  <md-content ng-class="$ctrl.isRendering ? 'loading' : ''">
+    <pc-error-display ng-if="$ctrl.hasLastError()" error="$ctrl.lastError"></pc-error-display>
     <pc-image-select
-        ng-if="!ctrl.hasLastError()"
-        ng-model="ctrl.selectedImages"
-        images="ctrl.images"></pc-image-select>
+        ng-if="!$ctrl.hasLastError()"
+        ng-model="$ctrl.selectedImages"
+        images="$ctrl.images"></pc-image-select>
   </md-content>
 
-  <pc-context-button ng-if="!ctrl.hasSelectedImages()">
+  <pc-context-button ng-if="!$ctrl.hasSelectedImages()">
     <md-fab-trigger>
-      <md-button class="md-fab" ng-click="ctrl.onSelectAllClick()">
+      <md-button class="md-fab" ng-click="$ctrl.onSelectAllClick()">
         <md-tooltip md-direction="left">Selects all assets</md-tooltip>
         <md-icon>select_all</md-icon>
       </md-button>
     </md-fab-trigger>
   </pc-context-button>
 
-  <pc-context-button ng-if="ctrl.hasSelectedImages()">
+  <pc-context-button ng-if="$ctrl.hasSelectedImages()">
     <md-fab-trigger>
-      <md-button class="md-fab" ng-click="ctrl.onDownloadClick()">
+      <md-button class="md-fab" ng-click="$ctrl.onDownloadClick()">
         <md-tooltip md-direction="left">Downloads selected assets as ZIP</md-tooltip>
         <md-icon>file_download</md-icon>
         <!-- TODO(gs): Add selected count -->
       </md-button>
     </md-fab-trigger>
     <md-fab-actions>
-      <md-button class="md-fab md-raised md-mini" ng-click="ctrl.onSelectAllClick()">
+      <md-button class="md-fab md-raised md-mini" ng-click="$ctrl.onSelectAllClick()">
         <md-tooltip md-direction="left">Selects all assets</md-tooltip>
         <md-icon>select_all</md-icon>
       </md-button>
-      <md-button class="md-fab md-raised md-mini" ng-click="ctrl.onUnselectAllClick()">
+      <md-button class="md-fab md-raised md-mini" ng-click="$ctrl.onUnselectAllClick()">
         <md-tooltip md-direction="left">Unselects all assets</md-tooltip>
         <md-icon>remove<md-icon>
       </md-button>

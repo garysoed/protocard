@@ -13,7 +13,7 @@ import RenderServiceModule, { RenderService } from './render-service';
 export class RenderCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
-  private destroyed_: boolean;
+  private assetPipelineService_: AssetPipelineService;
   private downloadService_: DownloadService;
   private exportNode_: ExportNode;
   private isFabOpen_: boolean;
@@ -30,23 +30,14 @@ export class RenderCtrl {
       JszipService: JSZip,
       RenderService: RenderService) {
     this.$scope_ = $scope;
-    this.asset_ = $scope['asset'];
-    this.destroyed_ = false;
     this.downloadService_ = DownloadService;
-    this.exportNode_ = AssetPipelineService.getPipeline(this.asset_.id).exportNode;
+    this.assetPipelineService_ = AssetPipelineService;
     this.isFabOpen_ = false;
     this.jszipService_ = JszipService;
     this.lastError_ = null;
     this.rendered_ = [];
     this.selectedImages_ = [];
     this.totalRender_ = 0;
-  }
-
-  /**
-   * Called when the controller is destroyed.
-   */
-  private onDestroy_(): void {
-    this.destroyed_ = true;
   }
 
   private renderAll_(): Promise<any> {
@@ -81,6 +72,21 @@ export class RenderCtrl {
    */
   private unselectAll_(): void {
     this.selectedImages_.splice(0, this.selectedImages_.length);
+  }
+
+  /**
+   * Called when the directive is initialized.
+   */
+  $onInit(): void {
+    this.exportNode_ = this.assetPipelineService_.getPipeline(this.asset.id).exportNode;
+    this.renderAll_();
+  }
+
+  get asset(): Asset {
+    return this.asset_;
+  }
+  set asset(asset: Asset) {
+    this.asset_ = asset;
   }
 
   hasLastError(): boolean {
@@ -127,14 +133,6 @@ export class RenderCtrl {
    */
   onFabMouseLeave(): void {
     this.isFabOpen_ = false;
-  }
-
-  /**
-   * Called when the directive is initialized.
-   */
-  onInit(): void {
-    this.$scope_.$on('$destroy', this.onDestroy_.bind(this));
-    this.renderAll_();
   }
 
   /**
@@ -198,14 +196,10 @@ export default angular
       GeneratorServiceModule.name,
       RenderServiceModule.name,
     ])
-    .directive('pcRender', () => {
-      return {
-        controller: RenderCtrl,
-        controllerAs: 'ctrl',
-        restrict: 'E',
-        scope: {
-          'asset': '=',
-        },
-        templateUrl: 'src/render/render.ng',
-      };
+    .component('pcRender', {
+      bindings: {
+        'asset': '=',
+      },
+      controller: RenderCtrl,
+      templateUrl: 'src/render/render.ng',
     });

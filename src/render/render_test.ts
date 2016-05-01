@@ -2,31 +2,24 @@ import TestBase from '../testbase';
 TestBase.init();
 
 import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
+import Mocks from '../../node_modules/gs-tools/src/mock/mocks';
 import { RenderCtrl } from './render';
 
-describe('render.RenderCtrl', () => {
-  const ASSET_ID = 'assetId';
 
+describe('render.RenderCtrl', () => {
   let mock$scope;
-  let mockAsset;
   let mockAssetPipelineService;
   let mockDownloadService;
-  let mockExportNode;
   let mockJszipService;
   let mockRenderService;
   let ctrl;
 
   beforeEach(() => {
-    mockAsset = { id: ASSET_ID };
     mock$scope = FakeScope.create();
-    mock$scope['asset'] = mockAsset;
     mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
     mockDownloadService = jasmine.createSpyObj('DownloadService', ['download']);
-    mockExportNode = jasmine.createObj('ExportNode');
     mockJszipService = jasmine.createSpy('JszipService');
     mockRenderService = jasmine.createSpyObj('RenderService', ['render']);
-
-    mockAssetPipelineService.getPipeline.and.returnValue({ exportNode: mockExportNode });
 
     ctrl = new RenderCtrl(
         mock$scope,
@@ -36,11 +29,14 @@ describe('render.RenderCtrl', () => {
         mockRenderService);
   });
 
-  it('should get the correct asset pipeline', () => {
-    expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(ASSET_ID);
-  });
-
   describe('renderAll_', () => {
+    let mockExportNode;
+
+    beforeEach(() => {
+      mockExportNode = Mocks.object('ExportNode');
+      ctrl['exportNode_'] = mockExportNode;
+    });
+
     it('should add all the rendered images', (done: jasmine.IDoneFn) => {
       let imageResource1 = jasmine.createObj('imageResource1');
       let imageResource2 = jasmine.createObj('imageResource2');
@@ -94,6 +90,29 @@ describe('render.RenderCtrl', () => {
     });
   });
 
+  describe('$onInit', () => {
+    it('should get the correct asset pipeline', () => {
+      let assetId = 'assetId';
+      let mockAsset = Mocks.object('Asset');
+      mockAsset.id = assetId;
+
+      let mockExportNode = Mocks.object('ExportNode');
+      let mockPipeline = Mocks.object('Pipeline');
+      mockPipeline.exportNode = mockExportNode;
+
+      mockAssetPipelineService.getPipeline.and.returnValue(mockPipeline);
+      spyOn(mock$scope, '$on');
+      spyOn(ctrl, 'renderAll_');
+
+      ctrl.asset = mockAsset;
+      ctrl.$onInit();
+
+      expect(ctrl.renderAll_).toHaveBeenCalledWith();
+      expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(assetId);
+      expect(ctrl['exportNode_']).toEqual(mockExportNode);
+    });
+  });
+
   describe('hasSelectedImages', () => {
     it('should return true if there are images selected', () => {
       ctrl.selectedImages = ['selected'];
@@ -121,6 +140,13 @@ describe('render.RenderCtrl', () => {
   });
 
   describe('onDownloadClick', () => {
+    let mockAsset;
+
+    beforeEach(() => {
+      mockAsset = Mocks.object('Asset');
+      ctrl.asset = mockAsset;
+    });
+
     it('should create the zip file and downloads it', () => {
       let content = 'blobContent';
       let mockZip = jasmine.createSpyObj('Zip', ['file', 'generate']);
@@ -141,20 +167,6 @@ describe('render.RenderCtrl', () => {
       expect(mockZip.generate).toHaveBeenCalledWith({ type: 'blob' });
       expect(mockDownloadService.download).toHaveBeenCalledWith(content, `${mockAsset.name}.zip`);
       expect(ctrl.selectedImages).toEqual([]);
-    });
-  });
-
-  describe('onInit', () => {
-    it('should initialize correctly', () => {
-      spyOn(mock$scope, '$on');
-      spyOn(ctrl, 'renderAll_');
-
-      ctrl.onInit();
-
-      expect(ctrl.renderAll_).toHaveBeenCalledWith();
-      expect(mock$scope.$on).toHaveBeenCalledWith('$destroy', jasmine.any(Function));
-      mock$scope.$on.calls.argsFor(0)[1]();
-      expect(ctrl.destroyed_).toEqual(true);
     });
   });
 

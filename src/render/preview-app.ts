@@ -74,11 +74,7 @@ angular
       DomServiceModule.name,
       Html2canvasServiceModule.name,
     ])
-    .config(($routeProvider: any) => {
-      $routeProvider.otherwise(
-          {
-            controller: PreviewAppCtrl,
-            controllerAs: 'ctrl',
-            templateUrl: 'src/render/preview-app.ng',
-          });
+    .component('previewApp', {
+      controller: PreviewAppCtrl,
+      templateUrl: 'src/render/preview-app.ng',
     });
