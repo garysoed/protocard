@@ -18,6 +18,7 @@ const SEARCH_TIMEOUT = 1000;
 export class TemplateCtrl {
   private $scope_: angular.IScope;
   private asset_: Asset;
+  private assetPipelineService_: AssetPipelineService;
   private assetService_: AssetService;
   private isRenderMode_: boolean;
   private isSearchFocused_: boolean;
@@ -36,22 +37,14 @@ export class TemplateCtrl {
       GeneratorService: GeneratorService) {
     // TODO(gs): Show errors when rendering.
     this.$scope_ = $scope;
-    this.asset_ = $scope['asset'];
+    this.assetPipelineService_ = AssetPipelineService;
     this.assetService_ = AssetService;
     this.isRenderMode_ = false;
     this.isSearchFocused_ = false;
     this.isSearchVisible_ = false;
     this.query_ = null;
     this.searchVisibleTimeoutId_ = null;
-    this.templateString_ = this.asset_.templateString;
     this.zoom_ = 100;
-
-    let assetPipeline = AssetPipelineService.getPipeline(this.asset_.id);
-    this.labelNode_ = assetPipeline.labelNode;
-    this.templateNode_ = assetPipeline.templateNode;
-
-    this.showSearch_();
-    this.setQuery_();
   }
 
   @Cache()
@@ -94,8 +87,21 @@ export class TemplateCtrl {
         SEARCH_TIMEOUT);
   }
 
+  $onInit(): void {
+    let assetPipeline = this.assetPipelineService_.getPipeline(this.asset.id);
+    this.labelNode_ = assetPipeline.labelNode;
+    this.templateNode_ = assetPipeline.templateNode;
+    this.templateString_ = this.asset.templateString;
+
+    this.showSearch_();
+    this.setQuery_();
+  }
+
   get asset(): Asset {
     return this.asset_;
+  }
+  set asset(asset: Asset) {
+    this.asset_ = asset;
   }
 
   @Cache()
@@ -208,14 +214,10 @@ export default angular
       GeneratorServiceModule.name,
       RenderServiceModule.name,
     ])
-    .directive('pcTemplate', () => {
-      return {
-        controller: TemplateCtrl,
-        controllerAs: 'ctrl',
-        restrict: 'E',
-        scope: {
-          'asset': '=',
-        },
-        templateUrl: 'src/template/template.ng',
-      };
+    .component('pcTemplate', {
+      bindings: {
+        'asset': '=',
+      },
+      controller: TemplateCtrl,
+      templateUrl: 'src/template/template.ng',
     });

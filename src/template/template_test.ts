@@ -3,48 +3,25 @@ TestBase.init();
 
 import Cache from '../../node_modules/gs-tools/src/data/a-cache';
 import FakeScope from '../../node_modules/gs-tools/src/ng/fake-scope';
+import Mocks from '../../node_modules/gs-tools/src/mock/mocks';
 import { TemplateCtrl } from './template';
 
-describe('template.TemplateCtrl', () => {
-  const ASSET_ID = 'assetId';
 
+describe('template.TemplateCtrl', () => {
   let mock$scope;
-  let mockAsset;
   let mockAssetPipelineService;
   let mockAssetService;
   let mockGeneratorService;
-  let mockLabelNode;
-  let mockLocalDataList;
-  let mockTemplateNode;
   let ctrl;
 
   beforeEach(() => {
-    mockAsset = { id: ASSET_ID };
     mockAssetService = jasmine.createSpyObj('AssetService', ['saveAsset']);
-    mockLabelNode = jasmine.createObj('LabelNode');
-    mockLocalDataList = [];
-    mockTemplateNode = jasmine.createSpyObj('TemplateNode', ['refresh']);
-
     mockGeneratorService = jasmine.createSpyObj('GeneratorService', ['generateNames']);
-    mockGeneratorService.generateNames.and.returnValue(mockLocalDataList);
-
     mockAssetPipelineService = jasmine.createSpyObj('AssetPipelineService', ['getPipeline']);
-    mockAssetPipelineService.getPipeline.and.returnValue({
-      labelNode: mockLabelNode,
-      templateNode: mockTemplateNode,
-    });
-
-    mockLabelNode.result = Promise.resolve();
 
     mock$scope = FakeScope.create();
-    mock$scope['asset'] = mockAsset;
-
     ctrl = new TemplateCtrl(
         mock$scope, mockAssetPipelineService, mockAssetService, mockGeneratorService);
-  });
-
-  it('should get the correct asset pipeline', () => {
-    expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(ASSET_ID);
   });
 
   describe('showSearch_', () => {
@@ -100,12 +77,14 @@ describe('template.TemplateCtrl', () => {
   describe('setQuery_', () => {
     it('should randomly select a query', (done: jasmine.IDoneFn) => {
       let labels = { 'label1': 'data', 'label2': 'data' };
+      let mockLabelNode = Mocks.object('LabelNode');
       mockLabelNode.result = Promise.resolve({ data: labels });
 
       spyOn(Math, 'random').and.returnValue(0.5);
       spyOn(Cache, 'clear');
       spyOn(mock$scope, '$apply');
 
+      ctrl['labelNode_'] = mockLabelNode;
       ctrl.setQuery_()
           .then(() => {
             expect(ctrl.query).toEqual('label2');
@@ -116,7 +95,41 @@ describe('template.TemplateCtrl', () => {
     });
   });
 
+  describe('$onInit', () => {
+    it('should initialize correctly', () => {
+      let assetId = 'assetId';
+      let mockAsset = Mocks.object('Asset');
+      mockAsset.id = assetId;
+
+      let mockLabelNode = Mocks.object('LabelNode');
+      let mockTemplateNode = Mocks.object('TemplateNode');
+      let mockPipeline = Mocks.object('Pipeline');
+      mockPipeline.labelNode = mockLabelNode;
+      mockPipeline.templateNode = mockTemplateNode;
+      mockAssetPipelineService.getPipeline.and.returnValue(mockPipeline);
+
+      spyOn(ctrl, 'showSearch_');
+      spyOn(ctrl, 'setQuery_');
+
+      ctrl.asset = mockAsset;
+      ctrl.$onInit();
+
+      expect(mockAssetPipelineService.getPipeline).toHaveBeenCalledWith(assetId);
+      expect(ctrl['labelNode_']).toEqual(mockLabelNode);
+      expect(ctrl['templateNode_']).toEqual(mockTemplateNode);
+      expect(ctrl['showSearch_']).toHaveBeenCalledWith();
+      expect(ctrl['setQuery_']).toHaveBeenCalledWith();
+    });
+  });
+
   describe('get isPreviewLoading', () => {
+    let mockTemplateNode;
+
+    beforeEach(() => {
+      mockTemplateNode = Mocks.object('TemplateNode');
+      ctrl['templateNode_'] = mockTemplateNode;
+    });
+
     it('should return true until it is loaded', (done: jasmine.IDoneFn) => {
       let query = 'query';
       mockTemplateNode.result = Promise.resolve({
@@ -151,6 +164,16 @@ describe('template.TemplateCtrl', () => {
   });
 
   describe('onCodeChange', () => {
+    let mockAsset;
+    let mockTemplateNode;
+
+    beforeEach(() => {
+      mockAsset = Mocks.object('Asset');
+      mockTemplateNode = jasmine.createSpyObj('TemplateNode', ['refresh']);
+      ctrl.asset = mockAsset;
+      ctrl['templateNode_'] = mockTemplateNode;
+    });
+
     it('should update the asset and saves it if the input is non null', () => {
       let newValue = 'newValue';
 
@@ -182,6 +205,13 @@ describe('template.TemplateCtrl', () => {
   });
 
   describe('get preview', () => {
+    let mockTemplateNode;
+
+    beforeEach(() => {
+      mockTemplateNode = Mocks.object('TemplateNode');
+      ctrl['templateNode_'] = mockTemplateNode;
+    });
+
     it('should return a provider that resolves with the selected preview data',
         (done: jasmine.IDoneFn) => {
       let zoom = 123;
@@ -239,6 +269,13 @@ describe('template.TemplateCtrl', () => {
   });
 
   describe('get previewDataUri', () => {
+    let mockTemplateNode;
+
+    beforeEach(() => {
+      mockTemplateNode = Mocks.object('TemplateNode');
+      ctrl['templateNode_'] = mockTemplateNode;
+    });
+
     it('should empty string until the data uri is loaded', (done: jasmine.IDoneFn) => {
       let query = 'query';
       let dataUri = 'dataUri';

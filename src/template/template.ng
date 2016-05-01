@@ -1,38 +1,38 @@
 <pc-previewable-code-editor
     flex
-    init-value="ctrl.templateString"
+    init-value="$ctrl.templateString"
     language="html"
-    on-change="ctrl.onCodeChange(newValue)">
+    on-change="$ctrl.onCodeChange(newValue)">
   <div flex layout="column" class="preview-container">
     <div class="search"
         layout="column"
-        ng-class="{ 'visible': ctrl.isSearchVisible }"
-        ng-mouseover="ctrl.onSearchMouseOver()">
+        ng-class="{ 'visible': $ctrl.isSearchVisible }"
+        ng-mouseover="$ctrl.onSearchMouseOver()">
       <div layout="row">
         <pc-asset-name-picker
             flex
-            asset="ctrl.asset"
-            ng-model="ctrl.query"
-            on-blur="ctrl.onSearchBlur()"
-            on-focus="ctrl.onSearchFocus()">
+            asset="$ctrl.asset"
+            ng-model="$ctrl.query"
+            on-blur="$ctrl.onSearchBlur()"
+            on-focus="$ctrl.onSearchFocus()">
         </pc-asset-name-picker>
-        <md-switch class="render-mode" ng-model="ctrl.isRenderMode">
+        <md-switch class="render-mode" ng-model="$ctrl.isRenderMode">
           Render mode
         </md-switch>
       </div>
       <div>
         <md-slider-container layout="row">
           <md-icon>zoom_in</md-icon>
-          <md-slider flex md-discrete step="10" min="0" max="200" ng-model="ctrl.zoom"></md-slider>
+          <md-slider flex md-discrete step="10" min="0" max="200" ng-model="$ctrl.zoom"></md-slider>
         </md-slider-container>
       </div>
     </div>
     <iframe class="preview"
         flex
-        srcdoc="{{ctrl.preview.value}}"
-        ng-if="!ctrl.isRenderMode"></iframe>
+        srcdoc="{{$ctrl.preview.value}}"
+        ng-if="!$ctrl.isRenderMode"></iframe>
 
-    <div ng-if="ctrl.isRenderMode && ctrl.isPreviewLoading.value"
+    <div ng-if="$ctrl.isRenderMode && $ctrl.isPreviewLoading.value"
         flex
         layout="row"
         layout-align="center center">
@@ -42,9 +42,9 @@
 
     <div class="render-container"
         flex
-        ng-if="ctrl.isRenderMode && !ctrl.isPreviewLoading.value">
+        ng-if="$ctrl.isRenderMode && !$ctrl.isPreviewLoading.value">
       <div class="image-container">
-        <img ng-src="{{ctrl.previewDataUri.value}}"></img>
+        <img ng-src="{{$ctrl.previewDataUri.value}}"></img>
       </div>
     </div>
   </div>
@@ -52,7 +52,7 @@
 
 <pc-context-button>
   <md-fab-trigger>
-    <md-button class="md-fab" ng-click="ctrl.onRefreshClick()">
+    <md-button class="md-fab" ng-click="$ctrl.onRefreshClick()">
       <md-tooltip md-direction="left">Pick a random data entry</md-tooltip>
       <md-icon>refresh</md-icon>
     </md-button>
