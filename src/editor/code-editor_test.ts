@@ -60,6 +60,43 @@ describe('editor.CodeEditorCtrl', () => {
     });
   });
 
+  describe('$onChanges', () => {
+    let mockEditor;
+
+    beforeEach(() => {
+      mockEditor = jasmine.createSpyObj('Editor', ['getValue', 'setValue']);
+      ctrl['editor_'] = mockEditor;
+    });
+
+    it('should update the value if initValue changes', () => {
+      let newValue = 'newValue';
+
+      ctrl.initValue = newValue;
+      ctrl.$onChanges({ 'initValue': {} });
+
+      expect(mockEditor.setValue).toHaveBeenCalledWith(newValue);
+    });
+
+    it('should be noop if the value do not change', () => {
+      let newValue = 'newValue';
+      mockEditor.getValue.and.returnValue(newValue);
+
+      ctrl.initValue = newValue;
+      ctrl.$onChanges({ 'initValue': {} });
+
+      expect(mockEditor.setValue).not.toHaveBeenCalled();
+    });
+
+    it('should be noop if the new value is null', () => {
+      mockEditor.getValue.and.returnValue('oldValue');
+
+      ctrl.initValue = null;
+      ctrl.$onChanges({ 'initValue': {} });
+
+      expect(mockEditor.setValue).not.toHaveBeenCalled();
+    });
+  });
+
   describe('$onDestroy', () => {
     it('should destroy the editor', () => {
       let mock$editor = jasmine.createSpyObj('$editor', ['destroy']);

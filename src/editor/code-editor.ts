@@ -1,4 +1,5 @@
 import AceServiceModule from '../thirdparty/ace-service';
+import Records from '../../node_modules/gs-tools/src/collection/records';
 
 
 export class CodeEditorCtrl {
@@ -38,6 +39,18 @@ export class CodeEditorCtrl {
         this.onChange({ newValue: this.editor_.getValue() });
       } else {
         this.onChange({ newValue: null });
+      }
+    });
+  }
+
+  $onChanges(changes: { [key: string]: any }): void {
+    Records.of(changes).forEach((value: any, key: string) => {
+      switch (key) {
+        case 'initValue':
+          if (this.editor_.getValue() !== this.initValue && this.initValue !== null) {
+            this.editor_.setValue(this.initValue || '');
+          }
+          break;
       }
     });
   }
